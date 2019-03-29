@@ -1,11 +1,9 @@
-package hockey;
+package hockey.java;
 	
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
@@ -15,7 +13,7 @@ public class Master extends Application {
 		try {
 
 			// FXML
-			Parent root = FXMLLoader.load(getClass().getResource("/hockey/Menu.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
 
 			/*
 			Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
@@ -30,7 +28,7 @@ public class Master extends Application {
 			*/
 			Scene scene = new Scene(root);
 			// CSS
-			scene.getStylesheets().add(getClass().getResource("Menu.css").toExternalForm());
+			//scene.getStylesheets().add(getClass().getResource("/hockey/css/Menu.css").toExternalForm());
 						
 			
 			stage.setScene(scene);
