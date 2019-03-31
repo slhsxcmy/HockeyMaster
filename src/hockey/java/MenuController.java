@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class MenuController {
-
 	@FXML
 	private Label appTitle;
 
