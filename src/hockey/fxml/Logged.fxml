@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<!--prefWidth="${screen.visualBounds.height}" prefHeight="${screen.visualBounds.height}"-->
+
+<AnchorPane prefHeight="800.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hockey.java.LoggedController">
+   <children>
+      <Label fx:id="appTitle" layoutX="154.0" layoutY="88.0" prefHeight="27.0" prefWidth="93.0" text="Hockey Master" textAlignment="CENTER" />
+      <Label fx:id="pageTitle" layoutX="167.0" layoutY="176.0" prefHeight="27.0" prefWidth="67.0" text="Main Menu" textAlignment="CENTER" />
+      <Button fx:id="join" layoutX="159.0" layoutY="348.0" mnemonicParsing="false" onAction="#join" text="Join Game" />
+      <Button fx:id="stats" layoutX="167.0" layoutY="433.0" mnemonicParsing="false" onAction="#goStats" text="Stats" />
+      <Button fx:id="signout" layoutX="167.0" layoutY="433.0" mnemonicParsing="false" onAction="#signout" text="Sign out" />
+   </children>
+</AnchorPane>
