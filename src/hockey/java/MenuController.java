@@ -26,7 +26,6 @@ public class MenuController {
 	private Button register;
 	
 	public void goLogin(ActionEvent event) throws IOException{
-		
 		Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Login.fxml"));
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/hockey/css/Login.css").toExternalForm());

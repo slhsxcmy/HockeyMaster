@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -9,9 +11,26 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hockey.java.MenuController">
    <children>
-      <Label fx:id="appTitle" layoutX="154.0" layoutY="88.0" prefHeight="27.0" prefWidth="93.0" text="Hockey Master" textAlignment="CENTER" />
-      <Label fx:id="pageTitle" layoutX="167.0" layoutY="176.0" prefHeight="27.0" prefWidth="67.0" text="Main Menu" textAlignment="CENTER" />
-      <Button fx:id="login" layoutX="175.0" layoutY="347.0" mnemonicParsing="false" onAction="#goLogin" text="Login" />
-      <Button fx:id="register" layoutX="167.0" layoutY="433.0" mnemonicParsing="false" onAction="#goRegister" text="Register" />
+      <ImageView fitHeight="800.0" fitWidth="400.0">
+         <image>
+            <Image url="@../../Images/MenuBackground.jpeg" />
+         </image>
+      </ImageView>
+      <Label fx:id="appTitle" alignment="CENTER" layoutX="117.0" layoutY="72.0" prefHeight="27.0" prefWidth="170.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Hockey Master" textAlignment="CENTER">
+         <font>
+            <Font name="HockeyFont" size="20.0" url="@../../Fonts/HockeyFont.ttf" />
+         </font></Label>
+      <Label fx:id="pageTitle" alignment="CENTER" layoutX="152.0" layoutY="143.0" prefHeight="27.0" prefWidth="97.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Main Menu" textAlignment="CENTER">
+         <font>
+            <Font name="HockeyFont" size="17.0" url="@../../Fonts/HockeyFont.ttf" />
+         </font></Label>
+      <Button fx:id="login" layoutX="174.0" layoutY="344.0" mnemonicParsing="false" onAction="#goLogin" scaleX="3.0" scaleY="3.0" scaleZ="2.0" text="Login">
+         <font>
+            <Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
+         </font></Button>
+      <Button fx:id="register" layoutX="159.0" layoutY="461.0" mnemonicParsing="false" onAction="#goRegister" scaleX="1.5" scaleY="1.5" scaleZ="2.0" text="Register">
+   	     <font>
+            <Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
+         </font></Button>
    </children>
 </AnchorPane>
