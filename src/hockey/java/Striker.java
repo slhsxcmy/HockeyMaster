@@ -12,7 +12,6 @@ public class Striker extends Pane {
 
     private PVector location;
     private PVector velocity;
-    private PVector prevLoc;
     
     private Random ran = new Random();
 
@@ -28,7 +27,6 @@ public class Striker extends Pane {
 		mass = 10;
 		
 		location = new PVector(ran.nextDouble() * width, ran.nextDouble() * height);
-		prevLoc.set(location.x, location.y);
         velocity = new PVector(0, 0);
 
         circle = new Circle(radius);
@@ -42,13 +40,11 @@ public class Striker extends Pane {
 	}
 	
 	public void step(PVector mouse) {
-		velocity = PVector.sub(mouse, location);
-		velocity.mult(2);
-        location = mouse;
+		velocity = PVector.sub(mouse, location, velocity);
+        location.copy(mouse);
     }
 
     public void checkBoundaries() {
-
         if (location.x > Settings.SCENE_WIDTH) {
             location.x = Settings.SCENE_WIDTH;
         } else if (location.x < 0) {
@@ -76,6 +72,10 @@ public class Striker extends Pane {
     
     public double getRadius() {
     	return radius;
+    }
+    
+    public double getMass() {
+    	return mass;
     }
     
 }

@@ -44,17 +44,17 @@ public class Puck extends Pane{
 	public boolean checkBoundaries() {
 		//todo
         if (location.x > Settings.SCENE_WIDTH) {
-
+        	location.x = 0;
         } 
         else if (location.x < 0) {
-            
+        	location.x = Settings.SCENE_WIDTH;
         }
 
         if (location.y > Settings.SCENE_HEIGHT) {
-            
+            location.y = 0;
         } 
         else if (location.y < 0) {
-            
+        	location.y = Settings.SCENE_HEIGHT;
         }
         return false;
     }
@@ -66,16 +66,19 @@ public class Puck extends Pane{
 		double sy = s.getLocation().y;
 		double sr = s.getRadius();
 		if (Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-//			System.out.println("collision " + collisioncounter);
-//			collisioncounter++;
-			System.out.println(velocity.x + " " + velocity.y);
 			return true;
 		}
 		return false;
 	}
 	
 	public void recalculate(Striker s) {
-		velocity.add(s.getVelocity());
+		PVector sV = new PVector(s.getVelocity().x, s.getVelocity().y);
+		PVector pV = new PVector(velocity.x, velocity.y);
+		pV.mult(mass - s.getMass());
+		sV.mult(2 * s.getMass());
+		pV.add(sV);
+		pV.div(mass + s.getMass());
+		velocity.copy(pV);
 	}
 	
 	public void display() {

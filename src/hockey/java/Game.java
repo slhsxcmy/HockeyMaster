@@ -27,7 +27,7 @@ public class Game extends Application{
     	 s1 = new Striker();
     	 s2 = new Striker();
     	 puck = new Puck();
-    	 friction = 0.5;
+    	 friction = .99;
     	 // create containers
     	 BorderPane root = new BorderPane();
          StackPane layerPane = new StackPane();
