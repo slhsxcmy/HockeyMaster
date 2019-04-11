@@ -4,13 +4,11 @@ public class PVector {
 
     public double x;
     public double y;
-    public double z;
 
-    public PVector(double x, double y, double z) {
+    public PVector(double x, double y) {
         super();
         this.x = x;
         this.y = y;
-        this.z = z;
     }
 
     public void normalize() {
@@ -23,25 +21,21 @@ public class PVector {
     public void div(double value) {
         x /= value;
         y /= value;
-        z /= value;
     }
 
     public void mult(double value) {
         x *= value;
         y *= value;
-        z *= value;
     }
 
     public void add(PVector v) {
         x += v.x;
         y += v.y;
-        z += v.z;
     }
 
     public void sub(PVector v) {
         x -= v.x;
         y -= v.y;
-        z -= v.z;
     }
 
     public void limit(float max) {
@@ -52,7 +46,7 @@ public class PVector {
     }
 
     public double mag() {
-        return Math.sqrt(x * x + y * y + z * z);
+        return Math.sqrt(x * x + y * y);
     }
 
     public static PVector sub(PVector v1, PVector v2) {
@@ -61,16 +55,24 @@ public class PVector {
 
     public static PVector sub(PVector v1, PVector v2, PVector target) {
         if (target == null) {
-            target = new PVector(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+            target = new PVector(v1.x - v2.x, v1.y - v2.y);
         } else {
-            target.set(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+            target.set(v1.x - v2.x, v1.y - v2.y);
         }
         return target;
     }
+    
+    public void copy(PVector v) {
+    	set(v.x, v.y);
+    }
 
-    public void set(double x, double y, double z) {
+    public void set(double x, double y) {
         this.x = x;
         this.y = y;
-        this.z = z;
     }
+    
+    public void print() {
+    	System.out.println(this.x + " " + this.y);
+    }
+    
 }

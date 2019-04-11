@@ -26,8 +26,8 @@ public class Striker extends Pane {
 	public Striker() {
 		mass = 10;
 		
-		location = new PVector(ran.nextDouble() * width, ran.nextDouble() * height, 0);
-        velocity = new PVector(0, 0, 0);
+		location = new PVector(ran.nextDouble() * width, ran.nextDouble() * height);
+        velocity = new PVector(0, 0);
 
         circle = new Circle(radius);
         circle.setCenterX(radius);
@@ -40,13 +40,11 @@ public class Striker extends Pane {
 	}
 	
 	public void step(PVector mouse) {
-		velocity = PVector.sub(mouse, location);
-		velocity.mult(2);
-        location = mouse;
+		velocity = PVector.sub(mouse, location, velocity);
+        location.copy(mouse);
     }
 
     public void checkBoundaries() {
-
         if (location.x > Settings.SCENE_WIDTH) {
             location.x = Settings.SCENE_WIDTH;
         } else if (location.x < 0) {
@@ -74,6 +72,10 @@ public class Striker extends Pane {
     
     public double getRadius() {
     	return radius;
+    }
+    
+    public double getMass() {
+    	return mass;
     }
     
 }

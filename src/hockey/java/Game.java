@@ -27,7 +27,7 @@ public class Game extends Application{
     	 s1 = new Striker();
     	 s2 = new Striker();
     	 puck = new Puck();
-    	 friction = 0.5;
+    	 friction = .99;
     	 // create containers
     	 BorderPane root = new BorderPane();
          StackPane layerPane = new StackPane();
@@ -42,7 +42,7 @@ public class Game extends Application{
          playfield.getChildren().add(puck);
          // capture mouse position
          scene.addEventFilter(MouseEvent.ANY, e -> {
-             p1.getMouse().set(e.getX(), e.getY(), 0);
+             p1.getMouse().set(e.getX(), e.getY());
          });
          // process all strikers
          AnimationTimer loop = new AnimationTimer() {
@@ -55,11 +55,11 @@ public class Game extends Application{
                  //s2.checkBoundaries();
                  puck.checkBoundaries();
                  if (puck.collision(s1)) {
-                	System.out.println("recalculating");
+                	//System.out.println("recalculating");
                  	puck.recalculate(s1);
                  }
                  if (puck.collision(s2)) {
-                	System.out.println("recalculating");
+                	//System.out.println("recalculating");
                   	puck.recalculate(s2);
                  }
                  puck.step(friction);
