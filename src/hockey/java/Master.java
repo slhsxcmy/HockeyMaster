@@ -30,7 +30,6 @@ public class Master extends Application {
 			// CSS
 			//scene.getStylesheets().add(getClass().getResource("/hockey/css/Menu.css").toExternalForm());
 						
-			
 			stage.setScene(scene);
 			
 			//primaryStage.setFullScreen(true);
