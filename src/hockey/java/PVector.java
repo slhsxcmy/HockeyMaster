@@ -66,4 +66,9 @@ public class PVector {
         this.x = x;
         this.y = y;
     }
+    
+    public void print() {
+    	System.out.println(this.x + " " + this.y);
+    }
+    
 }
