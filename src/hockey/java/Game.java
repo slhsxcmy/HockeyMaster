@@ -27,7 +27,7 @@ public class Game extends Application{
     	 p1 = new Player("p1");
     	 p2 = new Player("p2");
     	 s1 = new Striker();
-    	 s2 = new Striker();
+    	 //s2 = new Striker();
     	 puck = new Puck();
 
     	 goal1 = new Goal("1", puck);
@@ -66,9 +66,8 @@ public class Game extends Application{
                  puck.checkBoundaries();
 
                  puck.collision(s1);
-                 puck.collision(s2);
-                	//System.out.println("recalculating");
-
+                 //puck.collision(s2);
+                	
                  puck.step(friction);
                  // update in fx scene
                  s1.display();

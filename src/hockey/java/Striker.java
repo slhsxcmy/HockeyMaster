@@ -46,7 +46,6 @@ public class Striker extends Pane {
     }
 
     public void checkBoundaries() {
-
         if (location.x > Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT) {
             location.x = Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT;
         } else if (location.x < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
@@ -57,7 +56,6 @@ public class Striker extends Pane {
         	location.y = Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT;
         } else if (location.y < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
         	location.y = 0+(width/2)+Settings.BOARDER_HEIGHT;
-
         }
     }
 

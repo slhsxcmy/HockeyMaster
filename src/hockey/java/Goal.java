@@ -63,5 +63,4 @@ public class Goal extends Pane {
         relocate(location.x, location.y);
     }
 	
-
 }
