@@ -20,6 +20,7 @@ public class Game extends Application{
     Puck puck;
     Goal goal1;
     Goal goal2;
+    Walls walls1, walls2;
     double friction;
     
     @Override
@@ -30,9 +31,11 @@ public class Game extends Application{
     	 //s2 = new Striker();
     	 puck = new Puck();
 
-    	 goal1 = new Goal("1", puck);
-    	 goal2 = new Goal("2", puck);
-    	 friction = .99;
+    	 goal1 = new Goal(1, puck);
+    	 goal2 = new Goal(2, puck);
+    	 walls1 = new Walls(1);
+    	 walls2 = new Walls(2);
+    	 friction = .985;
 
     	 // create containers
     	 BorderPane root = new BorderPane();
@@ -44,10 +47,17 @@ public class Game extends Application{
          Scene scene = new Scene(root, Settings.SCENE_WIDTH, Settings.SCENE_HEIGHT);
          stage.setScene(scene);
          stage.show();
+         playfield.getChildren().add(walls1);
+         playfield.getChildren().add(walls2);
          playfield.getChildren().add(s1);
          playfield.getChildren().add(puck);
          playfield.getChildren().add(goal1);
          playfield.getChildren().add(goal2);
+         //display static shapes
+         goal1.display();
+         goal2.display();
+         walls1.display();
+         walls2.display();
          // capture mouse position
          scene.addEventFilter(MouseEvent.ANY, e -> {
              p1.getMouse().set(e.getX(), e.getY());
@@ -60,21 +70,18 @@ public class Game extends Application{
                  s1.step(p1.getMouse());
                  //s2.step(p1.getMouse());
                  s1.checkBoundaries();
-                 goal1.goalDetection("1");
-                 goal2.goalDetection("2");
+                 goal1.goalDetection(1);
+                 goal2.goalDetection(2);
                  //s2.checkBoundaries();
                  puck.checkBoundaries();
 
                  puck.collision(s1);
                  //puck.collision(s2);
-                	
                  puck.step(friction);
                  // update in fx scene
                  s1.display();
                  //s2.display();
                  puck.display();
-                 goal1.display();
-                 goal2.display();
              }
          };
          loop.start();
