@@ -43,6 +43,7 @@ public class Puck extends Pane{
 	
 	public void checkBoundaries() {
 		//todo
+
         if (location.x + radius > Settings.SCENE_WIDTH) {
         	location.x = Settings.SCENE_WIDTH - radius;
         	velocity.x *= -1;
@@ -59,6 +60,7 @@ public class Puck extends Pane{
         else if (location.y - radius < 0) {
         	location.y = 0 + radius;
         	velocity.y *= -1;
+
         }
     }
 	
@@ -91,5 +93,11 @@ public class Puck extends Pane{
     public PVector getVelocity() {
     	return velocity;
     }
+    
+    public PVector getLocation() {
+    	return location;
+    }
+    
+    
 
 }
