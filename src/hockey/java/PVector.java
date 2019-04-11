@@ -68,6 +68,16 @@ public class PVector {
         return target;
     }
 
+    
+    public void copy(PVector v) {
+    	set(v.x, v.y);
+    }
+    
+    public void set(double x, double y) {
+    	this.x = x;
+    	this.y = y;
+    }
+    
     public void set(double x, double y, double z) {
         this.x = x;
         this.y = y;

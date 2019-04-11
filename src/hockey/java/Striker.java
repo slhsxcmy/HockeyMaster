@@ -42,21 +42,20 @@ public class Striker extends Pane {
 	public void step(PVector mouse) {
 		velocity = PVector.sub(mouse, location);
 		velocity.mult(2);
-        location = mouse;
+        location.copy(mouse);
     }
 
     public void checkBoundaries() {
-
-        if (location.x > Settings.SCENE_WIDTH) {
-            location.x = Settings.SCENE_WIDTH;
-        } else if (location.x < 0) {
-            location.x = 0;
+        if (location.x > Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT) {
+            location.x = Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT;
+        } else if (location.x < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
+            location.x = 0+(width/2)+Settings.BOARDER_HEIGHT;
         }
 
-        if (location.y > Settings.SCENE_HEIGHT) {
-        	location.y = Settings.SCENE_HEIGHT;
-        } else if (location.y < 0) {
-        	location.y = 0;
+        if (location.y > Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT) {
+        	location.y = Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT;
+        } else if (location.y < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
+        	location.y = 0+(width/2)+Settings.BOARDER_HEIGHT;
         }
     }
 

@@ -18,6 +18,8 @@ public class Game extends Application{
     Striker s1;
     Striker s2;
     Puck puck;
+    Goal goal1;
+    Goal goal2;
     double friction;
     
     @Override
@@ -27,6 +29,8 @@ public class Game extends Application{
     	 s1 = new Striker();
     	 s2 = new Striker();
     	 puck = new Puck();
+    	 goal1 = new Goal("1", puck);
+    	 goal2 = new Goal("2", puck);
     	 friction = 0.5;
     	 // create containers
     	 BorderPane root = new BorderPane();
@@ -40,6 +44,8 @@ public class Game extends Application{
          stage.show();
          playfield.getChildren().add(s1);
          playfield.getChildren().add(puck);
+         playfield.getChildren().add(goal1);
+         playfield.getChildren().add(goal2);
          // capture mouse position
          scene.addEventFilter(MouseEvent.ANY, e -> {
              p1.getMouse().set(e.getX(), e.getY(), 0);
@@ -52,6 +58,8 @@ public class Game extends Application{
                  s1.step(p1.getMouse());
                  //s2.step(p1.getMouse());
                  s1.checkBoundaries();
+                 goal1.goalDetection("1");
+                 goal2.goalDetection("2");
                  //s2.checkBoundaries();
                  puck.checkBoundaries();
                  if (puck.collision(s1)) {
@@ -62,11 +70,14 @@ public class Game extends Application{
                 	System.out.println("recalculating");
                   	puck.recalculate(s2);
                  }
+                 
                  puck.step(friction);
                  // update in fx scene
                  s1.display();
                  //s2.display();
                  puck.display();
+                 goal1.display();
+                 goal2.display();
              }
          };
          loop.start();

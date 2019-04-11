@@ -41,22 +41,21 @@ public class Puck extends Pane{
 		velocity.mult(friction);
 	}
 	
-	public boolean checkBoundaries() {
+	public void checkBoundaries() {
 		//todo
         if (location.x > Settings.SCENE_WIDTH) {
-
+        	location.x = Settings.SCENE_WIDTH-(width/2);
         } 
         else if (location.x < 0) {
-            
+        	location.x = 0+(width/2);
         }
 
         if (location.y > Settings.SCENE_HEIGHT) {
-            
+        	location.y = Settings.SCENE_HEIGHT-(width/2);
         } 
         else if (location.y < 0) {
-            
+        	location.y = 0+(width/2);
         }
-        return false;
     }
 	
 	public boolean collision(Striker s) {
@@ -84,5 +83,11 @@ public class Puck extends Pane{
     public PVector getVelocity() {
     	return velocity;
     }
+    
+    public PVector getLocation() {
+    	return location;
+    }
+    
+    
 
 }
