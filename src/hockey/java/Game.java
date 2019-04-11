@@ -54,14 +54,9 @@ public class Game extends Application{
                  s1.checkBoundaries();
                  //s2.checkBoundaries();
                  puck.checkBoundaries();
-                 if (puck.collision(s1)) {
+                 puck.collision(s1);
+                 puck.collision(s2);
                 	//System.out.println("recalculating");
-                 	puck.recalculate(s1);
-                 }
-                 if (puck.collision(s2)) {
-                	//System.out.println("recalculating");
-                  	puck.recalculate(s2);
-                 }
                  puck.step(friction);
                  // update in fx scene
                  s1.display();

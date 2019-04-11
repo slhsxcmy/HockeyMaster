@@ -15,7 +15,7 @@ public class Striker extends Pane {
     
     private Random ran = new Random();
 
-    double width = 30;
+    double width = 50;
     double height = width;
     double centerX = width / 2.0;
     double centerY = height / 2.0;
@@ -45,16 +45,15 @@ public class Striker extends Pane {
     }
 
     public void checkBoundaries() {
-        if (location.x > Settings.SCENE_WIDTH) {
-            location.x = Settings.SCENE_WIDTH;
-        } else if (location.x < 0) {
-            location.x = 0;
+        if (location.x > Settings.SCENE_WIDTH - radius) {
+            location.x = Settings.SCENE_WIDTH - radius;
+        } else if (location.x < 0 + radius) {
+            location.x = 0 + radius;
         }
-
-        if (location.y > Settings.SCENE_HEIGHT) {
-        	location.y = Settings.SCENE_HEIGHT;
-        } else if (location.y < 0) {
-        	location.y = 0;
+        if (location.y > Settings.SCENE_HEIGHT - radius) {
+        	location.y = Settings.SCENE_HEIGHT - radius;
+        } else if (location.y < 0 + radius) {
+        	location.y = 0 + radius;
         }
     }
 
