@@ -12,6 +12,7 @@ public class Striker extends Pane {
 
     private PVector location;
     private PVector velocity;
+    private PVector prevLoc;
     
     private Random ran = new Random();
 
@@ -26,8 +27,9 @@ public class Striker extends Pane {
 	public Striker() {
 		mass = 10;
 		
-		location = new PVector(ran.nextDouble() * width, ran.nextDouble() * height, 0);
-        velocity = new PVector(0, 0, 0);
+		location = new PVector(ran.nextDouble() * width, ran.nextDouble() * height);
+		prevLoc.set(location.x, location.y);
+        velocity = new PVector(0, 0);
 
         circle = new Circle(radius);
         circle.setCenterX(radius);
