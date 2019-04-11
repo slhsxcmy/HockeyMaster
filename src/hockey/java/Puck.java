@@ -70,6 +70,7 @@ public class Puck extends Pane{
 		double sr = s.getRadius();
 		if (Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
 			recalculate(s);
+			
 		}
 	}
 	
