@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+<!--prefWidth="${screen.visualBounds.height}" prefHeight="${screen.visualBounds.height}"-->
+
+<AnchorPane prefHeight="800.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hockey.java.StatsController">
+   <children>
+      <Label fx:id="appTitle" layoutX="154.0" layoutY="88.0" prefHeight="27.0" prefWidth="93.0" text="Hockey Master" textAlignment="CENTER" />
+      <Label fx:id="pageTitle" layoutX="167.0" layoutY="176.0" prefHeight="27.0" prefWidth="67.0" text="Main Menu" textAlignment="CENTER" />
+      
+   </children>
 </AnchorPane>
 

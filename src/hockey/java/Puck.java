@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class Puck extends Pane{
+	private double mass;
 	
 	private PVector location;
     private PVector velocity;
@@ -16,17 +17,21 @@ public class Puck extends Pane{
     double radius = width / 2.0;
     
     Circle circle;
+    
+    int collisioncounter = 0;
 	
 	public Puck() {
-		location = new PVector(400, 200, 0);
+		mass = 5;
+		
+		location = new PVector(200, 400, 0);
         velocity = new PVector(0, 0, 0);
 
         circle = new Circle(radius);
         circle.setCenterX(radius);
         circle.setCenterY(radius);
 
-        circle.setStroke(Color.BLUE);
-        circle.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.3));
+        circle.setStroke(Color.RED);
+        circle.setFill(Color.RED.deriveColor(1, 1, 1, 0.3));
 
         getChildren().add(circle);
 	}
@@ -54,21 +59,29 @@ public class Puck extends Pane{
         return false;
     }
 	
-	public boolean checkCollision(Object o) {
-		//todo
+	public boolean collision(Striker s) {
+		double px = location.x;
+		double py = location.y;
+		double sx = s.getLocation().x;
+		double sy = s.getLocation().y;
+		double sr = s.getRadius();
+		if (Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
+			System.out.println("collision " + collisioncounter);
+			collisioncounter++;
+			return true;
+		}
 		return false;
 	}
 	
-	public void recalculate() {
-		//todo
-		velocity = new PVector(0, 0, 0);
+	public void recalculate(Striker s) {
+		velocity.add(s.getVelocity());
 	}
 	
 	public void display() {
         relocate(location.x - centerX, location.y - centerY);
     }
     
-    public PVector velocity() {
+    public PVector getVelocity() {
     	return velocity;
     }
 

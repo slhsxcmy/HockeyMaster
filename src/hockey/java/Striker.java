@@ -7,6 +7,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class Striker extends Pane {
+	
+	private double mass;
 
     private PVector location;
     private PVector velocity;
@@ -22,7 +24,9 @@ public class Striker extends Pane {
     Circle circle;
 	
 	public Striker() {
-		location = new PVector(ran.nextDouble() * height, ran.nextDouble() * width, 0);
+		mass = 10;
+		
+		location = new PVector(ran.nextDouble() * width, ran.nextDouble() * height, 0);
         velocity = new PVector(0, 0, 0);
 
         circle = new Circle(radius);
@@ -60,8 +64,16 @@ public class Striker extends Pane {
         relocate(location.x - centerX, location.y - centerY);
     }
     
-    public PVector velocity() {
+    public PVector getLocation() {
+    	return location;
+    }
+    
+    public PVector getVelocity() {
     	return velocity;
+    }
+    
+    public double getRadius() {
+    	return radius;
     }
     
 }
