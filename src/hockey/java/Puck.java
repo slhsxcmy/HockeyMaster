@@ -43,26 +43,37 @@ public class Puck extends Pane{
 	
 	public void checkBoundaries() {
 		//todo
-
-        if (location.x + radius > Settings.SCENE_WIDTH) {
-        	location.x = Settings.SCENE_WIDTH - radius;
-        	velocity.x *= -1;
-        } 
-        else if (location.x - radius < 0) {
-        	location.x = 0 + radius;
-        	velocity.x *= -1;
-        }
-
-        if (location.y + radius > Settings.SCENE_HEIGHT) {
-        	location.y = Settings.SCENE_HEIGHT - radius;
-            velocity.y *= -1;
-        } 
-        else if (location.y - radius < 0) {
-        	location.y = 0 + radius;
-        	velocity.y *= -1;
-
-        }
+		//if puck is in the goal, keep it moving
+		//Alot of constants here.. be careful of changing goal size
+		if((location.x-radius > 145-4) && 
+				(location.x+radius < (145+110)+4) && 
+				(location.y-radius < 0+Settings.BOARDER_HEIGHT))
+		{}
+		else if((location.x-radius > 145-4) && 
+				(location.x+radius < (145+110)+5) && 
+				(location.y+radius > (Settings.SCENE_HEIGHT-Settings.BOARDER_HEIGHT)))
+		{}
+		else {	
+	        if (location.x > Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT) {
+	        	location.x = Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT;
+	        	velocity.x *= -1;
+	        } 
+	        else if (location.x <= 0+Settings.BOARDER_HEIGHT + radius) {
+	        	location.x = 0 + radius + Settings.BOARDER_HEIGHT;
+	        	velocity.x *= -1;
+	        }
+	
+	        if (location.y > Settings.SCENE_HEIGHT - radius - Settings.BOARDER_HEIGHT) {
+	        	location.y = Settings.SCENE_HEIGHT - radius - Settings.BOARDER_HEIGHT;
+	            velocity.y *= -1;
+	        } 
+	        else if (location.y <= 0 + radius + Settings.BOARDER_HEIGHT) {
+	        	location.y = 0 + radius + Settings.BOARDER_HEIGHT;
+	        	velocity.y *= -1;
+	        }
+		}
     }
+	
 	
 	public void collision(Striker s) {
 		double px = location.x;
@@ -72,7 +83,6 @@ public class Puck extends Pane{
 		double sr = s.getRadius();
 		if (Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
 			recalculate(s);
-			
 		}
 	}
 	

@@ -15,7 +15,7 @@ public class Striker extends Pane {
     
     private Random ran = new Random();
 
-    double width = 50;
+    double width = 45;
     double height = width;
     double centerX = width / 2.0;
     double centerY = height / 2.0;
@@ -40,7 +40,6 @@ public class Striker extends Pane {
 	}
 	
 	public void step(PVector mouse) {
-
 		velocity = PVector.sub(mouse, location, velocity);
         location.copy(mouse);
     }
