@@ -43,6 +43,9 @@ public class SignupController implements Initializable{
 	private Button signup;
 	
 	@FXML
+	private Button back;
+	
+	@FXML
 	public void signup(ActionEvent event) throws IOException{
 		System.out.println(username.getText() + " " + password.getText() + " " + passwordc.getText());
 		if(!model.checkSignUp(username.getText(), password.getText(), passwordc.getText())) {
@@ -68,6 +71,20 @@ public class SignupController implements Initializable{
 			errorMessage.setText("Not Connected");
 		}
 		
+	}
+	
+
+	@FXML
+	public void goBack(ActionEvent event) throws IOException {
+		// add sign out logic
+		
+		Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/hockey/css/Menu.css").toExternalForm());
+		
+		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+		window.setScene(scene);
+		window.show();	
 	}
 	
 }
