@@ -21,7 +21,7 @@ public class Goal extends Pane {
 		currPuck = puck;
 		puckLocation = puck.getLocation();
 		if(name.equals("1")) {
-			location = new PVector(145, 0, 0);
+			location = new PVector(145, 0);
 			goal = new Rectangle();
 			goal.setWidth(width);
 			goal.setHeight(height);
@@ -29,7 +29,7 @@ public class Goal extends Pane {
 	        goal.setFill(Color.RED);
 		}
 		else {
-			location = new PVector(145, 689, 0);
+			location = new PVector(145, 689);
 			goal = new Rectangle();
 			goal.setWidth(width);
 			goal.setHeight(height);
