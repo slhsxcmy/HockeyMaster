@@ -37,6 +37,9 @@ public class LoginController implements Initializable{
 	@FXML
 	private Button login;
 	
+	@FXML
+	private Button back;
+	
 	public void login(ActionEvent event) throws IOException{
 		System.out.println(username.getText() + " " + password.getText());
 		if(!model.checkLogin(username.getText(), password.getText())) {
@@ -61,6 +64,19 @@ public class LoginController implements Initializable{
 			errorMessage.setText("Not Connected");
 		}
 		
+	}
+	
+	@FXML
+	public void goBack(ActionEvent event) throws IOException {
+		// add sign out logic
+		
+		Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/hockey/css/Menu.css").toExternalForm());
+		
+		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+		window.setScene(scene);
+		window.show();	
 	}
 	
 }

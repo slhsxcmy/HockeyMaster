@@ -6,12 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Model {
+	private boolean singlePlayerDebug = true;
+	
 	Connection connection = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	String query = "";
 	
 	public Model() {
+		if(singlePlayerDebug) return;
 		connection = SQLConnection.Connector();
 		if(connection == null) {
 			System.out.println("connection failed");
@@ -21,6 +24,7 @@ public class Model {
 	}
 	
 	public boolean isDbConnected() {
+		if(singlePlayerDebug) return true;
 		try{
 			return !(connection.isClosed());		
 		}catch (SQLException e) {
@@ -30,6 +34,7 @@ public class Model {
 	}
 	
 	public boolean checkSignUp(String username, String pw, String cpw) {
+		if(singlePlayerDebug) return true;
 		if(username == null || pw == null || cpw == null) { //they shouldn't be empty
 			return false;
 		}
