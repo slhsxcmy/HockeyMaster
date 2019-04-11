@@ -8,7 +8,7 @@ public class Player {
 	
 	public Player(String username) {
 		this.username = username;
-		mouse = new PVector(0,0,0);
+		mouse = new PVector(0, 0);
 		score = 0;
 	}
 	
