@@ -41,22 +41,25 @@ public class Puck extends Pane{
 		velocity.mult(friction);
 	}
 	
-	public boolean checkBoundaries() {
+	public void checkBoundaries() {
 		//todo
-        if (location.x > Settings.SCENE_WIDTH) {
-        	location.x = 0;
+        if (location.x + radius > Settings.SCENE_WIDTH) {
+        	location.x = Settings.SCENE_WIDTH - radius;
+        	velocity.x *= -1;
         } 
-        else if (location.x < 0) {
-        	location.x = Settings.SCENE_WIDTH;
+        else if (location.x - radius < 0) {
+        	location.x = 0 + radius;
+        	velocity.x *= -1;
         }
 
-        if (location.y > Settings.SCENE_HEIGHT) {
-            location.y = 0;
+        if (location.y + radius > Settings.SCENE_HEIGHT) {
+        	location.y = Settings.SCENE_HEIGHT - radius;
+            velocity.y *= -1;
         } 
-        else if (location.y < 0) {
-        	location.y = Settings.SCENE_HEIGHT;
+        else if (location.y - radius < 0) {
+        	location.y = 0 + radius;
+        	velocity.y *= -1;
         }
-        return false;
     }
 	
 	public boolean collision(Striker s) {
