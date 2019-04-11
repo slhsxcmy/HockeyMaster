@@ -15,7 +15,7 @@ public class Striker extends Pane {
     
     private Random ran = new Random();
 
-    double width = 30;
+    double width = 50;
     double height = width;
     double centerX = width / 2.0;
     double centerY = height / 2.0;

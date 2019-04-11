@@ -23,7 +23,7 @@ public class Puck extends Pane{
 	public Puck() {
 		mass = 5;
 		
-		location = new PVector(200, 400);
+		location = new PVector(200, 350);
         velocity = new PVector(0, 0);
 
         circle = new Circle(radius);
@@ -62,16 +62,15 @@ public class Puck extends Pane{
         }
     }
 	
-	public boolean collision(Striker s) {
+	public void collision(Striker s) {
 		double px = location.x;
 		double py = location.y;
 		double sx = s.getLocation().x;
 		double sy = s.getLocation().y;
 		double sr = s.getRadius();
 		if (Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-			return true;
+			recalculate(s);
 		}
-		return false;
 	}
 	
 	public void recalculate(Striker s) {
