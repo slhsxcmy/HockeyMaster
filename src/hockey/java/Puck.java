@@ -23,8 +23,8 @@ public class Puck extends Pane{
 	public Puck() {
 		mass = 5;
 		
-		location = new PVector(200, 400, 0);
-        velocity = new PVector(0, 0, 0);
+		location = new PVector(200, 350);
+        velocity = new PVector(0, 0);
 
         circle = new Circle(radius);
         circle.setCenterX(radius);
@@ -41,40 +41,47 @@ public class Puck extends Pane{
 		velocity.mult(friction);
 	}
 	
-	public boolean checkBoundaries() {
+	public void checkBoundaries() {
 		//todo
-        if (location.x > Settings.SCENE_WIDTH) {
-
+        if (location.x + radius > Settings.SCENE_WIDTH) {
+        	location.x = Settings.SCENE_WIDTH - radius;
+        	velocity.x *= -1;
         } 
-        else if (location.x < 0) {
-            
+        else if (location.x - radius < 0) {
+        	location.x = 0 + radius;
+        	velocity.x *= -1;
         }
 
-        if (location.y > Settings.SCENE_HEIGHT) {
-            
+        if (location.y + radius > Settings.SCENE_HEIGHT) {
+        	location.y = Settings.SCENE_HEIGHT - radius;
+            velocity.y *= -1;
         } 
-        else if (location.y < 0) {
-            
+        else if (location.y - radius < 0) {
+        	location.y = 0 + radius;
+        	velocity.y *= -1;
         }
-        return false;
     }
 	
-	public boolean collision(Striker s) {
+	public void collision(Striker s) {
 		double px = location.x;
 		double py = location.y;
 		double sx = s.getLocation().x;
 		double sy = s.getLocation().y;
 		double sr = s.getRadius();
 		if (Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-			System.out.println("collision " + collisioncounter);
-			collisioncounter++;
-			return true;
+			recalculate(s);
+			
 		}
-		return false;
 	}
 	
 	public void recalculate(Striker s) {
-		velocity.add(s.getVelocity());
+		PVector sV = new PVector(s.getVelocity().x, s.getVelocity().y);
+		PVector pV = new PVector(velocity.x, velocity.y);
+		pV.mult(mass - s.getMass());
+		sV.mult(2 * s.getMass());
+		pV.add(sV);
+		pV.div(mass + s.getMass());
+		velocity.copy(pV);
 	}
 	
 	public void display() {
