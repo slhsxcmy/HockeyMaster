@@ -2,6 +2,10 @@ package hockey.java;
 
 import java.io.IOException;
 
+import com.esotericsoftware.kryonet.Client;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +33,8 @@ public class LoggedController {
 	private Button signout;
 	
 	public void join(ActionEvent event) throws IOException{
+		// connect to server
+
 		
 	
 	}

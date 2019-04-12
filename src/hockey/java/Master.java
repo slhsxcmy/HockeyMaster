@@ -1,49 +1,63 @@
 package hockey.java;
-	
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.util.Date;
 
-public class Master extends Application {
-	@Override
-	public void start(Stage stage) {
-		try {
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.Server;
 
-			// FXML
-			Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
+public class Master extends Listener { // SERVER
 
-			/*
-			Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
-			
-			int screenWidth = (int) Math.round(bounds.getWidth());
-			int screenHeight = (int) Math.round(bounds.getHeight());
-			int gameWidth = screenHeight / 2;
-			int gameHeight = screenHeight;
-			
-			primaryStage.setWidth(screenWidth);
-			primaryStage.setHeight(screenHeight);
-			*/
-			Scene scene = new Scene(root);
-			// CSS
-			//scene.getStylesheets().add(getClass().getResource("/hockey/css/Menu.css").toExternalForm());
-						
-			stage.setScene(scene);
-			
-			//primaryStage.setFullScreen(true);
-			//primaryStage.setMaximized(true);
-
-//			System.out.println(scene.getWidth());
-//			System.out.println(scene.getHeight());
-			stage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
+	private static Server server = null;
+	public static final String ngrok_url = "https://d69be386.ngrok.io";
+	public static final int tcpPort = 27960;
 	
 	public static void main(String[] args) {
-		launch(args);
+		System.out.println("Creating server...");
+		
+		// create server
+		server = new Server();
+		
+		// register packet. ONLY objects registered as packets can be sent
+		server.getKryo().register(Player.class);
+		server.getKryo().register(Puck.class);
+		server.getKryo().register(Striker.class);
+		
+		
+		try {
+			// bind to ports
+			server.bind(tcpPort);
+		} catch (IOException e) {
+			System.out.println("Failed to bind to port " + tcpPort);
+		}
+		
+		// add listener for connected/received/disconnected methods
+		server.addListener(new Master());
+		
+		// start server
+		server.start();
+		System.out.println("Server is ready!");
+		
 	}
+	
+	// runs when connection 
+	public void connected(Connection c) {
+		System.out.println("Received connection from " + c.getRemoteAddressTCP().getHostString());
+		// create message packet
+		
+		// send message
+		// c.sendTCP(object); 
+		
+	}
+
+	// runs when packet received
+	public void received(Connection c, Object p) {
+		// forward packet to other player
+	}
+	
+	public void disconnected(Connection c) {
+		System.out.println("Lost connection from " + c.getRemoteAddressTCP().getHostString());
+	}
+
 }
