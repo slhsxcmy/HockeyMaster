@@ -21,13 +21,14 @@ public class Game extends Application{
     Goal goal1;
     Goal goal2;
     Walls walls1, walls2;
+    Midline mid;
     double friction;
     
     @Override
     public void start(Stage stage) {
-    	 p1 = new Player("p1");
-    	 p2 = new Player("p2");
-    	 s1 = new Striker();
+    	 p1 = new Player("p1", 1);
+    	 p2 = new Player("p2", 2);
+    	 s1 = new Striker(p1);
     	 //s2 = new Striker();
     	 puck = new Puck();
 
@@ -35,7 +36,8 @@ public class Game extends Application{
     	 goal2 = new Goal(2, puck);
     	 walls1 = new Walls(1);
     	 walls2 = new Walls(2);
-    	 friction = .985;
+    	 mid = new Midline();
+    	 friction = .987;
 
     	 // create containers
     	 BorderPane root = new BorderPane();
@@ -49,6 +51,7 @@ public class Game extends Application{
          stage.show();
          playfield.getChildren().add(walls1);
          playfield.getChildren().add(walls2);
+         playfield.getChildren().add(mid);
          playfield.getChildren().add(s1);
          playfield.getChildren().add(puck);
          playfield.getChildren().add(goal1);
@@ -58,6 +61,7 @@ public class Game extends Application{
          goal2.display();
          walls1.display();
          walls2.display();
+         mid.display();
          // capture mouse position
          scene.addEventFilter(MouseEvent.ANY, e -> {
              p1.getMouse().set(e.getX(), e.getY());

@@ -45,11 +45,11 @@ public class Puck extends Pane{
 		//todo
 		//if puck is in the goal, keep it moving
 		//Alot of constants here.. be careful of changing goal size
-		if((location.x-radius > 145-4) && 
-				(location.x+radius < (145+110)+4) && 
+		if((location.x-radius > 145-5) && 
+				(location.x+radius < (145+110)+5) && 
 				(location.y-radius < 0+Settings.BOARDER_HEIGHT))
 		{}
-		else if((location.x-radius > 145-4) && 
+		else if((location.x-radius > 145-5) && 
 				(location.x+radius < (145+110)+5) && 
 				(location.y+radius > (Settings.SCENE_HEIGHT-Settings.BOARDER_HEIGHT)))
 		{}
@@ -94,6 +94,7 @@ public class Puck extends Pane{
 		pV.add(sV);
 		pV.div(mass + s.getMass());
 		velocity.copy(pV);
+		velocity.limit(30);
 	}
 	
 	public void display() {
