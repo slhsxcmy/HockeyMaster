@@ -48,7 +48,7 @@ public class Goal extends Pane {
 					puckLocation.x-(currPuck.width/2) < location.x+width && 
 					puckLocation.y < location.y+(height/2))
 			{
-				currPuck.move(200, 325);
+				currPuck.move(200, 250);
 				return true;
 				//System.out.println("GOAL1");
 			}
@@ -58,7 +58,7 @@ public class Goal extends Pane {
 					puckLocation.x-(currPuck.width/2) < location.x+width && 
 					puckLocation.y > location.y-(height/2))
 			{
-				currPuck.move(200, 525);
+				currPuck.move(200, 450);
 				return true;
 				//System.out.println("GOAL2");
 			}

@@ -2,7 +2,6 @@ package hockey.java;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -11,7 +10,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class Game extends Application{
@@ -125,7 +123,7 @@ public class Game extends Application{
                 	 Text text = new Text(p1.getUsername() + " wins!");
                  	 text.setFont(Font.font ("Verdana", 50));
                  	 text.setFill(Color.RED);
-                 	 text.setY(400);
+                 	 text.setY(350);
                  	 playfield.getChildren().add(text);
                  	 stage.show();
                 	 stop();
@@ -134,7 +132,7 @@ public class Game extends Application{
                 	 Text text = new Text(p2.getUsername() + " wins!");
                 	 text.setFont(Font.font ("Verdana", 50));
                  	 text.setFill(Color.RED);
-                 	 text.setY(400);
+                 	 text.setY(350);
                  	 playfield.getChildren().add(text);
                  	 stage.show();
                 	 stop();
