@@ -118,6 +118,10 @@ public class Striker extends Pane {
     	return mass;
     }
     
+    public Player getPlayer() {
+    	return player;
+    }
+    
     public void reset(int player) {
     	if (player == 1) {
     		location.x = 200;

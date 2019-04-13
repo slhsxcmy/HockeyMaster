@@ -29,4 +29,18 @@ public class Midline extends Pane {
         relocate(location.x, location.y);
     }
 	
+	public void move(int y) {
+		location.y = y;
+		display();
+	}
+
+	public void reset() {
+		location.y = startingY;
+		display();
+	}
+	
+	public boolean inMiddle() {
+		return location.y == startingY;
+	}
+	
 }

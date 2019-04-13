@@ -19,6 +19,8 @@ public class Puck extends Pane{
     Circle circle;
     
     int collisioncounter = 0;
+    
+    private Striker lastHit;
 	
 	public Puck() {
 		mass = 5;
@@ -34,6 +36,8 @@ public class Puck extends Pane{
         circle.setFill(Color.RED.deriveColor(1, 1, 1, 0.3));
 
         getChildren().add(circle);
+        
+        lastHit = null;
 	}
 	
 	public void step(double friction) {
@@ -80,6 +84,16 @@ public class Puck extends Pane{
 		return onBoundary;
     }
 	
+	public void collision(Midline m, PowerUp pu) {
+		double px = location.x;
+		double py = location.y;
+		double pux = pu.getLocation().x;
+		double puy = pu.getLocation().y;
+		double pur = pu.getRadius();
+		if (Math.sqrt((px - pux) * (px - pux) + (py - puy) * (py - puy)) <= radius + pur) {
+			pu.activate(m, lastHit);
+		}
+	}
 	
 	public void collision(Striker s) {
 		double px = location.x;
@@ -89,6 +103,7 @@ public class Puck extends Pane{
 		double sr = s.getRadius();
 		if (Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
 			recalculate(s);
+			lastHit = s;
 		}
 	}
 	

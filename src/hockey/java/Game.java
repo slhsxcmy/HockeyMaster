@@ -1,5 +1,7 @@
 package hockey.java;
 
+import java.util.Random;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -45,7 +47,7 @@ public class Game extends Application{
     	 walls1 = new Walls(1);
     	 walls2 = new Walls(2);
 
-    	 //mid = new Midline();
+    	 mid = new Midline();
     	 center = new CenterCircle();
     	 friction = .987;
     	 
@@ -73,7 +75,7 @@ public class Game extends Application{
          stage.show();
          playfield.getChildren().add(walls1);
          playfield.getChildren().add(walls2);
-         //playfield.getChildren().add(mid);
+         playfield.getChildren().add(mid);
          playfield.getChildren().add(center);
          playfield.getChildren().add(s1);
          playfield.getChildren().add(puck);
@@ -87,16 +89,23 @@ public class Game extends Application{
          goal2.display();
          walls1.display();
          walls2.display();
-         //mid.display();
+         PowerUp pu = new PowerUp();
+    	 playfield.getChildren().add(pu);
+         mid.display();
          // capture mouse position
          scene.addEventFilter(MouseEvent.ANY, e -> {
              p1.getMouse().set(e.getX(), e.getY());
          });
          // process all strikers
          AnimationTimer loop = new AnimationTimer() {
+        	 int time = 0;
+        	 Random r = new Random();
+        	 int ran = (int) (r.nextDouble() * 5000);
              @Override
              public void handle(long now) {
                  // move
+            	 
+            	 pu.display();
                  s1.step(p1.getMouse());
                  //s2.step(p1.getMouse());
                  s1.checkBoundaries();
@@ -105,7 +114,7 @@ public class Game extends Application{
                  if (puck.checkBoundaries()) {
                 	 //striker can't overlap with puck
                  }
-
+                 
                  puck.collision(s1);
                  //puck.collision(s2);
                  puck.step(friction);
@@ -118,6 +127,7 @@ public class Game extends Application{
                 	 p1s.setText(Integer.toString(p1.getScore()));
                 	 stage.show();
                 	 s1.reset(1);
+                	 mid.reset();
                 	 //s2.reset(2);
                 	 
                  }
@@ -126,6 +136,7 @@ public class Game extends Application{
                 	 p1s.setText(Integer.toString(p2.getScore()));
                 	 stage.show();
                 	 s1.reset(1);
+                	 mid.reset();
                 	 //s2.reset(2);
                  }
                  if (p1.getScore() == 7) {
@@ -146,6 +157,15 @@ public class Game extends Application{
                  	 stage.show();
                 	 stop();
                  } 
+                 puck.collision(mid, pu);
+                 time++;
+                 System.out.println(time);
+                 if (time == ran) {
+                	 time = 0;
+                	 if (pu.hidden() && mid.inMiddle()) {
+                		 pu.reset();
+                	 }
+                 }
              }
          };
          loop.start();
