@@ -11,6 +11,7 @@ public class Goal extends Pane {
 	private Puck currPuck;
 	private boolean goalDetected;
 	private String name;
+	private Player player;
 	
 	double width = 110;
 	double height = Settings.BOARDER_HEIGHT;
@@ -19,8 +20,9 @@ public class Goal extends Pane {
 	
 	Rectangle goal;
 	
-	Goal(int num, Puck puck){
+	Goal(int num, Puck puck, Player p){
 		currPuck = puck;
+		this.player = p;
 		puckLocation = puck.getLocation();
 		if(num == 1) {
 			location = new PVector(xstart, 0);

@@ -24,6 +24,8 @@ public class Game extends Application{
     Goal goal1;
     Goal goal2;
     Walls walls1, walls2;
+    Midline mid;
+    CenterCircle center;
     double friction;
     
     public void displayWinner(Pane playfield, String name) {
@@ -32,17 +34,20 @@ public class Game extends Application{
     
     @Override
     public void start(Stage stage) {
-    	 p1 = new Player("p1");
-    	 p2 = new Player("p2");
-    	 s1 = new Striker();
+    	 p1 = new Player("p1", 1);
+    	 p2 = new Player("p2", 2);
+    	 s1 = new Striker(p1);
     	 //s2 = new Striker();
     	 puck = new Puck();
 
-    	 goal1 = new Goal(1, puck);
-    	 goal2 = new Goal(2, puck);
+    	 goal1 = new Goal(1, puck, p1);
+    	 goal2 = new Goal(2, puck, p2);
     	 walls1 = new Walls(1);
     	 walls2 = new Walls(2);
-    	 friction = .985;
+
+    	 mid = new Midline();
+    	 center = new CenterCircle();
+    	 friction = .987;
     	 
     	 Text p1s = new Text(Integer.toString(p1.getScore()));
      	 p1s.setFont(Font.font ("Verdana", 50));
@@ -68,6 +73,8 @@ public class Game extends Application{
          stage.show();
          playfield.getChildren().add(walls1);
          playfield.getChildren().add(walls2);
+         playfield.getChildren().add(mid);
+         playfield.getChildren().add(center);
          playfield.getChildren().add(s1);
          playfield.getChildren().add(puck);
          playfield.getChildren().add(goal1);
@@ -75,10 +82,12 @@ public class Game extends Application{
          playfield.getChildren().add(p1s);
          playfield.getChildren().add(p2s);
          //display static shapes
+         center.display();
          goal1.display();
          goal2.display();
          walls1.display();
          walls2.display();
+         mid.display();
          // capture mouse position
          scene.addEventFilter(MouseEvent.ANY, e -> {
              p1.getMouse().set(e.getX(), e.getY());
