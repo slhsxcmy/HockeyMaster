@@ -22,6 +22,7 @@ public class Game extends Application{
     Goal goal2;
     Walls walls1, walls2;
     Midline mid;
+    CenterCircle center;
     double friction;
     
     @Override
@@ -32,11 +33,12 @@ public class Game extends Application{
     	 //s2 = new Striker();
     	 puck = new Puck();
 
-    	 goal1 = new Goal(1, puck);
-    	 goal2 = new Goal(2, puck);
+    	 goal1 = new Goal(1, puck, p1);
+    	 goal2 = new Goal(2, puck, p2);
     	 walls1 = new Walls(1);
     	 walls2 = new Walls(2);
     	 mid = new Midline();
+    	 center = new CenterCircle();
     	 friction = .987;
 
     	 // create containers
@@ -52,11 +54,13 @@ public class Game extends Application{
          playfield.getChildren().add(walls1);
          playfield.getChildren().add(walls2);
          playfield.getChildren().add(mid);
+         playfield.getChildren().add(center);
          playfield.getChildren().add(s1);
          playfield.getChildren().add(puck);
          playfield.getChildren().add(goal1);
          playfield.getChildren().add(goal2);
          //display static shapes
+         center.display();
          goal1.display();
          goal2.display();
          walls1.display();
@@ -82,7 +86,6 @@ public class Game extends Application{
                  puck.collision(s1);
                  //puck.collision(s2);
                 	//System.out.println("recalculating");
-
                  puck.step(friction);
                  // update in fx scene
                  s1.display();

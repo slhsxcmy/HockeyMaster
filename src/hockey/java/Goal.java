@@ -11,6 +11,7 @@ public class Goal extends Pane {
 	private Puck currPuck;
 	private boolean goalDetected;
 	private String name;
+	private Player player;
 	
 	double width = 110;
 	double height = Settings.BOARDER_HEIGHT;
@@ -19,8 +20,9 @@ public class Goal extends Pane {
 	
 	Rectangle goal;
 	
-	Goal(int num, Puck puck){
+	Goal(int num, Puck puck, Player p){
 		currPuck = puck;
+		this.player = p;
 		puckLocation = puck.getLocation();
 		if(num == 1) {
 			location = new PVector(xstart, 0);
@@ -42,6 +44,7 @@ public class Goal extends Pane {
 		getChildren().add(goal);
 	}
 	
+	//According to this player 1 should be on the bottom and he is scoing on is goal1
 	void goalDetection(int num){
 		if(num == 1) {
 			if((puckLocation.x+(currPuck.width/2) > location.x) && 
@@ -49,6 +52,9 @@ public class Goal extends Pane {
 					puckLocation.y < location.y+(height/2))
 			{
 				goalDetected = true;
+				player.score();
+				currPuck.resetPuckBottom();
+				currPuck.display();
 				System.out.println("GOAL1");
 			}
 		}
@@ -58,6 +64,9 @@ public class Goal extends Pane {
 					puckLocation.y > location.y-(height/2))
 			{
 				goalDetected = true;
+				player.score();
+				currPuck.resetPuckTop();
+				currPuck.display();
 				System.out.println("GOAL2");
 			}
 		}

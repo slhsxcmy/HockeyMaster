@@ -23,6 +23,7 @@ public class Midline extends Pane {
 		rec.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.3));
 		getChildren().add(rec);
 	}
+	//TODO add circle with line
 	
 	public void display() {
         relocate(location.x, location.y);
