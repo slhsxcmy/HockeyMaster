@@ -78,4 +78,16 @@ public class Striker extends Pane {
     	return mass;
     }
     
+    public void reset(int player) {
+    	if (player == 1) {
+    		location.x = 200;
+    		location.y = 600;
+    	}
+    	else {
+    		location.x = 200;
+    		location.y = 200;
+    	}
+    	velocity.x = 0;
+    	velocity.y = 0;
+    }
 }

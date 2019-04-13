@@ -42,14 +42,15 @@ public class Goal extends Pane {
 		getChildren().add(goal);
 	}
 	
-	void goalDetection(int num){
+	boolean goalDetection(int num){
 		if(num == 1) {
 			if((puckLocation.x+(currPuck.width/2) > location.x) && 
 					puckLocation.x-(currPuck.width/2) < location.x+width && 
 					puckLocation.y < location.y+(height/2))
 			{
-				goalDetected = true;
-				System.out.println("GOAL1");
+				currPuck.move(200, 325);
+				return true;
+				//System.out.println("GOAL1");
 			}
 		}
 		else {
@@ -57,10 +58,12 @@ public class Goal extends Pane {
 					puckLocation.x-(currPuck.width/2) < location.x+width && 
 					puckLocation.y > location.y-(height/2))
 			{
-				goalDetected = true;
-				System.out.println("GOAL2");
+				currPuck.move(200, 525);
+				return true;
+				//System.out.println("GOAL2");
 			}
 		}
+		return false;
 	}
 	
 	public PVector getGoalLoc() {

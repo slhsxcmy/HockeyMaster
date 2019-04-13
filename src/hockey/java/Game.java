@@ -23,6 +23,11 @@ public class Game extends Application{
     Walls walls1, walls2;
     double friction;
     
+    public void displayWinner(String name) {
+    	String statement = name + " wins!";
+    	//display on screen
+    }
+    
     @Override
     public void start(Stage stage) {
     	 p1 = new Player("p1");
@@ -70,10 +75,11 @@ public class Game extends Application{
                  s1.step(p1.getMouse());
                  //s2.step(p1.getMouse());
                  s1.checkBoundaries();
-                 goal1.goalDetection(1);
-                 goal2.goalDetection(2);
+                 
                  //s2.checkBoundaries();
-                 puck.checkBoundaries();
+                 if (puck.checkBoundaries()) {
+                	 //striker can't overlap with puck
+                 }
 
                  puck.collision(s1);
                  //puck.collision(s2);
@@ -82,6 +88,32 @@ public class Game extends Application{
                  s1.display();
                  //s2.display();
                  puck.display();
+                 if (goal1.goalDetection(1)) {
+                	 p1.score();
+                	 s1.reset(1);
+                	 //s2.reset(2);
+                	 System.out.println("Player 1: " + p1.getScore());
+                	 System.out.println("Player 2: " + p2.getScore());
+                 }
+                 if (goal2.goalDetection(2)) {
+                	 p2.score();
+                	 s1.reset(1);
+                	 //s2.reset(2);
+                	 System.out.println("Player 1: " + p1.getScore());
+                	 System.out.println("Player 2: " + p2.getScore());
+                 }
+                 if (p1.getScore() == 7) {
+                	 System.out.println("Player 1 wins!");
+                	 displayWinner(p1.getUsername());
+                	 stop();
+                 }
+                 if (p2.getScore() == 7) {
+                	 System.out.println("Player 2 wins!");
+                	 displayWinner(p2.getUsername());
+                	 stop();
+                 } 
+                 p1.displayScore(1);
+                 p2.displayScore(2);
              }
          };
          loop.start();
