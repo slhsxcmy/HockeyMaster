@@ -2,11 +2,16 @@ package hockey.java;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class Game extends Application{
@@ -23,9 +28,8 @@ public class Game extends Application{
     Walls walls1, walls2;
     double friction;
     
-    public void displayWinner(String name) {
-    	String statement = name + " wins!";
-    	//display on screen
+    public void displayWinner(Pane playfield, String name) {
+    	
     }
     
     @Override
@@ -102,14 +106,24 @@ public class Game extends Application{
                 	 System.out.println("Player 1: " + p1.getScore());
                 	 System.out.println("Player 2: " + p2.getScore());
                  }
-                 if (p1.getScore() == 7) {
+                 if (p1.getScore() == 1) {
                 	 System.out.println("Player 1 wins!");
-                	 displayWinner(p1.getUsername());
+                	 Text text = new Text(p1.getUsername() + " wins!");
+                 	 text.setFont(Font.font ("Verdana", 50));
+                 	 text.setFill(Color.RED);
+                 	 text.setY(400);
+                 	 playfield.getChildren().add(text);
+                 	 stage.show();
                 	 stop();
                  }
                  if (p2.getScore() == 7) {
                 	 System.out.println("Player 2 wins!");
-                	 displayWinner(p2.getUsername());
+                	 Text text = new Text(p2.getUsername() + " wins!");
+                	 text.setFont(Font.font ("Verdana", 50));
+                 	 text.setFill(Color.RED);
+                 	 text.setY(400);
+                 	 playfield.getChildren().add(text);
+                 	 stage.show();
                 	 stop();
                  } 
                  p1.displayScore(1);
