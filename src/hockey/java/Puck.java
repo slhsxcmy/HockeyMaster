@@ -108,16 +108,6 @@ public class Puck extends Pane{
 		velocity.limit(30);
 	}
 	
-	public void resetPuckTop() {
-		velocity.set(0,0);
-		location.set(200, 500);
-	}
-	
-	public void resetPuckBottom() {
-		velocity.set(0,0);
-		location.set(200, 200);
-	}
-	
 	public void display() {
         relocate(location.x - centerX, location.y - centerY);
     }

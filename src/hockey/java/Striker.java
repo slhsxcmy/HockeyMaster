@@ -49,68 +49,54 @@ public class Striker extends Pane {
         location.copy(mouse);
     }
 
-    public void checkBoundaries() {
-    	
-    	//TODO
-    	//CUrrently mouse goes across half line and physics is very off
-    	//PUCK SPEEDS UP TO MAX
-    	//player1 gets the bottom half
-    	if(player.getPlayerID() == 1) {
-            if (location.x > Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT) {
-                location.x = Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT;
-            } else if (location.x < 0 +radius+Settings.BOARDER_HEIGHT) {
-                location.x = 0+radius+Settings.BOARDER_HEIGHT;
-            }
+	public void checkBoundaries() {
+	/*	//TODO
+		//CUrrently mouse goes across half line and physics is very off
+		//PUCK SPEEDS UP TO MAX
+		//player1 gets the bottom half
+		if(player.getPlayerID() == 1) {
+			if (location.x > Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT) {
+				location.x = Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT;
+			} else if (location.x < 0 +radius+Settings.BOARDER_HEIGHT) {
+				location.x = 0+radius+Settings.BOARDER_HEIGHT;
+			}
 
-            if (location.y > Settings.SCENE_HEIGHT-radius-Settings.BOARDER_HEIGHT) {
-            	location.y = Settings.SCENE_HEIGHT-radius-Settings.BOARDER_HEIGHT;
-            }
-            //if the striker hits the midline
-            else if (location.y < radius+(Settings.SCENE_HEIGHT/2)-2+(Settings.BOARDER_HEIGHT/2)) {
-            	location.y = radius+(Settings.SCENE_HEIGHT/2)-2+(Settings.BOARDER_HEIGHT/2);
-            }
-    	}
-    	else {
-          if (location.x > Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT) {
-          location.x = Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT;
-	      } else if (location.x < 0 +radius+Settings.BOARDER_HEIGHT) {
-	          location.x = 0+radius+Settings.BOARDER_HEIGHT;
-	      }
-          //TODO
-          //WE HAVE TO TEST THIS WHEN SERVER IS RUNNIGN
-          //if striker 2 hits the midline
-	      if (location.y > radius-(Settings.SCENE_HEIGHT/2)-2) {
-	      	location.y = radius-(Settings.SCENE_HEIGHT/2)-2;
-	      } else if (location.y < 0 +radius+Settings.BOARDER_HEIGHT) {
-	      	location.y = 0+radius+Settings.BOARDER_HEIGHT;
-	      }
-    		
-    	}
+			if (location.y > Settings.SCENE_HEIGHT-radius-Settings.BOARDER_HEIGHT) {
+				location.y = Settings.SCENE_HEIGHT-radius-Settings.BOARDER_HEIGHT;
+			}
+			//if the striker hits the midline
+			else if (location.y < radius+(Settings.SCENE_HEIGHT/2)-2+(Settings.BOARDER_HEIGHT/2)) {
+				location.y = radius+(Settings.SCENE_HEIGHT/2)-2+(Settings.BOARDER_HEIGHT/2);
+			}
+		}
+		else {
+			if (location.x > Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT) {
+				location.x = Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT;
+			} else if (location.x < 0 +radius+Settings.BOARDER_HEIGHT) {
+				location.x = 0+radius+Settings.BOARDER_HEIGHT;
+			}
+			//TODO
+			//WE HAVE TO TEST THIS WHEN SERVER IS RUNNIGN
+			//if striker 2 hits the midline
+			if (location.y > radius-(Settings.SCENE_HEIGHT/2)-2) {
+				location.y = radius-(Settings.SCENE_HEIGHT/2)-2;
+			} else if (location.y < 0 +radius+Settings.BOARDER_HEIGHT) {
+				location.y = 0+radius+Settings.BOARDER_HEIGHT;
+			}
+		}
+		*/
+		if (location.x > Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT) {
+			location.x = Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT;
+		} else if (location.x < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
+			location.x = 0+(width/2)+Settings.BOARDER_HEIGHT;
+		}
 
-//        if (location.x > Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT) {
-//            location.x = Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT;
-//        } else if (location.x < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
-//            location.x = 0+(width/2)+Settings.BOARDER_HEIGHT;
-//        }
-//
-//        if (location.y > Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT) {
-//        	location.y = Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT;
-//        } else if (location.y < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
-//        	location.y = 0+(width/2)+Settings.BOARDER_HEIGHT;
-//        }
-
-//         if (location.x > Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT) {
-//             location.x = Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT;
-//         } else if (location.x < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
-//             location.x = 0+(width/2)+Settings.BOARDER_HEIGHT;
-//         }
-
-//         if (location.y > Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT) {
-//         	location.y = Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT;
-//         } else if (location.y < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
-//         	location.y = 0+(width/2)+Settings.BOARDER_HEIGHT;
-//         }
-    }
+		if (location.y > Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT) {
+			location.y = Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT;
+		} else if (location.y < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
+			location.y = 0+(width/2)+Settings.BOARDER_HEIGHT;
+		}
+	}
 
     public void display() {
         relocate(location.x - centerX, location.y - centerY);

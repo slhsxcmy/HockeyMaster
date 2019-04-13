@@ -45,7 +45,7 @@ public class Game extends Application{
     	 walls1 = new Walls(1);
     	 walls2 = new Walls(2);
 
-    	 mid = new Midline();
+    	 //mid = new Midline();
     	 center = new CenterCircle();
     	 friction = .987;
     	 
@@ -58,8 +58,8 @@ public class Game extends Application{
      	 Text p2s = new Text(Integer.toString(p2.getScore()));
     	 p2s.setFont(Font.font ("Verdana", 50));
     	 p2s.setFill(Color.RED);
-    	 p1s.setX(350);
-    	 p2s.setY(300);
+    	 p2s.setX(350);
+    	 p2s.setY(335);
     	 
     	 // create containers
     	 BorderPane root = new BorderPane();
@@ -73,7 +73,7 @@ public class Game extends Application{
          stage.show();
          playfield.getChildren().add(walls1);
          playfield.getChildren().add(walls2);
-         playfield.getChildren().add(mid);
+         //playfield.getChildren().add(mid);
          playfield.getChildren().add(center);
          playfield.getChildren().add(s1);
          playfield.getChildren().add(puck);
@@ -87,7 +87,7 @@ public class Game extends Application{
          goal2.display();
          walls1.display();
          walls2.display();
-         mid.display();
+         //mid.display();
          // capture mouse position
          scene.addEventFilter(MouseEvent.ANY, e -> {
              p1.getMouse().set(e.getX(), e.getY());
@@ -146,8 +146,6 @@ public class Game extends Application{
                  	 stage.show();
                 	 stop();
                  } 
-                 p1.displayScore(1);
-                 p2.displayScore(2);
              }
          };
          loop.start();
