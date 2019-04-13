@@ -45,7 +45,19 @@ public class Game extends Application{
     	 walls1 = new Walls(1);
     	 walls2 = new Walls(2);
     	 friction = .985;
+    	 
+    	 Text p1s = new Text(Integer.toString(p1.getScore()));
+     	 p1s.setFont(Font.font ("Verdana", 50));
+     	 p1s.setFill(Color.RED);
+     	 p1s.setX(350);
+     	 p1s.setY(400);
 
+     	 Text p2s = new Text(Integer.toString(p2.getScore()));
+    	 p2s.setFont(Font.font ("Verdana", 50));
+    	 p2s.setFill(Color.RED);
+    	 p1s.setX(350);
+    	 p2s.setY(300);
+    	 
     	 // create containers
     	 BorderPane root = new BorderPane();
          StackPane layerPane = new StackPane();
@@ -62,6 +74,8 @@ public class Game extends Application{
          playfield.getChildren().add(puck);
          playfield.getChildren().add(goal1);
          playfield.getChildren().add(goal2);
+         playfield.getChildren().add(p1s);
+         playfield.getChildren().add(p2s);
          //display static shapes
          goal1.display();
          goal2.display();
@@ -94,20 +108,20 @@ public class Game extends Application{
                  puck.display();
                  if (goal1.goalDetection(1)) {
                 	 p1.score();
+                	 p1s.setText(Integer.toString(p1.getScore()));
+                	 stage.show();
                 	 s1.reset(1);
                 	 //s2.reset(2);
-                	 System.out.println("Player 1: " + p1.getScore());
-                	 System.out.println("Player 2: " + p2.getScore());
+                	 
                  }
                  if (goal2.goalDetection(2)) {
                 	 p2.score();
+                	 p1s.setText(Integer.toString(p2.getScore()));
+                	 stage.show();
                 	 s1.reset(1);
                 	 //s2.reset(2);
-                	 System.out.println("Player 1: " + p1.getScore());
-                	 System.out.println("Player 2: " + p2.getScore());
                  }
-                 if (p1.getScore() == 1) {
-                	 System.out.println("Player 1 wins!");
+                 if (p1.getScore() == 7) {
                 	 Text text = new Text(p1.getUsername() + " wins!");
                  	 text.setFont(Font.font ("Verdana", 50));
                  	 text.setFill(Color.RED);
@@ -117,7 +131,6 @@ public class Game extends Application{
                 	 stop();
                  }
                  if (p2.getScore() == 7) {
-                	 System.out.println("Player 2 wins!");
                 	 Text text = new Text(p2.getUsername() + " wins!");
                 	 text.setFont(Font.font ("Verdana", 50));
                  	 text.setFill(Color.RED);
