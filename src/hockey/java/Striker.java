@@ -98,6 +98,18 @@ public class Striker extends Pane {
 //        } else if (location.y < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
 //        	location.y = 0+(width/2)+Settings.BOARDER_HEIGHT;
 //        }
+
+//         if (location.x > Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT) {
+//             location.x = Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT;
+//         } else if (location.x < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
+//             location.x = 0+(width/2)+Settings.BOARDER_HEIGHT;
+//         }
+
+//         if (location.y > Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT) {
+//         	location.y = Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT;
+//         } else if (location.y < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
+//         	location.y = 0+(width/2)+Settings.BOARDER_HEIGHT;
+//         }
     }
 
     public void display() {
@@ -120,4 +132,16 @@ public class Striker extends Pane {
     	return mass;
     }
     
+    public void reset(int player) {
+    	if (player == 1) {
+    		location.x = 200;
+    		location.y = 600;
+    	}
+    	else {
+    		location.x = 200;
+    		location.y = 200;
+    	}
+    	velocity.x = 0;
+    	velocity.y = 0;
+    }
 }

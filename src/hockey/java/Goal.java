@@ -44,18 +44,15 @@ public class Goal extends Pane {
 		getChildren().add(goal);
 	}
 	
-	//According to this player 1 should be on the bottom and he is scoing on is goal1
-	void goalDetection(int num){
+	boolean goalDetection(int num){
 		if(num == 1) {
 			if((puckLocation.x+(currPuck.width/2) > location.x) && 
 					puckLocation.x-(currPuck.width/2) < location.x+width && 
 					puckLocation.y < location.y+(height/2))
 			{
-				goalDetected = true;
-				player.score();
-				currPuck.resetPuckBottom();
-				currPuck.display();
-				System.out.println("GOAL1");
+				currPuck.move(200, 250);
+				return true;
+				//System.out.println("GOAL1");
 			}
 		}
 		else {
@@ -63,13 +60,12 @@ public class Goal extends Pane {
 					puckLocation.x-(currPuck.width/2) < location.x+width && 
 					puckLocation.y > location.y-(height/2))
 			{
-				goalDetected = true;
-				player.score();
-				currPuck.resetPuckTop();
-				currPuck.display();
-				System.out.println("GOAL2");
+				currPuck.move(200, 450);
+				return true;
+				//System.out.println("GOAL2");
 			}
 		}
+		return false;
 	}
 	
 	public PVector getGoalLoc() {

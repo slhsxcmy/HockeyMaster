@@ -41,7 +41,8 @@ public class Puck extends Pane{
 		velocity.mult(friction);
 	}
 	
-	public void checkBoundaries() {
+	public boolean checkBoundaries() {
+		boolean onBoundary = false;
 		//todo
 		//if puck is in the goal, keep it moving
 		//Alot of constants here.. be careful of changing goal size
@@ -57,21 +58,26 @@ public class Puck extends Pane{
 	        if (location.x > Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT) {
 	        	location.x = Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT;
 	        	velocity.x *= -1;
+	        	onBoundary = true;
 	        } 
 	        else if (location.x <= 0+Settings.BOARDER_HEIGHT + radius) {
 	        	location.x = 0 + radius + Settings.BOARDER_HEIGHT;
 	        	velocity.x *= -1;
+	        	onBoundary = true;
 	        }
 	
 	        if (location.y > Settings.SCENE_HEIGHT - radius - Settings.BOARDER_HEIGHT) {
 	        	location.y = Settings.SCENE_HEIGHT - radius - Settings.BOARDER_HEIGHT;
 	            velocity.y *= -1;
+	            onBoundary = true;
 	        } 
 	        else if (location.y <= 0 + radius + Settings.BOARDER_HEIGHT) {
 	        	location.y = 0 + radius + Settings.BOARDER_HEIGHT;
 	        	velocity.y *= -1;
+	        	onBoundary = true;
 	        }
 		}
+		return onBoundary;
     }
 	
 	
@@ -89,10 +95,15 @@ public class Puck extends Pane{
 	public void recalculate(Striker s) {
 		PVector sV = new PVector(s.getVelocity().x, s.getVelocity().y);
 		PVector pV = new PVector(velocity.x, velocity.y);
-		pV.mult(mass - s.getMass());
-		sV.mult(2 * s.getMass());
-		pV.add(sV);
-		pV.div(mass + s.getMass());
+		if (sV.x == 0 && sV.y == 0) {
+			pV.mult(-1);
+		}
+		else {
+			pV.mult(mass - s.getMass());
+			sV.mult(2 * s.getMass());
+			pV.add(sV);
+			pV.div(mass + s.getMass());
+		}
 		velocity.copy(pV);
 		velocity.limit(30);
 	}
@@ -119,6 +130,11 @@ public class Puck extends Pane{
     	return location;
     }
     
-    
+    public void move(double x, double y) {
+    	location.x = x;
+    	location.y = y;
+    	velocity.x = 0;
+    	velocity.y = 0;
+    }
 
 }
