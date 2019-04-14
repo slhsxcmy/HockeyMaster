@@ -45,11 +45,15 @@ public class Striker extends Pane {
         getChildren().add(circle);
 	}
 	
-	public void step(PVector mouse) {
+	public void step(PVector mouse, Midline mid) {
 		velocity = PVector.sub(mouse, location, velocity);
+		if (player.getPlayerID() == 1 && location.y == mid.getLocation() + mid.getHeight() + radius - 1 || 
+				player.getPlayerID() == 2 && location.y == mid.getLocation() - mid.getHeight() - radius + 1) {
+			velocity.y = 0;
+		}
         location.copy(mouse);
     }
-
+	
 	public void checkBoundaries() {
 		//TODO
 		//CUrrently mouse goes across half line and physics is very off
