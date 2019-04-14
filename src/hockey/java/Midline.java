@@ -29,7 +29,7 @@ public class Midline extends Pane {
         relocate(location.x, location.y);
     }
 	
-	public void move(int y) {
+	public void move(double y) {
 		location.y = y;
 		display();
 	}

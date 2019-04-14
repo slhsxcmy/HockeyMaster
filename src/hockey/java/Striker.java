@@ -23,6 +23,7 @@ public class Striker extends Pane {
     double centerX = width / 2.0;
     double centerY = height / 2.0;
     double radius = width / 2.0;
+    double mult = 1;
 
     Circle circle;
 	
@@ -50,7 +51,7 @@ public class Striker extends Pane {
     }
 
 	public void checkBoundaries() {
-	/*	//TODO
+		//TODO
 		//CUrrently mouse goes across half line and physics is very off
 		//PUCK SPEEDS UP TO MAX
 		//player1 gets the bottom half
@@ -65,8 +66,8 @@ public class Striker extends Pane {
 				location.y = Settings.SCENE_HEIGHT-radius-Settings.BOARDER_HEIGHT;
 			}
 			//if the striker hits the midline
-			else if (location.y < radius+(Settings.SCENE_HEIGHT/2)-2+(Settings.BOARDER_HEIGHT/2)) {
-				location.y = radius+(Settings.SCENE_HEIGHT/2)-2+(Settings.BOARDER_HEIGHT/2);
+			else if (location.y < (radius+(Settings.SCENE_HEIGHT/2)-2+(Settings.BOARDER_HEIGHT/2))*mult) {
+				location.y = (radius+(Settings.SCENE_HEIGHT/2)-2+(Settings.BOARDER_HEIGHT/2))*mult;
 			}
 		}
 		else {
@@ -78,24 +79,27 @@ public class Striker extends Pane {
 			//TODO
 			//WE HAVE TO TEST THIS WHEN SERVER IS RUNNIGN
 			//if striker 2 hits the midline
-			if (location.y > radius-(Settings.SCENE_HEIGHT/2)-2) {
+			if (location.y > (radius-(Settings.SCENE_HEIGHT/2)-2)*mult) {
 				location.y = radius-(Settings.SCENE_HEIGHT/2)-2;
-			} else if (location.y < 0 +radius+Settings.BOARDER_HEIGHT) {
+			} else if (location.y < (0 +radius+Settings.BOARDER_HEIGHT)*mult) {
 				location.y = 0+radius+Settings.BOARDER_HEIGHT;
 			}
 		}
-		*/
-		if (location.x > Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT) {
-			location.x = Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT;
-		} else if (location.x < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
-			location.x = 0+(width/2)+Settings.BOARDER_HEIGHT;
-		}
-
-		if (location.y > Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT) {
-			location.y = Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT;
-		} else if (location.y < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
-			location.y = 0+(width/2)+Settings.BOARDER_HEIGHT;
-		}
+		
+//		if (location.x > Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT) {
+//			location.x = Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT;
+//		} else if (location.x < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
+//			location.x = 0+(width/2)+Settings.BOARDER_HEIGHT;
+//		}
+//
+//		if (location.y > Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT) {
+//			location.y = Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT;
+//		} else if (location.y < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
+//			location.y = 0+(width/2)+Settings.BOARDER_HEIGHT;
+//		}
+	}
+	public void updateMidlineMult(double m) {
+		mult = m;
 	}
 
     public void display() {
@@ -123,6 +127,7 @@ public class Striker extends Pane {
     }
     
     public void reset(int player) {
+    	mult = 1;
     	if (player == 1) {
     		location.x = 200;
     		location.y = 600;

@@ -95,6 +95,17 @@ public class Puck extends Pane{
 		}
 	}
 	
+	public void collision(Midline m, PowerUpPuckSize pu) {
+		double px = location.x;
+		double py = location.y;
+		double pux = pu.getLocation().x;
+		double puy = pu.getLocation().y;
+		double pur = pu.getRadius();
+		if (Math.sqrt((px - pux) * (px - pux) + (py - puy) * (py - puy)) <= radius + pur) {
+			pu.activate(this);
+		}
+	}
+	
 	public void collision(Striker s) {
 		double px = location.x;
 		double py = location.y;
@@ -123,6 +134,15 @@ public class Puck extends Pane{
 		velocity.limit(30);
 	}
 	
+	public void changePuckSize(double size) {
+		this.width = size;
+		this.height = width;
+		this.radius = width/2;
+		circle.setRadius(10/2);
+		display();
+
+	}
+	
 	public void display() {
         relocate(location.x - centerX, location.y - centerY);
     }
@@ -140,6 +160,14 @@ public class Puck extends Pane{
     	location.y = y;
     	velocity.x = 0;
     	velocity.y = 0;
+    }
+    
+    public void resetSize() {
+		this.width = 30;
+		this.height = width;
+		this.radius = width/2;
+		circle.setRadius(30/2);
+		display();
     }
 
 }
