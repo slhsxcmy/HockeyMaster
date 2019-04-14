@@ -90,7 +90,9 @@ public class Game extends Application{
          walls1.display();
          walls2.display();
          PowerUp pu = new PowerUp();
+         PowerUpPuckSize puckPU = new PowerUpPuckSize();
     	 playfield.getChildren().add(pu);
+    	 playfield.getChildren().add(puckPU);
          mid.display();
          // capture mouse position
          scene.addEventFilter(MouseEvent.ANY, e -> {
@@ -104,8 +106,8 @@ public class Game extends Application{
              @Override
              public void handle(long now) {
                  // move
-            	 
             	 pu.display();
+            	 puckPU.display();
                  s1.step(p1.getMouse());
                  //s2.step(p1.getMouse());
                  s1.checkBoundaries();
@@ -114,7 +116,6 @@ public class Game extends Application{
                  if (puck.checkBoundaries()) {
                 	 //striker can't overlap with puck
                  }
-                 
                  puck.collision(s1);
                  //puck.collision(s2);
                  puck.step(friction);
@@ -128,6 +129,7 @@ public class Game extends Application{
                 	 stage.show();
                 	 s1.reset(1);
                 	 mid.reset();
+                	 puck.resetSize();
                 	 //s2.reset(2);
                 	 
                  }
@@ -137,6 +139,7 @@ public class Game extends Application{
                 	 stage.show();
                 	 s1.reset(1);
                 	 mid.reset();
+                	 puck.resetSize();
                 	 //s2.reset(2);
                  }
                  if (p1.getScore() == 7) {
@@ -158,12 +161,16 @@ public class Game extends Application{
                 	 stop();
                  } 
                  puck.collision(mid, pu);
+                 puck.collision(mid, puckPU);
                  time++;
                  System.out.println(time);
                  if (time == ran) {
                 	 time = 0;
                 	 if (pu.hidden() && mid.inMiddle()) {
                 		 pu.reset();
+                	 }
+                	 if (puckPU.hidden() && puck.width == 30) {
+                		 puckPU.reset(puck);
                 	 }
                  }
              }
