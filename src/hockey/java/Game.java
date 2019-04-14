@@ -13,19 +13,19 @@ public class Game extends Application{
 
     Pane playfield;
 
-    Player p1;
-    Player p2;
-    Striker s1;
-    Striker s2;
-    Puck puck;
+    public Player p1;
+    public Player p2;
+    public Striker s1;
+    public Striker s2;
+    public Puck puck;
     Goal goal1;
     Goal goal2;
     double friction;
     
     @Override
     public void start(Stage stage) {
-    	 p1 = new Player("p1");
-    	 p2 = new Player("p2");
+//    	 p1 = new Player("p1");
+//    	 p2 = new Player("p2");
     	 s1 = new Striker();
     	 s2 = new Striker();
     	 puck = new Puck();
