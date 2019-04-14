@@ -129,7 +129,6 @@ public class Game extends Application{
                 	 s1.reset(1);
                 	 mid.reset();
                 	 //s2.reset(2);
-                	 
                  }
                  if (goal2.goalDetection(2)) {
                 	 p2.score();
@@ -140,7 +139,7 @@ public class Game extends Application{
                 	 //s2.reset(2);
                  }
                  if (p1.getScore() == 7) {
-                	 Text text = new Text(p1.getUsername() + " wins!");
+                	 Text text = new Text("  " + p1.getUsername() + " wins!");
                  	 text.setFont(Font.font ("Verdana", 50));
                  	 text.setFill(Color.RED);
                  	 text.setY(350);
@@ -149,7 +148,7 @@ public class Game extends Application{
                 	 stop();
                  }
                  if (p2.getScore() == 7) {
-                	 Text text = new Text(p2.getUsername() + " wins!");
+                	 Text text = new Text("  " + p2.getUsername() + " wins!");
                 	 text.setFont(Font.font ("Verdana", 50));
                  	 text.setFill(Color.RED);
                  	 text.setY(350);
