@@ -121,25 +121,22 @@ public class Puck extends Pane{
 	}
 	
 	public void recalculate(Striker s) {
-		PVector temp = new PVector(s.getVelocity().x, s.getVelocity().y);
 		PVector sV = new PVector(s.getVelocity().x, s.getVelocity().y);
 		PVector pV = new PVector(velocity.x, velocity.y);
 		if (sV.x == 0 && sV.y == 0) {
 			pV.mult(-1);
 		}
 		else {
-			sV.mult(s.getMass() - mass);
-			pV.mult(2 * mass);
-			sV.add(pV);
-			sV.div(s.getMass() + mass);
-			s.setVelocity(sV);
-			sV = temp;
-			pV.set(velocity.x, velocity.y);
 			pV.mult(mass - s.getMass());
 			sV.mult(2 * s.getMass());
 			pV.add(sV);
 			pV.div(mass + s.getMass());
+//			sV = new PVector(s.getVelocity().x, s.getVelocity().y);
+//			sV.mult(-1);
+//			s.setVelocity(sV);
+//			s.step();
 		}
+		
 		velocity.copy(pV);
 		velocity.limit(30);
 	}

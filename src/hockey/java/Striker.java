@@ -30,7 +30,7 @@ public class Striker extends Pane {
 	public Striker(Player player) {
 		this.player = player;
 		
-		mass = 10;
+		mass = 100;
 		
 		location = new PVector(ran.nextDouble() * width, ran.nextDouble() * height);
         velocity = new PVector(0, 0);
@@ -146,6 +146,10 @@ public class Striker extends Pane {
     
     public void setVelocity(PVector pv) {
     	velocity.copy(pv);
+    }
+    
+    public void step() {
+    	location.sub(velocity);
     }
     
 }

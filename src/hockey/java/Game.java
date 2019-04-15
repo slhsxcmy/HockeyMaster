@@ -134,7 +134,7 @@ public class Game extends Application{
                  }
                  if (goal2.goalDetection(2)) {
                 	 p2.score();
-                	 p1s.setText(Integer.toString(p2.getScore()));
+                	 p2s.setText(Integer.toString(p2.getScore()));
                 	 stage.show();
                 	 s1.reset(1);
                 	 mid.reset();
@@ -163,17 +163,14 @@ public class Game extends Application{
                  puck.collision(puckPU);
                  time++;
                  if (time == ran) {
-                	 System.out.println("time = ran");
                 	 time = 0;
                 	 int choose = new Random().nextInt() % 2;
                 	 if (choose == 0) {
-                		 System.out.println("midline");
                 		 if (pu.hidden() && mid.inMiddle()) {
                     		 pu.reset();
                     	 }
                 	 }
                 	 else {
-                		 System.out.println("puck");
                 		 if (puckPU.hidden() && puck.width == 30) {
                     		 puckPU.reset(puck);
                     	 }
