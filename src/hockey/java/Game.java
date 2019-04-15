@@ -42,7 +42,7 @@ public class Game extends Application{
     	 //s2 = new Striker();
     	 puck = new Puck();
 
-    	 //goal1 = new Goal(1, puck, p1);
+    	 goal1 = new Goal(1, puck, p1);
     	 goal2 = new Goal(2, puck, p2);
     	 walls1 = new Walls(1);
     	 walls2 = new Walls(2);
@@ -79,13 +79,13 @@ public class Game extends Application{
          playfield.getChildren().add(center);
          playfield.getChildren().add(s1);
          playfield.getChildren().add(puck);
-         //playfield.getChildren().add(goal1);
+         playfield.getChildren().add(goal1);
          playfield.getChildren().add(goal2);
          playfield.getChildren().add(p1s);
          playfield.getChildren().add(p2s);
          //display static shapes
          center.display();
-         //goal1.display();
+         goal1.display();
          goal2.display();
          walls1.display();
          walls2.display();
@@ -123,7 +123,7 @@ public class Game extends Application{
                  s1.display();
                  //s2.display();
                  puck.display();
-                /* if (goal1.goalDetection(1)) {
+                 if (goal1.goalDetection(1)) {
                 	 p1.score();
                 	 p1s.setText(Integer.toString(p1.getScore()));
                 	 stage.show();
@@ -131,7 +131,7 @@ public class Game extends Application{
                 	 mid.reset();
                 	 puck.resetSize();
                 	 //s2.reset(2);
-                 }*/
+                 }
                  if (goal2.goalDetection(2)) {
                 	 p2.score();
                 	 p1s.setText(Integer.toString(p2.getScore()));
