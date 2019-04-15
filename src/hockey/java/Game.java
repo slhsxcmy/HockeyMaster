@@ -102,7 +102,7 @@ public class Game extends Application{
          AnimationTimer loop = new AnimationTimer() {
         	 int time = 0;
         	 Random r = new Random();
-        	 int ran = (int) (r.nextDouble() * 5000);
+        	 int ran = (int) (r.nextDouble() * 1000);
              @Override
              public void handle(long now) {
                  // move
@@ -163,12 +163,20 @@ public class Game extends Application{
                  puck.collision(mid, puckPU);
                  time++;
                  if (time == ran) {
+                	 System.out.println("time = ran");
                 	 time = 0;
-                	 if (pu.hidden() && mid.inMiddle()) {
-                		 pu.reset();
+                	 int choose = new Random().nextInt() % 2;
+                	 if (choose == 0) {
+                		 System.out.println("midline");
+                		 if (pu.hidden() && mid.inMiddle()) {
+                    		 pu.reset();
+                    	 }
                 	 }
-                	 if (puckPU.hidden() && puck.width == 30) {
-                		 puckPU.reset(puck);
+                	 else {
+                		 System.out.println("puck");
+                		 if (puckPU.hidden() && puck.width == 30) {
+                    		 puckPU.reset(puck);
+                    	 }
                 	 }
                  }
              }
