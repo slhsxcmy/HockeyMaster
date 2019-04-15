@@ -49,7 +49,7 @@ public class Game extends Application{
 
     	 mid = new Midline();
     	 center = new CenterCircle();
-    	 friction = .987;
+    	 friction = .982;
     	 
     	 Text p1s = new Text(Integer.toString(p1.getScore()));
      	 p1s.setFont(Font.font ("Verdana", 50));
@@ -66,7 +66,7 @@ public class Game extends Application{
     	 // create containers
     	 BorderPane root = new BorderPane();
          StackPane layerPane = new StackPane();
-         // playfield for our strikers
+         // playfield for our strikers 
          playfield = new Pane();
          layerPane.getChildren().addAll(playfield);
          root.setCenter(layerPane);

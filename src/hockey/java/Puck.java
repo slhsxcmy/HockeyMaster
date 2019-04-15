@@ -6,6 +6,7 @@ import javafx.scene.shape.Circle;
 
 public class Puck extends Pane{
 	private double mass;
+	boolean allowMove = true;
 	
 	private PVector location;
     private PVector velocity;
@@ -104,6 +105,7 @@ public class Puck extends Pane{
 		if (Math.sqrt((px - pux) * (px - pux) + (py - puy) * (py - puy)) <= radius + pur) {
 			pu.activate(this);
 		}
+
 	}
 	
 	public boolean collision(Striker s) {
@@ -113,6 +115,54 @@ public class Puck extends Pane{
 		double sy = s.getLocation().y;
 		double sr = s.getRadius();
 		if (Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
+			//if contact with the left
+			if(px < sx && py > (sy - sr) && py < (sy + sr)) {
+				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
+					s.setPosition(px+radius+sr, sy);
+					px = location.x;
+					py = location.y;
+					sx = s.getLocation().x;
+					sy = s.getLocation().y;
+					System.out.println("LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
+				}
+			}
+			//right
+			else if(px > sx && py > (sy - sr) && py < (sy + sr)) {
+				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
+					s.setPosition(px-radius-sr, sy);
+					px = location.x;
+					py = location.y;
+					sx = s.getLocation().x;
+					sy = s.getLocation().y;
+					System.out.println("RIIIIIGGGGGHHHHTTTT");
+				}
+			}
+			//bottom
+			else if(py > sy && px > (sx - sr) && px < (sx + sr)) {
+				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
+					s.setPosition(sx, py-radius-sr);
+					px = location.x;
+					py = location.y;
+					sx = s.getLocation().x;
+					sy = s.getLocation().y;
+					System.out.println("BOOOOTTTTTTOOOOOMMMMMM");
+				}
+			}
+			else if(py < sy && px > (sx - sr) && px < (sx + sr)) {
+				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
+					s.setPosition(sx, py+radius+sr);
+					px = location.x;
+					py = location.y;
+					sx = s.getLocation().x;
+					sy = s.getLocation().y;
+					System.out.println("TOPPPPPPPPPPPPP");
+				}
+			}
+			
+			location.x = px;
+			location.y = py;
+			s.getLocation().x = sx;
+			s.getLocation().y = sy;
 			recalculate(s);
 			lastHit = s;
 			return true;

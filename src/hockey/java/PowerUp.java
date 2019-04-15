@@ -20,6 +20,7 @@ public class PowerUp extends Pane{
 	
 	public PowerUp() {
 		location = new PVector(0, 0);
+
 		location.x = -100;
 		location.y = -100;
 		circle = new Circle(radius);
