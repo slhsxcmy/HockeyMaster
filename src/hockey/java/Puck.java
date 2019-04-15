@@ -60,23 +60,23 @@ public class Puck extends Pane{
 		{}
 		else {	*/
 	        if (location.x > Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT) {
-	        	location.x = Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT;
+	        	location.x = Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT - 1;
 	        	velocity.x *= -1;
 	        	onBoundary = true;
 	        } 
-	        else if (location.x <= 0+Settings.BOARDER_HEIGHT + radius) {
-	        	location.x = 0 + radius + Settings.BOARDER_HEIGHT;
+	        else if (location.x < Settings.BOARDER_HEIGHT + radius) {
+	        	location.x = radius + Settings.BOARDER_HEIGHT + 1;
 	        	velocity.x *= -1;
 	        	onBoundary = true;
 	        }
 	
 	        if (location.y > Settings.SCENE_HEIGHT - radius - Settings.BOARDER_HEIGHT) {
-	        	location.y = Settings.SCENE_HEIGHT - radius - Settings.BOARDER_HEIGHT;
+	        	location.y = Settings.SCENE_HEIGHT - radius - Settings.BOARDER_HEIGHT - 1;
 	            velocity.y *= -1;
 	            onBoundary = true;
 	        } 
-	        else if (location.y <= 0 + radius + Settings.BOARDER_HEIGHT) {
-	        	location.y = 0 + radius + Settings.BOARDER_HEIGHT;
+	        else if (location.y < radius + Settings.BOARDER_HEIGHT) {
+	        	location.y = radius + Settings.BOARDER_HEIGHT + 1;
 	        	velocity.y *= -1;
 	        	onBoundary = true;
 	        }
