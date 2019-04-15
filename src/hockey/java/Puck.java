@@ -7,8 +7,9 @@ import javafx.scene.shape.Circle;
 public class Puck extends Pane{
 	private double mass;
 	
-	private PVector location;
-    private PVector velocity;
+	public int connID;
+	public PVector location;
+    public PVector velocity;
 
     double width = 30;
     double height = width;

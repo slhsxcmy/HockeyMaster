@@ -17,7 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class LoginController implements Initializable{
-	private Model model = new Model();
+	private SQLModel model = new SQLModel();
 	
 	@FXML
 	private Label appTitle;

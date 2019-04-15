@@ -8,10 +8,12 @@ import javafx.scene.shape.Circle;
 
 public class Striker extends Pane {
 	
+	public int connID;
+	
 	private double mass;
 
-    private PVector location;
-    private PVector velocity;
+    public PVector location;
+    public PVector velocity;
     
     private Random ran = new Random();
 

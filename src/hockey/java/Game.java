@@ -1,5 +1,10 @@
 package hockey.java;
 
+import java.io.IOException;
+
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryonet.EndPoint;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -9,10 +14,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+
 public class Game extends Application{
-
-    Pane playfield;
-
+	
+	public static Master server;
+	public static ClientThread client;	
+    public static Game game;
+	
+	Pane playfield;
     public Player p1;
     public Player p2;
     public Striker s1;
@@ -24,8 +33,9 @@ public class Game extends Application{
     
     @Override
     public void start(Stage stage) {
-//    	 p1 = new Player("p1");
-//    	 p2 = new Player("p2");
+    	 game = this;
+    	 p1 = new Player("p1");
+    	 p2 = new Player("p2");
     	 s1 = new Striker();
     	 s2 = new Striker();
     	 puck = new Puck();
@@ -34,6 +44,7 @@ public class Game extends Application{
     	 goal2 = new Goal("2", puck);
     	 friction = .99;
 
+    	 
     	 // create containers
     	 BorderPane root = new BorderPane();
          StackPane layerPane = new StackPane();
@@ -80,9 +91,25 @@ public class Game extends Application{
          };
          loop.start();
     }
+    
+    public static Game getGame() {
+        return game;
+    }
+    public static void register(EndPoint endPoint) {
+    	Kryo kryo = endPoint.getKryo();
+    	kryo.register(Puck.class);
+    	kryo.register(Striker.class);
+    	kryo.register(Player.class);
+    	kryo.register(Packet.class);
+    }
 
-    public static void main(String[] args) {
-    	launch(args);
+    public static void main(String[] args) {  	
+    	if (args.length > 0) {
+    		server = new Master();            
+            game = new Game();
+        } else {
+            launch(args);
+        }
     }
     
 }
