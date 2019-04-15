@@ -95,7 +95,7 @@ public class Puck extends Pane{
 		}
 	}
 	
-	public void collision(Midline m, PowerUpPuckSize pu) {
+	public void collision(PowerUpPuckSize pu) {
 		double px = location.x;
 		double py = location.y;
 		double pux = pu.getLocation().x;
@@ -106,7 +106,7 @@ public class Puck extends Pane{
 		}
 	}
 	
-	public void collision(Striker s) {
+	public boolean collision(Striker s) {
 		double px = location.x;
 		double py = location.y;
 		double sx = s.getLocation().x;
@@ -115,16 +115,26 @@ public class Puck extends Pane{
 		if (Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
 			recalculate(s);
 			lastHit = s;
+			return true;
 		}
+		return false;
 	}
 	
 	public void recalculate(Striker s) {
+		PVector temp = new PVector(s.getVelocity().x, s.getVelocity().y);
 		PVector sV = new PVector(s.getVelocity().x, s.getVelocity().y);
 		PVector pV = new PVector(velocity.x, velocity.y);
 		if (sV.x == 0 && sV.y == 0) {
 			pV.mult(-1);
 		}
 		else {
+			sV.mult(s.getMass() - mass);
+			pV.mult(2 * mass);
+			sV.add(pV);
+			sV.div(s.getMass() + mass);
+			s.setVelocity(sV);
+			sV = temp;
+			pV.set(velocity.x, velocity.y);
 			pV.mult(mass - s.getMass());
 			sV.mult(2 * s.getMass());
 			pV.add(sV);

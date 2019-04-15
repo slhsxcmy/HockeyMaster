@@ -160,7 +160,7 @@ public class Game extends Application{
                 	 stop();
                  } 
                  puck.collision(mid, pu);
-                 puck.collision(mid, puckPU);
+                 puck.collision(puckPU);
                  time++;
                  if (time == ran) {
                 	 System.out.println("time = ran");

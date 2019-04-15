@@ -143,4 +143,9 @@ public class Striker extends Pane {
     	velocity.x = 0;
     	velocity.y = 0;
     }
+    
+    public void setVelocity(PVector pv) {
+    	velocity.copy(pv);
+    }
+    
 }
