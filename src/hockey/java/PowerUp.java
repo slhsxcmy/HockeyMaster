@@ -19,14 +19,14 @@ public class PowerUp extends Pane{
     Circle circle;
 	
 	public PowerUp() {
-		Random r = new Random();
 		location = new PVector(0, 0);
-		location.x = r.nextDouble() * (Settings.SCENE_WIDTH - (2 * Settings.BOARDER_HEIGHT)) + Settings.BOARDER_HEIGHT;
-		location.y = r.nextDouble() * (Settings.SCENE_HEIGHT - (2 * Settings.BOARDER_HEIGHT)) + Settings.BOARDER_HEIGHT;
+
+		location.x = -100;
+		location.y = -100;
 		circle = new Circle(radius);
         circle.setCenterX(radius);
         circle.setCenterY(radius);
-        hidden = false;
+        hidden = true;
 
         circle.setStroke(Color.GREEN);
         circle.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.3));

@@ -102,13 +102,13 @@ public class Game extends Application{
          AnimationTimer loop = new AnimationTimer() {
         	 int time = 0;
         	 Random r = new Random();
-        	 int ran = (int) (r.nextDouble() * 5000);
+        	 int ran = (int) (r.nextDouble() * 1000);
              @Override
              public void handle(long now) {
                  // move
             	 pu.display();
             	 puckPU.display();
-                 s1.step(p1.getMouse());
+                 s1.step(p1.getMouse(), mid);
                  //s2.step(p1.getMouse());
                  s1.checkBoundaries();
                  
@@ -131,11 +131,10 @@ public class Game extends Application{
                 	 mid.reset();
                 	 puck.resetSize();
                 	 //s2.reset(2);
-                	 
                  }
                  if (goal2.goalDetection(2)) {
                 	 p2.score();
-                	 p1s.setText(Integer.toString(p2.getScore()));
+                	 p2s.setText(Integer.toString(p2.getScore()));
                 	 stage.show();
                 	 s1.reset(1);
                 	 mid.reset();
@@ -143,7 +142,7 @@ public class Game extends Application{
                 	 //s2.reset(2);
                  }
                  if (p1.getScore() == 7) {
-                	 Text text = new Text(p1.getUsername() + " wins!");
+                	 Text text = new Text("  " + p1.getUsername() + " wins!");
                  	 text.setFont(Font.font ("Verdana", 50));
                  	 text.setFill(Color.RED);
                  	 text.setY(350);
@@ -152,7 +151,7 @@ public class Game extends Application{
                 	 stop();
                  }
                  if (p2.getScore() == 7) {
-                	 Text text = new Text(p2.getUsername() + " wins!");
+                	 Text text = new Text("  " + p2.getUsername() + " wins!");
                 	 text.setFont(Font.font ("Verdana", 50));
                  	 text.setFill(Color.RED);
                  	 text.setY(350);
@@ -161,16 +160,20 @@ public class Game extends Application{
                 	 stop();
                  } 
                  puck.collision(mid, pu);
-                 puck.collision(mid, puckPU);
+                 puck.collision(puckPU);
                  time++;
-                 System.out.println(time);
                  if (time == ran) {
                 	 time = 0;
-                	 if (pu.hidden() && mid.inMiddle()) {
-                		 pu.reset();
+                	 int choose = new Random().nextInt() % 2;
+                	 if (choose == 0) {
+                		 if (pu.hidden() && mid.inMiddle()) {
+                    		 pu.reset();
+                    	 }
                 	 }
-                	 if (puckPU.hidden() && puck.width == 30) {
-                		 puckPU.reset(puck);
+                	 else {
+                		 if (puckPU.hidden() && puck.width == 30) {
+                    		 puckPU.reset(puck);
+                    	 }
                 	 }
                  }
              }

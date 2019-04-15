@@ -48,7 +48,7 @@ public class Puck extends Pane{
 	
 	public boolean checkBoundaries() {
 		boolean onBoundary = false;
-		//todo
+		/*//todo
 		//if puck is in the goal, keep it moving
 		//Alot of constants here.. be careful of changing goal size
 		if((location.x-radius > 145-5) && 
@@ -59,29 +59,29 @@ public class Puck extends Pane{
 				(location.x+radius < (145+110)+5) && 
 				(location.y+radius > (Settings.SCENE_HEIGHT-Settings.BOARDER_HEIGHT)))
 		{}
-		else {	
+		else {	*/
 	        if (location.x > Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT) {
-	        	location.x = Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT;
+	        	location.x = Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT - 1;
 	        	velocity.x *= -1;
 	        	onBoundary = true;
 	        } 
-	        else if (location.x <= 0+Settings.BOARDER_HEIGHT + radius) {
-	        	location.x = 0 + radius + Settings.BOARDER_HEIGHT;
+	        else if (location.x < Settings.BOARDER_HEIGHT + radius) {
+	        	location.x = radius + Settings.BOARDER_HEIGHT + 1;
 	        	velocity.x *= -1;
 	        	onBoundary = true;
 	        }
 	
 	        if (location.y > Settings.SCENE_HEIGHT - radius - Settings.BOARDER_HEIGHT) {
-	        	location.y = Settings.SCENE_HEIGHT - radius - Settings.BOARDER_HEIGHT;
+	        	location.y = Settings.SCENE_HEIGHT - radius - Settings.BOARDER_HEIGHT - 1;
 	            velocity.y *= -1;
 	            onBoundary = true;
 	        } 
-	        else if (location.y <= 0 + radius + Settings.BOARDER_HEIGHT) {
-	        	location.y = 0 + radius + Settings.BOARDER_HEIGHT;
+	        else if (location.y < radius + Settings.BOARDER_HEIGHT) {
+	        	location.y = radius + Settings.BOARDER_HEIGHT + 1;
 	        	velocity.y *= -1;
 	        	onBoundary = true;
 	        }
-		}
+		//}
 		return onBoundary;
     }
 	
@@ -96,7 +96,7 @@ public class Puck extends Pane{
 		}
 	}
 	
-	public void collision(Midline m, PowerUpPuckSize pu) {
+	public void collision(PowerUpPuckSize pu) {
 		double px = location.x;
 		double py = location.y;
 		double pux = pu.getLocation().x;
@@ -108,7 +108,7 @@ public class Puck extends Pane{
 
 	}
 	
-	public void collision(Striker s) {
+	public boolean collision(Striker s) {
 		double px = location.x;
 		double py = location.y;
 		double sx = s.getLocation().x;
@@ -165,7 +165,9 @@ public class Puck extends Pane{
 			s.getLocation().y = sy;
 			recalculate(s);
 			lastHit = s;
+			return true;
 		}
+		return false;
 	}
 	
 	public void recalculate(Striker s) {
@@ -179,7 +181,12 @@ public class Puck extends Pane{
 			sV.mult(2 * s.getMass());
 			pV.add(sV);
 			pV.div(mass + s.getMass());
+//			sV = new PVector(s.getVelocity().x, s.getVelocity().y);
+//			sV.mult(-1);
+//			s.setVelocity(sV);
+//			s.step();
 		}
+		
 		velocity.copy(pV);
 		velocity.limit(30);
 	}

@@ -43,4 +43,8 @@ public class Midline extends Pane {
 		return location.y == startingY;
 	}
 	
+	public double getLocation() {
+		return location.y;
+	}
+	
 }
