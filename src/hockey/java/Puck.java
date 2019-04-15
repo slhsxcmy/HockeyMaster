@@ -118,7 +118,7 @@ public class Puck extends Pane{
 			//if contact with the left
 			if(px < sx && py > (sy - .5 * sr) && py < (sy + .5 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(px+radius+sr, sy);
+					s.setPosition(px + radius + sr, sy);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
@@ -129,7 +129,7 @@ public class Puck extends Pane{
 			//top left
 			if(px < sx && py > (sy - sr) && py < (sy - .5 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(px+radius+sr, sy);
+					s.setPosition(px + radius + sr, sy);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
@@ -140,7 +140,7 @@ public class Puck extends Pane{
 			//top
 			else if(py < sy && px > (sx - .5 * sr) && px < (sx + .5 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py+radius+sr);
+					s.setPosition(sx, py + radius + sr);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
@@ -151,7 +151,7 @@ public class Puck extends Pane{
 			//top right
 			if(px > sx && py > (sy - sr) && py < (sy - .5 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(px+radius+sr, sy);
+					s.setPosition(px + radius + sr, sy);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
@@ -162,7 +162,7 @@ public class Puck extends Pane{
 			//right
 			else if(px > sx && py > (sy - .5 * sr) && py < (sy + .5 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(px-radius-sr, sy);
+					s.setPosition(px - radius - sr, sy);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
@@ -173,7 +173,7 @@ public class Puck extends Pane{
 			//bottom right
 			else if(py > sy && px > (sx + .5 * sr) && px < (sx + sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py-radius-sr);
+					s.setPosition(sx, py - radius - sr);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
@@ -184,7 +184,7 @@ public class Puck extends Pane{
 			//bottom
 			else if(py > sy && px > (sx - .5 * sr) && px < (sx + .5 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py-radius-sr);
+					s.setPosition(sx, py - radius - sr);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
@@ -195,7 +195,7 @@ public class Puck extends Pane{
 			//bottom left
 			else if(py > sy && px > (sx - sr) && px < (sx - .5 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py-radius-sr);
+					s.setPosition(sx, py - radius - sr);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
@@ -203,7 +203,6 @@ public class Puck extends Pane{
 					System.out.println("BOOOOTTTTTTOOOOOMMMMMM LLLLEEEEEEEFFFFFFFTTTTT");
 				}
 			}
-			
 			location.x = px;
 			location.y = py;
 			s.getLocation().x = sx;
