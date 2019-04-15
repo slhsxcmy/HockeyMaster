@@ -47,7 +47,7 @@ public class Puck extends Pane{
 	
 	public boolean checkBoundaries() {
 		boolean onBoundary = false;
-		//todo
+		/*//todo
 		//if puck is in the goal, keep it moving
 		//Alot of constants here.. be careful of changing goal size
 		if((location.x-radius > 145-5) && 
@@ -58,7 +58,7 @@ public class Puck extends Pane{
 				(location.x+radius < (145+110)+5) && 
 				(location.y+radius > (Settings.SCENE_HEIGHT-Settings.BOARDER_HEIGHT)))
 		{}
-		else {	
+		else {	*/
 	        if (location.x > Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT) {
 	        	location.x = Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT;
 	        	velocity.x *= -1;
@@ -80,7 +80,7 @@ public class Puck extends Pane{
 	        	velocity.y *= -1;
 	        	onBoundary = true;
 	        }
-		}
+		//}
 		return onBoundary;
     }
 	
