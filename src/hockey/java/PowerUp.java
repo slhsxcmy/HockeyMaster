@@ -21,8 +21,8 @@ public class PowerUp extends Pane{
 	public PowerUp() {
 		Random r = new Random();
 		location = new PVector(0, 0);
-		location.x = r.nextDouble() * (Settings.SCENE_WIDTH - 2 * Settings.BOARDER_HEIGHT) + Settings.BOARDER_HEIGHT*3;
-		location.y = r.nextDouble() * (Settings.SCENE_HEIGHT - 2 * Settings.BOARDER_HEIGHT) + Settings.BOARDER_HEIGHT*3;
+		location.x = r.nextDouble() * (Settings.SCENE_WIDTH - (2 * Settings.BOARDER_HEIGHT)) + Settings.BOARDER_HEIGHT;
+		location.y = r.nextDouble() * (Settings.SCENE_HEIGHT - (2 * Settings.BOARDER_HEIGHT)) + Settings.BOARDER_HEIGHT;
 		circle = new Circle(radius);
         circle.setCenterX(radius);
         circle.setCenterY(radius);
@@ -68,8 +68,8 @@ public class PowerUp extends Pane{
 	
 	public void reset() {
 		Random r = new Random();
-		move(r.nextDouble() * (Settings.SCENE_WIDTH - (2 * Settings.BOARDER_HEIGHT)) + Settings.BOARDER_HEIGHT*3, 
-				r.nextDouble() * (Settings.SCENE_HEIGHT - (2 * Settings.BOARDER_HEIGHT)) + Settings.BOARDER_HEIGHT*3);
+		move(r.nextDouble() * (Settings.SCENE_WIDTH - (2 * Settings.BOARDER_HEIGHT)) + Settings.BOARDER_HEIGHT, 
+				r.nextDouble() * (Settings.SCENE_HEIGHT - (2 * Settings.BOARDER_HEIGHT)) + Settings.BOARDER_HEIGHT);
 		hidden = false;
 	}
 	
