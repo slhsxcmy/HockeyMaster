@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 public class Game extends Application{
 
     Pane playfield;
-
+ 
     Player p1;
     Player p2;
     Striker s1;
