@@ -10,7 +10,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="mysql-connector-java-8.0.15.jar"/>
+
 	<classpathentry kind="lib" path="kryonet-2.21-all.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

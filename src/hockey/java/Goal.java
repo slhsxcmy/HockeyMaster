@@ -11,17 +11,21 @@ public class Goal extends Pane {
 	private Puck currPuck;
 	private boolean goalDetected;
 	private String name;
+	private Player player;
 	
 	double width = 110;
-	double height = 12;
+	double height = Settings.BOARDER_HEIGHT;
+	double xstart = 145;
+	double bottomYstart = Settings.SCENE_HEIGHT - Settings.BOARDER_HEIGHT;
 	
 	Rectangle goal;
 	
-	Goal(String name, Puck puck){
+	Goal(int num, Puck puck, Player p){
 		currPuck = puck;
+		this.player = p;
 		puckLocation = puck.getLocation();
-		if(name.equals("1")) {
-			location = new PVector(145, 0);
+		if(num == 1) {
+			location = new PVector(xstart, 0);
 			goal = new Rectangle();
 			goal.setWidth(width);
 			goal.setHeight(height);
@@ -29,7 +33,7 @@ public class Goal extends Pane {
 	        goal.setFill(Color.RED);
 		}
 		else {
-			location = new PVector(145, 689);
+			location = new PVector(xstart, bottomYstart);
 			goal = new Rectangle();
 			goal.setWidth(width);
 			goal.setHeight(height);
@@ -40,28 +44,36 @@ public class Goal extends Pane {
 		getChildren().add(goal);
 	}
 	
-	void goalDetection(String name){
-		if(name.equals("1")) {
+	boolean goalDetection(int num){
+		if(num == 1) {
 			if((puckLocation.x+(currPuck.width/2) > location.x) && 
 					puckLocation.x-(currPuck.width/2) < location.x+width && 
 					puckLocation.y < location.y+(height/2))
 			{
-				System.out.println("GOAL1");
+				currPuck.move(200, 250);
+				return true;
+				//System.out.println("GOAL1");
 			}
 		}
 		else {
 			if((puckLocation.x+(currPuck.width/2) > location.x) && 
 					puckLocation.x-(currPuck.width/2) < location.x+width && 
-					puckLocation.y > location.y+(height/2))
+					puckLocation.y > location.y-(height/2))
 			{
-				System.out.println("GOAL2");
+				currPuck.move(200, 450);
+				return true;
+				//System.out.println("GOAL2");
 			}
 		}
+		return false;
+	}
+	
+	public PVector getGoalLoc() {
+		return location;
 	}
 	
 	public void display() {
         relocate(location.x, location.y);
     }
-	
 
 }

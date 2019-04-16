@@ -8,10 +8,11 @@ public class Player {
 	private String username;
 	private PVector mouse;
 	private int score;
+	private int playerID;
 	
-	
-	public Player(String username) {
+	public Player(String username, int id) {
 		this.username = username;
+		playerID = id;
 		mouse = new PVector(0, 0);
 		score = 0;
 	}
@@ -30,6 +31,10 @@ public class Player {
 	
 	public int getScore() {
 		return score;
+	}
+	
+	public int getPlayerID() {
+		return playerID;
 	}
 
 }
