@@ -1,14 +1,19 @@
 package hockey.java;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
+// ClientProgram
 public class Hockey extends Application {
 	
+	static Network network = new Network();
+	//static Player otherPlayer = new Player("name");
 	
 	@Override
 	public void start(Stage stage) {
@@ -16,30 +21,12 @@ public class Hockey extends Application {
 
 			// FXML
 			Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
-
-			/*
-			Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
 			
-			int screenWidth = (int) Math.round(bounds.getWidth());
-			int screenHeight = (int) Math.round(bounds.getHeight());
-			int gameWidth = screenHeight / 2;
-			int gameHeight = screenHeight;
-			
-			primaryStage.setWidth(screenWidth);
-			primaryStage.setHeight(screenHeight);
-			*/
 			Scene scene = new Scene(root);
-			// CSS
-			//scene.getStylesheets().add(getClass().getResource("/hockey/css/Menu.css").toExternalForm());
 						
 			stage.setScene(scene);
 			
-			//primaryStage.setFullScreen(true);
-			//primaryStage.setMaximized(true);
-
-//			System.out.println(scene.getWidth());
-//			System.out.println(scene.getHeight());
-			stage.show();
+					stage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -7,7 +7,7 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-public class ClientThread extends Listener{
+public class Network extends Listener{
 
 	private Connection c = null;
 
@@ -34,7 +34,7 @@ public class ClientThread extends Listener{
 		} 
 
 		// add listener for connected/received/disconnected methods
-		client.addListener(new ClientThread());
+		client.addListener(new Network());
 		System.out.println("Client waiting for a packet...\n");		
 		
 		while(true) {
