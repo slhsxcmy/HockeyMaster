@@ -49,7 +49,7 @@ public class Game extends Application{
 
     	 mid = new Midline();
     	 center = new CenterCircle();
-    	 friction = .982;
+    	 friction = .987;
     	 
     	 Text p1s = new Text(Integer.toString(p1.getScore()));
      	 p1s.setFont(Font.font ("Verdana", 50));
