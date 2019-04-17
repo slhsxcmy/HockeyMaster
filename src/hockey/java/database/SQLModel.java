@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import hockey.java.packet.PacketReturn;
+
 public class SQLModel {
 	private boolean singlePlayerDebug = true;
 	
@@ -33,13 +35,16 @@ public class SQLModel {
 		}
 	}
 	
-	public boolean checkSignUp(String username, String pw, String cpw) {
-		if(singlePlayerDebug) return true;
+	public PacketReturn checkSignUp(String username, String pw, String cpw) {
+		PacketReturn p = new PacketReturn();
+		boolean check = true;
+		
+		//if(singlePlayerDebug) return true;
 		if(username == null || pw == null || cpw == null) { //they shouldn't be empty
-			return false;
+			check = false;
 		}
 		else if(!pw.equals(cpw)){ //password and confirm password should be the same
-			return false;
+			check = false;
 		}
 		else {
 			try {
@@ -48,7 +53,7 @@ public class SQLModel {
 				rs = ps.executeQuery();	
 				while(rs.next()) {
 					if(rs.getString(1)!=null) { //username already taken
-			            return false; 
+			            check = false; 
 					}
 				}
 				//no error, update new player in database
@@ -56,11 +61,15 @@ public class SQLModel {
 				ps.setString(1, username);
 				ps.setString(2, pw);
 				ps.executeUpdate();
-				return true;
+				
+				p.username = username;
+				p.id = rs.getInt(1);
+				
+				check = true;
 			}
 			catch(SQLException sqle) {
 				System.out.println("sqle: " + sqle.getMessage());
-				return false;
+				check = false;
 			} finally {
 				try {
 					if(rs != null) {rs.close();}
@@ -70,11 +79,22 @@ public class SQLModel {
 				}		
 			} 
 		}
+		
+		if(check) {
+			p.status = 1;			
+		}else {
+			p.status = 2;
+		}
+		
+		return p;
 	}
 	
-	public boolean checkLogin(String username, String pw) {
+	public PacketReturn checkLogin(String username, String pw) {
+		PacketReturn p = new PacketReturn();		
+		boolean check = true;
+		
 		if(username == null || pw == null) { //they shouldn't be empty
-			return false;
+			check = false;
 		}
 		else {
 			try {
@@ -82,20 +102,31 @@ public class SQLModel {
 				ps.setString(1, username);
 				rs = ps.executeQuery();
 				if(!rs.next()) {
-		            return false; //user does not exist
+		            check = false; //user does not exist
 				}
 				else {
-					String dbpw = rs.getString(3);				
+					p.username = username;
+					p.id = rs.getInt(1);
+					
+					String dbpw = rs.getString(3);						
 					if(!dbpw.equals(pw)) { //once found this name exists, look at pw in database
-			            return false; //password does not match with database			
+			            check = false; //password does not match with database			
 					}
 				}
-				return true;
+				check = true;				
 			} catch (SQLException e) {
 				System.out.println("sqle: " + e.getMessage());
-				return false;
-			}
-				
+				check = false;
+			}		
 		}
+		//if user exist, id, username, status all not null
+		//if user doesnt exist, only status not null
+		
+		if(check) {
+			p.status = 1;			
+		}else {
+			p.status = 2;
+		}
+		return p;
 	}
 }

@@ -46,13 +46,13 @@ public class LoginController implements Initializable{
 	public void login(ActionEvent event) throws IOException{
 		System.out.println(username.getText() + " " + password.getText());
 		
-		//sending signup packet
+		//sending login packet
 		PacketAttempt p = new PacketAttempt();
-		p.attempt = 1;
+		p.attempt = 2;
 		p.username = username.getText();
-		p.password = password.getText();
-		
+		p.password = password.getText();		
 		Hockey.getNetwork().getConnection().sendTCP(p);
+		//sent
 		
 		
 //		if(!model.checkLogin(username.getText(), password.getText())) {

@@ -11,6 +11,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
+import hockey.java.database.SQLModel;
 import hockey.java.front.PVector;
 import hockey.java.front.Player;
 import hockey.java.front.Puck;
@@ -28,7 +29,7 @@ public class Master extends Listener { // SERVER
 	public static Map<Integer, User> users = Collections.synchronizedMap(new HashMap<>()); 
 	public static boolean p1Ready = false;
 	public static boolean p2Ready = false;
-	
+	private SQLModel model = new SQLModel();
 	
 	public static void registerClasses(Kryo k) {
 
@@ -98,6 +99,10 @@ public class Master extends Listener { // SERVER
 	// runs when packet received
 	public void received(Connection c, Object o) {
 		if (o instanceof PacketAttempt){
+			
+			String username = ((PacketAttempt) o).username;
+			String pw = ((PacketAttempt) o).password;
+			String confirm = ((PacketAttempt) o).confirm;
 			switch(((PacketAttempt) o).attempt) {
 			/*
 			  1 = signup
@@ -107,13 +112,12 @@ public class Master extends Listener { // SERVER
 			  5 = play logged
 			  6 = play guest
 			*/
-			case 1: 
-				String username = ((PacketAttempt) o).username;
-				if(checkSignUp()) {
-					PacketReturn p = new PacketReturn();
-				}
+			case 1:
+				c.sendTCP(model.checkSignUp(username, pw, confirm));
 				break;
-			case 2: break;
+			case 2:
+				c.sendTCP(model.checkLogin(username, pw));
+				break;
 			case 3: break;
 			case 4: break;
 			case 5: break;

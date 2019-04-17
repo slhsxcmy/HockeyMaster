@@ -19,7 +19,7 @@ import hockey.java.front.User;
 public class Hockey extends Application {
  
 	 private static Network network = new Network();
-	 private static User self = null; // instantiate when playAsGuest or Register or Login
+	 private static User self = null; // instantiate when playAsGuest or Signup or Login
 	 
 	 @Override
 	 public void start(Stage stage) {
