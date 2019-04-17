@@ -1,4 +1,4 @@
-package hockey.java;
+package hockey.java.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

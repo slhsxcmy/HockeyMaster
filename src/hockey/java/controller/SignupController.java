@@ -1,10 +1,11 @@
-package hockey.java;
+package hockey.java.controller;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import hockey.java.database.SQLModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +20,7 @@ import javafx.stage.Stage;
 
 public class SignupController implements Initializable{
 	
-	private Model model = new Model();
+	private SQLModel model = new SQLModel();
 	
 	@FXML
 	private Label appTitle;
@@ -28,7 +29,7 @@ public class SignupController implements Initializable{
 	private Label pageTitle;
 	
 	@FXML
-	private Label errorMessage;
+	private static Label message;
 	
 	@FXML
 	private TextField username;
@@ -47,9 +48,11 @@ public class SignupController implements Initializable{
 	
 	@FXML
 	public void signup(ActionEvent event) throws IOException{
+		
+		
 		System.out.println(username.getText() + " " + password.getText() + " " + passwordc.getText());
 		if(!model.checkSignUp(username.getText(), password.getText(), passwordc.getText())) {
-			errorMessage.setText("Sign up failed. Please try again.");
+			message.setText("Sign up failed. Please try again.");
 		}
 		else {				
 				Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Logged.fxml"));
@@ -66,9 +69,9 @@ public class SignupController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		if(model.isDbConnected()) {
-			errorMessage.setText("Connected");
+			message.setText("Connected");
 		} else {
-			errorMessage.setText("Not Connected");
+			message.setText("Not Connected");
 		}
 		
 	}
@@ -85,6 +88,11 @@ public class SignupController implements Initializable{
 		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 		window.setScene(scene);
 		window.show();	
+	}
+
+	public static void setMessage(String string) {
+		message.setText(string);
+		
 	}
 	
 }

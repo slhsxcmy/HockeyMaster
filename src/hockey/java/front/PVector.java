@@ -1,4 +1,4 @@
-package hockey.java;
+package hockey.java.front;
 
 public class PVector {
 
@@ -68,7 +68,6 @@ public class PVector {
 
 
     public void set(double x, double y) {
-
         this.x = x;
         this.y = y;
     }
