@@ -27,7 +27,7 @@ public class LoginController implements Initializable{
 	private Label pageTitle;
 	
 	@FXML
-	private Label errorMessage;
+	private static Label errorMessage;
 	
 	@FXML
 	private TextField username;
@@ -78,6 +78,11 @@ public class LoginController implements Initializable{
 		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 		window.setScene(scene);
 		window.show();	
+	}
+
+	public static void setErrorMessage(String string) {
+		errorMessage.setText("Username doesn't match with password. Please try again.");
+		
 	}
 	
 }

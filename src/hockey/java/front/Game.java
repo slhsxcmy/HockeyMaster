@@ -1,4 +1,4 @@
-package hockey.java.front;
+/*package hockey.java.front;
 
 import java.io.IOException;
 
@@ -216,3 +216,4 @@ public class Game extends Application{
     }
     
 }
+*/

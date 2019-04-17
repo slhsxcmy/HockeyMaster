@@ -67,30 +67,6 @@ public class Master extends Listener { // SERVER
 	// runs when connection 
 	public void connected(Connection c) {
 		System.out.println("Received connection from " + c.getRemoteAddressTCP().getHostString());
-		// create message packet
-		//Striker s = new Striker(); //create a striker for each player		
-//		Packet packet = new Packet();
-//		packet.message = "Connection from" + c.getRemoteAddressTCP();
-		
-		// send message
-		//c.sendTCP(packet);
-		System.out.println("Connection received");
-		
-		if(!p1Connected) { 
-			p1Connected = true;
-			//strikers.put(c.getID(), s);
-		}
-		else if (!p2Connected) {
-			p2Connected = true;
-			
-			//TODO Start game here
-		}
-		else { //p1 and p2 already connected, the rest connections will wait
-			System.out.print("Sorry. The game has started. Please wait for the next game.");
-			return;
-		}
-		
-
 		
 	}
 
@@ -116,11 +92,7 @@ public class Master extends Listener { // SERVER
 	
 	public void disconnected(Connection c) {
 		System.out.println("Lost connection from " + c.getRemoteAddressTCP().getHostString());
-		try {
-			Game.game.stop();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 	}
 
 }

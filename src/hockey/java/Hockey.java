@@ -39,14 +39,8 @@ public class Hockey extends Application {
 	}
 	
 	public static void main(String[] args) {
-<<<<<<< HEAD:src/hockey/java/HockeyServer.java
-		//ChatClient cc = new ChatClient("localhost", 6789);
-		String ngrok_url = "https://d69be386.ngrok.io";
-=======
 		launch(args);
->>>>>>> caesar:src/hockey/java/Hockey.java
 	}
-
 	public static Network getNetwork() {
 		return network;
 	}
@@ -66,4 +60,3 @@ public class Hockey extends Application {
 	
 	
 }
-

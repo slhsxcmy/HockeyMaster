@@ -71,7 +71,7 @@ public class Network extends Listener{
 				break;
 			case 3: break;
 			case 4: 
-				//LoginController.setErrorMessage("xxx");
+				LoginController.setErrorMessage("xxx");
 				break;
 				
 			case 5: break;
