@@ -19,8 +19,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class LoginController implements Initializable{
-	private SQLModel model = new SQLModel();
+public class LoginController{
+	//private SQLModel model = new SQLModel();
 	
 	@FXML
 	private Label appTitle;
@@ -51,7 +51,7 @@ public class LoginController implements Initializable{
 		p.attempt = 2;
 		p.username = username.getText();
 		p.password = password.getText();		
-		Hockey.getNetwork().getConnection().sendTCP(p);
+		Hockey.getNetwork().getClient().sendTCP(p);
 		//sent
 		
 		
@@ -69,15 +69,6 @@ public class LoginController implements Initializable{
 //		}
 	}
 	
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		if(model.isDbConnected()) {
-			message.setText("Connected");
-		} else {
-			message.setText("Not Connected");
-		}
-		
-	}
 	
 	@FXML
 	public void goBack(ActionEvent event) throws IOException {

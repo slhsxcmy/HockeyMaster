@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import hockey.java.packet.PacketReturn;
 
 public class SQLModel {
-	private boolean singlePlayerDebug = true;
+	//private boolean singlePlayerDebug = true;
 	
 	Connection connection = null;
 	PreparedStatement ps = null;
@@ -16,17 +16,19 @@ public class SQLModel {
 	String query = "";
 	
 	public SQLModel() {
-		if(singlePlayerDebug) return;
+		//if(singlePlayerDebug) return;
 		connection = SQLConnection.Connector();
 		if(connection == null) {
 			System.out.println("connection failed");
 			System.exit(1);
+		} else {
+			System.out.println("Server connected to DB!");
 		}
 		
 	}
 	
 	public boolean isDbConnected() {
-		if(singlePlayerDebug) return true;
+		//if(singlePlayerDebug) return true;
 		try{
 			return !(connection.isClosed());		
 		}catch (SQLException e) {

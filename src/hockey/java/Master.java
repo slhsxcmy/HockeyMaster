@@ -26,12 +26,12 @@ import hockey.java.packet.PacketStriker;
 public class Master extends Listener { // SERVER
 
 	static Server server;
-	public static final String ngrok_url = "https://d69be386.ngrok.io";
+	public static final String ngrok_url = "localhost";//"https://d69be386.ngrok.io";
 	public static final int tcpPort = 27960;
 	public static Map<Integer, User> users = Collections.synchronizedMap(new HashMap<>()); 
 	public static boolean p1Ready = false;
 	public static boolean p2Ready = false;
-	private SQLModel model = new SQLModel();
+	static SQLModel model = new SQLModel();
 	
 	public static void registerClasses(Kryo k) {
 
@@ -57,7 +57,8 @@ public class Master extends Listener { // SERVER
 			// bind to ports
 			server.bind(tcpPort);
 		} catch (IOException e) {
-			System.out.println("Failed to bind to port " + tcpPort);
+			System.out.println("Failed to bind to port " + tcpPort + ". Exiting Server.");
+			return;
 		}
 		
 		// add listener for connected/received/disconnected methods
@@ -78,15 +79,13 @@ public class Master extends Listener { // SERVER
 	// runs when packet received
 	public void received(Connection c, Object o) {
 		if (o instanceof PacketAttempt){
+			System.out.println("Server received PacketAttempt!");
 			
 			String username = ((PacketAttempt) o).username;
 			String pw = ((PacketAttempt) o).password;
 			String confirm = ((PacketAttempt) o).confirm;
 			switch(((PacketAttempt) o).attempt) {
-			/* ATTEMPT
-			  
-			  
-			*/
+			
 			/* RETURN
 			  1 = sign up success
 			  2 = sign up failure
@@ -123,7 +122,7 @@ public class Master extends Listener { // SERVER
 	}
 	
 	public void disconnected(Connection c) {
-		System.out.println("Lost connection from " + c.getRemoteAddressTCP().getHostString());
+		System.out.println("Lost connection from client.");
 		
 	}
 
