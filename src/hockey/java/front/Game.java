@@ -44,8 +44,8 @@ public class Game extends Application{
     	 //s1 = new Striker(p1);
     	 //s2 = new Striker();
     	
-    	u1 = new User();
-    	u2 = new User();
+    	//u1 = new User();
+    	//u2 = new User();
     	u1.initStriker();
     	u2.initStriker();
     	

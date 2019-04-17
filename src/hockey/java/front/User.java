@@ -2,7 +2,6 @@ package hockey.java.front;
 
 public class User {
 	private Striker striker;
-	private boolean logged;
 	
 	// get from DB
 	private int id;
@@ -12,11 +11,10 @@ public class User {
 	private int goalsFor;
 	private int goalsAgainst;
 	
-	public User() {
+	public User(int id,String username) {
 		striker = null;
-		logged = false;
-		id = -1;
-		username = "Guest";
+		this.id = id;
+		this.username = username;
 		matchesWon = 0;
 		matchesLost = 0;
 		goalsFor = 0;
@@ -29,12 +27,8 @@ public class User {
 	public Striker getStriker() {
 		return striker;
 	}
-	public boolean isLogged() {
-		return logged;
-	}
-	public void setLogged(boolean logged) {
-		this.logged = logged;
-	}
+	
+
 	public int getId() {
 		return id;
 	}

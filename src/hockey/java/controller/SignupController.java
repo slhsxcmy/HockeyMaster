@@ -48,6 +48,8 @@ public class SignupController implements Initializable{
 	
 	@FXML
 	public void signup(ActionEvent event) throws IOException{
+		
+		
 		System.out.println(username.getText() + " " + password.getText() + " " + passwordc.getText());
 		if(!model.checkSignUp(username.getText(), password.getText(), passwordc.getText())) {
 			errorMessage.setText("Sign up failed. Please try again.");

@@ -1,6 +1,6 @@
 package hockey.java.packet;
 
-public class PacketStatus {
+public class PacketReturn {
 	public int status;
 	
 	/*
@@ -11,4 +11,9 @@ public class PacketStatus {
 	  56 = signout
 	  78 = play logged or guest
 	*/
+	
+
+	public int id;
+	public String username;
+	
 }

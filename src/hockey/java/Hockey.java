@@ -41,6 +41,23 @@ public class Hockey extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+
+	public static Network getNetwork() {
+		return network;
+	}
+
+	public static void setNetwork(Network network) {
+		Hockey.network = network;
+	}
+
+	public static User getSelf() {
+		return self;
+	}
+
+	public static void setSelf(User self) {
+		Hockey.self = self;
+	}
+	
 	
 	
 }

@@ -6,9 +6,11 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
+import hockey.java.Hockey;
 import hockey.java.Master;
+import hockey.java.controller.LoginController;
 import hockey.java.packet.PacketPuck;
-import hockey.java.packet.PacketStatus;
+import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStriker;
 
 public class Network extends Listener{
@@ -56,17 +58,33 @@ public class Network extends Listener{
 	// runs upon packet received
 	public void received(Connection c, Object o) {
 		
-		if (o instanceof PacketStatus){
-			switch(((PacketStatus) o).status) {
-			case 1: break;
-			case 2: break;
+		if (o instanceof PacketReturn){
+			/*
+			  odd = success
+			  even = failure
+			  12 = signup
+			  34 = login
+			  56 = signout
+			  78 = play logged or guest
+			*/
+			switch(((PacketReturn) o).status) {
+			case 1: 
+				int id = ((PacketReturn) o).id;
+				String username = ((PacketReturn) o).username;
+				Hockey.setSelf(new User(id,username));
+				break;
+			case 2: 
+				
+				break;
 			case 3: break;
-			case 4: break;
+			case 4: 
+				//LoginController.setErrorMessage("xxx");
+				break;
+				
 			case 5: break;
 			case 6: break;
 			case 7: break;
 			case 8: break;
-	
 			}
 		} else if (o instanceof PacketStriker){
 			PVector location = ((PacketStriker) o).location;
