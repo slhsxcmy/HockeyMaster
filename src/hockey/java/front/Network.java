@@ -8,7 +8,9 @@ import com.esotericsoftware.kryonet.Listener;
 
 import hockey.java.Hockey;
 import hockey.java.Master;
+import hockey.java.controller.LoggedController;
 import hockey.java.controller.LoginController;
+import hockey.java.controller.SignupController;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStriker;
@@ -58,26 +60,36 @@ public class Network extends Listener{
 			  12 = signup
 			  34 = login
 			  56 = signout
-			  78 = play logged or guest
+			  78 = play (logged or guest)
 			*/
+			int id;
+			String username;
 			switch(((PacketReturn) o).status) {
+			
 			case 1: 
-				int id = ((PacketReturn) o).id;
-				String username = ((PacketReturn) o).username;
+			case 3: 
+				id = ((PacketReturn) o).id;
+				username = ((PacketReturn) o).username;
 				Hockey.setSelf(new User(id,username));
 				break;
 			case 2: 
-				
+				SignupController.setMessage("Signup failed. Please try again.");
 				break;
-			case 3: break;
 			case 4: 
-				LoginController.setErrorMessage("xxx");
+				LoginController.setMessage("Login failed. Please try again.");
 				break;
-				
-			case 5: break;
-			case 6: break;
-			case 7: break;
-			case 8: break;
+			case 5: 
+				Hockey.setSelf(null);
+				break;
+			case 6: 
+				LoggedController.setMessage("Login failed. Please try again.");
+				break;
+			case 7: 
+				Game game = new Game();
+				break;
+			case 8: 
+				LoggedController.setMessage("Join game failed. Please wait.");
+				break;
 			}
 		} else if (o instanceof PacketStriker){
 			PVector location = ((PacketStriker) o).location;

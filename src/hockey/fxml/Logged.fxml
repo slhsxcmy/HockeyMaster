@@ -24,6 +24,11 @@
          <font>
             <Font name="HockeyFont" size="17.0" url="@../../Fonts/HockeyFont.ttf" />
          </font></Label>
+      <Label fx:id="message" layoutX="14.0" layoutY="497.0" prefHeight="34.0" prefWidth="372.0" textAlignment="CENTER" textFill="#c30c0c">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
       <Button fx:id="join" layoutX="144.0" layoutY="354.0" mnemonicParsing="false" onAction="#join" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Join Game">
          <font>
             <Font name="HockeyFont" size="17.0" url="@../../Fonts/HockeyFont.ttf" />

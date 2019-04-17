@@ -1,4 +1,4 @@
-/*package hockey.java.front;
+package hockey.java.front;
 
 import java.io.IOException;
 
@@ -20,7 +20,15 @@ import javafx.stage.Stage;
 
 
 public class Game extends Application{
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 	
+}
+	/*
 	public static Master server;
 	public static ClientThread client;	
     public static Game game;

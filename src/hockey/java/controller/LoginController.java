@@ -27,10 +27,10 @@ public class LoginController implements Initializable{
 	private Label pageTitle;
 	
 	@FXML
-	private static Label errorMessage;
+	private static Label message;
 	
 	@FXML
-	private TextField username;
+ 	private TextField username;
 	
 	@FXML
 	private TextField password;
@@ -44,7 +44,7 @@ public class LoginController implements Initializable{
 	public void login(ActionEvent event) throws IOException{
 		System.out.println(username.getText() + " " + password.getText());
 		if(!model.checkLogin(username.getText(), password.getText())) {
-			errorMessage.setText("Username doesn't match with password. Please try again.");
+			message.setText("Username doesn't match with password. Please try again.");
 		}		
 		else {
 			Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Logged.fxml"));
@@ -60,16 +60,15 @@ public class LoginController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		if(model.isDbConnected()) {
-			errorMessage.setText("Connected");
+			message.setText("Connected");
 		} else {
-			errorMessage.setText("Not Connected");
+			message.setText("Not Connected");
 		}
 		
 	}
 	
 	@FXML
 	public void goBack(ActionEvent event) throws IOException {
-		// add sign out logic
 		
 		Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
 		Scene scene = new Scene(root);
@@ -80,8 +79,8 @@ public class LoginController implements Initializable{
 		window.show();	
 	}
 
-	public static void setErrorMessage(String string) {
-		errorMessage.setText("Username doesn't match with password. Please try again.");
+	public static void setMessage(String string) {
+		message.setText("Username doesn't match with password. Please try again.");
 		
 	}
 	

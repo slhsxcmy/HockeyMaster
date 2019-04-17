@@ -9,8 +9,8 @@ public class PacketReturn {
 	  12 = signup
 	  34 = login
 	  56 = signout
-	  78 = play logged or guest
-	*/
+	  78 = play (logged or guest)
+	  */
 	
 
 	public int id;

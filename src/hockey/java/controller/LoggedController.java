@@ -20,6 +20,9 @@ public class LoggedController {
 	private Label pageTitle;
 
 	@FXML
+	private static Label message;
+	
+	@FXML
 	private Button join;
 	
 	@FXML
@@ -57,6 +60,11 @@ public class LoggedController {
 		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 		window.setScene(scene);
 		window.show();	
+	}
+
+	public static void setMessage(String string) {
+		message.setText(string);
+		
 	}
 	
 }

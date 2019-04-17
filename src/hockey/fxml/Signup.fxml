@@ -40,7 +40,7 @@
       	<font><Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
 		</font>
 	  </Button>
-      <Label fx:id="errorMessage" layoutX="14.0" layoutY="497.0" prefHeight="34.0" prefWidth="372.0" textAlignment="CENTER" textFill="#c30c0c">
+      <Label fx:id="message" layoutX="14.0" layoutY="497.0" prefHeight="34.0" prefWidth="372.0" textAlignment="CENTER" textFill="#c30c0c">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
