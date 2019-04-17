@@ -26,12 +26,12 @@ public class Network extends Listener{
 		// register packet
 		Master.registerClasses(client.getKryo());
 
-		// start client BEFORE connecting
 		client.start();
 		
+		client.addListener(new Network());
+		
 		try {
-			// connect to server with timeout (ms)
-			client.connect(5000, ip, port);
+			client.connect(5000, ip, port); //blocks for 5 seconds
 		} catch (IOException e) {
 			System.out.println("Cannot connect to server.");
 		} 
@@ -44,13 +44,6 @@ public class Network extends Listener{
 			// send self data
 			// (Connection) c.sendTCP(pm); 
 		}
-		
-	}
-
-	// runs upon connection 
-	public void connected(Connection c) {
-		System.out.println("Connected to server at " + c.getRemoteAddressTCP().getHostString());
-		
 		// c.sendTCP(pm); 
 		
 	}
@@ -99,8 +92,8 @@ public class Network extends Listener{
 
 	}
 	
-	public void disconnected(Connection c) {
-		System.out.println("Disconnected from server at " + c.getRemoteAddressTCP().getHostString());
-	}
+//	public void disconnected(Connection c) {
+//		System.out.println("Disconnected from server at " + c.getRemoteAddressTCP().getHostString());
+//	}
 	
 }

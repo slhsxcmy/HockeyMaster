@@ -1,6 +1,7 @@
 package hockey.java;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +21,7 @@ import hockey.java.packet.PacketStriker;
 
 public class Master extends Listener { // SERVER
 
-	private static Server server = null;
+	static Server server;
 	public static final String ngrok_url = "https://d69be386.ngrok.io";
 	public static final int tcpPort = 27960;
 	public static Map<Integer, User> users = Collections.synchronizedMap(new HashMap<>()); 
@@ -66,13 +67,18 @@ public class Master extends Listener { // SERVER
 	// runs when connection 
 	public void connected(Connection c) {
 		System.out.println("Received connection from " + c.getRemoteAddressTCP().getHostString());
-		
 		// create message packet
+		//Striker s = new Striker(); //create a striker for each player		
+//		Packet packet = new Packet();
+//		packet.message = "Connection from" + c.getRemoteAddressTCP();
 		
-		//users.put(u.getId(), u.)
-		/*if(!p1Connected) { 
+		// send message
+		//c.sendTCP(packet);
+		System.out.println("Connection received");
+		
+		if(!p1Connected) { 
 			p1Connected = true;
-			strikers.put(c.getID(), s);
+			//strikers.put(c.getID(), s);
 		}
 		else if (!p2Connected) {
 			p2Connected = true;
@@ -83,7 +89,7 @@ public class Master extends Listener { // SERVER
 			System.out.print("Sorry. The game has started. Please wait for the next game.");
 			return;
 		}
-		*/
+		
 
 		
 	}
@@ -110,6 +116,11 @@ public class Master extends Listener { // SERVER
 	
 	public void disconnected(Connection c) {
 		System.out.println("Lost connection from " + c.getRemoteAddressTCP().getHostString());
+		try {
+			Game.game.stop();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

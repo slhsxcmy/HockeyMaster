@@ -8,8 +8,9 @@ public class Puck extends Pane{
 	private double mass;
 	boolean allowMove = true;
 	
-	private PVector location;
-    private PVector velocity;
+	public int connID;
+	public PVector location;
+    public PVector velocity;
 
     double width = 30;
     double height = width;

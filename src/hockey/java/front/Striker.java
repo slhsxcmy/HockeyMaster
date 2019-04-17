@@ -8,10 +8,12 @@ import javafx.scene.shape.Circle;
 
 public class Striker extends Pane {
 	
+	public int connID;
+	
 	private double mass;
 
-    private PVector location;
-    private PVector velocity;
+    public PVector location;
+    public PVector velocity;
     
     //required to keep player on his side
     private Player player;
@@ -55,11 +57,11 @@ public class Striker extends Pane {
     }
 	
 	public void checkBoundaries() {
-		/*//TODO
+		//TODO
 		//CUrrently mouse goes across half line and physics is very off
 		//PUCK SPEEDS UP TO MAX
 		//player1 gets the bottom half
-
+/*
 		if(player.getPlayerID() == 1) {
 			if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
 				location.x = BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT;
@@ -89,8 +91,8 @@ public class Striker extends Pane {
 			} else if (location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)*mult) {
 				location.y = 0+radius+BoardSettings.BOARDER_HEIGHT;
 			}
-		} */
-		
+		} 
+		*/
 		if (location.x > BoardSettings.SCENE_WIDTH-(width/2)-BoardSettings.BOARDER_HEIGHT) {
 			location.x = BoardSettings.SCENE_WIDTH-(width/2)-BoardSettings.BOARDER_HEIGHT;
 		} else if (location.x < 0 +(width/2)+BoardSettings.BOARDER_HEIGHT) {

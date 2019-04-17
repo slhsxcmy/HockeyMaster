@@ -1,5 +1,9 @@
 package hockey.java.front;
 
+import java.io.IOException;
+
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryonet.EndPoint;
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
@@ -14,18 +18,19 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+
 public class Game extends Application{
-
-    Pane playfield;
-
-    User u1;
-    User u2;
-    
-    //Player p1;
-    //Player p2;
-    //Striker s1;
-    //Striker s2;
-    Puck puck;
+	
+	public static Master server;
+	public static ClientThread client;	
+    public static Game game;
+	
+	Pane playfield;
+    public Player p1;
+    public Player p2;
+    public Striker s1;
+    public Striker s2;
+    public Puck puck;
     Goal goal1;
     Goal goal2;
     Walls walls1, walls2;
@@ -189,9 +194,25 @@ public class Game extends Application{
          };
          loop.start();
     }
+    
+    public static Game getGame() {
+        return game;
+    }
+    public static void register(EndPoint endPoint) {
+    	Kryo kryo = endPoint.getKryo();
+    	kryo.register(Puck.class);
+    	kryo.register(Striker.class);
+    	kryo.register(Player.class);
+    	kryo.register(PacketMessage.class);
+    }
 
-    public static void main(String[] args) {
-    	launch(args);
+    public static void main(String[] args) {  	
+    	if (args.length > 0) {
+    		server = new Master();            
+            game = new Game();
+        } else {
+            launch(args);
+        }
     }
     
 }
