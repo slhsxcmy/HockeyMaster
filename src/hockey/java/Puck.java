@@ -118,7 +118,7 @@ public class Puck extends Pane{
 			//hypotneuse divided by root 2 
 			double diag = (radius + sr)/(1.41421356);
 			//if contact with the left
-			if(px < sx && py > (sy - .5 * sr) && py < (sy + .5 * sr)) {
+			if(px < sx && py >= (sy - .4 * sr) && py <= (sy + .4 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
 					s.setPosition(px + radius + sr, sy);
 					px = location.x;
@@ -128,21 +128,11 @@ public class Puck extends Pane{
 					System.out.println("LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
 				}
 			}
-			//top left
-			else if(px < sx && py > (sy - sr) && py < (sy - .5 * sr)) {
+			//top
+			else if(py < sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
 					s.setPosition((px+diag), py+diag);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					System.out.println("TOPPPPPPPPPP LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
-				}
-			}
-			//top
-			else if(py < sy && px > (sx - .5 * sr) && px < (sx + .5 * sr)) {
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py + radius + sr);
+
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
@@ -150,19 +140,8 @@ public class Puck extends Pane{
 					System.out.println("TOPPPPPPPPPPPPP");
 				}
 			}
-			//top right
-			else if(px > sx && py > (sy - sr) && py < (sy - .5 * sr)) {
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition((px - diag), (py + diag));
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					System.out.println("TOPPPPPPPPPP RIIIIGGGGGGHTTT");
-				}
-			}
 			//right
-			else if(px > sx && py > (sy - .5 * sr) && py < (sy + .5 * sr)) {
+			else if(px > sx && py >= (sy - .4 * sr) && py <= (sy + .4 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
 					s.setPosition(px - radius - sr, sy);
 					px = location.x;
@@ -172,21 +151,10 @@ public class Puck extends Pane{
 					System.out.println("RIIIIIGGGGGHHHHTTTT");
 				}
 			}
-			//bottom right
-			else if(py > sy && px > (sx + .5 * sr) && px < (sx + sr)) {
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition((px - diag) , py - diag);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					System.out.println("BOOOOTTTTTTOOOOOMMMMMM RIIIIGGGGGHHHHHHTTT");
-				}
-			}
 			//bottom
-			else if(py > sy && px > (sx - .5 * sr) && px < (sx + .5 * sr)) {
+			else if(py > sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py - radius - sr);
+					s.setPosition((px - diag), (py + diag));
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
@@ -194,8 +162,44 @@ public class Puck extends Pane{
 					System.out.println("BOOOOTTTTTTOOOOOMMMMMM");
 				}
 			}
+			//top left
+			else if(px < sx && py < sy) {
+				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
+					s.setPosition((px + radius + sr)-5, sy+5);
+					px = location.x;
+					py = location.y;
+					sx = s.getLocation().x;
+					sy = s.getLocation().y;
+					System.out.println("TOPPPPPPPPPP LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
+				}
+			}
+			
+			//top right
+			else if(px > sx && py < sy) {
+				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
+					s.setPosition((px - diag) , py - diag);
+					px = location.x;
+					py = location.y;
+					sx = s.getLocation().x;
+					sy = s.getLocation().y;
+					System.out.println("TOPPPPPPPPPP RIIIIGGGGGGHTTT");
+				}
+			}
+			
+			//bottom right
+			else if(px > sx && py > sy) {
+				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
+					s.setPosition((px - radius - sr), sy-5);
+					px = location.x;
+					py = location.y;
+					sx = s.getLocation().x;
+					sy = s.getLocation().y;
+					System.out.println("BOOOOTTTTTTOOOOOMMMMMM RIIIIGGGGGHHHHHHTTT");
+				}
+			}
+			
 			//bottom left
-			else if(py > sy && px > (sx - sr) && px < (sx - .5 * sr)) {
+			else if(px < sx && py > sy) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
 					s.setPosition((px + diag), py - diag);
 					px = location.x;
