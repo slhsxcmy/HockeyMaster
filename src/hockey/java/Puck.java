@@ -132,7 +132,6 @@ public class Puck extends Pane{
 			else if(py < sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
 					s.setPosition(sx, py + radius + sr);
-
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
