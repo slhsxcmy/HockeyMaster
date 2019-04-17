@@ -18,9 +18,8 @@ import hockey.java.front.User;
 // ClientProgram
 public class Hockey extends Application {
 	
-	static Network network = new Network();
-	static User thisUser = new User();
-	static User otherUser = new User();
+	private static Network network = new Network();
+	private static User self = null; // instantiate when playAsGuest or Register or Login
 	
 	@Override
 	public void start(Stage stage) {

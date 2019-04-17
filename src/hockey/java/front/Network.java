@@ -1,13 +1,15 @@
 package hockey.java.front;
 
 import java.io.IOException;
-import java.util.Date;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 import hockey.java.Master;
+import hockey.java.packet.PacketPuck;
+import hockey.java.packet.PacketStatus;
+import hockey.java.packet.PacketStriker;
 
 public class Network extends Listener{
 
@@ -20,10 +22,7 @@ public class Network extends Listener{
 		Client client = new Client();
 		
 		// register packet
-		client.getKryo().register(Player.class);
-		client.getKryo().register(Puck.class);
-		client.getKryo().register(Striker.class);
-		
+		Master.registerClasses(client.getKryo());
 
 		client.start();
 		
@@ -48,14 +47,30 @@ public class Network extends Listener{
 	}
 	
 	// runs upon packet received
-	public void received(Connection conn, Object obj) {
+	public void received(Connection c, Object o) {
 		
-		if(obj instanceof Striker) {
-			Striker s = new Striker();
-		} 
-		else if(obj instanceof Striker) {
+		if (o instanceof PacketStatus){
+			switch(((PacketStatus) o).status) {
+			case 1: break;
+			case 2: break;
+			case 3: break;
+			case 4: break;
+			case 5: break;
+			case 6: break;
+			case 7: break;
+			case 8: break;
+	
+			}
+		} else if (o instanceof PacketStriker){
+			PVector location = ((PacketStriker) o).location;
+			PVector velocity = ((PacketStriker) o).velocity;
 			
-		}
+		} else if (o instanceof PacketPuck){
+			PVector location = ((PacketPuck) o).location;
+			PVector velocity = ((PacketPuck) o).velocity;
+			
+		} 
+		
 
 	}
 	

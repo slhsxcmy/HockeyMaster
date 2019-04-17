@@ -6,14 +6,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
+import hockey.java.front.PVector;
 import hockey.java.front.Player;
 import hockey.java.front.Puck;
 import hockey.java.front.Striker;
 import hockey.java.front.User;
+import hockey.java.packet.PacketAttempt;
+import hockey.java.packet.PacketStriker;
 
 public class Master extends Listener { // SERVER
 
@@ -25,6 +29,14 @@ public class Master extends Listener { // SERVER
 	public static boolean p2Ready = false;
 	
 	
+	public static void registerClasses(Kryo k) {
+
+		// register packet. ONLY objects registered as packets can be sent
+		k.register(Player.class);
+		k.register(Puck.class);
+		k.register(Striker.class);
+		k.register(User.class);
+	}
 	
 	public static void main(String[] args) {
 
@@ -34,14 +46,7 @@ public class Master extends Listener { // SERVER
 		// create server
 		server = new Server();
 		
-		
-		
-		// register packet. ONLY objects registered as packets can be sent
-		server.getKryo().register(Player.class);
-		server.getKryo().register(Puck.class);
-		server.getKryo().register(Striker.class);
-		server.getKryo().register(User.class);
-		
+		Master.registerClasses(server.getKryo());
 		
 		try {
 			// bind to ports
@@ -90,31 +95,23 @@ public class Master extends Listener { // SERVER
 	}
 
 	// runs when packet received
-	public void received(Connection conn, Object obj) {
-		// forward packet to other player
-		if(obj instanceof Striker) { //if packet is striker info
-			//cast
-			Striker s = (Striker) obj; 
-			//update loc and vel
-			strikers.get(conn.getID()).location = s.location;
-			strikers.get(conn.getID()).velocity = s.velocity;
-			s.connID = conn.getID();
-			//send package
-			server.sendToAllExceptTCP(conn.getID(), s);
-			System.out.println("received and sent an update striker packet");
+	public void received(Connection c, Object o) {
+		if (o instanceof PacketAttempt){
+			switch(((PacketAttempt) o).attempt) {
+			case 1: break;
+			case 2: break;
+			case 3: break;
+			case 4: break;
+			case 5: break;
+			case 6: break;
+	
+			}
+		} else if (o instanceof PacketStriker){
+			PVector location = ((PacketStriker) o).location;
+			PVector velocity = ((PacketStriker) o).velocity;
 			
-		}
-		else if(obj instanceof Puck) { //totally unsure about this part
-			//cast
-			Puck p = (Puck) obj; 
-			//update loc and vel
-//			puck.location = p.location;
-//			puck.velocity = p.velocity;
-			//send package
-			server.sendToAllTCP(p);
-			System.out.println("received and sent an update puck packet");
-
-		}
+		} 
+		
 	}
 	
 	public void disconnected(Connection c) {
