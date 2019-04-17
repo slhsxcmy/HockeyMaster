@@ -104,6 +104,9 @@ public class Network extends Listener{
 
 	}
 	
+	public Connection getConnection() {
+		return c;
+	}
 //	public void disconnected(Connection c) {
 //		System.out.println("Disconnected from server at " + c.getRemoteAddressTCP().getHostString());
 //	}

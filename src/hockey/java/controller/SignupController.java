@@ -5,7 +5,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import hockey.java.Hockey;
 import hockey.java.database.SQLModel;
+import hockey.java.packet.PacketAttempt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -51,18 +53,31 @@ public class SignupController implements Initializable{
 		
 		
 		System.out.println(username.getText() + " " + password.getText() + " " + passwordc.getText());
-		if(!model.checkSignUp(username.getText(), password.getText(), passwordc.getText())) {
-			message.setText("Sign up failed. Please try again.");
-		}
-		else {				
-				Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Logged.fxml"));
-				Scene scene = new Scene(root);
-				scene.getStylesheets().add(getClass().getResource("/hockey/css/Logged.css").toExternalForm());
-				
-				Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-				window.setScene(scene);
-				window.show();				
-		}
+		
+		//sending signup packet
+		PacketAttempt p = new PacketAttempt();
+		p.attempt = 1;
+		p.username = username.getText();
+		p.password = password.getText();
+		p.confirm = passwordc.getText();
+		Hockey.getNetwork().getConnection().sendTCP(p);
+		//sent
+		
+		
+		
+		
+//		if(!model.checkSignUp(username.getText(), password.getText(), passwordc.getText())) {
+//			errorMessage.setText("Sign up failed. Please try again.");
+//		}
+//		else {				
+//				Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Logged.fxml"));
+//				Scene scene = new Scene(root);
+//				scene.getStylesheets().add(getClass().getResource("/hockey/css/Logged.css").toExternalForm());
+//				
+//				Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+//				window.setScene(scene);
+//				window.show();				
+//		}
 	
 	}
 

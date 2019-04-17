@@ -12,5 +12,6 @@ public class PacketAttempt {
 	*/
 	public String username = null;
 	public String password = null;
+	public String confirm = null;
 	
 }
