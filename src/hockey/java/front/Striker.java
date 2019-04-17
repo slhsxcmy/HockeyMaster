@@ -61,7 +61,7 @@ public class Striker extends Pane {
 		//CUrrently mouse goes across half line and physics is very off
 		//PUCK SPEEDS UP TO MAX
 		//player1 gets the bottom half
-
+/*
 		if(player.getPlayerID() == 1) {
 			if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
 				location.x = BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT;
@@ -92,7 +92,7 @@ public class Striker extends Pane {
 				location.y = 0+radius+BoardSettings.BOARDER_HEIGHT;
 			}
 		} 
-		
+		*/
 		if (location.x > BoardSettings.SCENE_WIDTH-(width/2)-BoardSettings.BOARDER_HEIGHT) {
 			location.x = BoardSettings.SCENE_WIDTH-(width/2)-BoardSettings.BOARDER_HEIGHT;
 		} else if (location.x < 0 +(width/2)+BoardSettings.BOARDER_HEIGHT) {

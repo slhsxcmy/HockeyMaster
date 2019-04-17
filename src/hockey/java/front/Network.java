@@ -23,9 +23,11 @@ public class Network extends Listener{
 		client.getKryo().register(Player.class);
 		client.getKryo().register(Puck.class);
 		client.getKryo().register(Striker.class);
-		client.addListener(this);
+		
 
 		client.start();
+		
+		client.addListener(new Network());
 		
 		try {
 			client.connect(5000, ip, port); //blocks for 5 seconds
