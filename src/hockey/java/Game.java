@@ -46,10 +46,10 @@ public class Game extends Application{
     public void start(Stage stage) {
 
     	 game = this;
-    	 p1 = new Player("p1");
-    	 p2 = new Player("p2");
-    	 s1 = new Striker();
-    	 s2 = new Striker();
+    	 p1 = new Player("p1", 1);
+    	 p2 = new Player("p2", 2);
+    	 s1 = new Striker(p1);
+    	 s2 = new Striker(p2);
 
     	 puck = new Puck();
 
@@ -200,7 +200,7 @@ public class Game extends Application{
     	kryo.register(Puck.class);
     	kryo.register(Striker.class);
     	kryo.register(Player.class);
-    	kryo.register(Packet.class);
+    	kryo.register(PacketMessage.class);
     }
 
     public static void main(String[] args) {  	

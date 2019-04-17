@@ -11,21 +11,21 @@ import com.esotericsoftware.kryonet.Server;
 
 public class Master extends Listener { // SERVER
 
-	private static Server server = null;
+	static Server server;
 	public static final String ngrok_url = "https://d69be386.ngrok.io";
-	public static final int tcpPort = 27960;
+	public static final int tcpPort = 27014;
 	public static Map<Integer, Striker> strikers = new HashMap<Integer, Striker>(); //connection ID and striker
 	public static boolean p1Connected = false;
 	public static boolean p2Connected = false;
-	public static Puck puck;
 	
 	
-	public Master() {
+	public static void main(String[] args) {		 
 		System.out.println("Creating server...");
-		puck = new Puck();
+		
 		// create server
 		server = new Server();
-		Game.register(server);
+		
+		
 		
 		// register packet. ONLY objects registered as packets can be sent
 		//server.getKryo().register(Player.class); striker contains player
@@ -53,17 +53,17 @@ public class Master extends Listener { // SERVER
 	public void connected(Connection c) {
 		System.out.println("Received connection from " + c.getRemoteAddressTCP().getHostString());
 		// create message packet
-		Striker s = new Striker(); //create a striker for each player		
-		Packet packet = new Packet();
-		packet.message = "Connection from" + c.getRemoteAddressTCP();
+		//Striker s = new Striker(); //create a striker for each player		
+//		Packet packet = new Packet();
+//		packet.message = "Connection from" + c.getRemoteAddressTCP();
 		
 		// send message
-		c.sendTCP(packet);
+		//c.sendTCP(packet);
 		System.out.println("Connection received");
 		
 		if(!p1Connected) { 
 			p1Connected = true;
-			strikers.put(c.getID(), s);
+			//strikers.put(c.getID(), s);
 		}
 		else if (!p2Connected) {
 			p2Connected = true;
@@ -96,8 +96,8 @@ public class Master extends Listener { // SERVER
 			//cast
 			Puck p = (Puck) obj; 
 			//update loc and vel
-			puck.location = p.location;
-			puck.velocity = p.velocity;
+//			puck.location = p.location;
+//			puck.velocity = p.velocity;
 			//send package
 			server.sendToAllTCP(p);
 			System.out.println("received and sent an update puck packet");

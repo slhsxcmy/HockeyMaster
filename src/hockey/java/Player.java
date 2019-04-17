@@ -7,6 +7,7 @@ public class Player {
 	private Connection conn;
 	private String username;
 	private PVector mouse;
+	
 	private int score;
 	private int playerID;
 	
