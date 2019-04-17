@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
+
+import hockey.java.Master;
+
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
@@ -18,7 +21,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-
+public class Game extends Application{
+	
     Pane playfield;
  
     Player p1;
@@ -39,20 +43,24 @@ import javafx.stage.Stage;
     
     @Override
     public void start(Stage stage) {
-    	 //p1 = new Player("p1", 1);
-    	 //p2 = new Player("p2", 2);
+    	 p1 = new Player("p1", 1);
+    	 p1.setPlayerID(1);
+    	 p2 = new Player("p2", 2);
+    	 p2.setPlayerID(2);
     	 //s1 = new Striker(p1);
     	 //s2 = new Striker();
     	
     	//u1 = new User();
     	//u2 = new User();
-    	u1.initStriker();
-    	u2.initStriker();
+    	//u1.initStriker();
+    	//u2.initStriker();
     	
     	puck = new Puck();
 
-    	goal1 = new Goal(1, puck, u1.getStriker().getPlayer());
-    	goal2 = new Goal(2, puck, u2.getStriker().getPlayer());
+    	//goal1 = new Goal(1, puck, u1.getStriker().getPlayer());
+    	//goal2 = new Goal(2, puck, u2.getStriker().getPlayer());
+    	goal1 = new Goal(1, puck, p1);
+    	goal2 = new Goal(2, puck, p2);
     	walls1 = new Walls(1);
     	walls2 = new Walls(2);
 
@@ -60,13 +68,15 @@ import javafx.stage.Stage;
     	 center = new CenterCircle();
     	 friction = .988;
     	 
-    	 Text p1s = new Text(Integer.toString(u1.getStriker().getPlayer().getScore()));
+    	 //Text p1s = new Text(Integer.toString(u1.getStriker().getPlayer().getScore()));
+    	 Text p1s = new Text(Integer.toString(p1.getScore()));
      	 p1s.setFont(Font.font ("Verdana", 50));
      	 p1s.setFill(Color.RED);
      	 p1s.setX(350);
      	 p1s.setY(400);
 
-     	 Text p2s = new Text(Integer.toString(u2.getStriker().getPlayer().getScore()));
+     	 //Text p2s = new Text(Integer.toString(u2.getStriker().getPlayer().getScore()));
+     	Text p2s = new Text(Integer.toString(p2.getScore()));
     	 p2s.setFont(Font.font ("Verdana", 50));
     	 p2s.setFill(Color.RED);
     	 p2s.setX(350);
@@ -86,7 +96,8 @@ import javafx.stage.Stage;
          playfield.getChildren().add(walls2);
          playfield.getChildren().add(mid);
          playfield.getChildren().add(center);
-         playfield.getChildren().add(u1.getStriker());
+         //playfield.getChildren().add(u1.getStriker());
+         playfield.getChildren().add(s1);
          playfield.getChildren().add(puck);
          playfield.getChildren().add(goal1);
          playfield.getChildren().add(goal2);
@@ -105,7 +116,8 @@ import javafx.stage.Stage;
          mid.display();
          // capture mouse position
          scene.addEventFilter(MouseEvent.ANY, e -> {
-        	 u1.getStriker().getPlayer().getMouse().set(e.getX(), e.getY());
+        	 //u1.getStriker().getPlayer().getMouse().set(e.getX(), e.getY());
+        	 p1.getMouse().set(e.getX(), e.getY());
          });
          // process all strikers
          AnimationTimer loop = new AnimationTimer() {
@@ -117,7 +129,8 @@ import javafx.stage.Stage;
                  // move
             	 pu.display();
             	 puckPU.display();
-            	 u1.getStriker().step(u1.getStriker().getPlayer().getMouse(), mid);
+            	 //u1.getStriker().step(u1.getStriker().getPlayer().getMouse(), mid);
+            	 s1.step(p1.getMouse(), mid);
                  //s2.step(p1.getMouse());
                  s1.checkBoundaries(puck);
                  
@@ -125,33 +138,43 @@ import javafx.stage.Stage;
                  if (puck.checkBoundaries()) {
                 	 //striker can't overlap with puck
                  }
-                 puck.collision(u1.getStriker());
+                 //puck.collision(u1.getStriker());
+                 puck.collision(s1);
                  //puck.collision(s2);
                  puck.step(friction);
                  // update in fx scene
-                 u1.getStriker().display();
+                 //u1.getStriker().display();
+                 s1.display();
                  //s2.display();
                  puck.display();
                  if (goal1.goalDetection(1)) {
-                	 u1.getStriker().getPlayer().score();
-                	 p1s.setText(Integer.toString(u1.getStriker().getPlayer().getScore()));
+                	 //u1.getStriker().getPlayer().score();
+                	 p1.score();
+                	 //p1s.setText(Integer.toString(u1.getStriker().getPlayer().getScore()));
+                	 p1s.setText(Integer.toString(p1.getScore()));
                 	 stage.show();
-                	 u1.getStriker().reset(1);
+                	 //u1.getStriker().reset(1);
+                	 s1.reset(1);
                 	 mid.reset();
                 	 puck.resetSize();
                 	 //s2.reset(2);
                  }
                  if (goal2.goalDetection(2)) {
-                	 u2.getStriker().getPlayer().score();
-                	 p2s.setText(Integer.toString(u2.getStriker().getPlayer().getScore()));
+                	 //u2.getStriker().getPlayer().score();
+                	 p2.score();
+                	//p2s.setText(Integer.toString(u1.getStriker().getPlayer().getScore()));
+                	 p2s.setText(Integer.toString(p2.getScore()));
                 	 stage.show();
-                	 u1.getStriker().reset(1);
+                	 //u2.getStriker().reset(2);
+                	 s1.reset(1);
                 	 mid.reset();
                 	 puck.resetSize();
                 	 //s2.reset(2);
                  }
-                 if (u1.getStriker().getPlayer().getScore() == 7) {
-                	 Text text = new Text("  " + u1.getUsername() + " wins!");
+                 //if (u1.getStriker().getPlayer().getScore() == 7) {
+                	 //Text text = new Text("  " + u1.getUsername() + " wins!");
+                 if (p1.getScore() == 7) {
+                	 Text text = new Text("  " + p1.getUsername() + " wins!");
                  	 text.setFont(Font.font ("Verdana", 50));
                  	 text.setFill(Color.RED);
                  	 text.setY(350);
@@ -159,8 +182,10 @@ import javafx.stage.Stage;
                  	 stage.show();
                 	 stop();
                  }
-                 if (u2.getStriker().getPlayer().getScore() == 7) {
-                	 Text text = new Text("  " + u2.getUsername() + " wins!");
+//                 if (u2.getStriker().getPlayer().getScore() == 7) {
+//                	 Text text = new Text("  " + u2.getUsername() + " wins!");
+                 if (p2.getScore() == 7) {
+                	 Text text = new Text("  " + p2.getUsername() + " wins!");
                 	 text.setFont(Font.font ("Verdana", 50));
                  	 text.setFill(Color.RED);
                  	 text.setY(350);
@@ -189,10 +214,11 @@ import javafx.stage.Stage;
          };
          loop.start();
     }
-    
+    /*
     public static Game getGame() {
         return game;
     }
+    
     public static void register(EndPoint endPoint) {
     	Kryo kryo = endPoint.getKryo();
     	kryo.register(Puck.class);
@@ -208,6 +234,6 @@ import javafx.stage.Stage;
         } else {
             launch(args);
         }
-    }
+    } */
     
 }

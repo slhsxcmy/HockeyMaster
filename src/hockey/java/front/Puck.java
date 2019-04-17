@@ -63,8 +63,8 @@ public class Puck extends Pane{
 				(location.y+radius > (BoardSettings.SCENE_HEIGHT-BoardSettings.BOARDER_HEIGHT)))
 		{}
 		else {
-	        if (location.x > Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT) {
-	        	location.x = Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT - 1;
+	        if (location.x > BoardSettings.SCENE_WIDTH - radius - BoardSettings.BOARDER_HEIGHT) {
+	        	location.x = BoardSettings.SCENE_WIDTH - radius - BoardSettings.BOARDER_HEIGHT - 1;
 	        	velocity.x *= -1;
 	        	onWall = true;
 	        } 
