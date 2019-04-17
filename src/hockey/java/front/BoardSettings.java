@@ -1,6 +1,6 @@
-package hockey.java;
+package hockey.java.front;
 
-public class Settings {
+public class BoardSettings {
 
     public static double SCENE_WIDTH = 400;
     public static double SCENE_HEIGHT = 700;

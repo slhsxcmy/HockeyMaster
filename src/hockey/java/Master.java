@@ -1,19 +1,33 @@
 package hockey.java;
 
 import java.io.IOException;
-import java.util.Date;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+
+import hockey.java.front.Player;
+import hockey.java.front.Puck;
+import hockey.java.front.Striker;
+import hockey.java.front.User;
 
 public class Master extends Listener { // SERVER
 
 	private static Server server = null;
 	public static final String ngrok_url = "https://d69be386.ngrok.io";
 	public static final int tcpPort = 27960;
+	public static Map<Integer, User> users = Collections.synchronizedMap(new HashMap<>()); 
+	public static boolean p1Ready = false;
+	public static boolean p2Ready = false;
+	
+	
 	
 	public static void main(String[] args) {
+
+	
 		System.out.println("Creating server...");
 		
 		// create server
@@ -23,6 +37,7 @@ public class Master extends Listener { // SERVER
 		server.getKryo().register(Player.class);
 		server.getKryo().register(Puck.class);
 		server.getKryo().register(Striker.class);
+		server.getKryo().register(User.class);
 		
 		
 		try {
@@ -44,10 +59,25 @@ public class Master extends Listener { // SERVER
 	// runs when connection 
 	public void connected(Connection c) {
 		System.out.println("Received connection from " + c.getRemoteAddressTCP().getHostString());
-		// create message packet
 		
-		// send message
-		// c.sendTCP(object); 
+		// create message packet
+		User u = new User(); //create a striker for each player		
+		//users.put(u.getId(), u.)
+		/*if(!p1Connected) { 
+			p1Connected = true;
+			strikers.put(c.getID(), s);
+		}
+		else if (!p2Connected) {
+			p2Connected = true;
+			
+			//TODO Start game here
+		}
+		else { //p1 and p2 already connected, the rest connections will wait
+			System.out.print("Sorry. The game has started. Please wait for the next game.");
+			return;
+		}
+		*/
+
 		
 	}
 

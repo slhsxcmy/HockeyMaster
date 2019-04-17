@@ -1,4 +1,4 @@
-package hockey.java;
+package hockey.java.front;
 
 import java.io.IOException;
 import java.util.Date;
@@ -7,11 +7,12 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
+import hockey.java.Master;
+
 public class Network extends Listener{
 
 	private Connection c = null;
 
-	
 	public static void main(String[] args) {
 		
 		String ip = Master.ngrok_url;

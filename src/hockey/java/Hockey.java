@@ -1,7 +1,5 @@
 package hockey.java;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,11 +7,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.Server;
+
+import hockey.java.front.Network;
+import hockey.java.front.User;
+
 // ClientProgram
 public class Hockey extends Application {
 	
 	static Network network = new Network();
-	//static Player otherPlayer = new Player("name");
+	static User thisUser = new User();
+	static User otherUser = new User();
 	
 	@Override
 	public void start(Stage stage) {
@@ -26,7 +33,7 @@ public class Hockey extends Application {
 						
 			stage.setScene(scene);
 			
-					stage.show();
+			stage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -35,5 +42,7 @@ public class Hockey extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
+	
 }
 
