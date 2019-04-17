@@ -84,8 +84,8 @@ public class Master extends Listener { // SERVER
 			String confirm = ((PacketAttempt) o).confirm;
 			switch(((PacketAttempt) o).attempt) {
 			/* ATTEMPT
-			  5 = play logged
-			  6 = play guest
+			  
+			  
 			*/
 			/* RETURN
 			  1 = sign up success
@@ -106,8 +106,12 @@ public class Master extends Listener { // SERVER
 				break;
 			case 4: //4 = get stats
 				
-			case 5: break;
-			case 6: break;
+			case 5: //5 = play logged
+				
+				break;
+			case 6: //6 = play guest
+				
+				break;
 	
 			}
 		} else if (o instanceof PacketStriker){
