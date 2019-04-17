@@ -1,4 +1,4 @@
-package hockey.java;
+package hockey.java.front;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -14,13 +14,13 @@ public class Goal extends Pane {
 	private Player player;
 	
 	double width = 110;
-	double height = Settings.BOARDER_HEIGHT;
+	double height = BoardSettings.BOARDER_HEIGHT;
 	double xstart = 145;
-	double bottomYstart = Settings.SCENE_HEIGHT - Settings.BOARDER_HEIGHT;
+	double bottomYstart = BoardSettings.SCENE_HEIGHT - BoardSettings.BOARDER_HEIGHT;
 	
 	Rectangle goal;
 	
-	Goal(int num, Puck puck, Player p){
+	public Goal(int num, Puck puck, Player p){
 		currPuck = puck;
 		this.player = p;
 		puckLocation = puck.getLocation();

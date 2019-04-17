@@ -1,4 +1,4 @@
-package hockey.java;
+package hockey.java.front;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -16,7 +16,7 @@ public class CenterCircle extends Pane{
 	 Circle center;
 	 
 	 CenterCircle(){
-		location = new PVector(Settings.SCENE_WIDTH/2-radius, Settings.SCENE_HEIGHT/2-radius);
+		location = new PVector(BoardSettings.SCENE_WIDTH/2-radius, BoardSettings.SCENE_HEIGHT/2-radius);
 		center = new Circle(radius);
 		 
 		center.setCenterX(radius);

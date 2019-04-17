@@ -2,6 +2,7 @@ package hockey.java;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,17 +10,25 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
+import hockey.java.front.Player;
+import hockey.java.front.Puck;
+import hockey.java.front.Striker;
+import hockey.java.front.User;
+
 public class Master extends Listener { // SERVER
 
 	static Server server;
 	public static final String ngrok_url = "https://d69be386.ngrok.io";
-	public static final int tcpPort = 27014;
-	public static Map<Integer, Striker> strikers = new HashMap<Integer, Striker>(); //connection ID and striker
-	public static boolean p1Connected = false;
-	public static boolean p2Connected = false;
+	public static final int tcpPort = 27960;
+	public static Map<Integer, User> users = Collections.synchronizedMap(new HashMap<>()); 
+	public static boolean p1Ready = false;
+	public static boolean p2Ready = false;
 	
 	
-	public static void main(String[] args) {		 
+	
+	public static void main(String[] args) {
+
+	
 		System.out.println("Creating server...");
 		
 		// create server
@@ -28,9 +37,10 @@ public class Master extends Listener { // SERVER
 		
 		
 		// register packet. ONLY objects registered as packets can be sent
-		//server.getKryo().register(Player.class); striker contains player
-//		server.getKryo().register(Puck.class);
-//		server.getKryo().register(Striker.class);
+		server.getKryo().register(Player.class);
+		server.getKryo().register(Puck.class);
+		server.getKryo().register(Striker.class);
+		server.getKryo().register(User.class);
 		
 		
 		try {
@@ -74,6 +84,8 @@ public class Master extends Listener { // SERVER
 			System.out.print("Sorry. The game has started. Please wait for the next game.");
 			return;
 		}
+		
+
 		
 	}
 

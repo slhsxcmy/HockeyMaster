@@ -1,4 +1,4 @@
-package hockey.java;
+package hockey.java.front;
 
 import java.util.Random;
 
@@ -49,8 +49,8 @@ public class Striker extends Pane {
 	
 	public void step(PVector mouse, Midline mid) {
 		velocity = PVector.sub(mouse, location, velocity);
-		if (player.getPlayerID() == 1 && location.y == mid.getLocation() + mid.getHeight() + radius - 1 || 
-				player.getPlayerID() == 2 && location.y == mid.getLocation() - mid.getHeight() - radius + 1) {
+		if (/*player.getPlayerID() == 1 && */location.y == mid.getLocation() + mid.getHeight() + radius - 1/* || 
+				player.getPlayerID() == 2 && location.y == mid.getLocation() - mid.getHeight() - radius + 1*/) {
 			velocity.y = 0;
 		}
         location.copy(mouse);
@@ -63,46 +63,46 @@ public class Striker extends Pane {
 		//player1 gets the bottom half
 
 		if(player.getPlayerID() == 1) {
-			if (location.x > Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT) {
-				location.x = Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT;
-			} else if (location.x < 0 +radius+Settings.BOARDER_HEIGHT) {
-				location.x = 0+radius+Settings.BOARDER_HEIGHT;
+			if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
+				location.x = BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT;
+			} else if (location.x < 0 +radius+BoardSettings.BOARDER_HEIGHT) {
+				location.x = 0+radius+BoardSettings.BOARDER_HEIGHT;
 			}
 
-			if (location.y > Settings.SCENE_HEIGHT-radius-Settings.BOARDER_HEIGHT) {
-				location.y = Settings.SCENE_HEIGHT-radius-Settings.BOARDER_HEIGHT;
+			if (location.y > BoardSettings.SCENE_HEIGHT-radius-BoardSettings.BOARDER_HEIGHT) {
+				location.y = BoardSettings.SCENE_HEIGHT-radius-BoardSettings.BOARDER_HEIGHT;
 			}
 			//if the striker hits the midline
-			else if (location.y < (radius+(Settings.SCENE_HEIGHT/2)-2+(Settings.BOARDER_HEIGHT/2))*mult) {
-				location.y = (radius+(Settings.SCENE_HEIGHT/2)-2+(Settings.BOARDER_HEIGHT/2))*mult;
+			else if (location.y < (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult) {
+				location.y = (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult;
 			}
 		}
 		else {
-			if (location.x > Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT) {
-				location.x = Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT;
-			} else if (location.x < 0 +radius+Settings.BOARDER_HEIGHT) {
-				location.x = 0+radius+Settings.BOARDER_HEIGHT;
+			if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
+				location.x = BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT;
+			} else if (location.x < 0 +radius+BoardSettings.BOARDER_HEIGHT) {
+				location.x = 0+radius+BoardSettings.BOARDER_HEIGHT;
 			}
 			//TODO
 			//WE HAVE TO TEST THIS WHEN SERVER IS RUNNIGN
 			//if striker 2 hits the midline
-			if (location.y > (radius-(Settings.SCENE_HEIGHT/2)-2)*mult) {
-				location.y = radius-(Settings.SCENE_HEIGHT/2)-2;
-			} else if (location.y < (0 +radius+Settings.BOARDER_HEIGHT)*mult) {
-				location.y = 0+radius+Settings.BOARDER_HEIGHT;
+			if (location.y > (radius-(BoardSettings.SCENE_HEIGHT/2)-2)*mult) {
+				location.y = radius-(BoardSettings.SCENE_HEIGHT/2)-2;
+			} else if (location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)*mult) {
+				location.y = 0+radius+BoardSettings.BOARDER_HEIGHT;
 			}
 		} 
 		
-		if (location.x > Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT) {
-			location.x = Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT;
-		} else if (location.x < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
-			location.x = 0+(width/2)+Settings.BOARDER_HEIGHT;
+		if (location.x > BoardSettings.SCENE_WIDTH-(width/2)-BoardSettings.BOARDER_HEIGHT) {
+			location.x = BoardSettings.SCENE_WIDTH-(width/2)-BoardSettings.BOARDER_HEIGHT;
+		} else if (location.x < 0 +(width/2)+BoardSettings.BOARDER_HEIGHT) {
+			location.x = 0+(width/2)+BoardSettings.BOARDER_HEIGHT;
 		}
 
-		if (location.y > Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT) {
-			location.y = Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT;
-		} else if (location.y < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
-			location.y = 0+(width/2)+Settings.BOARDER_HEIGHT;
+		if (location.y > BoardSettings.SCENE_HEIGHT-(width/2)-BoardSettings.BOARDER_HEIGHT) {
+			location.y = BoardSettings.SCENE_HEIGHT-(width/2)-BoardSettings.BOARDER_HEIGHT;
+		} else if (location.y < 0 +(width/2)+BoardSettings.BOARDER_HEIGHT) {
+			location.y = 0+(width/2)+BoardSettings.BOARDER_HEIGHT;
 		}
 	}
 	public void updateMidlineMult(double m) {

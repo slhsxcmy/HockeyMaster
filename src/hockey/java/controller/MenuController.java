@@ -1,4 +1,4 @@
-package hockey.java;
+package hockey.java.controller;
 
 import java.io.IOException;
 

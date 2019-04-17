@@ -1,4 +1,4 @@
-package hockey.java;
+package hockey.java.front;
 
 public class PVector {
 
