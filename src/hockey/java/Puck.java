@@ -115,6 +115,8 @@ public class Puck extends Pane{
 		double sy = s.getLocation().y;
 		double sr = s.getRadius();
 		if (Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
+			//hypotneuse divided by root 2 
+			double diag = (radius + sr)/(1.41421356);
 			//if contact with the left
 			if(px < sx && py >= (sy - .4 * sr) && py <= (sy + .4 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
@@ -129,7 +131,7 @@ public class Puck extends Pane{
 			//top
 			else if(py < sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py + radius + sr);
+					s.setPosition((px+diag), py+diag);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
@@ -151,7 +153,7 @@ public class Puck extends Pane{
 			//bottom
 			else if(py > sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py - radius - sr);
+					s.setPosition((px - diag), (py + diag));
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
@@ -174,7 +176,7 @@ public class Puck extends Pane{
 			//top right
 			else if(px > sx && py < sy) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition((px - radius - sr)+5, sy+5);
+					s.setPosition((px - diag) , py - diag);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
@@ -198,7 +200,7 @@ public class Puck extends Pane{
 			//bottom left
 			else if(px < sx && py > sy) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition((px + radius + sr)-5, sy-5);
+					s.setPosition((px + diag), py - diag);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
