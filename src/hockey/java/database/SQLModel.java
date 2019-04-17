@@ -123,9 +123,9 @@ public class SQLModel {
 		//if user doesnt exist, only status not null
 		
 		if(check) {
-			p.status = 1;			
+			p.status = 3;			
 		}else {
-			p.status = 2;
+			p.status = 4;
 		}
 		return p;
 	}
