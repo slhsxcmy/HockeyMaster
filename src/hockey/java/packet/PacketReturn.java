@@ -5,11 +5,12 @@ public class PacketReturn {
 	public String username;
 	public int id;
 	/*
-	  1 = success
-	  2 = failure
-	  12 = signup
-	  34 = login
-	  56 = signout
-	  78 = play logged or guest
+	  1 = signup success
+	  2 = signup failure
+	  3 = login success
+	  4 = login failure
+	  5 = signout
+	  6 = play logged or guest
+	  7 = stats
 	*/
 }
