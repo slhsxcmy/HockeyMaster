@@ -1,11 +1,11 @@
-package hockey.java;
+package hockey.java.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Model {
+public class SQLModel {
 	private boolean singlePlayerDebug = true;
 	
 	Connection connection = null;
@@ -13,7 +13,7 @@ public class Model {
 	ResultSet rs = null;
 	String query = "";
 	
-	public Model() {
+	public SQLModel() {
 		if(singlePlayerDebug) return;
 		connection = SQLConnection.Connector();
 		if(connection == null) {

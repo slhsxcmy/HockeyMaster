@@ -1,9 +1,10 @@
-package hockey.java;
+package hockey.java.controller;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import hockey.java.database.SQLModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class LoginController implements Initializable{
-	private Model model = new Model();
+	private SQLModel model = new SQLModel();
 	
 	@FXML
 	private Label appTitle;
@@ -26,10 +27,10 @@ public class LoginController implements Initializable{
 	private Label pageTitle;
 	
 	@FXML
-	private Label errorMessage;
+	private static Label message;
 	
 	@FXML
-	private TextField username;
+ 	private TextField username;
 	
 	@FXML
 	private TextField password;
@@ -43,7 +44,7 @@ public class LoginController implements Initializable{
 	public void login(ActionEvent event) throws IOException{
 		System.out.println(username.getText() + " " + password.getText());
 		if(!model.checkLogin(username.getText(), password.getText())) {
-			errorMessage.setText("Username doesn't match with password. Please try again.");
+			message.setText("Username doesn't match with password. Please try again.");
 		}		
 		else {
 			Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Logged.fxml"));
@@ -59,16 +60,15 @@ public class LoginController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		if(model.isDbConnected()) {
-			errorMessage.setText("Connected");
+			message.setText("Connected");
 		} else {
-			errorMessage.setText("Not Connected");
+			message.setText("Not Connected");
 		}
 		
 	}
 	
 	@FXML
 	public void goBack(ActionEvent event) throws IOException {
-		// add sign out logic
 		
 		Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
 		Scene scene = new Scene(root);
@@ -77,6 +77,11 @@ public class LoginController implements Initializable{
 		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 		window.setScene(scene);
 		window.show();	
+	}
+
+	public static void setMessage(String string) {
+		message.setText("Username doesn't match with password. Please try again.");
+		
 	}
 	
 }

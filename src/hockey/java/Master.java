@@ -1,49 +1,98 @@
 package hockey.java;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.Server;
+
+import hockey.java.front.PVector;
+import hockey.java.front.Player;
+import hockey.java.front.Puck;
+import hockey.java.front.Striker;
+import hockey.java.front.User;
+import hockey.java.packet.PacketAttempt;
+import hockey.java.packet.PacketStriker;
+
+public class Master extends Listener { // SERVER
+
+	static Server server;
+	public static final String ngrok_url = "https://d69be386.ngrok.io";
+	public static final int tcpPort = 27960;
+	public static Map<Integer, User> users = Collections.synchronizedMap(new HashMap<>()); 
+	public static boolean p1Ready = false;
+	public static boolean p2Ready = false;
 	
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+	
+	public static void registerClasses(Kryo k) {
 
-
-public class Master extends Application {
-	@Override
-	public void start(Stage stage) {
-		try {
-
-			// FXML
-			Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
-
-			/*
-			Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
-			
-			int screenWidth = (int) Math.round(bounds.getWidth());
-			int screenHeight = (int) Math.round(bounds.getHeight());
-			int gameWidth = screenHeight / 2;
-			int gameHeight = screenHeight;
-			
-			primaryStage.setWidth(screenWidth);
-			primaryStage.setHeight(screenHeight);
-			*/
-			Scene scene = new Scene(root);
-			// CSS
-			//scene.getStylesheets().add(getClass().getResource("/hockey/css/Menu.css").toExternalForm());
-						
-			stage.setScene(scene);
-			
-			//primaryStage.setFullScreen(true);
-			//primaryStage.setMaximized(true);
-
-//			System.out.println(scene.getWidth());
-//			System.out.println(scene.getHeight());
-			stage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		// register packet. ONLY objects registered as packets can be sent
+		k.register(Player.class);
+		k.register(Puck.class);
+		k.register(Striker.class);
+		k.register(User.class);
 	}
 	
 	public static void main(String[] args) {
-		launch(args);
+
+	
+		System.out.println("Creating server...");
+		
+		// create server
+		server = new Server();
+		
+		Master.registerClasses(server.getKryo());
+		
+		try {
+			// bind to ports
+			server.bind(tcpPort);
+		} catch (IOException e) {
+			System.out.println("Failed to bind to port " + tcpPort);
+		}
+		
+		// add listener for connected/received/disconnected methods
+		server.addListener(new Master());
+		
+		// start server
+		server.start();
+		System.out.println("Server is ready!");
+		
 	}
+	
+	// runs when connection 
+	public void connected(Connection c) {
+		System.out.println("Received connection from " + c.getRemoteAddressTCP().getHostString());
+		
+	}
+
+	// runs when packet received
+	public void received(Connection c, Object o) {
+		if (o instanceof PacketAttempt){
+			switch(((PacketAttempt) o).attempt) {
+			case 1: break;
+			case 2: break;
+			case 3: break;
+			case 4: break;
+			case 5: break;
+			case 6: break;
+	
+			}
+		} else if (o instanceof PacketStriker){
+			PVector location = ((PacketStriker) o).location;
+			PVector velocity = ((PacketStriker) o).velocity;
+			
+		} 
+		
+	}
+	
+	public void disconnected(Connection c) {
+		System.out.println("Lost connection from " + c.getRemoteAddressTCP().getHostString());
+		
+	}
+
 }

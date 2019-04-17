@@ -1,4 +1,4 @@
-package hockey.java;
+package hockey.java.front;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -8,8 +8,9 @@ public class Puck extends Pane{
 	private double mass;
 	boolean allowMove = true;
 	
-	private PVector location;
-    private PVector velocity;
+	public int connID;
+	public PVector location;
+    public PVector velocity;
 
     double width = 30;
     double height = width;
@@ -55,11 +56,11 @@ public class Puck extends Pane{
 		//Alot of constants here.. be careful of changing goal size
 		if((location.x-radius > 145-5) && 
 				(location.x+radius < (145+110)+5) && 
-				(location.y-radius < 0+Settings.BOARDER_HEIGHT))
+				(location.y-radius < 0+BoardSettings.BOARDER_HEIGHT))
 		{}
 		else if((location.x-radius > 145-5) && 
 				(location.x+radius < (145+110)+5) && 
-				(location.y+radius > (Settings.SCENE_HEIGHT-Settings.BOARDER_HEIGHT)))
+				(location.y+radius > (BoardSettings.SCENE_HEIGHT-BoardSettings.BOARDER_HEIGHT)))
 		{}
 		else {
 	        if (location.x > Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT) {
@@ -67,19 +68,19 @@ public class Puck extends Pane{
 	        	velocity.x *= -1;
 	        	onWall = true;
 	        } 
-	        else if (location.x < Settings.BOARDER_HEIGHT + radius) {
-	        	location.x = radius + Settings.BOARDER_HEIGHT + 1;
+	        else if (location.x < BoardSettings.BOARDER_HEIGHT + radius) {
+	        	location.x = radius + BoardSettings.BOARDER_HEIGHT + 1;
 	        	velocity.x *= -1;
 	        	onWall = true;
 	        }
 	
-	        if (location.y > Settings.SCENE_HEIGHT - radius - Settings.BOARDER_HEIGHT) {
-	        	location.y = Settings.SCENE_HEIGHT - radius - Settings.BOARDER_HEIGHT - 1;
+	        if (location.y > BoardSettings.SCENE_HEIGHT - radius - BoardSettings.BOARDER_HEIGHT) {
+	        	location.y = BoardSettings.SCENE_HEIGHT - radius - BoardSettings.BOARDER_HEIGHT - 1;
 	            velocity.y *= -1;
 	            onWall = true;
 	        } 
-	        else if (location.y < radius + Settings.BOARDER_HEIGHT) {
-	        	location.y = radius + Settings.BOARDER_HEIGHT + 1;
+	        else if (location.y < radius + BoardSettings.BOARDER_HEIGHT) {
+	        	location.y = radius + BoardSettings.BOARDER_HEIGHT + 1;
 	        	velocity.y *= -1;
 	        	onWall = true;
 	        }

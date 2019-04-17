@@ -1,4 +1,4 @@
-package hockey.java;
+package hockey.java.front;
 
 import java.util.Random;
 
@@ -62,8 +62,8 @@ public class PowerUpPuckSize extends Pane{
 	
 	public void reset(Puck p) {
 		Random r = new Random();
-		move(r.nextDouble() * (Settings.SCENE_WIDTH - (2 * Settings.BOARDER_HEIGHT)) + Settings.BOARDER_HEIGHT, 
-				r.nextDouble() * (Settings.SCENE_HEIGHT - (2 * Settings.BOARDER_HEIGHT)) + Settings.BOARDER_HEIGHT);
+		move(r.nextDouble() * (BoardSettings.SCENE_WIDTH - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT, 
+				r.nextDouble() * (BoardSettings.SCENE_HEIGHT - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT);
 		hidden = false;
 	}
 	

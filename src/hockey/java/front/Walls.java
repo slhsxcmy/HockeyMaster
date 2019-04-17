@@ -1,4 +1,4 @@
-package hockey.java;
+package hockey.java.front;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -13,16 +13,16 @@ public class Walls extends Pane{
 		if(num == 1) {
 			location = new PVector(0, 0);
 			rec = new Rectangle();
-			rec.setWidth(Settings.SCENE_WIDTH);
-			rec.setHeight(Settings.SCENE_HEIGHT);
+			rec.setWidth(BoardSettings.SCENE_WIDTH);
+			rec.setHeight(BoardSettings.SCENE_HEIGHT);
 			rec.setStroke(Color.BLUE);
 			rec.setFill(Color.BLUE);
 		}
 		else {
-			location = new PVector(Settings.BOARDER_HEIGHT, Settings.BOARDER_HEIGHT+1);
+			location = new PVector(BoardSettings.BOARDER_HEIGHT, BoardSettings.BOARDER_HEIGHT+1);
 			rec = new Rectangle();
-			rec.setWidth(Settings.SCENE_WIDTH - (Settings.BOARDER_HEIGHT*2));
-			rec.setHeight(Settings.SCENE_HEIGHT - (Settings.BOARDER_HEIGHT*2)-2);
+			rec.setWidth(BoardSettings.SCENE_WIDTH - (BoardSettings.BOARDER_HEIGHT*2));
+			rec.setHeight(BoardSettings.SCENE_HEIGHT - (BoardSettings.BOARDER_HEIGHT*2)-2);
 			rec.setStroke(Color.WHITE);
 			rec.setFill(Color.WHITE);
 		}

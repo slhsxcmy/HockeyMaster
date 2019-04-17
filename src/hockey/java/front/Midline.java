@@ -1,4 +1,4 @@
-package hockey.java;
+package hockey.java.front;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -7,10 +7,10 @@ public class Midline extends Pane {
 	
 	private PVector location;
 	
-	double height = Settings.BOARDER_HEIGHT/2;
-	double width = Settings.SCENE_WIDTH;
+	double height = BoardSettings.BOARDER_HEIGHT/2;
+	double width = BoardSettings.SCENE_WIDTH;
 	double startingX = 0;
-	double startingY = (Settings.SCENE_HEIGHT/2)-2;
+	double startingY = (BoardSettings.SCENE_HEIGHT/2)-2;
 	
 	Rectangle rec;
 

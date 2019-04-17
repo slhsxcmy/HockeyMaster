@@ -1,4 +1,4 @@
-package hockey.java;
+package hockey.java.controller;
 
 import java.io.IOException;
 
@@ -20,6 +20,9 @@ public class LoggedController {
 	private Label pageTitle;
 
 	@FXML
+	private static Label message;
+	
+	@FXML
 	private Button join;
 	
 	@FXML
@@ -29,6 +32,8 @@ public class LoggedController {
 	private Button signout;
 	
 	public void join(ActionEvent event) throws IOException{
+		// connect to server
+
 		
 	
 	}
@@ -55,6 +60,11 @@ public class LoggedController {
 		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 		window.setScene(scene);
 		window.show();	
+	}
+
+	public static void setMessage(String string) {
+		message.setText(string);
+		
 	}
 	
 }
