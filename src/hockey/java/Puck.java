@@ -119,47 +119,55 @@ public class Puck extends Pane{
 		if (Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
 			//hypotneuse divided by root 2 
 			double diag = (radius + sr)/(1.41421356);
-			//if contact with the left
+			//left
 			if(px < sx && py >= (sy - .4 * sr) && py <= (sy + .4 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(px + radius + sr, sy);
+					int i = 0;
+					s.setPosition(px + radius + sr + i, sy);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
+					i++;
 					//System.out.println("LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
 				}
 			}
 			//top
 			else if(py < sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
+				int i = 0;
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py + radius + sr);
+					s.setPosition(sx, py + radius + sr + i);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
+					i++;
 					//System.out.println("TOPPPPPPPPPPPPP");
 				}
 			}
 			//right
 			else if(px > sx && py >= (sy - .4 * sr) && py <= (sy + .4 * sr)) {
+				int i = 0;
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(px - radius - sr, sy);
+					s.setPosition(px - radius - sr - i, sy);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
+					i++;
 					//System.out.println("RIIIIIGGGGGHHHHTTTT");
 				}
 			}
 			//bottom
 			else if(py > sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
+				int i = 0;
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py - radius - sr);
+					s.setPosition(sx, py - radius - sr - i);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
+					i++;
 					//System.out.println("BOOOOTTTTTTOOOOOMMMMMM");
 				}
 			}
