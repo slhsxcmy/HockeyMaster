@@ -54,11 +54,18 @@ public class Striker extends Pane {
         location.copy(mouse);
     }
 	
-	public void checkBoundaries() {
-		/*//TODO
+	public void checkBoundaries(Puck p) {
+		//TODO
 		//CUrrently mouse goes across half line and physics is very off
 		//PUCK SPEEDS UP TO MAX
 		//player1 gets the bottom half
+		
+		double px = p.getLocation().x;
+		double py = p.getLocation().y;
+		double pr = p.getRadius();
+		if (p.onWall() && Math.sqrt((px - location.x) * (px - location.x) + (py - location.y) * (py - location.y)) <= radius + pr) {
+			//prevent striker from moving into wall
+		}
 
 		if(player.getPlayerID() == 1) {
 			if (location.x > Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT) {
@@ -89,7 +96,7 @@ public class Striker extends Pane {
 			} else if (location.y < (0 +radius+Settings.BOARDER_HEIGHT)*mult) {
 				location.y = 0+radius+Settings.BOARDER_HEIGHT;
 			}
-		} */
+		}
 		
 		if (location.x > Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT) {
 			location.x = Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT;

@@ -110,7 +110,7 @@ public class Game extends Application{
             	 puckPU.display();
                  s1.step(p1.getMouse(), mid);
                  //s2.step(p1.getMouse());
-                 s1.checkBoundaries();
+                 s1.checkBoundaries(puck);
                  
                  //s2.checkBoundaries();
                  if (puck.checkBoundaries()) {

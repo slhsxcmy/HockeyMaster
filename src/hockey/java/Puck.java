@@ -19,9 +19,9 @@ public class Puck extends Pane{
     
     Circle circle;
     
-    int collisioncounter = 0;
-    
     private Striker lastHit;
+    
+    private boolean onWall;
 	
 	public Puck() {
 		mass = 5;
@@ -39,6 +39,8 @@ public class Puck extends Pane{
         getChildren().add(circle);
         
         lastHit = null;
+        
+        onWall = false;
 	}
 	
 	public void step(double friction) {
@@ -47,7 +49,7 @@ public class Puck extends Pane{
 	}
 	
 	public boolean checkBoundaries() {
-		boolean onBoundary = false;
+		onWall = false;
 		/*//todo
 		//if puck is in the goal, keep it moving
 		//Alot of constants here.. be careful of changing goal size
@@ -63,26 +65,26 @@ public class Puck extends Pane{
 	        if (location.x > Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT) {
 	        	location.x = Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT - 1;
 	        	velocity.x *= -1;
-	        	onBoundary = true;
+	        	onWall = true;
 	        } 
 	        else if (location.x < Settings.BOARDER_HEIGHT + radius) {
 	        	location.x = radius + Settings.BOARDER_HEIGHT + 1;
 	        	velocity.x *= -1;
-	        	onBoundary = true;
+	        	onWall = true;
 	        }
 	
 	        if (location.y > Settings.SCENE_HEIGHT - radius - Settings.BOARDER_HEIGHT) {
 	        	location.y = Settings.SCENE_HEIGHT - radius - Settings.BOARDER_HEIGHT - 1;
 	            velocity.y *= -1;
-	            onBoundary = true;
+	            onWall = true;
 	        } 
 	        else if (location.y < radius + Settings.BOARDER_HEIGHT) {
 	        	location.y = radius + Settings.BOARDER_HEIGHT + 1;
 	        	velocity.y *= -1;
-	        	onBoundary = true;
+	        	onWall = true;
 	        }
 		//}
-		return onBoundary;
+		return onWall;
     }
 	
 	public void collision(Midline m, PowerUp pu) {
@@ -131,7 +133,7 @@ public class Puck extends Pane{
 			//top
 			else if(py < sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition((px+diag), py+diag);
+					s.setPosition(sx, py + radius + sr);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
@@ -153,7 +155,7 @@ public class Puck extends Pane{
 			//bottom
 			else if(py > sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition((px - diag), (py + diag));
+					s.setPosition(sx, py - radius - sr);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
@@ -234,6 +236,8 @@ public class Puck extends Pane{
 //			sV.mult(-1);
 //			s.setVelocity(sV);
 //			s.step();
+//			sV.mult(-1);
+//			s.setVelocity(sV);
 		}
 		pV.mult(0.85);
 		velocity.copy(pV);
@@ -274,6 +278,14 @@ public class Puck extends Pane{
 		this.radius = width/2;
 		circle.setRadius(30/2);
 		display();
+    }
+    
+    public boolean onWall() {
+    	return onWall;
+    }
+    
+    public double getRadius() {
+    	return radius;
     }
 
 }
