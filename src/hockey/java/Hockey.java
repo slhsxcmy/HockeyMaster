@@ -17,33 +17,46 @@ import hockey.java.front.User;
 
 // ClientProgram
 public class Hockey extends Application {
- 
-	 private static Network network = new Network();
-	 private static User self = null; // instantiate when playAsGuest or Signup or Login
-	 
-	 @Override
-	 public void start(Stage stage) {
-		  try {
-		
-		   // FXML
-		   Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
-		   
-		   Scene scene = new Scene(root);
-		      
-		   stage.setScene(scene);
-		   
-		   stage.show();
-		  } catch(Exception e) {
-		   e.printStackTrace();
-		  }
-	 }
-	 
-	 public static void main(String[] args) {
-		 launch(args);
-	 }
-	 
-	 public static Network getNetwork() {
-		 return network;
-	 }
- 
+	
+	private static Network network = new Network();
+	private static User self = null; // instantiate when playAsGuest or Register or Login
+	
+	@Override
+	public void start(Stage stage) {
+		try {
+
+			// FXML
+			Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
+			
+			Scene scene = new Scene(root);
+						
+			stage.setScene(scene);
+			
+			stage.show();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+	public static Network getNetwork() {
+		return network;
+	}
+
+	public static void setNetwork(Network network) {
+		Hockey.network = network;
+	}
+
+	public static User getSelf() {
+		return self;
+	}
+
+	public static void setSelf(User self) {
+		Hockey.self = self;
+	}
+	
+	
+	
 }

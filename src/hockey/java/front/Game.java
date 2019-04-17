@@ -19,18 +19,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
-public class Game extends Application{
-	
-	public static Master server;
-	public static ClientThread client;	
-    public static Game game;
-	
-	Pane playfield;
-    public Player p1;
-    public Player p2;
-    public Striker s1;
-    public Striker s2;
-    public Puck puck;
+    Pane playfield;
+ 
+    Player p1;
+    Player p2;
+    Striker s1;
+    Striker s2;
+    Puck puck;
     Goal goal1;
     Goal goal2;
     Walls walls1, walls2;
@@ -44,23 +39,26 @@ public class Game extends Application{
     
     @Override
     public void start(Stage stage) {
-
-    	 game = this;
-    	 p1 = new Player("p1", 1);
-    	 p2 = new Player("p2", 2);
-    	 s1 = new Striker(p1);
-    	 s2 = new Striker(p2);
-
-    	 puck = new Puck();
+    	 //p1 = new Player("p1", 1);
+    	 //p2 = new Player("p2", 2);
+    	 //s1 = new Striker(p1);
+    	 //s2 = new Striker();
+    	
+    	//u1 = new User();
+    	//u2 = new User();
+    	u1.initStriker();
+    	u2.initStriker();
+    	
+    	puck = new Puck();
 
     	goal1 = new Goal(1, puck, u1.getStriker().getPlayer());
     	goal2 = new Goal(2, puck, u2.getStriker().getPlayer());
     	walls1 = new Walls(1);
     	walls2 = new Walls(2);
 
-    	mid = new Midline();
-    	center = new CenterCircle();
-    	friction = .982;
+    	 mid = new Midline();
+    	 center = new CenterCircle();
+    	 friction = .988;
     	 
     	 Text p1s = new Text(Integer.toString(u1.getStriker().getPlayer().getScore()));
      	 p1s.setFont(Font.font ("Verdana", 50));
@@ -121,7 +119,7 @@ public class Game extends Application{
             	 puckPU.display();
             	 u1.getStriker().step(u1.getStriker().getPlayer().getMouse(), mid);
                  //s2.step(p1.getMouse());
-            	 u1.getStriker().checkBoundaries();
+                 s1.checkBoundaries(puck);
                  
                  //s2.checkBoundaries();
                  if (puck.checkBoundaries()) {

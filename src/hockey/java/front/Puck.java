@@ -20,9 +20,9 @@ public class Puck extends Pane{
     
     Circle circle;
     
-    int collisioncounter = 0;
-    
     private Striker lastHit;
+    
+    private boolean onWall;
 	
 	public Puck() {
 		mass = 5;
@@ -40,6 +40,8 @@ public class Puck extends Pane{
         getChildren().add(circle);
         
         lastHit = null;
+        
+        onWall = false;
 	}
 	
 	public void step(double friction) {
@@ -48,8 +50,8 @@ public class Puck extends Pane{
 	}
 	
 	public boolean checkBoundaries() {
-		boolean onBoundary = false;
-		/*//todo
+		onWall = false;
+		//todo
 		//if puck is in the goal, keep it moving
 		//Alot of constants here.. be careful of changing goal size
 		if((location.x-radius > 145-5) && 
@@ -60,30 +62,30 @@ public class Puck extends Pane{
 				(location.x+radius < (145+110)+5) && 
 				(location.y+radius > (BoardSettings.SCENE_HEIGHT-BoardSettings.BOARDER_HEIGHT)))
 		{}
-		else {	*/
-	        if (location.x > BoardSettings.SCENE_WIDTH - radius - BoardSettings.BOARDER_HEIGHT) {
-	        	location.x = BoardSettings.SCENE_WIDTH - radius - BoardSettings.BOARDER_HEIGHT - 1;
+		else {
+	        if (location.x > Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT) {
+	        	location.x = Settings.SCENE_WIDTH - radius - Settings.BOARDER_HEIGHT - 1;
 	        	velocity.x *= -1;
-	        	onBoundary = true;
+	        	onWall = true;
 	        } 
 	        else if (location.x < BoardSettings.BOARDER_HEIGHT + radius) {
 	        	location.x = radius + BoardSettings.BOARDER_HEIGHT + 1;
 	        	velocity.x *= -1;
-	        	onBoundary = true;
+	        	onWall = true;
 	        }
 	
 	        if (location.y > BoardSettings.SCENE_HEIGHT - radius - BoardSettings.BOARDER_HEIGHT) {
 	        	location.y = BoardSettings.SCENE_HEIGHT - radius - BoardSettings.BOARDER_HEIGHT - 1;
 	            velocity.y *= -1;
-	            onBoundary = true;
+	            onWall = true;
 	        } 
 	        else if (location.y < radius + BoardSettings.BOARDER_HEIGHT) {
 	        	location.y = radius + BoardSettings.BOARDER_HEIGHT + 1;
 	        	velocity.y *= -1;
-	        	onBoundary = true;
+	        	onWall = true;
 	        }
-		//}
-		return onBoundary;
+		}
+		return onWall;
     }
 	
 	public void collision(Midline m, PowerUp pu) {
@@ -116,92 +118,113 @@ public class Puck extends Pane{
 		double sy = s.getLocation().y;
 		double sr = s.getRadius();
 		if (Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-			//if contact with the left
-			if(px < sx && py > (sy - .5 * sr) && py < (sy + .5 * sr)) {
+			//hypotneuse divided by root 2 
+			double diag = (radius + sr)/(1.41421356);
+			//left
+			if(px < sx && py >= (sy - .4 * sr) && py <= (sy + .4 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(px + radius + sr, sy);
+					int i = 0;
+					s.setPosition(px + radius + sr + i, sy);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					System.out.println("LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
-				}
-			}
-			//top left
-			if(px < sx && py > (sy - sr) && py < (sy - .5 * sr)) {
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(px + radius + sr, sy);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					System.out.println("TOPPPPPPPPPP LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
+					i++;
+					//System.out.println("LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
 				}
 			}
 			//top
-			else if(py < sy && px > (sx - .5 * sr) && px < (sx + .5 * sr)) {
+			else if(py < sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
+				int i = 0;
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py + radius + sr);
+					s.setPosition(sx, py + radius + sr + i);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					System.out.println("TOPPPPPPPPPPPPP");
-				}
-			}
-			//top right
-			if(px > sx && py > (sy - sr) && py < (sy - .5 * sr)) {
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(px + radius + sr, sy);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					System.out.println("TOPPPPPPPPPP RIIIIGGGGGGHTTT");
+					i++;
+					//System.out.println("TOPPPPPPPPPPPPP");
 				}
 			}
 			//right
-			else if(px > sx && py > (sy - .5 * sr) && py < (sy + .5 * sr)) {
+			else if(px > sx && py >= (sy - .4 * sr) && py <= (sy + .4 * sr)) {
+				int i = 0;
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(px - radius - sr, sy);
+					s.setPosition(px - radius - sr - i, sy);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					System.out.println("RIIIIIGGGGGHHHHTTTT");
-				}
-			}
-			//bottom right
-			else if(py > sy && px > (sx + .5 * sr) && px < (sx + sr)) {
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py - radius - sr);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					System.out.println("BOOOOTTTTTTOOOOOMMMMMM RIIIIGGGGGHHHHHHTTT");
+					i++;
+					//System.out.println("RIIIIIGGGGGHHHHTTTT");
 				}
 			}
 			//bottom
-			else if(py > sy && px > (sx - .5 * sr) && px < (sx + .5 * sr)) {
+			else if(py > sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
+				int i = 0;
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py - radius - sr);
+					s.setPosition(sx, py - radius - sr - i);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					System.out.println("BOOOOTTTTTTOOOOOMMMMMM");
+					i++;
+					//System.out.println("BOOOOTTTTTTOOOOOMMMMMM");
 				}
 			}
-			//bottom left
-			else if(py > sy && px > (sx - sr) && px < (sx - .5 * sr)) {
+			//top left
+			else if(px < sx && py < sy) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py - radius - sr);
+					double dx = sx-px+1;
+					double dy = sy-py+1;
+					s.setPosition((px+dx), py+dy);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					System.out.println("BOOOOTTTTTTOOOOOMMMMMM LLLLEEEEEEEFFFFFFFTTTTT");
+					//System.out.println("TOPPPPPPPPPP LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
+				}
+			}
+			
+			//top right
+			else if(px > sx && py < sy) {
+				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
+					double dx = px-sx+1;
+					double dy = sy-py+1;
+					s.setPosition((px - dx) , py + dy);
+					px = location.x;
+					py = location.y;
+					sx = s.getLocation().x;
+					sy = s.getLocation().y;
+					//System.out.println("TOPPPPPPPPPP RIIIIGGGGGGHTTT");
+				}
+			}
+			
+			//bottom right
+			else if(px > sx && py > sy) {
+				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
+					double dx = px-sx+1;
+					double dy = py-sy+1;
+					s.setPosition((px - dx), py - dy);
+					px = location.x;
+					py = location.y;
+					sx = s.getLocation().x;
+					sy = s.getLocation().y;
+					//System.out.println("BOOOOTTTTTTOOOOOMMMMMM RIIIIGGGGGHHHHHHTTT");
+				}
+			}
+			
+			//bottom left
+			else if(px < sx && py > sy) {
+				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
+					double dx = sx-px+1;
+					double dy = py-sy+1;
+					s.setPosition((px + dx), py - dy);
+					px = location.x;
+					py = location.y;
+					sx = s.getLocation().x;
+					sy = s.getLocation().y;
+					//System.out.println("BOOOOTTTTTTOOOOOMMMMMM LLLLEEEEEEEFFFFFFFTTTTT");
 				}
 			}
 			location.x = px;
@@ -230,10 +253,12 @@ public class Puck extends Pane{
 //			sV.mult(-1);
 //			s.setVelocity(sV);
 //			s.step();
+//			sV.mult(-1);
+//			s.setVelocity(sV);
 		}
-		
+		pV.mult(0.85);
 		velocity.copy(pV);
-		velocity.limit(30);
+		velocity.limit(25);
 	}
 	
 	public void changePuckSize(double size) {
@@ -270,6 +295,14 @@ public class Puck extends Pane{
 		this.radius = width/2;
 		circle.setRadius(30/2);
 		display();
+    }
+    
+    public boolean onWall() {
+    	return onWall;
+    }
+    
+    public double getRadius() {
+    	return radius;
     }
 
 }

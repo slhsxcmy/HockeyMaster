@@ -31,7 +31,7 @@ public class SignupController implements Initializable{
 	private Label pageTitle;
 	
 	@FXML
-	private Label errorMessage;
+	private static Label message;
 	
 	@FXML
 	private TextField username;
@@ -50,6 +50,8 @@ public class SignupController implements Initializable{
 	
 	@FXML
 	public void signup(ActionEvent event) throws IOException{
+		
+		
 		System.out.println(username.getText() + " " + password.getText() + " " + passwordc.getText());
 		
 		//sending signup packet
@@ -82,9 +84,9 @@ public class SignupController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		if(model.isDbConnected()) {
-			errorMessage.setText("Connected");
+			message.setText("Connected");
 		} else {
-			errorMessage.setText("Not Connected");
+			message.setText("Not Connected");
 		}
 		
 	}
@@ -101,6 +103,11 @@ public class SignupController implements Initializable{
 		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 		window.setScene(scene);
 		window.show();	
+	}
+
+	public static void setMessage(String string) {
+		message.setText(string);
+		
 	}
 	
 }

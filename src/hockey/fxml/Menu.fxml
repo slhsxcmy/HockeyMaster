@@ -9,7 +9,7 @@
 
 <!--prefWidth="${screen.visualBounds.height}" prefHeight="${screen.visualBounds.height}"-->
 
-<AnchorPane prefHeight="800.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hockey.java.MenuController">
+<AnchorPane prefHeight="800.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hockey.java.controller.MenuController">
    <children>
       <ImageView fitHeight="800.0" fitWidth="400.0">
          <image>
@@ -24,13 +24,18 @@
          <font>
             <Font name="HockeyFont" size="17.0" url="@../../Fonts/HockeyFont.ttf" />
          </font></Label>
-      <Button fx:id="login" layoutX="174.0" layoutY="344.0" mnemonicParsing="false" onAction="#goLogin" scaleX="3.0" scaleY="3.0" scaleZ="2.0" text="Login">
+      <Button fx:id="login" layoutX="172.0" layoutY="344.0" mnemonicParsing="false" onAction="#goLogin" scaleX="3.0" scaleY="3.0" scaleZ="2.0" text="Login">
          <font>
             <Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
          </font></Button>
-      <Button fx:id="register" layoutX="169.0" layoutY="466.0" mnemonicParsing="false" onAction="#goRegister" scaleX="1.5" scaleY="1.5" scaleZ="2.0" text="Sign UP">
+      <Button fx:id="register" layoutX="170.0" layoutY="430.0" mnemonicParsing="false" onAction="#goRegister" scaleX="1.5" scaleY="1.5" scaleZ="2.0" text="Sign UP">
    	     <font>
             <Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
          </font></Button>
+      <Button fx:id="playAsGuest" layoutX="142.0" layoutY="508.0" mnemonicParsing="false" onAction="#join" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="PLAY AS GUEST">
+         <font>
+            <Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
