@@ -8,7 +8,7 @@ import com.esotericsoftware.kryonet.Listener;
 
 import hockey.java.Master;
 import hockey.java.packet.PacketPuck;
-import hockey.java.packet.PacketStatus;
+import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStriker;
 
 public class Network extends Listener{
@@ -49,8 +49,8 @@ public class Network extends Listener{
 	// runs upon packet received
 	public void received(Connection c, Object o) {
 		
-		if (o instanceof PacketStatus){
-			switch(((PacketStatus) o).status) {
+		if (o instanceof PacketReturn){
+			switch(((PacketReturn) o).status) {
 			case 1: break;
 			case 2: break;
 			case 3: break;
@@ -74,6 +74,9 @@ public class Network extends Listener{
 
 	}
 	
+	public Connection getConnection() {
+		return c;
+	}
 //	public void disconnected(Connection c) {
 //		System.out.println("Disconnected from server at " + c.getRemoteAddressTCP().getHostString());
 //	}

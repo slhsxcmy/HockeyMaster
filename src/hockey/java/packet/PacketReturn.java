@@ -1,6 +1,6 @@
 package hockey.java.packet;
 
-public class PacketStatus {
+public class PacketReturn {
 	public int status;
 	
 	/*

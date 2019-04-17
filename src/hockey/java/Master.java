@@ -17,6 +17,7 @@ import hockey.java.front.Puck;
 import hockey.java.front.Striker;
 import hockey.java.front.User;
 import hockey.java.packet.PacketAttempt;
+import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStriker;
 
 public class Master extends Listener { // SERVER
@@ -76,19 +77,19 @@ public class Master extends Listener { // SERVER
 		//c.sendTCP(packet);
 		System.out.println("Connection received");
 		
-		if(!p1Connected) { 
-			p1Connected = true;
-			//strikers.put(c.getID(), s);
-		}
-		else if (!p2Connected) {
-			p2Connected = true;
-			
-			//TODO Start game here
-		}
-		else { //p1 and p2 already connected, the rest connections will wait
-			System.out.print("Sorry. The game has started. Please wait for the next game.");
-			return;
-		}
+//		if(!p1Connected) { 
+//			p1Connected = true;
+//			//strikers.put(c.getID(), s);
+//		}
+//		else if (!p2Connected) {
+//			p2Connected = true;
+//			
+//			//TODO Start game here
+//		}
+//		else { //p1 and p2 already connected, the rest connections will wait
+//			System.out.print("Sorry. The game has started. Please wait for the next game.");
+//			return;
+//		}
 		
 
 		
@@ -98,7 +99,20 @@ public class Master extends Listener { // SERVER
 	public void received(Connection c, Object o) {
 		if (o instanceof PacketAttempt){
 			switch(((PacketAttempt) o).attempt) {
-			case 1: break;
+			/*
+			  1 = signup
+			  2 = login
+			  3 = signout
+			  4 = get stats
+			  5 = play logged
+			  6 = play guest
+			*/
+			case 1: 
+				String username = ((PacketAttempt) o).username;
+				if(checkSignUp()) {
+					PacketReturn p = new PacketReturn();
+				}
+				break;
 			case 2: break;
 			case 3: break;
 			case 4: break;
@@ -114,13 +128,13 @@ public class Master extends Listener { // SERVER
 		
 	}
 	
-	public void disconnected(Connection c) {
-		System.out.println("Lost connection from " + c.getRemoteAddressTCP().getHostString());
-		try {
-			Game.game.stop();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public void disconnected(Connection c) {
+//		System.out.println("Lost connection from " + c.getRemoteAddressTCP().getHostString());
+//		try {
+//			Game.game.stop();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 }

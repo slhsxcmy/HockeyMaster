@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import hockey.java.Hockey;
 import hockey.java.database.SQLModel;
+import hockey.java.packet.PacketAttempt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +29,7 @@ public class LoginController implements Initializable{
 	private Label pageTitle;
 	
 	@FXML
-	private Label errorMessage;
+	private static Label errorMessage;
 	
 	@FXML
 	private TextField username;
@@ -43,18 +45,28 @@ public class LoginController implements Initializable{
 	
 	public void login(ActionEvent event) throws IOException{
 		System.out.println(username.getText() + " " + password.getText());
-		if(!model.checkLogin(username.getText(), password.getText())) {
-			errorMessage.setText("Username doesn't match with password. Please try again.");
-		}		
-		else {
-			Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Logged.fxml"));
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/hockey/css/Logged.css").toExternalForm());
-			
-			Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-			window.setScene(scene);
-			window.show();			
-		}
+		
+		//sending signup packet
+		PacketAttempt p = new PacketAttempt();
+		p.attempt = 1;
+		p.username = username.getText();
+		p.password = password.getText();
+		
+		Hockey.getNetwork().getConnection().sendTCP(p);
+		
+		
+//		if(!model.checkLogin(username.getText(), password.getText())) {
+//			errorMessage.setText("Username doesn't match with password. Please try again.");
+//		}		
+//		else {
+//			Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Logged.fxml"));
+//			Scene scene = new Scene(root);
+//			scene.getStylesheets().add(getClass().getResource("/hockey/css/Logged.css").toExternalForm());
+//			
+//			Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+//			window.setScene(scene);
+//			window.show();			
+//		}
 	}
 	
 	@Override
