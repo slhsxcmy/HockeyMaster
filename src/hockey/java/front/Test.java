@@ -30,10 +30,6 @@ public class Test extends Application{
     CenterCircle center;
     double friction;
     
-    public void displayWinner(Pane playfield, String name) {
-    	
-    }
-    
     @Override
     public void start(Stage stage) {
     	 p1 = new Player("p1", 1);
