@@ -26,6 +26,8 @@ public class Striker extends Pane {
     double mult = 1;
 
     Circle circle;
+    
+    private boolean update;
 	
 	public Striker(Player player) {
 		this.player = player;
@@ -43,6 +45,8 @@ public class Striker extends Pane {
         circle.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.3));
 
         getChildren().add(circle);
+        
+        update = true;
 	}
 	
 	public void step(PVector mouse, Midline mid) {
@@ -51,7 +55,9 @@ public class Striker extends Pane {
 				player.getPlayerID() == 2 && location.y == mid.getLocation() - mid.getHeight() - radius + 1) {
 			velocity.y = 0;
 		}
-        location.copy(mouse);
+		if (update) {
+			location.copy(mouse);
+		}
     }
 	
 	public void checkBoundaries(Puck p) {
@@ -63,8 +69,33 @@ public class Striker extends Pane {
 		double px = p.getLocation().x;
 		double py = p.getLocation().y;
 		double pr = p.getRadius();
-		if (p.onWall() && Math.sqrt((px - location.x) * (px - location.x) + (py - location.y) * (py - location.y)) <= radius + pr) {
-			//prevent striker from moving into wall
+		double sx = location.x;
+		double sy = location.y;
+		if (p.onWall()) {
+			update = false;
+			while (p.onWall() && Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + pr) {
+				p.checkBoundaries();
+				System.out.println("While");
+				double dx;
+				double dy = py - sy + 10;
+				if (px < sx) {
+					dx = sx - px + 10;
+					location.x = px + dx;
+				}
+				else {
+					dx = px - sx + 10;
+					location.x = px - dx;
+				}
+				if (py < sy) {
+					dy = sy - py + 10;
+					location.y = py + dy;
+				}
+				else {
+					dy = py - sy + 10;
+					location.y = py - dy;
+				}
+			}
+			update = true;
 		}
 
 		if(player.getPlayerID() == 1) {
@@ -78,9 +109,9 @@ public class Striker extends Pane {
 				location.y = Settings.SCENE_HEIGHT-radius-Settings.BOARDER_HEIGHT;
 			}
 			//if the striker hits the midline
-			else if (location.y < (radius+(Settings.SCENE_HEIGHT/2)-2+(Settings.BOARDER_HEIGHT/2))*mult) {
-				location.y = (radius+(Settings.SCENE_HEIGHT/2)-2+(Settings.BOARDER_HEIGHT/2))*mult;
-			}
+//			else if (location.y < (radius+(Settings.SCENE_HEIGHT/2)-2+(Settings.BOARDER_HEIGHT/2))*mult) {
+//				location.y = (radius+(Settings.SCENE_HEIGHT/2)-2+(Settings.BOARDER_HEIGHT/2))*mult;
+//			}
 		}
 		else {
 			if (location.x > Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT) {
