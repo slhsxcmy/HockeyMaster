@@ -125,19 +125,19 @@ public class Puck extends Pane{
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					System.out.println("LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
+					//System.out.println("LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
 				}
 			}
 			//top
 			else if(py < sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition((px+diag), py+diag);
+					s.setPosition(sx, py + radius + sr);
 
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					System.out.println("TOPPPPPPPPPPPPP");
+					//System.out.println("TOPPPPPPPPPPPPP");
 				}
 			}
 			//right
@@ -148,65 +148,73 @@ public class Puck extends Pane{
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					System.out.println("RIIIIIGGGGGHHHHTTTT");
+					//System.out.println("RIIIIIGGGGGHHHHTTTT");
 				}
 			}
 			//bottom
 			else if(py > sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition((px - diag), (py + diag));
+					s.setPosition(sx, py - radius - sr);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					System.out.println("BOOOOTTTTTTOOOOOMMMMMM");
+					//System.out.println("BOOOOTTTTTTOOOOOMMMMMM");
 				}
 			}
 			//top left
 			else if(px < sx && py < sy) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition((px + radius + sr)-5, sy+5);
+					double dx = sx-px+1;
+					double dy = sy-py+1;
+					s.setPosition((px+dx), py+dy);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					System.out.println("TOPPPPPPPPPP LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
+					//System.out.println("TOPPPPPPPPPP LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
 				}
 			}
 			
 			//top right
 			else if(px > sx && py < sy) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition((px - diag) , py - diag);
+					double dx = px-sx+1;
+					double dy = sy-py+1;
+					s.setPosition((px - dx) , py + dy);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					System.out.println("TOPPPPPPPPPP RIIIIGGGGGGHTTT");
+					//System.out.println("TOPPPPPPPPPP RIIIIGGGGGGHTTT");
 				}
 			}
 			
 			//bottom right
 			else if(px > sx && py > sy) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition((px - radius - sr), sy-5);
+					double dx = px-sx+1;
+					double dy = py-sy+1;
+					s.setPosition((px - dx), py - dy);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					System.out.println("BOOOOTTTTTTOOOOOMMMMMM RIIIIGGGGGHHHHHHTTT");
+					//System.out.println("BOOOOTTTTTTOOOOOMMMMMM RIIIIGGGGGHHHHHHTTT");
 				}
 			}
 			
 			//bottom left
 			else if(px < sx && py > sy) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition((px + diag), py - diag);
+					double dx = sx-px+1;
+					double dy = py-sy+1;
+					s.setPosition((px + dx), py - dy);
 					px = location.x;
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					System.out.println("BOOOOTTTTTTOOOOOMMMMMM LLLLEEEEEEEFFFFFFFTTTTT");
+					//System.out.println("BOOOOTTTTTTOOOOOMMMMMM LLLLEEEEEEEFFFFFFFTTTTT");
 				}
 			}
 			location.x = px;
@@ -238,7 +246,7 @@ public class Puck extends Pane{
 		}
 		pV.mult(0.85);
 		velocity.copy(pV);
-		velocity.limit(20);
+		velocity.limit(25);
 	}
 	
 	public void changePuckSize(double size) {
