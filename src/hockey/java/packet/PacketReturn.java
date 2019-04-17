@@ -4,12 +4,13 @@ public class PacketReturn {
 	public int status;
 	
 	/*
-	  odd = success
-	  even = failure
-	  12 = signup
-	  34 = login
-	  56 = signout
-	  78 = play (logged or guest)
+	  1 = sign up success
+	  2 = sign up failure
+	  3 = login success
+	  4 = login failure
+	  5 = signout
+	  7 = play (logged or guest)
+	  8 = stats
 	  */
 	
 

@@ -85,7 +85,7 @@ public class Network extends Listener{
 				LoggedController.setMessage("Login failed. Please try again.");
 				break;
 			case 7: 
-				Game game = new Game();
+				//Game game = new Game();
 				break;
 			case 8: 
 				LoggedController.setMessage("Join game failed. Please wait.");
@@ -104,6 +104,9 @@ public class Network extends Listener{
 
 	}
 	
+	public Connection getConnection() {
+		return c;
+	}
 //	public void disconnected(Connection c) {
 //		System.out.println("Disconnected from server at " + c.getRemoteAddressTCP().getHostString());
 //	}

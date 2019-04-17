@@ -22,7 +22,7 @@ public class User {
 	}
 	
 	public void initStriker() {
-		striker = new Striker(new Player());
+		striker = new Striker(new Player(username, id));
 	}
 	public Striker getStriker() {
 		return striker;

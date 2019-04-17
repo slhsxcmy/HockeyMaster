@@ -4,14 +4,14 @@ import com.esotericsoftware.kryonet.Connection;
 
 public class Player {
 	
-	//private String username;
+	private String username;
 	private PVector mouse;
 	
 	private int score;
-	//private int playerID;
-	public Player(/*String username, int id*/) {
-		//this.username = username;
-		//playerID = id;
+	private int playerID;
+	public Player(String username, int id) {
+		this.username = username;
+		playerID = id;
 		mouse = new PVector(0, 0);
 		score = 0;
 	}
@@ -20,9 +20,9 @@ public class Player {
 		score++;
 	}
 	
-	/*public String getUsername() {
+	public String getUsername() {
 		return username;
-	}*/
+	}
 	
 	public PVector getMouse() {
 		return mouse;
@@ -32,8 +32,11 @@ public class Player {
 		return score;
 	}
 	
-	/*public int getPlayerID() {
+	public int getPlayerID() {
 		return playerID;
-	}*/
-
+	}
+	
+	public void setPlayerID(int id) {
+		this.playerID = id;
+	}
 }
