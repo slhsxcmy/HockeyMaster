@@ -25,6 +25,13 @@ public class MenuController {
 	@FXML
 	private Button register;
 	
+	@FXML
+	private Button playAsGuest;
+	
+	public void join(ActionEvent event) throws IOException{
+		
+	}
+	
 	public void goLogin(ActionEvent event) throws IOException{
 		Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Login.fxml"));
 		Scene scene = new Scene(root);
