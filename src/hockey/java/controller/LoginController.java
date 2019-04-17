@@ -73,13 +73,11 @@ public class LoginController{
 	@FXML
 	public void goBack(ActionEvent event) throws IOException {
 		
-		Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/hockey/css/Menu.css").toExternalForm());
+		Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
+		primaryStage.setScene(Hockey.getMenuScene());
+		//primaryStage.show();
+	
 		
-		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-		window.setScene(scene);
-		window.show();	
 	}
 
 	public static void setMessage(String string) {

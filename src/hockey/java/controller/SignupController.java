@@ -48,6 +48,11 @@ public class SignupController{
 	@FXML
 	private Button back;
 	
+	// scenes
+	private Scene menuScene; // goBack
+	private Scene loggedScene; // signup
+	
+	
 	@FXML
 	public void signup(ActionEvent event) throws IOException{
 		
@@ -61,6 +66,7 @@ public class SignupController{
 		p.password = password.getText();
 		p.confirm = passwordc.getText();
 		Hockey.getNetwork().getClient().sendTCP(p);
+		System.out.println("Sent SignupAttempt");
 		
 		
 		
@@ -83,21 +89,38 @@ public class SignupController{
 
 	@FXML
 	public void goBack(ActionEvent event) throws IOException {
-		// add sign out logic
 		
-		Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/hockey/css/Menu.css").toExternalForm());
+		Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
+		primaryStage.setScene(menuScene);
+		//primaryStage.show();
+	
 		
-		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-		window.setScene(scene);
-		window.show();	
 	}
 
 	public /*static*/ void setMessage(String string) {
 		if(message == null) System.out.println("message is null");
 		else {System.out.println("setting message");message.setText(string);}
 		
+	}
+
+
+	public Scene getMenuScene() {
+		return menuScene;
+	}
+
+
+	public void setMenuScene(Scene menuScene) {
+		this.menuScene = menuScene;
+	}
+
+
+	public Scene getLoggedScene() {
+		return loggedScene;
+	}
+
+
+	public void setLoggedScene(Scene loggedScene) {
+		this.loggedScene = loggedScene;
 	}
 	
 }

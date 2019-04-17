@@ -22,15 +22,17 @@ import javafx.stage.Stage;
 
 public class Network extends Listener{
 
-	//private Connection c = null;
-	static Client client;
-	static String ip = Master.ngrok_url;
-	static int port = Master.tcpPort;
+	//private static Hockey hockey;
+	private static Client client;
+	private static String ip = Master.ngrok_url;
+	private static int port = Master.tcpPort;
 	
-	public Network() {
+	public Network(/*Hockey hockey*/) {
+	
 		System.out.println("Starting Network constructor");
 		// register packet
 		
+		//this.hockey = hockey;
 		client = new Client();
 		
 		Master.registerClasses(client.getKryo());
@@ -80,8 +82,7 @@ public class Network extends Listener{
 				id = ((PacketReturn) o).id;
 				username = ((PacketReturn) o).username;
 				Hockey.setSelf(new User(id,username));
-				
-				
+				Hockey.getPrimaryStage().setScene(Hockey.getLoggedScene());;
 				
 				break;
 			case 2: 
