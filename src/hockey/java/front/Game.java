@@ -19,26 +19,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
-public class Game extends Application{
-
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-	
-}
-	/*
-	public static Master server;
-	public static ClientThread client;	
-    public static Game game;
-	
-	Pane playfield;
-    public Player p1;
-    public Player p2;
-    public Striker s1;
-    public Striker s2;
-    public Puck puck;
+    Pane playfield;
+ 
+    Player p1;
+    Player p2;
+    Striker s1;
+    Striker s2;
+    Puck puck;
     Goal goal1;
     Goal goal2;
     Walls walls1, walls2;
@@ -69,9 +56,9 @@ public class Game extends Application{
     	walls1 = new Walls(1);
     	walls2 = new Walls(2);
 
-    	mid = new Midline();
-    	center = new CenterCircle();
-    	friction = .982;
+    	 mid = new Midline();
+    	 center = new CenterCircle();
+    	 friction = .988;
     	 
     	 Text p1s = new Text(Integer.toString(u1.getStriker().getPlayer().getScore()));
      	 p1s.setFont(Font.font ("Verdana", 50));
@@ -132,7 +119,7 @@ public class Game extends Application{
             	 puckPU.display();
             	 u1.getStriker().step(u1.getStriker().getPlayer().getMouse(), mid);
                  //s2.step(p1.getMouse());
-            	 u1.getStriker().checkBoundaries();
+                 s1.checkBoundaries(puck);
                  
                  //s2.checkBoundaries();
                  if (puck.checkBoundaries()) {
@@ -224,4 +211,3 @@ public class Game extends Application{
     }
     
 }
-*/

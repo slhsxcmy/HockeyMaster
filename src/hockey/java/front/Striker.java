@@ -1,4 +1,4 @@
-package hockey.java.front;
+package hockey.java;
 
 import java.util.Random;
 
@@ -8,12 +8,10 @@ import javafx.scene.shape.Circle;
 
 public class Striker extends Pane {
 	
-	public int connID;
-	
 	private double mass;
 
-    public PVector location;
-    public PVector velocity;
+    private PVector location;
+    private PVector velocity;
     
     //required to keep player on his side
     private Player player;
@@ -28,6 +26,8 @@ public class Striker extends Pane {
     double mult = 1;
 
     Circle circle;
+    
+    private boolean update;
 	
 	public Striker(Player player) {
 		this.player = player;
@@ -45,64 +45,96 @@ public class Striker extends Pane {
         circle.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.3));
 
         getChildren().add(circle);
+        
+        update = true;
 	}
 	
 	public void step(PVector mouse, Midline mid) {
 		velocity = PVector.sub(mouse, location, velocity);
-		if (/*player.getPlayerID() == 1 && */location.y == mid.getLocation() + mid.getHeight() + radius - 1/* || 
-				player.getPlayerID() == 2 && location.y == mid.getLocation() - mid.getHeight() - radius + 1*/) {
+		if (player.getPlayerID() == 1 && location.y == mid.getLocation() + mid.getHeight() + radius - 1 || 
+				player.getPlayerID() == 2 && location.y == mid.getLocation() - mid.getHeight() - radius + 1) {
 			velocity.y = 0;
 		}
-        location.copy(mouse);
+		location.copy(mouse);
     }
 	
-	public void checkBoundaries() {
+	public void checkBoundaries(Puck p) {
 		//TODO
 		//CUrrently mouse goes across half line and physics is very off
 		//PUCK SPEEDS UP TO MAX
 		//player1 gets the bottom half
-/*
+		
+		double px = p.getLocation().x;
+		double py = p.getLocation().y;
+		double pr = p.getRadius();
+		double sx = location.x;
+		double sy = location.y;
+		if (p.onWall()) {
+			while (p.onWall() && Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + pr) {
+				p.checkBoundaries();
+				System.out.println("While");
+				double dx;
+				double dy = py - sy + 10;
+				if (px < sx) {
+					dx = sx - px + 10;
+					location.x = px + dx;
+				}
+				else {
+					dx = px - sx + 10;
+					location.x = px - dx;
+				}
+				if (py < sy) {
+					dy = sy - py + 10;
+					location.y = py + dy;
+				}
+				else {
+					dy = py - sy + 10;
+					location.y = py - dy;
+				}
+			}
+		}
+
 		if(player.getPlayerID() == 1) {
-			if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
-				location.x = BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT;
-			} else if (location.x < 0 +radius+BoardSettings.BOARDER_HEIGHT) {
-				location.x = 0+radius+BoardSettings.BOARDER_HEIGHT;
+			if (location.x > Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT) {
+				location.x = Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT;
+			} else if (location.x < 0 +radius+Settings.BOARDER_HEIGHT) {
+				location.x = 0+radius+Settings.BOARDER_HEIGHT;
 			}
 
-			if (location.y > BoardSettings.SCENE_HEIGHT-radius-BoardSettings.BOARDER_HEIGHT) {
-				location.y = BoardSettings.SCENE_HEIGHT-radius-BoardSettings.BOARDER_HEIGHT;
+			if (location.y > Settings.SCENE_HEIGHT-radius-Settings.BOARDER_HEIGHT) {
+				location.y = Settings.SCENE_HEIGHT-radius-Settings.BOARDER_HEIGHT;
 			}
 			//if the striker hits the midline
-			else if (location.y < (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult) {
-				location.y = (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult;
+			else if (location.y < (radius+(Settings.SCENE_HEIGHT/2)-2+(Settings.BOARDER_HEIGHT/2))*mult) {
+				location.y = (radius+(Settings.SCENE_HEIGHT/2)-2+(Settings.BOARDER_HEIGHT/2))*mult;
 			}
 		}
 		else {
-			if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
-				location.x = BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT;
-			} else if (location.x < 0 +radius+BoardSettings.BOARDER_HEIGHT) {
-				location.x = 0+radius+BoardSettings.BOARDER_HEIGHT;
+			if (location.x > Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT) {
+				location.x = Settings.SCENE_WIDTH-radius-Settings.BOARDER_HEIGHT;
+			} else if (location.x < 0 +radius+Settings.BOARDER_HEIGHT) {
+				location.x = 0+radius+Settings.BOARDER_HEIGHT;
 			}
 			//TODO
 			//WE HAVE TO TEST THIS WHEN SERVER IS RUNNIGN
 			//if striker 2 hits the midline
-			if (location.y > (radius-(BoardSettings.SCENE_HEIGHT/2)-2)*mult) {
-				location.y = radius-(BoardSettings.SCENE_HEIGHT/2)-2;
-			} else if (location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)*mult) {
-				location.y = 0+radius+BoardSettings.BOARDER_HEIGHT;
+			if (location.y > (radius-(Settings.SCENE_HEIGHT/2)-2)*mult) {
+				location.y = radius-(Settings.SCENE_HEIGHT/2)-2;
+			} else if (location.y < (0 +radius+Settings.BOARDER_HEIGHT)*mult) {
+				location.y = 0+radius+Settings.BOARDER_HEIGHT;
 			}
-		} 
-		*/
-		if (location.x > BoardSettings.SCENE_WIDTH-(width/2)-BoardSettings.BOARDER_HEIGHT) {
-			location.x = BoardSettings.SCENE_WIDTH-(width/2)-BoardSettings.BOARDER_HEIGHT;
-		} else if (location.x < 0 +(width/2)+BoardSettings.BOARDER_HEIGHT) {
-			location.x = 0+(width/2)+BoardSettings.BOARDER_HEIGHT;
+		}
+		
+		if (location.x > Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT) {
+			location.x = Settings.SCENE_WIDTH-(width/2)-Settings.BOARDER_HEIGHT;
+		} else if (location.x < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
+			location.x = 0+(width/2)+Settings.BOARDER_HEIGHT;
 		}
 
-		if (location.y > BoardSettings.SCENE_HEIGHT-(width/2)-BoardSettings.BOARDER_HEIGHT) {
-			location.y = BoardSettings.SCENE_HEIGHT-(width/2)-BoardSettings.BOARDER_HEIGHT;
-		} else if (location.y < 0 +(width/2)+BoardSettings.BOARDER_HEIGHT) {
-			location.y = 0+(width/2)+BoardSettings.BOARDER_HEIGHT;
+		if (location.y > Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT) {
+			location.y = Settings.SCENE_HEIGHT-(width/2)-Settings.BOARDER_HEIGHT;
+		} else if (location.y < 0 +(width/2)+Settings.BOARDER_HEIGHT) {
+			location.y = 0+(width/2)+Settings.BOARDER_HEIGHT;
 		}
 	}
 	public void updateMidlineMult(double m) {
