@@ -78,6 +78,10 @@ public class Hockey extends Application {
 		
 		primaryStage.setScene(menuScene);		
 		primaryStage.show();
+		
+		// DEBUG
+		//primaryStage.setScene(gameScene);
+		
 	
 	}
 	

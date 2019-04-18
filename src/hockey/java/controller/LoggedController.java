@@ -42,12 +42,7 @@ public class LoggedController {
 	}
 	
 	public void goStats(ActionEvent event) throws IOException{
-
-		System.out.println("going to stats scene");
-		Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
-		primaryStage.setScene(Hockey.getStatsScene());
-		
-
+		// send attempt to get stats
 	}
 	
 	public void signout(ActionEvent event) throws IOException{	
