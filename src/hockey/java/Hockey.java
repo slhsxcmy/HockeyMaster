@@ -82,7 +82,7 @@ public class Hockey extends Application {
 		/*** Init game ***/
 		
 		
-		primaryStage.setScene(menuScene);		
+		primaryStage.setScene(menuScene);
 		primaryStage.show();
 		
 		// DEBUG
