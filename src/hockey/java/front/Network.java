@@ -10,27 +10,30 @@ import hockey.java.Hockey;
 import hockey.java.Master;
 import hockey.java.controller.LoggedController;
 import hockey.java.controller.LoginController;
-import hockey.java.controller.SignupController;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStriker;
+import javafx.application.Platform;
 
 public class Network extends Listener{
 
-	private Connection c = null;
-
-	public static void main(String[] args) {
-		
-		String ip = Master.ngrok_url;
-		int port = Master.tcpPort;
-		Client client = new Client();
-		
+	//private static Hockey hockey;
+	private static Client client;
+	private static String ip = Master.ngrok_url;
+	private static int port = Master.tcpPort;
+	
+	public Network(/*Hockey hockey*/) {
+	
+		System.out.println("Starting Network constructor");
 		// register packet
+		
+		//this.hockey = hockey;
+		client = new Client();
+		
 		Master.registerClasses(client.getKryo());
 
 		client.start();
 		
-		client.addListener(new Network());
 		
 		try {
 			client.connect(5000, ip, port); //blocks for 5 seconds
@@ -39,13 +42,15 @@ public class Network extends Listener{
 		} 
 
 		// add listener for connected/received/disconnected methods
-		client.addListener(new Network());
+
+		client.addListener(this);
+		
 		System.out.println("Client waiting for a packet...\n");		
 		
-		while(true) {
+		/*while(true) {
 			// send self data
 			// (Connection) c.sendTCP(pm); 
-		}
+		}*/
 		// c.sendTCP(pm); 
 		
 	}
@@ -54,6 +59,7 @@ public class Network extends Listener{
 	public void received(Connection c, Object o) {
 		
 		if (o instanceof PacketReturn){
+			System.out.println("Client received PacketReturn of type " + ((PacketReturn) o).status);
 			/*
 			  odd = success
 			  even = failure
@@ -70,10 +76,17 @@ public class Network extends Listener{
 			case 3: 
 				id = ((PacketReturn) o).id;
 				username = ((PacketReturn) o).username;
+				System.out.println("user id = " + id + " username = " + username);
 				Hockey.setSelf(new User(id,username));
+				System.out.println("setting scene to logged");
+				Platform.runLater(() -> {
+					Hockey.getPrimaryStage().setScene(Hockey.getLoggedScene());;
+                });
+				System.out.println("set scene complete");
 				break;
 			case 2: 
-				SignupController.setMessage("Signup failed. Please try again.");
+				//https://www.youtube.com/watch?v=SGZUQvuqL5Q
+				//SignupController.setMessage("Signup failed. Please try again.");
 				break;
 			case 4: 
 				LoginController.setMessage("Login failed. Please try again.");
@@ -92,10 +105,12 @@ public class Network extends Listener{
 				break;
 			}
 		} else if (o instanceof PacketStriker){
+			System.out.println("Client received PacketStriker!");
 			PVector location = ((PacketStriker) o).location;
 			PVector velocity = ((PacketStriker) o).velocity;
 			
 		} else if (o instanceof PacketPuck){
+			System.out.println("Client received PacketPuck!");
 			PVector location = ((PacketPuck) o).location;
 			PVector velocity = ((PacketPuck) o).velocity;
 			
@@ -104,11 +119,12 @@ public class Network extends Listener{
 
 	}
 	
-	public Connection getConnection() {
-		return c;
+	
+	public void disconnected(Connection c) {
+		System.out.println("Disconnected from server at " + c.getRemoteAddressTCP().getHostString());
 	}
-//	public void disconnected(Connection c) {
-//		System.out.println("Disconnected from server at " + c.getRemoteAddressTCP().getHostString());
-//	}
+	
+
+	public Client getClient() { return client; }
 	
 }

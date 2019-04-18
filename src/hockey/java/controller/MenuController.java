@@ -2,6 +2,7 @@ package hockey.java.controller;
 
 import java.io.IOException;
 
+import hockey.java.Hockey;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,33 +24,31 @@ public class MenuController {
 	private Button login;
 	
 	@FXML
-	private Button register;
+	private Button signup;
 	
 	@FXML
 	private Button playAsGuest;
+
 	
 	public void join(ActionEvent event) throws IOException{
 		
 	}
 	
 	public void goLogin(ActionEvent event) throws IOException{
-		Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Login.fxml"));
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/hockey/css/Login.css").toExternalForm());
+		System.out.println("Switching scene to Login");
+		Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
+		primaryStage.setScene(Hockey.getLoginScene());
 		
-		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-		window.setScene(scene);
-		window.show();
 	}
 	
-	public void goRegister(ActionEvent event) throws IOException{
-		Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Signup.fxml"));
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/hockey/css/Signup.css").toExternalForm());
+	public void goSignup(ActionEvent event) throws IOException{
+		System.out.println("Switching scene to Signup");
+		Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
+		primaryStage.setScene(Hockey.getSignupScene());
 		
-		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-		window.setScene(scene);
-		window.show();	
+			
 	}
+
+
 	
 }
