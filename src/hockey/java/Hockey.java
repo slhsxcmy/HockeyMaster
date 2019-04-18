@@ -19,14 +19,14 @@ import javafx.stage.Stage;
 public class Hockey extends Application {
 	
 	private static Network network = new Network();
-	private static User self = null; // instantiate when playAsGuest or Register or Login
+	private static User user = null; // instantiate when playAsGuest or Register or Login
 	
 	private static Stage primaryStage;
 	private static Scene menuScene, loginScene, signupScene, loggedScene, statsScene, gameScene;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		this.primaryStage = primaryStage;
+		Hockey.primaryStage = primaryStage;
 // https://stackoverflow.com/questions/12804664/how-to-swap-screens-in-a-javafx-application-in-the-controller-class
 		
 		
@@ -85,12 +85,12 @@ public class Hockey extends Application {
 		Hockey.network = network;
 	}
 
-	public static User getSelf() {
-		return self;
+	public static User getUser() {
+		return user;
 	}
 
-	public static void setSelf(User self) {
-		Hockey.self = self;
+	public static void setUser(User self) {
+		Hockey.user = self;
 	}
 
 	public static Stage getPrimaryStage() {

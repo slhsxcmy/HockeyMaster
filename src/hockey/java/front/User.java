@@ -11,14 +11,14 @@ public class User {
 	private int goalsFor;
 	private int goalsAgainst;
 	
+	public User() { // guest
+		this(-1, "Guest");
+	}
+	
 	public User(int id,String username) {
 		striker = null;
 		this.id = id;
 		this.username = username;
-		matchesWon = 0;
-		matchesLost = 0;
-		goalsFor = 0;
-		goalsAgainst = 0;
 	}
 	
 	public void initStriker() {

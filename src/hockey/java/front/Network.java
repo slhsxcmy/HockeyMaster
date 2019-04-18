@@ -78,7 +78,7 @@ public class Network extends Listener{
 				id = ((PacketReturn) o).id;
 				username = ((PacketReturn) o).username;
 				System.out.println("user id = " + id + " username = " + username);
-				Hockey.setSelf(new User(id,username));
+				Hockey.setUser(new User(id,username));
 				System.out.println("setting scene to logged");
 				Platform.runLater(() -> {
 					Hockey.getPrimaryStage().setScene(Hockey.getLoggedScene());;
@@ -93,7 +93,10 @@ public class Network extends Listener{
 				LoginController.setMessage("Login failed. Please try again.");
 				break;
 			case Constants.SIGNOUTSUCCESS: 
-				Hockey.setSelf(null);
+				Hockey.setUser(null);
+				Platform.runLater(() -> {
+					Hockey.getPrimaryStage().setScene(Hockey.getMenuScene());;
+                });
 				break;
 			case Constants.SIGNOUTFAILURE: 
 				

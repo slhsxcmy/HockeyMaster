@@ -2,6 +2,9 @@ package hockey.java.controller;
 
 import java.io.IOException;
 
+import hockey.java.Hockey;
+import hockey.java.packet.Constants;
+import hockey.java.packet.PacketAttempt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,10 +35,9 @@ public class LoggedController {
 	private Button signout;
 	
 	public void join(ActionEvent event) throws IOException{
-		// connect to server
-
+		PacketAttempt p = new PacketAttempt(Constants.PLAYLOGGEDATTEMPT, Hockey.getUser().getUsername());
+		Hockey.getNetwork().getClient().sendTCP(p);
 		
-	
 	}
 	
 	public void goStats(ActionEvent event) throws IOException{
