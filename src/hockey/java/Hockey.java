@@ -19,14 +19,14 @@ import javafx.stage.Stage;
 public class Hockey extends Application {
 	
 	private static Network network = new Network();
-	private static User self = null; // instantiate when playAsGuest or Register or Login
+	private static User user = new User(); 
 	
 	private static Stage primaryStage;
 	private static Scene menuScene, loginScene, signupScene, loggedScene, statsScene, gameScene;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		this.primaryStage = primaryStage;
+		Hockey.primaryStage = primaryStage;
 // https://stackoverflow.com/questions/12804664/how-to-swap-screens-in-a-javafx-application-in-the-controller-class
 		
 		
@@ -42,7 +42,6 @@ public class Hockey extends Application {
 		FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Login.fxml"));
 		Parent loginParent = (Parent)loginLoader.load();	
 		loginScene = new Scene(loginParent);
-		
 		
 		FXMLLoader signupLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Signup.fxml"));
 		Parent signupParent = (Parent)signupLoader.load();	
@@ -70,13 +69,6 @@ public class Hockey extends Application {
 		GameController  gameController = gameLoader.getController();
 		/*** All Controllers End ***/
 		
-		/*** Set Scenes Start ***/
-/*		menuController.setLoginScene(loginScene);
-		menuController.setSignupScene(signupScene);
-		signupController.setLoggedScene(loggedScene);
-		signupController.setMenuScene(menuScene);
-*/		/*** Set Scenes End ***/
-	
 		primaryStage.setScene(menuScene);		
 		primaryStage.show();
 	
@@ -93,12 +85,12 @@ public class Hockey extends Application {
 		Hockey.network = network;
 	}
 
-	public static User getSelf() {
-		return self;
+	public static User getUser() {
+		return user;
 	}
 
-	public static void setSelf(User self) {
-		Hockey.self = self;
+	public static void setUser(User self) {
+		Hockey.user = self;
 	}
 
 	public static Stage getPrimaryStage() {

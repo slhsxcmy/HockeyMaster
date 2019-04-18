@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import hockey.java.Hockey;
 import hockey.java.database.SQLModel;
+import hockey.java.packet.Constants;
 import hockey.java.packet.PacketAttempt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,10 +48,7 @@ public class LoginController{
 		System.out.println(username.getText() + " " + password.getText());
 		
 		//sending login packet
-		PacketAttempt p = new PacketAttempt();
-		p.attempt = 2;
-		p.username = username.getText();
-		p.password = password.getText();		
+		PacketAttempt p = new PacketAttempt(Constants.LOGINATTEMPT,username.getText(),password.getText());		
 		Hockey.getNetwork().getClient().sendTCP(p);
 		//sent
 		
