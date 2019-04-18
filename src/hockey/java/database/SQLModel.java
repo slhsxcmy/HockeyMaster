@@ -38,6 +38,7 @@ public class SQLModel {
 		}
 	}
 	
+	
 	public PacketReturn checkSignUp(String username, String pw, String cpw) {
 		//PacketReturn p = new PacketReturn();
 		//p.status = 2;

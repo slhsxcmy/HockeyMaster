@@ -43,13 +43,10 @@ public class LoggedController {
 	
 	public void goStats(ActionEvent event) throws IOException{
 
-		Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Stats.fxml"));
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/hockey/css/Stats.css").toExternalForm());
+		System.out.println("going to stats scene");
+		Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
+		primaryStage.setScene(Hockey.getStatsScene());
 		
-		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-		window.setScene(scene);
-		window.show();	
 
 	}
 	
