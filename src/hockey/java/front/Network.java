@@ -121,7 +121,7 @@ public class Network extends Listener{
 	
 	
 	public void disconnected(Connection c) {
-		System.out.println("Disconnected from server at " + c.getRemoteAddressTCP().getHostString());
+		System.out.println("Disconnected from server. ");
 	}
 	
 
