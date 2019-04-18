@@ -29,9 +29,9 @@ public class Test extends Application{
     Midline mid;
     CenterCircle center;
     double friction;
-    
+
     public void displayWinner(Pane playfield, String name) {
-    	
+
     }
     
     @Override
