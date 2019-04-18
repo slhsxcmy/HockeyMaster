@@ -1,5 +1,6 @@
 package hockey.java.controller;
 
+import hockey.java.Hockey;
 import hockey.java.front.BoardSettings;
 import hockey.java.front.CenterCircle;
 import hockey.java.front.Goal;
@@ -107,7 +108,7 @@ public class GameController{
     	 playfield.getChildren().add(puckPU);
          mid.display();
          // capture mouse position
-         scene.addEventFilter(MouseEvent.ANY, e -> {
+         Hockey.getGameScene().addEventFilter(MouseEvent.ANY, e -> {
         	 //u1.getStriker().getPlayer().getMouse().set(e.getX(), e.getY());
         	 p1.getMouse().set(e.getX(), e.getY());
          });
