@@ -11,6 +11,7 @@ public class PacketReturn {
 	  5 = signout
 	  7 = play (logged or guest)
 	  8 = stats
+	  
 	  */
 	
 	public int id;

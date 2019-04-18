@@ -18,8 +18,22 @@
    <children>
    		<BorderPane fx:id="borderPane" prefHeight="800.0" prefWidth="400.0">
          	<center>
-            	<StackPane fx:id="stackPane" prefHeight="800.0" prefWidth="400.0" BorderPane.alignment="CENTER" />
+            	<StackPane fx:id="stackPane" maxHeight="700.0" maxWidth="400.0" minHeight="700.0" minWidth="400.0" prefHeight="700.0" prefWidth="400.0" BorderPane.alignment="CENTER" />
          	</center>
+         <top>
+            <StackPane fx:id="upperPane" maxHeight="50.0" maxWidth="400.0" minHeight="50.0" minWidth="400.0" prefHeight="50.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="upperLabel" prefHeight="144.0" prefWidth="479.0" text="Label" />
+               </children>
+            </StackPane>
+         </top>
+         <bottom>
+            <StackPane fx:id="lowerPane" maxHeight="50.0" maxWidth="400.0" minHeight="50.0" minWidth="400.0" prefHeight="50.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="lowerLabel" prefHeight="74.0" prefWidth="409.0" text="Label" />
+               </children>
+            </StackPane>
+         </bottom>
       	</BorderPane>
    </children>
 </AnchorPane>

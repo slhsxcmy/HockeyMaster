@@ -1,12 +1,12 @@
 package hockey.java.packet;
 
 public class Constants {
-	public static final int SIGNUPATTEMPT = 1;
-	public static final int LOGINATTEMPT = 2;
-	public static final int SIGNOUTATTEMPT = 3;
-	public static final int GETSTATSATTEMPT = 4;
-	public static final int PLAYLOGGEDATTEMPT = 5;
-	public static final int PLAYGUESTATTEMPT = 6;
+	public static final int SIGNUPATTEMPT = 21;
+	public static final int LOGINATTEMPT = 22;
+	public static final int SIGNOUTATTEMPT = 23;
+	public static final int GETSTATSATTEMPT = 24;
+	public static final int PLAYLOGGEDATTEMPT = 25;
+	public static final int PLAYGUESTATTEMPT = 26;
 	
 	
 	public static final int SIGNUPSUCCESS = 1;
@@ -24,5 +24,5 @@ public class Constants {
 	public static final int PLAYLOGGEDFAILURE = 10;
 	public static final int PLAYGUESTFAILURE = 12;
 
-	
+	public static final int GAMEOVER = 31;
 }
