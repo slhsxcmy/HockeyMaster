@@ -28,7 +28,7 @@
          <font>
             <Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
          </font></Button>
-      <Button fx:id="signup" layoutX="170.0" layoutY="430.0" mnemonicParsing="false" onAction="#goSignup" scaleX="1.5" scaleY="1.5" scaleZ="2.0" text="Sign UP">
+      <Button fx:id="signup" layoutX="166.0" layoutY="431.0" mnemonicParsing="false" onAction="#goSignup" scaleX="1.5" scaleY="1.5" scaleZ="2.0" text="Sign UP">
    	     <font>
             <Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
          </font></Button>

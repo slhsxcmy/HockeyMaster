@@ -79,7 +79,7 @@ public class Master extends Listener { // SERVER
 	public void received(Connection c, Object o) {
 		if (o instanceof PacketAttempt){
 			System.out.println("Server received PacketAttempt of type " + ((PacketAttempt) o).attempt);
-			
+			int id = ((PacketAttempt) o).id;
 			String username = ((PacketAttempt) o).username;
 			String pw = ((PacketAttempt) o).password;
 			String confirm = ((PacketAttempt) o).confirm;
@@ -106,7 +106,7 @@ public class Master extends Listener { // SERVER
 				break;
 
 			case Constants.GETSTATSATTEMPT: //4 = get stats
-				c.sendTCP(model.getStats(username));
+				c.sendTCP(model.getStats(id));
 				break;
 				
 			case Constants.PLAYLOGGEDATTEMPT: //5 = play logged

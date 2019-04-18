@@ -58,22 +58,22 @@
             <Font name="OLD SPORT 01 COLLEGE NCV" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="pageTitle12" alignment="CENTER" layoutX="236.0" layoutY="278.0" prefHeight="48.0" prefWidth="99.0" text="MW" textAlignment="CENTER">
+      <Label fx:id="MW" alignment="CENTER" layoutX="236.0" layoutY="278.0" prefHeight="48.0" prefWidth="99.0" textAlignment="CENTER">
          <font>
             <Font name="OLD SPORT 01 COLLEGE NCV" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="pageTitle13" alignment="CENTER" layoutX="233.0" layoutY="331.0" prefHeight="54.0" prefWidth="106.0" text="ML" textAlignment="CENTER">
+      <Label fx:id="ML" alignment="CENTER" layoutX="233.0" layoutY="331.0" prefHeight="54.0" prefWidth="106.0" textAlignment="CENTER">
          <font>
             <Font name="OLD SPORT 01 COLLEGE NCV" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="pageTitle131" alignment="CENTER" layoutX="233.0" layoutY="387.0" prefHeight="54.0" prefWidth="106.0" text="GF" textAlignment="CENTER">
+      <Label fx:id="GF" alignment="CENTER" layoutX="233.0" layoutY="387.0" prefHeight="54.0" prefWidth="106.0" textAlignment="CENTER">
          <font>
             <Font name="OLD SPORT 01 COLLEGE NCV" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="pageTitle1311" alignment="CENTER" layoutX="233.0" layoutY="443.0" prefHeight="54.0" prefWidth="106.0" text="GA" textAlignment="CENTER">
+      <Label fx:id="GA" alignment="CENTER" layoutX="233.0" layoutY="443.0" prefHeight="54.0" prefWidth="106.0" textAlignment="CENTER">
          <font>
             <Font name="OLD SPORT 01 COLLEGE NCV" size="23.0" />
          </font>
