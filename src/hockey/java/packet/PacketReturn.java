@@ -13,7 +13,6 @@ public class PacketReturn {
 	  8 = stats
 	  */
 	
-
 	public int id;
 	public String username;
 	public String message;

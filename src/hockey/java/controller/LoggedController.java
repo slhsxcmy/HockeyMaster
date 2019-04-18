@@ -23,7 +23,7 @@ public class LoggedController {
 	private Label pageTitle;
 
 	@FXML
-	private static Label message;
+	private Label message;
 	
 	@FXML
 	private Button playLogged;
@@ -65,7 +65,7 @@ public class LoggedController {
 		window.show();	
 	}
 
-	public static void setMessage(String string) {
+	public void setMessage(String string) {
 		message.setText(string);
 		
 	}

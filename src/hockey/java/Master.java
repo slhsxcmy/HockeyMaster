@@ -3,7 +3,9 @@ package hockey.java;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
@@ -22,13 +24,13 @@ import hockey.java.packet.PacketStriker;
 
 public class Master extends Listener { // SERVER
 
-	static Server server;
+	private static Server server;
 	public static final String ngrok_url = "localhost";//"https://d69be386.ngrok.io";
 	public static final int tcpPort = 27960;
-	public static Map<Integer, User> users = Collections.synchronizedMap(new HashMap<>()); 
-	public static boolean p1Ready = false;
-	public static boolean p2Ready = false;
-	static SQLModel model = new SQLModel();
+	private static Map<Integer, User> users = Collections.synchronizedMap(new HashMap<>()); 
+	private static Queue<Integer> queuedPlayers;
+	private static List<Integer> players;
+	private static SQLModel model = new SQLModel();
 	
 	public static void registerClasses(Kryo k) {
 
@@ -43,7 +45,6 @@ public class Master extends Listener { // SERVER
 	
 	public static void main(String[] args) {
 
-	
 		System.out.println("Creating server...");
 		
 		// create server
@@ -96,8 +97,7 @@ public class Master extends Listener { // SERVER
 			  8 = stats
 			  */
 			case Constants.SIGNUPATTEMPT: //1 = signup
-				 p = model.checkSignUp(username, pw, confirm);
-				
+				c.sendTCP(model.checkSignUp(username, pw, confirm));
 				break;
 			case Constants.LOGINATTEMPT: //2 = login
 				c.sendTCP(model.checkLogin(username, pw));
@@ -110,6 +110,11 @@ public class Master extends Listener { // SERVER
 				break;
 				
 			case Constants.PLAYLOGGEDATTEMPT: //5 = play logged
+//				if(!p1Ready) {
+//					p1Ready = true;
+//					c.sendTCP(new PacketReturn(Constants.PLAYFAILURE, "Not enough players. Please wait."));
+//				} 
+				// TODO
 				
 				break;
 			case Constants.PLAYGUESTATTEMPT: //6 = play guest
