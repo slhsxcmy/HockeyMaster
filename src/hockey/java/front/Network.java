@@ -10,9 +10,11 @@ import hockey.java.Hockey;
 import hockey.java.Master;
 import hockey.java.controller.LoggedController;
 import hockey.java.controller.LoginController;
+import hockey.java.controller.StatsController;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
+import hockey.java.packet.PacketStats;
 import hockey.java.packet.PacketStriker;
 import javafx.application.Platform;
 
@@ -119,6 +121,12 @@ public class Network extends Listener{
 			PVector location = ((PacketPuck) o).location;
 			PVector velocity = ((PacketPuck) o).velocity;
 			
+		} else if (o instanceof PacketStats){
+			System.out.println("Client received PacketStats!");
+			Platform.runLater(() -> {
+				Hockey.getPrimaryStage().setScene(Hockey.getStatsScene());;
+            });
+			StatsController.setStats(((PacketStats) o).matchesWon, ((PacketStats) o).matchesLost, ((PacketStats) o).goalsFor, ((PacketStats) o).goalsAgainst);
 		} 
 		
 
