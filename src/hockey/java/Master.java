@@ -106,6 +106,7 @@ public class Master extends Listener { // SERVER
 				break;
 			case 4: //4 = get stats
 				
+				break;
 			case 5: //5 = play logged
 				
 				break;
