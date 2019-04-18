@@ -138,20 +138,22 @@ public class Test extends Application{
                 	 //s2.reset(2);
                  }
                  if (p1.getScore() == 7) {
-                	 Text text = new Text("  " + p1.getUsername() + " wins!");
-                 	 text.setFont(Font.font ("Verdana", 50));
-                 	 text.setFill(Color.RED);
-                 	 text.setY(350);
-                 	 playfield.getChildren().add(text);
+                	 //Text text = new Text("  " + p1.getUsername() + " wins!");
+                 	 //text.setFont(Font.font ("Verdana", 50));
+                 	 //text.setFill(Color.RED);
+                 	 //text.setY(350);
+                 	 //playfield.getChildren().add(text);
+                	 //display message based on winner or loser
                  	 stage.show();
                 	 stop();
                  }
                  if (p2.getScore() == 7) {
-                	 Text text = new Text("  " + p2.getUsername() + " wins!");
-                	 text.setFont(Font.font ("Verdana", 50));
-                 	 text.setFill(Color.RED);
-                 	 text.setY(350);
-                 	 playfield.getChildren().add(text);
+                	 //Text text = new Text("  " + p2.getUsername() + " wins!");
+                	 //text.setFont(Font.font ("Verdana", 50));
+                 	 //text.setFill(Color.RED);
+                 	 //text.setY(350);
+                 	 //playfield.getChildren().add(text);
+                	 //display message based on winner or loser
                  	 stage.show();
                 	 stop();
                  } 
