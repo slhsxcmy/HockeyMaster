@@ -14,10 +14,12 @@ import com.esotericsoftware.kryonet.Server;
 
 import hockey.java.database.SQLModel;
 import hockey.java.front.PVector;
+import hockey.java.front.Player;
+import hockey.java.front.Puck;
+import hockey.java.front.Striker;
 import hockey.java.front.User;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketAttempt;
-import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStats;
 import hockey.java.packet.PacketStriker;
@@ -38,8 +40,10 @@ public class Master extends Listener { // SERVER
 		k.register(PacketAttempt.class);
 		k.register(PacketReturn.class);
 		k.register(PacketStats.class);
-		k.register(PacketStriker.class);
-		k.register(PacketPuck.class);
+		k.register(Striker.class);
+		k.register(Player.class);
+		k.register(Puck.class);
+		k.register(PVector.class);
 		k.register(Constants.class);
 	}
 	
@@ -129,7 +133,15 @@ public class Master extends Listener { // SERVER
 		} else if (o instanceof PacketStriker){
 			PVector location = ((PacketStriker) o).location;
 			PVector velocity = ((PacketStriker) o).velocity;
+			// TODO detect collision
 			
+			// TODO calculate puck movement
+			
+			// TODO detect hit powerup
+			
+			// TODO detect goal
+			
+			// TODO send puck and other striker to client
 		} 
 		
 	}

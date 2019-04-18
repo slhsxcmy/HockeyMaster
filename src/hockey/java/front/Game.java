@@ -48,7 +48,7 @@ public class Game extends Application{
     	 p2 = new Player("p2", 2);
     	 p2.setPlayerID(2);
     	 //s1 = new Striker(p1);
-    	 //s2 = new Striker();
+    	 //otherStriker = new Striker();
     	
     	//u1 = new User();
     	//u2 = new User();
@@ -131,21 +131,21 @@ public class Game extends Application{
             	 puckPU.display();
             	 //u1.getStriker().step(u1.getStriker().getPlayer().getMouse(), mid);
             	 s1.step(p1.getMouse(), mid);
-                 //s2.step(p1.getMouse());
+                 //otherStriker.step(p1.getMouse());
                  s1.checkBoundaries(puck);
                  
-                 //s2.checkBoundaries();
+                 //otherStriker.checkBoundaries();
                  if (puck.checkBoundaries()) {
                 	 //striker can't overlap with puck
                  }
                  //puck.collision(u1.getStriker());
                  puck.collision(s1);
-                 //puck.collision(s2);
+                 //puck.collision(otherStriker);
                  puck.step(friction);
                  // update in fx scene
                  //u1.getStriker().display();
                  s1.display();
-                 //s2.display();
+                 //otherStriker.display();
                  puck.display();
                  if (goal1.goalDetection(1)) {
                 	 //u1.getStriker().getPlayer().score();
@@ -157,7 +157,7 @@ public class Game extends Application{
                 	 s1.reset(1);
                 	 mid.reset();
                 	 puck.resetSize();
-                	 //s2.reset(2);
+                	 //otherStriker.reset(2);
                  }
                  if (goal2.goalDetection(2)) {
                 	 //u2.getStriker().getPlayer().score();
@@ -169,7 +169,7 @@ public class Game extends Application{
                 	 s1.reset(1);
                 	 mid.reset();
                 	 puck.resetSize();
-                	 //s2.reset(2);
+                	 //otherStriker.reset(2);
                  }
                  //if (u1.getStriker().getPlayer().getScore() == 7) {
                 	 //Text text = new Text("  " + u1.getUsername() + " wins!");

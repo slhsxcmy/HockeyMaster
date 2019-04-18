@@ -40,7 +40,7 @@ public class Test extends Application{
     	 p1 = new Player("p1", 1);
     	 p2 = new Player("p2", 2);
     	 s1 = new Striker(p1);
-    	 //s2 = new Striker();
+    	 //otherStriker = new Striker();
     	 puck = new Puck();
 
     	 goal1 = new Goal(1, puck, p1);
@@ -110,19 +110,19 @@ public class Test extends Application{
             	 pu.display();
             	 puckPU.display();
                  s1.step(p1.getMouse(), mid);
-                 //s2.step(p1.getMouse());
+                 //otherStriker.step(p1.getMouse());
                  s1.checkBoundaries(puck);
                  
-                 //s2.checkBoundaries();
+                 //otherStriker.checkBoundaries();
                  if (puck.checkBoundaries()) {
                 	 //striker can't overlap with puck
                  }
                  puck.collision(s1);
-                 //puck.collision(s2);
+                 //puck.collision(otherStriker);
                  puck.step(friction);
                  // update in fx scene
                  s1.display();
-                 //s2.display();
+                 //otherStriker.display();
                  puck.display();
                  if (goal1.goalDetection(1)) {
                 	 p1.score();
@@ -131,7 +131,7 @@ public class Test extends Application{
                 	 s1.reset(1);
                 	 mid.reset();
                 	 puck.resetSize();
-                	 //s2.reset(2);
+                	 //otherStriker.reset(2);
                  }
                  if (goal2.goalDetection(2)) {
                 	 p2.score();
@@ -140,7 +140,7 @@ public class Test extends Application{
                 	 s1.reset(1);
                 	 mid.reset();
                 	 puck.resetSize();
-                	 //s2.reset(2);
+                	 //otherStriker.reset(2);
                  }
                  if (p1.getScore() == 7) {
                 	 //Text text = new Text("  " + p1.getUsername() + " wins!");

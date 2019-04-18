@@ -24,43 +24,36 @@ import javafx.scene.text.Text;
 
 public class GameController {
 	@FXML
-	BorderPane borderPane;
+	private BorderPane borderPane;
 	
 	@FXML
-	StackPane stackPane;
+	private StackPane stackPane;
 	
-	Pane playfield;
-    Player p1;
-    Player p2;
-    Striker s1;
-    Striker s2;
-    Puck puck;
-    Goal goal1;
-    Goal goal2;
-    Walls walls1, walls2;
-    Midline mid;
-    CenterCircle center;
-    double friction;
+	private Pane playfield;
+	
+    private Player selfPlayer;
+    private Player otherPlayer;
+    private Striker selfStriker;
+    private Striker otherStriker;
+    private Puck puck;
+    private Goal otherGoal;
+    private Goal selfGoal;
+    private Walls walls1, walls2;
+    private Midline mid;
+    private CenterCircle center;
+    private double friction;
     
 	public void init() {
 		 System.out.println("init game start");
 	    	
-	   	 p1 = new Player("p1", 1);
-	   	 p2 = new Player("p2", 2);
-	   	 s1 = new Striker(p1);
-	   	 //s2 = new Striker();
-	   	
-	   	 //u1 = new User();
-	   	 //u2 = new User();
-	   	 //u1.initStriker();
-	   	 //u2.initStriker();
-	   	
+	   	 selfPlayer = new Player("selfPlayer", 1);
+	   	 otherPlayer = new Player("otherPlayer", 2);
+	   	 selfStriker = new Striker(selfPlayer);
+	   	 otherStriker = new Striker(otherPlayer);
 	   	 puck = new Puck();
 	
-	   	 //goal1 = new Goal(1, puck, u1.getStriker().getPlayer());
-	   	 //goal2 = new Goal(2, puck, u2.getStriker().getPlayer());
-	   	 goal1 = new Goal(1, puck, p1);
-	   	 goal2 = new Goal(2, puck, p2);
+	   	 otherGoal = new Goal(1, puck, selfPlayer);
+	   	 selfGoal = new Goal(2, puck, otherPlayer);
 	   	 walls1 = new Walls(1);
 	   	 walls2 = new Walls(2);
 	
@@ -69,14 +62,14 @@ public class GameController {
 	   	 friction = .988;
 	   	 
 	   	 //Text p1s = new Text(Integer.toString(u1.getStriker().getPlayer().getScore()));
-	   	 Text p1s = new Text(Integer.toString(p1.getScore()));
+	   	 Text p1s = new Text(Integer.toString(selfPlayer.getScore()));
 	   	 p1s.setFont(Font.font ("Verdana", 50));
 	   	 p1s.setFill(Color.RED);
 	   	 p1s.setX(350);
 	   	 p1s.setY(400);
 	
 	   	 //Text p2s = new Text(Integer.toString(u2.getStriker().getPlayer().getScore()));
-	   	 Text p2s = new Text(Integer.toString(p2.getScore()));
+	   	 Text p2s = new Text(Integer.toString(otherPlayer.getScore()));
 	   	 p2s.setFont(Font.font ("Verdana", 50));
 	   	 p2s.setFill(Color.RED);
 	   	 p2s.setX(350);
@@ -91,17 +84,17 @@ public class GameController {
 	     playfield.getChildren().add(walls2);
 	     playfield.getChildren().add(mid);
 	     playfield.getChildren().add(center);
-	     //playfield.getChildren().add(u1.getStriker());
-	     playfield.getChildren().add(s1);
+	     playfield.getChildren().add(otherStriker);
+	     playfield.getChildren().add(selfStriker);
 	     playfield.getChildren().add(puck);
-	     playfield.getChildren().add(goal1);
-	     playfield.getChildren().add(goal2);
+	     playfield.getChildren().add(otherGoal);
+	     playfield.getChildren().add(selfGoal);
 	     playfield.getChildren().add(p1s);
 	     playfield.getChildren().add(p2s);
 	     //display static shapes
 	     center.display();
-	     goal1.display();
-	     goal2.display();
+	     otherGoal.display();
+	     selfGoal.display();
 	     walls1.display();
 	     walls2.display();
 	     PowerUp pu = new PowerUp();
@@ -109,17 +102,15 @@ public class GameController {
 		 playfield.getChildren().add(pu);
 		 playfield.getChildren().add(puckPU);
 	     mid.display();
-        
-
-    	 System.out.println("init game end");
-    	
-    	 if(Hockey.getGameScene() == null) System.out.println("null");
-    	 else System.out.println("not null");
+       
     	 // capture mouse position
     	 Hockey.getGameScene().addEventFilter(MouseEvent.ANY, e -> {
 	       	 //u1.getStriker().getPlayer().getMouse().set(e.getX(), e.getY());
-	       	 p1.getMouse().set(e.getX(), e.getY());
+	       	 selfPlayer.getMouse().set(e.getX(), e.getY());
     	 });
+    	
+    	 System.out.println("init game end");
+     	
     	 // process all strikers
     	 AnimationTimer loop = new AnimationTimer() {
        	 int time = 0;
@@ -130,76 +121,13 @@ public class GameController {
        	 		// move
 	           	pu.display();
 	           	puckPU.display();
-                s1.step(p1.getMouse(), mid);
-                //s2.step(p1.getMouse());
-                s1.checkBoundaries(puck);
-                
-                //s2.checkBoundaries();
-                if (puck.checkBoundaries()) {
-               	 //striker can't overlap with puck
-                }
-                puck.collision(s1);
-                //puck.collision(s2);
-                puck.step(friction);
-                // update in fx scene
-                s1.display();
-                //s2.display();
+                selfStriker.step(selfPlayer.getMouse(), mid);
+                selfStriker.display();
+                otherStriker.display();
                 puck.display();
-                if (goal1.goalDetection(1)) {
-               	 p1.score();
-               	 p1s.setText(Integer.toString(p1.getScore()));
-               	 Hockey.getPrimaryStage().show();
-               	 s1.reset(1);
-               	 mid.reset();
-               	 puck.resetSize();
-               	 //s2.reset(2);
-                }
-                if (goal2.goalDetection(2)) {
-               	 p2.score();
-               	 p2s.setText(Integer.toString(p2.getScore()));
-               	Hockey.getPrimaryStage().show();
-               	 s1.reset(1);
-               	 mid.reset();
-               	 puck.resetSize();
-               	 //s2.reset(2);
-                }
-                if (p1.getScore() == 7) {
-               	 //Text text = new Text("  " + p1.getUsername() + " wins!");
-                	 //text.setFont(Font.font ("Verdana", 50));
-                	 //text.setFill(Color.RED);
-                	 //text.setY(350);
-                	 //playfield.getChildren().add(text);
-               	 //display message based on winner or loser
-                	Hockey.getPrimaryStage().show();
-               	 stop();
-                }
-                if (p2.getScore() == 7) {
-               	 //Text text = new Text("  " + p2.getUsername() + " wins!");
-               	 //text.setFont(Font.font ("Verdana", 50));
-                	 //text.setFill(Color.RED);
-                	 //text.setY(350);
-                	 //playfield.getChildren().add(text);
-               	 //display message based on winner or loser
-                	Hockey.getPrimaryStage().show();
-               	 stop();
-                } 
-                puck.collision(mid, pu);
-                puck.collision(puckPU);
-                time++;
-                if (time == ran) {
-               	 time = 0;
-               	 int choose = new Random().nextInt() % 2;
-               	 if (choose == 0) {
-               		 if (pu.hidden() && mid.inMiddle()) {
-                   		 pu.reset();
-                   	 }
-               	 }
-               	 else {
-               		 if (puckPU.hidden() && puck.width == 30) {
-                   		 puckPU.reset(puck);
-                   	 }
-               	 }
-                }
+               
+                // send selfStriker to server
+                Hockey.getNetwork().getClient().sendTCP(selfStriker);
             }
         };
         loop.start();

@@ -1,14 +1,12 @@
 package hockey.java.front;
 
-import com.esotericsoftware.kryonet.Connection;
-
 public class Player {
 	
 	private String username;
 	private PVector mouse;
 	
 	private int score;
-	private int playerID;
+	private int playerID; // 1 or 2
 	public Player(String username, int id) {
 		this.username = username;
 		playerID = id;
