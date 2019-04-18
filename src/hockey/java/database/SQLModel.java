@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketReturn;
+import hockey.java.packet.PacketStats;
 
 public class SQLModel {
 	//private boolean singlePlayerDebug = true;
@@ -132,7 +133,23 @@ public class SQLModel {
 		}
 		//if user exist, id, username, status all not null
 		//if user doesnt exist, only status not null
-		
-		
+	}
+	
+	public PacketStats getStats(String username) {
+		try {
+			ps = connection.prepareStatement("SELECT * FROM Player WHERE username=?");
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			int matchW = rs.getInt(4);
+			int matchL = rs.getInt(5);
+			int goalsFor = rs.getInt(6);
+			int goalsAgainst = rs.getInt(7);
+			return new PacketStats(matchW, matchL, goalsFor, goalsAgainst);
+			
+		} catch (SQLException e) {
+			System.out.println("sqle: " + e.getMessage());
+			//check = false;
+			return null;
+		}		
 	}
 }
