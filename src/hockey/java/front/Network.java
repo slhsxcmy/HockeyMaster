@@ -139,10 +139,10 @@ public class Network extends Listener{
 			
 		} else if (o instanceof PacketStats){
 			System.out.println("Client received PacketStats!");
+			Hockey.getStatsController().setStats(((PacketStats) o).matchesWon, ((PacketStats) o).matchesLost, ((PacketStats) o).goalsFor, ((PacketStats) o).goalsAgainst);
 			Platform.runLater(() -> {
 				Hockey.getPrimaryStage().setScene(Hockey.getStatsScene());;
             });
-			StatsController.setStats(((PacketStats) o).matchesWon, ((PacketStats) o).matchesLost, ((PacketStats) o).goalsFor, ((PacketStats) o).goalsAgainst);
 		} 
 		
 

@@ -3,10 +3,13 @@ package hockey.java.controller;
 import java.io.IOException;
 
 import hockey.java.Hockey;
+import hockey.java.packet.Constants;
+import hockey.java.packet.PacketAttempt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class StatsController {
@@ -17,16 +20,16 @@ public class StatsController {
 	private Label pageTitle;
 	
 	@FXML
-	private static Label MW;
+	private Label MW;
 	
 	@FXML
-	private static Label ML;
+	private Label ML;
 	
 	@FXML
-	private static Label GF;
+	private Label GF;
 	
 	@FXML
-	private static Label GA;
+	private Label GA;
 	
 	
 
@@ -36,8 +39,6 @@ public class StatsController {
 		Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
 		primaryStage.setScene(Hockey.getLoggedScene());
 		//primaryStage.show();
-	
-		
 	}
 
 	
@@ -48,7 +49,7 @@ public class StatsController {
 		
     }
 	
-	public static void setStats(int mw, int ml, int gf, int ga) {
+	public void setStats(int mw, int ml, int gf, int ga) {
 		MW.setText(Integer.toString(mw));
 		ML.setText(Integer.toString(ml));
 		GF.setText(Integer.toString(gf));

@@ -135,11 +135,12 @@ public class SQLModel {
 		//if user doesnt exist, only status not null
 	}
 	
-	public PacketStats getStats(String username) {
+	public PacketStats getStats(int id) {
 		try {
-			ps = connection.prepareStatement("SELECT * FROM Player WHERE username=?");
-			ps.setString(1, username);
+			ps = connection.prepareStatement("SELECT * FROM Player WHERE playerID=?");
+			ps.setString(1, Integer.toString(id));
 			rs = ps.executeQuery();
+			rs.next();
 			int matchW = rs.getInt(4);
 			int matchL = rs.getInt(5);
 			int goalsFor = rs.getInt(6);

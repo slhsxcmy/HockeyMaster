@@ -2,6 +2,9 @@ package hockey.java.packet;
 
 public class PacketStats {
 	
+
+	public PacketStats() {}
+
 	public PacketStats(int mw, int ml, int gf, int ga) {
 		matchesWon = mw;
 		matchesLost = ml;

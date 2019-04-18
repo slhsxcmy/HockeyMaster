@@ -42,8 +42,11 @@ public class LoggedController {
 	}
 	
 	public void goStats(ActionEvent event) throws IOException{
-		// send attempt to get stats
+
+		PacketAttempt p = new PacketAttempt(Constants.GETSTATSATTEMPT, Hockey.getUser().getId());		
+		Hockey.getNetwork().getClient().sendTCP(p);
 	}
+	
 	
 	public void signout(ActionEvent event) throws IOException{	
 		PacketAttempt p = new PacketAttempt(Constants.SIGNOUTATTEMPT, Hockey.getUser().getId());		

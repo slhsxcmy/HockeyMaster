@@ -108,7 +108,7 @@ public class Master extends Listener { // SERVER
 
 			case Constants.GETSTATSATTEMPT: //4 = get stats
 
-				c.sendTCP(model.getStats(username));
+				c.sendTCP(model.getStats(id));
 				break;
 				
 			case Constants.PLAYLOGGEDATTEMPT: //5 = play logged

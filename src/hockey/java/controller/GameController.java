@@ -14,14 +14,12 @@ import hockey.java.front.Puck;
 import hockey.java.front.Striker;
 import hockey.java.front.Walls;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class GameController implements Initializable {
 	
@@ -41,7 +39,7 @@ public class GameController implements Initializable {
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("initializing game start");
+		/*System.out.println("initializing game start");
     	
 	   	 p1 = new Player("p1", 1);
 	   	 p2 = new Player("p2", 2);
@@ -81,17 +79,15 @@ public class GameController implements Initializable {
 	   	 p2s.setY(335);
 	   	 
 	   	 // create containers // playfield for our strikers 
-	   	 BorderPane root = new BorderPane();
-	     StackPane layerPane = new StackPane();
+	   	 
+	   	 
+	   	 //BorderPane root = (BorderPane) Hockey.getGameRoot();
+	     Parent root = Hockey.getGameRoot();
+	   	 //StackPane layerPane = new StackPane();
 	     playfield = new Pane();
-	     layerPane.getChildren().addAll(playfield);
-	     root.setCenter(layerPane);
-	        
-	     Scene scene = Hockey.getGameScene();//new Scene(root, BoardSettings.SCENE_WIDTH, BoardSettings.SCENE_HEIGHT);
-	     Stage stage = Hockey.getPrimaryStage();
-	     stage.setScene(scene);
-	     stage.show();
-	        
+	     root.getChildren().addAll(playfield);
+	     //root.setCenter(layerPane);
+	     
 	     playfield.getChildren().add(walls1);
 	     playfield.getChildren().add(walls2);
 	     playfield.getChildren().add(mid);
@@ -117,12 +113,13 @@ public class GameController implements Initializable {
         
 
     	 System.out.println("initializing game end");
-    	
+    	*/
         // capture mouse position
         /*Hockey.getGameScene().addEventFilter(MouseEvent.ANY, e -> {
        	 //u1.getStriker().getPlayer().getMouse().set(e.getX(), e.getY());
        	 p1.getMouse().set(e.getX(), e.getY());
         });*/
+		
 	}
     
 }
