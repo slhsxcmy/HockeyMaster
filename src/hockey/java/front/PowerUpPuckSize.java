@@ -42,8 +42,7 @@ public class PowerUpPuckSize extends Pane{
 	public void activate(Puck p) {
 		//change puck size here
 		p.changePuckSize(10);
-		move(-100, -100);
-		hidden = true;
+		hide();
 	}
 
 	public PVector getLocation() {
@@ -65,6 +64,11 @@ public class PowerUpPuckSize extends Pane{
 		move(r.nextDouble() * (BoardSettings.SCENE_WIDTH - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT, 
 				r.nextDouble() * (BoardSettings.SCENE_HEIGHT - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT);
 		hidden = false;
+	}
+	
+	public void hide() {
+		move(-100, -100);
+		hidden = true;
 	}
 	
 	public boolean hidden() {

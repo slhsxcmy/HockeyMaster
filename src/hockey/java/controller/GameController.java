@@ -107,6 +107,8 @@ public class GameController {
 	     walls2.display();
 	     PowerUp pu = new PowerUp();
 	     PowerUpPuckSize puckPU = new PowerUpPuckSize();
+	     pu.hide();
+	     puckPU.hide();
 		 playfield.getChildren().add(pu);
 		 playfield.getChildren().add(puckPU);
 	     mid.display();
@@ -125,7 +127,7 @@ public class GameController {
     	 AnimationTimer loop = new AnimationTimer() {
        	 int time = 0;
        	 Random r = new Random();
-       	 int ran = (int) (r.nextDouble() * 1000);
+       	 int ran = (int) (r.nextDouble() * 2500);
        	 	@Override
             public void handle(long now) {
        	 		// move

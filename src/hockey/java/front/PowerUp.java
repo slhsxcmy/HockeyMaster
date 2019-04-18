@@ -48,8 +48,7 @@ public class PowerUp extends Pane{
 			m.move((m.startingY*1.5)+15);
 			s.updateMidlineMult(1.5);
 		}
-		move(-100, -100);
-		hidden = true;
+		hide();
 	}
 
 	public PVector getLocation() {
@@ -71,6 +70,11 @@ public class PowerUp extends Pane{
 		move(r.nextDouble() * (BoardSettings.SCENE_WIDTH - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT, 
 				r.nextDouble() * (BoardSettings.SCENE_HEIGHT - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT);
 		hidden = false;
+	}
+	
+	public void hide() {
+		move(-100, -100);
+		hidden = true;
 	}
 	
 	public boolean hidden() {
