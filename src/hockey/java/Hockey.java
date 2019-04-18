@@ -43,7 +43,6 @@ public class Hockey extends Application {
 		Parent loginParent = (Parent)loginLoader.load();	
 		loginScene = new Scene(loginParent);
 		
-		
 		FXMLLoader signupLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Signup.fxml"));
 		Parent signupParent = (Parent)signupLoader.load();	
 		signupScene = new Scene(signupParent);
@@ -70,13 +69,6 @@ public class Hockey extends Application {
 		GameController  gameController = gameLoader.getController();
 		/*** All Controllers End ***/
 		
-		/*** Set Scenes Start ***/
-/*		menuController.setLoginScene(loginScene);
-		menuController.setSignupScene(signupScene);
-		signupController.setLoggedScene(loggedScene);
-		signupController.setMenuScene(menuScene);
-*/		/*** Set Scenes End ***/
-	
 		primaryStage.setScene(menuScene);		
 		primaryStage.show();
 	

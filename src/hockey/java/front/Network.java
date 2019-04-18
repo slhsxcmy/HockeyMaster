@@ -10,6 +10,7 @@ import hockey.java.Hockey;
 import hockey.java.Master;
 import hockey.java.controller.LoggedController;
 import hockey.java.controller.LoginController;
+import hockey.java.packet.Constants;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStriker;
@@ -72,8 +73,8 @@ public class Network extends Listener{
 			String username;
 			switch(((PacketReturn) o).status) {
 			
-			case 1: 
-			case 3: 
+			case Constants.SIGNUPSUCCESS: 
+			case Constants.LOGINSUCCESS: 
 				id = ((PacketReturn) o).id;
 				username = ((PacketReturn) o).username;
 				System.out.println("user id = " + id + " username = " + username);
@@ -84,23 +85,23 @@ public class Network extends Listener{
                 });
 				System.out.println("set scene complete");
 				break;
-			case 2: 
+			case Constants.SIGNUPFAILURE: 
 				//https://www.youtube.com/watch?v=SGZUQvuqL5Q
 				//SignupController.setMessage("Signup failed. Please try again.");
 				break;
-			case 4: 
+			case Constants.LOGINFAILURE: 
 				LoginController.setMessage("Login failed. Please try again.");
 				break;
-			case 5: 
+			case Constants.SIGNOUTSUCCESS: 
 				Hockey.setSelf(null);
 				break;
-			case 6: 
-				LoggedController.setMessage("Login failed. Please try again.");
+			case Constants.SIGNOUTFAILURE: 
+				
 				break;
-			case 7: 
+			case Constants.PLAYSUCCESS: 
 				//Game game = new Game();
 				break;
-			case 8: 
+			case Constants.PLAYFAILURE: 
 				LoggedController.setMessage("Join game failed. Please wait.");
 				break;
 			}
