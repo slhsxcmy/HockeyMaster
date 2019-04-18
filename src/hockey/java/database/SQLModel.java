@@ -102,11 +102,13 @@ public class SQLModel {
 	}
 	
 	public PacketReturn checkLogin(String username, String pw) {
-		PacketReturn p = new PacketReturn();		
-		boolean check = true;
+		PacketReturn p = new PacketReturn();	
+		p.status = 4;
+		//boolean check = true;
 		
-		if(username == null || pw == null) { //they shouldn't be empty
-			check = false;
+		if(username == null || username == "" || pw == null || pw == "") { //they shouldn't be empty
+			//check = false;
+			return p;
 		}
 		else {
 			try {
@@ -114,7 +116,8 @@ public class SQLModel {
 				ps.setString(1, username);
 				rs = ps.executeQuery();
 				if(!rs.next()) {
-		            check = false; //user does not exist
+		            //check = false; //user does not exist
+					return p;
 				}
 				else {
 					p.username = username;
@@ -122,23 +125,22 @@ public class SQLModel {
 					
 					String dbpw = rs.getString(3);						
 					if(!dbpw.equals(pw)) { //once found this name exists, look at pw in database
-			            check = false; //password does not match with database			
+			            //check = false; //password does not match with database			
+						return p;
 					}
 				}
-				check = true;				
+				//check = true;
+				p.status = 3;
+				return p;
 			} catch (SQLException e) {
 				System.out.println("sqle: " + e.getMessage());
-				check = false;
+				//check = false;
+				return p;
 			}		
 		}
 		//if user exist, id, username, status all not null
 		//if user doesnt exist, only status not null
 		
-		if(check) {
-			p.status = 3;			
-		}else {
-			p.status = 4;
-		}
-		return p;
+		
 	}
 }
