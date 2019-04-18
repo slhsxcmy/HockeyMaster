@@ -10,15 +10,10 @@ import hockey.java.Hockey;
 import hockey.java.Master;
 import hockey.java.controller.LoggedController;
 import hockey.java.controller.LoginController;
-import hockey.java.controller.SignupController;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStriker;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.application.Platform;
 
 public class Network extends Listener{
 
@@ -84,7 +79,9 @@ public class Network extends Listener{
 				System.out.println("user id = " + id + " username = " + username);
 				Hockey.setSelf(new User(id,username));
 				System.out.println("setting scene to logged");
-				Hockey.getPrimaryStage().setScene(Hockey.getLoggedScene());;
+				Platform.runLater(() -> {
+					Hockey.getPrimaryStage().setScene(Hockey.getLoggedScene());;
+                });
 				System.out.println("set scene complete");
 				break;
 			case 2: 
