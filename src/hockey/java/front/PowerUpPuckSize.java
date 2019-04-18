@@ -26,13 +26,12 @@ public class PowerUpPuckSize extends Pane{
 		circle = new Circle(radius);
         circle.setCenterX(radius);
         circle.setCenterY(radius);
-        hidden = true;
 
         circle.setStroke(Color.ORANGE);
         circle.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.3));
 
         getChildren().add(circle);
-        
+        hide();
 	}
 	
 	public void display() {

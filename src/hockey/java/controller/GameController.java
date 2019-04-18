@@ -107,8 +107,6 @@ public class GameController {
 	     walls2.display();
 	     PowerUp pu = new PowerUp();
 	     PowerUpPuckSize puckPU = new PowerUpPuckSize();
-	     pu.hide();
-	     puckPU.hide();
 		 playfield.getChildren().add(pu);
 		 playfield.getChildren().add(puckPU);
 	     mid.display();
@@ -138,9 +136,9 @@ public class GameController {
                 s1.checkBoundaries(puck);
                 
                 //s2.checkBoundaries();
-                if (puck.checkBoundaries()) {
+                puck.checkBoundaries();
                	 //striker can't overlap with puck
-                }
+           
                 puck.collision(s1);
                 //puck.collision(s2);
                 puck.step(friction);
