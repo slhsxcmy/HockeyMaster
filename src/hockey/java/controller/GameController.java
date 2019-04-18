@@ -39,6 +39,7 @@ public class GameController{
     
     @FXML
     public void initialize() {
+    	System.out.println("initializing game controller");
     	 p1 = new Player("p1", 1);
     	 p2 = new Player("p2", 2);
     	 s1 = new Striker(p1);
@@ -83,10 +84,10 @@ public class GameController{
          playfield = new Pane();
          layerPane.getChildren().addAll(playfield);
          root.setCenter(layerPane);
-//         Scene scene = new Scene(root, BoardSettings.SCENE_WIDTH, BoardSettings.SCENE_HEIGHT);
-//         Stage stage = new Stage();
-//         stage.setScene(scene);
-//         stage.show();
+         Scene scene = new Scene(root, BoardSettings.SCENE_WIDTH, BoardSettings.SCENE_HEIGHT);
+         Stage stage = new Stage();
+         stage.setScene(scene);
+         stage.show();
          playfield.getChildren().add(walls1);
          playfield.getChildren().add(walls2);
          playfield.getChildren().add(mid);
@@ -99,16 +100,18 @@ public class GameController{
          playfield.getChildren().add(p1s);
          playfield.getChildren().add(p2s);
          //display static shapes
+         System.out.println("displaying objects");
          center.display();
          goal1.display();
          goal2.display();
          walls1.display();
          walls2.display();
+         mid.display();
          PowerUp pu = new PowerUp();
          PowerUpPuckSize puckPU = new PowerUpPuckSize();
     	 playfield.getChildren().add(pu);
     	 playfield.getChildren().add(puckPU);
-         mid.display();
+         System.out.println("done displaying");
          // capture mouse position
          /*Hockey.getGameScene().addEventFilter(MouseEvent.ANY, e -> {
         	 //u1.getStriker().getPlayer().getMouse().set(e.getX(), e.getY());
