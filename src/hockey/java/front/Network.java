@@ -64,7 +64,7 @@ public class Network extends Listener{
 	public void received(Connection c, Object o) {
 		
 		if (o instanceof PacketReturn){
-			System.out.println("Client received PacketReturn!");
+			System.out.println("Client received PacketReturn of type " + ((PacketReturn) o).status);
 			/*
 			  odd = success
 			  even = failure
@@ -81,9 +81,11 @@ public class Network extends Listener{
 			case 3: 
 				id = ((PacketReturn) o).id;
 				username = ((PacketReturn) o).username;
+				System.out.println("user id = " + id + " username = " + username);
 				Hockey.setSelf(new User(id,username));
+				System.out.println("setting scene to logged");
 				Hockey.getPrimaryStage().setScene(Hockey.getLoggedScene());;
-				
+				System.out.println("set scene complete");
 				break;
 			case 2: 
 				//https://www.youtube.com/watch?v=SGZUQvuqL5Q

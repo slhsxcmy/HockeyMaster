@@ -48,10 +48,6 @@ public class SignupController{
 	@FXML
 	private Button back;
 	
-	// scenes
-	private Scene menuScene; // goBack
-	private Scene loggedScene; // signup
-	
 	
 	@FXML
 	public void signup(ActionEvent event) throws IOException{
@@ -66,7 +62,7 @@ public class SignupController{
 		p.password = password.getText();
 		p.confirm = passwordc.getText();
 		Hockey.getNetwork().getClient().sendTCP(p);
-		System.out.println("Sent SignupAttempt");
+		System.out.println("Sent PacketReturn of type 1: SignupAttempt");
 		
 		
 		
@@ -91,7 +87,7 @@ public class SignupController{
 	public void goBack(ActionEvent event) throws IOException {
 		
 		Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
-		primaryStage.setScene(menuScene);
+		primaryStage.setScene(Hockey.getMenuScene());
 		//primaryStage.show();
 	
 		
@@ -104,23 +100,5 @@ public class SignupController{
 	}
 
 
-	public Scene getMenuScene() {
-		return menuScene;
-	}
 
-
-	public void setMenuScene(Scene menuScene) {
-		this.menuScene = menuScene;
-	}
-
-
-	public Scene getLoggedScene() {
-		return loggedScene;
-	}
-
-
-	public void setLoggedScene(Scene loggedScene) {
-		this.loggedScene = loggedScene;
-	}
-	
 }

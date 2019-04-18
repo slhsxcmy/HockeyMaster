@@ -29,10 +29,6 @@ public class MenuController {
 	@FXML
 	private Button playAsGuest;
 
-	// scenes
-	private Scene signupScene; // goBack
-	private Scene loginScene; // signup
-	
 	
 	public void join(ActionEvent event) throws IOException{
 		
@@ -41,32 +37,18 @@ public class MenuController {
 	public void goLogin(ActionEvent event) throws IOException{
 		System.out.println("Switching scene to Login");
 		Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
-		primaryStage.setScene(loginScene);
+		primaryStage.setScene(Hockey.getLoginScene());
 		
 	}
 	
 	public void goSignup(ActionEvent event) throws IOException{
 		System.out.println("Switching scene to Signup");
 		Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
-		primaryStage.setScene(signupScene);
+		primaryStage.setScene(Hockey.getSignupScene());
 		
 			
 	}
 
-	public Scene getSignupScene() {
-		return signupScene;
-	}
 
-	public void setSignupScene(Scene signupScene) {
-		this.signupScene = signupScene;
-	}
-
-	public Scene getLoginScene() {
-		return loginScene;
-	}
-
-	public void setLoginScene(Scene loginScene) {
-		this.loginScene = loginScene;
-	}
 	
 }

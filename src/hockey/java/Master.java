@@ -79,11 +79,13 @@ public class Master extends Listener { // SERVER
 	// runs when packet received
 	public void received(Connection c, Object o) {
 		if (o instanceof PacketAttempt){
-			System.out.println("Server received PacketAttempt!");
+			System.out.println("Server received PacketAttempt of type " + ((PacketAttempt) o).attempt);
 			
 			String username = ((PacketAttempt) o).username;
 			String pw = ((PacketAttempt) o).password;
 			String confirm = ((PacketAttempt) o).confirm;
+			PacketReturn p = null;
+			
 			switch(((PacketAttempt) o).attempt) {
 			
 			/* RETURN
@@ -96,7 +98,8 @@ public class Master extends Listener { // SERVER
 			  8 = stats
 			  */
 			case 1: //1 = signup
-				c.sendTCP(model.checkSignUp(username, pw, confirm));
+				 p = model.checkSignUp(username, pw, confirm);
+				
 				break;
 			case 2: //2 = login
 				c.sendTCP(model.checkLogin(username, pw));
@@ -113,6 +116,12 @@ public class Master extends Listener { // SERVER
 				break;
 	
 			}
+			
+			if(p != null) {
+				System.out.println("Sending to client PacketReturn of type " + p.status);
+				c.sendTCP(p);
+			}
+			
 		} else if (o instanceof PacketStriker){
 			PVector location = ((PacketStriker) o).location;
 			PVector velocity = ((PacketStriker) o).velocity;
