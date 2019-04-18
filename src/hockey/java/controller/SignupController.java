@@ -92,7 +92,10 @@ public class SignupController{
 
 	public /*static*/ void setMessage(String string) {
 		if(message == null) System.out.println("message is null");
-		else {System.out.println("setting message");message.setText(string);}
+		else {
+			System.out.println("setting message"); 
+			message.setText(string);
+		}
 		
 	}
 

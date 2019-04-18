@@ -30,7 +30,7 @@ public class LoginController{
 	private Label pageTitle;
 	
 	@FXML
-	private static Label message;
+	private Label message;
 	
 	@FXML
  	private TextField username;
@@ -78,8 +78,8 @@ public class LoginController{
 		
 	}
 
-	public static void setMessage(String string) {
-		message.setText("Username doesn't match with password. Please try again.");
+	public void setMessage(String string) {
+		message.setText(string);
 		
 	}
 	

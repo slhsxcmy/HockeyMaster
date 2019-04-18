@@ -82,31 +82,38 @@ public class Network extends Listener{
 				Hockey.getUser().setUsername(username);
 				System.out.println("setting scene to logged");
 				Platform.runLater(() -> {
-					Hockey.getPrimaryStage().setScene(Hockey.getLoggedScene());;
+					Hockey.getPrimaryStage().setScene(Hockey.getLoggedScene());
                 });
 				System.out.println("set scene complete");
 				break;
 			case Constants.SIGNUPFAILURE: 
-				//https://www.youtube.com/watch?v=SGZUQvuqL5Q
-				//SignupController.setMessage("Signup failed. Please try again.");
+				Platform.runLater(() -> {
+					Hockey.getSignupController().setMessage(((PacketReturn) o).message);
+                });
+
 				break;
 			case Constants.LOGINFAILURE: 
-				LoginController.setMessage("Login failed. Please try again.");
+				Platform.runLater(() -> {
+				
+					Hockey.getLoginController().setMessage(((PacketReturn) o).message);
+                });
 				break;
 			case Constants.SIGNOUTSUCCESS: 
-				Hockey.setUser(null);
+				Hockey.setUser(new User());
 				Platform.runLater(() -> {
 					Hockey.getPrimaryStage().setScene(Hockey.getMenuScene());;
                 });
 				break;
 			case Constants.SIGNOUTFAILURE: 
-				
+				Platform.runLater(() -> {
+					Hockey.getLoggedController().setMessage(((PacketReturn) o).message);
+                });
 				break;
 			case Constants.PLAYSUCCESS: 
 				//Game game = new Game();
 				break;
 			case Constants.PLAYFAILURE: 
-				LoggedController.setMessage("Join game failed. Please wait.");
+				
 				break;
 			}
 		} else if (o instanceof PacketStriker){

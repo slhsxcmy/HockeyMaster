@@ -96,8 +96,7 @@ public class Master extends Listener { // SERVER
 			  8 = stats
 			  */
 			case Constants.SIGNUPATTEMPT: //1 = signup
-				 p = model.checkSignUp(username, pw, confirm);
-				
+				c.sendTCP(model.checkSignUp(username, pw, confirm));
 				break;
 			case Constants.LOGINATTEMPT: //2 = login
 				c.sendTCP(model.checkLogin(username, pw));
@@ -107,6 +106,11 @@ public class Master extends Listener { // SERVER
 			case Constants.GETSTATSATTEMPT: //4 = get stats
 				break;
 			case Constants.PLAYLOGGEDATTEMPT: //5 = play logged
+				if(!p1Ready) {
+					p1Ready = true;
+					c.sendTCP(new PacketReturn(Constants.PLAYFAILURE, "Not enough players. Please wait."));
+				} 
+				// TODO
 				
 				break;
 			case Constants.PLAYGUESTATTEMPT: //6 = play guest

@@ -23,6 +23,12 @@ public class Hockey extends Application {
 	
 	private static Stage primaryStage;
 	private static Scene menuScene, loginScene, signupScene, loggedScene, statsScene, gameScene;
+	private static MenuController menuController;
+	private static LoginController loginController;
+	private static SignupController signupController;
+	private static LoggedController loggedController;
+	private static StatsController statsController;
+	private static GameController  gameController;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -61,12 +67,12 @@ public class Hockey extends Application {
 		/*** All Scenes End ***/
 		
 		/*** All Controllers Start ***/
-		MenuController menuController = menuLoader.getController();
-		LoginController loginController = loginLoader.getController();
-		SignupController signupController = signupLoader.getController();
-		LoggedController loggedController = loggedLoader.getController();
-		StatsController statsController = statsLoader.getController();
-		GameController  gameController = gameLoader.getController();
+		menuController = menuLoader.getController();
+		loginController = loginLoader.getController();
+		signupController = signupLoader.getController();
+		loggedController = loggedLoader.getController();
+		statsController = statsLoader.getController();
+		gameController = gameLoader.getController();
 		/*** All Controllers End ***/
 		
 		primaryStage.setScene(menuScene);		
@@ -147,6 +153,54 @@ public class Hockey extends Application {
 
 	public static void setGameScene(Scene gameScene) {
 		Hockey.gameScene = gameScene;
+	}
+
+	public static MenuController getMenuController() {
+		return menuController;
+	}
+
+	public static void setMenuController(MenuController menuController) {
+		Hockey.menuController = menuController;
+	}
+
+	public static LoginController getLoginController() {
+		return loginController;
+	}
+
+	public static void setLoginController(LoginController loginController) {
+		Hockey.loginController = loginController;
+	}
+
+	public static SignupController getSignupController() {
+		return signupController;
+	}
+
+	public static void setSignupController(SignupController signupController) {
+		Hockey.signupController = signupController;
+	}
+
+	public static LoggedController getLoggedController() {
+		return loggedController;
+	}
+
+	public static void setLoggedController(LoggedController loggedController) {
+		Hockey.loggedController = loggedController;
+	}
+
+	public static StatsController getStatsController() {
+		return statsController;
+	}
+
+	public static void setStatsController(StatsController statsController) {
+		Hockey.statsController = statsController;
+	}
+
+	public static GameController getGameController() {
+		return gameController;
+	}
+
+	public static void setGameController(GameController gameController) {
+		Hockey.gameController = gameController;
 	}
 
 	
