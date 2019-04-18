@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import hockey.java.Hockey;
 import hockey.java.database.SQLModel;
+import hockey.java.packet.Constants;
 import hockey.java.packet.PacketAttempt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,9 +21,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class SignupController implements Initializable{
+public class SignupController{
 	
-	private SQLModel model = new SQLModel();
+	//private SQLModel model = new SQLModel();
 	
 	@FXML
 	private Label appTitle;
@@ -31,7 +32,7 @@ public class SignupController implements Initializable{
 	private Label pageTitle;
 	
 	@FXML
-	private static Label message;
+	private /*static*/ Label message;
 	
 	@FXML
 	private TextField username;
@@ -48,6 +49,7 @@ public class SignupController implements Initializable{
 	@FXML
 	private Button back;
 	
+	
 	@FXML
 	public void signup(ActionEvent event) throws IOException{
 		
@@ -55,13 +57,9 @@ public class SignupController implements Initializable{
 		System.out.println(username.getText() + " " + password.getText() + " " + passwordc.getText());
 		
 		//sending signup packet
-		PacketAttempt p = new PacketAttempt();
-		p.attempt = 1;
-		p.username = username.getText();
-		p.password = password.getText();
-		p.confirm = passwordc.getText();
-		Hockey.getNetwork().getConnection().sendTCP(p);
-		//sent
+		PacketAttempt p = new PacketAttempt(Constants.SIGNUPATTEMPT,username.getText(),password.getText(),passwordc.getText());
+		Hockey.getNetwork().getClient().sendTCP(p);
+		System.out.println("Sent PacketReturn of type 1: SignupAttempt");
 		
 		
 		
@@ -80,34 +78,27 @@ public class SignupController implements Initializable{
 //		}
 	
 	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		if(model.isDbConnected()) {
-			message.setText("Connected");
-		} else {
-			message.setText("Not Connected");
-		}
-		
-	}
 	
 
 	@FXML
 	public void goBack(ActionEvent event) throws IOException {
-		// add sign out logic
 		
-		Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/hockey/css/Menu.css").toExternalForm());
+		Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
+		primaryStage.setScene(Hockey.getMenuScene());
+		//primaryStage.show();
+	
 		
-		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-		window.setScene(scene);
-		window.show();	
 	}
 
-	public static void setMessage(String string) {
-		message.setText(string);
+	public /*static*/ void setMessage(String string) {
+		if(message == null) System.out.println("message is null");
+		else {
+			System.out.println("setting message"); 
+			message.setText(string);
+		}
 		
 	}
-	
+
+
+
 }

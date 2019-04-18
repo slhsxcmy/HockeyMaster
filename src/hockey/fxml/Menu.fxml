@@ -28,11 +28,11 @@
          <font>
             <Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
          </font></Button>
-      <Button fx:id="register" layoutX="170.0" layoutY="430.0" mnemonicParsing="false" onAction="#goRegister" scaleX="1.5" scaleY="1.5" scaleZ="2.0" text="Sign UP">
+      <Button fx:id="signup" layoutX="170.0" layoutY="430.0" mnemonicParsing="false" onAction="#goSignup" scaleX="1.5" scaleY="1.5" scaleZ="2.0" text="Sign UP">
    	     <font>
             <Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
          </font></Button>
-      <Button fx:id="playAsGuest" layoutX="142.0" layoutY="508.0" mnemonicParsing="false" onAction="#join" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="PLAY AS GUEST">
+      <Button fx:id="playAsGuest" layoutX="142.0" layoutY="508.0" mnemonicParsing="false" onAction="#playAsGuest" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="PLAY AS GUEST">
          <font>
             <Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
          </font>
