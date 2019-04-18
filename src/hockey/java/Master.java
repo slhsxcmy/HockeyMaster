@@ -105,6 +105,9 @@ public class Master extends Listener { // SERVER
 			case 3: //3 = signout
 				break;
 			case 4: //4 = get stats
+				//SQLModel.java and SQLCOnnection should help
+				//create a sendTCP thing and look at the above function to help guide you
+				//And how they got that to work
 				
 			case 5: //5 = play logged
 				
