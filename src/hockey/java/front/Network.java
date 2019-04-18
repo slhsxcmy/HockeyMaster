@@ -109,10 +109,19 @@ public class Network extends Listener{
 					Hockey.getLoggedController().setMessage(((PacketReturn) o).message);
                 });
 				break;
-			case Constants.PLAYSUCCESS: 
+			case Constants.PLAYLOGGEDSUCCESS: 
+				System.out.println("Going to game scene");
+				Platform.runLater(() -> {
+					Hockey.getPrimaryStage().setScene(Hockey.getGameScene());;
+                });
+				break;
+			case Constants.PLAYLOGGEDFAILURE: 
+				
+				break;
+			case Constants.PLAYGUESTSUCCESS: 
 				//Game game = new Game();
 				break;
-			case Constants.PLAYFAILURE: 
+			case Constants.PLAYGUESTFAILURE: 
 				
 				break;
 			}

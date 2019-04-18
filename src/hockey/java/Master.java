@@ -107,6 +107,7 @@ public class Master extends Listener { // SERVER
 			case Constants.GETSTATSATTEMPT: //4 = get stats
 				break;
 			case Constants.PLAYLOGGEDATTEMPT: //5 = play logged
+				c.sendTCP(new PacketReturn(Constants.PLAYLOGGEDSUCCESS));
 //				if(!p1Ready) {
 //					p1Ready = true;
 //					c.sendTCP(new PacketReturn(Constants.PLAYFAILURE, "Not enough players. Please wait."));
