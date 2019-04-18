@@ -29,7 +29,7 @@
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Button fx:id="join" layoutX="144.0" layoutY="354.0" mnemonicParsing="false" onAction="#join" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Join Game">
+      <Button fx:id="playLogged" layoutX="144.0" layoutY="354.0" mnemonicParsing="false" onAction="#playLogged" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Join Game">
          <font>
             <Font name="HockeyFont" size="17.0" url="@../../Fonts/HockeyFont.ttf" />
          </font></Button>

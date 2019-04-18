@@ -10,27 +10,31 @@ import hockey.java.Hockey;
 import hockey.java.Master;
 import hockey.java.controller.LoggedController;
 import hockey.java.controller.LoginController;
-import hockey.java.controller.SignupController;
+import hockey.java.packet.Constants;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStriker;
+import javafx.application.Platform;
 
 public class Network extends Listener{
 
-	private Connection c = null;
-
-	public static void main(String[] args) {
-		
-		String ip = Master.ngrok_url;
-		int port = Master.tcpPort;
-		Client client = new Client();
-		
+	//private static Hockey hockey;
+	private static Client client;
+	private static String ip = Master.ngrok_url;
+	private static int port = Master.tcpPort;
+	
+	public Network(/*Hockey hockey*/) {
+	
+		System.out.println("Starting Network constructor");
 		// register packet
+		
+		//this.hockey = hockey;
+		client = new Client();
+		
 		Master.registerClasses(client.getKryo());
 
 		client.start();
 		
-		client.addListener(new Network());
 		
 		try {
 			client.connect(5000, ip, port); //blocks for 5 seconds
@@ -39,13 +43,15 @@ public class Network extends Listener{
 		} 
 
 		// add listener for connected/received/disconnected methods
-		client.addListener(new Network());
+
+		client.addListener(this);
+		
 		System.out.println("Client waiting for a packet...\n");		
 		
-		while(true) {
+		/*while(true) {
 			// send self data
 			// (Connection) c.sendTCP(pm); 
-		}
+		}*/
 		// c.sendTCP(pm); 
 		
 	}
@@ -54,6 +60,7 @@ public class Network extends Listener{
 	public void received(Connection c, Object o) {
 		
 		if (o instanceof PacketReturn){
+			System.out.println("Client received PacketReturn of type " + ((PacketReturn) o).status);
 			/*
 			  odd = success
 			  even = failure
@@ -66,36 +73,56 @@ public class Network extends Listener{
 			String username;
 			switch(((PacketReturn) o).status) {
 			
-			case 1: 
-			case 3: 
+			case Constants.SIGNUPSUCCESS: 
+			case Constants.LOGINSUCCESS: 
 				id = ((PacketReturn) o).id;
 				username = ((PacketReturn) o).username;
-				Hockey.setSelf(new User(id,username));
+				System.out.println("user id = " + id + " username = " + username);
+				Hockey.getUser().setId(id);
+				Hockey.getUser().setUsername(username);
+				System.out.println("setting scene to logged");
+				Platform.runLater(() -> {
+					Hockey.getPrimaryStage().setScene(Hockey.getLoggedScene());
+                });
+				System.out.println("set scene complete");
 				break;
-			case 2: 
-				SignupController.setMessage("Signup failed. Please try again.");
+			case Constants.SIGNUPFAILURE: 
+				Platform.runLater(() -> {
+					Hockey.getSignupController().setMessage(((PacketReturn) o).message);
+                });
+
 				break;
-			case 4: 
-				LoginController.setMessage("Login failed. Please try again.");
+			case Constants.LOGINFAILURE: 
+				Platform.runLater(() -> {
+				
+					Hockey.getLoginController().setMessage(((PacketReturn) o).message);
+                });
 				break;
-			case 5: 
-				Hockey.setSelf(null);
+			case Constants.SIGNOUTSUCCESS: 
+				Hockey.setUser(new User());
+				Platform.runLater(() -> {
+					Hockey.getPrimaryStage().setScene(Hockey.getMenuScene());;
+                });
 				break;
-			case 6: 
-				LoggedController.setMessage("Login failed. Please try again.");
+			case Constants.SIGNOUTFAILURE: 
+				Platform.runLater(() -> {
+					Hockey.getLoggedController().setMessage(((PacketReturn) o).message);
+                });
 				break;
-			case 7: 
+			case Constants.PLAYSUCCESS: 
 				//Game game = new Game();
 				break;
-			case 8: 
-				LoggedController.setMessage("Join game failed. Please wait.");
+			case Constants.PLAYFAILURE: 
+				
 				break;
 			}
 		} else if (o instanceof PacketStriker){
+			System.out.println("Client received PacketStriker!");
 			PVector location = ((PacketStriker) o).location;
 			PVector velocity = ((PacketStriker) o).velocity;
 			
 		} else if (o instanceof PacketPuck){
+			System.out.println("Client received PacketPuck!");
 			PVector location = ((PacketPuck) o).location;
 			PVector velocity = ((PacketPuck) o).velocity;
 			
@@ -104,11 +131,12 @@ public class Network extends Listener{
 
 	}
 	
-	public Connection getConnection() {
-		return c;
+	
+	public void disconnected(Connection c) {
+		System.out.println("Disconnected from server. ");
 	}
-//	public void disconnected(Connection c) {
-//		System.out.println("Disconnected from server at " + c.getRemoteAddressTCP().getHostString());
-//	}
+	
+
+	public Client getClient() { return client; }
 	
 }
