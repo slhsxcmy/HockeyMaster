@@ -21,14 +21,9 @@ public class Hockey extends Application {
 	private static Network network = new Network();
 	private static User user = new User(); 
 	
-	private static Stage primaryStage;
-	private static Scene menuScene, loginScene, signupScene, loggedScene, statsScene, gameScene;
-	private static MenuController menuController;
-	private static LoginController loginController;
-	private static SignupController signupController;
-	private static LoggedController loggedController;
-	private static StatsController statsController;
-	private static GameController  gameController;
+	public static final int NUMSCENES = 6;
+	private static Scene[] scenes = new Scene[NUMSCENES];
+	
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -44,26 +39,32 @@ public class Hockey extends Application {
 		FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Menu.fxml"));
 		Parent menuParent = (Parent)menuLoader.load();	
 		menuScene = new Scene(menuParent);
+		scenes[0] = menuScene;
 		
 		FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Login.fxml"));
 		Parent loginParent = (Parent)loginLoader.load();	
 		loginScene = new Scene(loginParent);
+		scenes[1] = loginScene;
 		
 		FXMLLoader signupLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Signup.fxml"));
 		Parent signupParent = (Parent)signupLoader.load();	
 		signupScene = new Scene(signupParent);
+		scenes[2] = signupScene;
 		
 		FXMLLoader loggedLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Logged.fxml"));
 		Parent loggedParent = (Parent)loggedLoader.load();	
 		loggedScene = new Scene(loggedParent);
-
+		scenes[3] = loggedScene;
+		
 		FXMLLoader statsLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Stats.fxml"));
 		Parent statsParent = (Parent)statsLoader.load();	
 		statsScene = new Scene(statsParent);
+		scenes[4] = statsScene;
 		
 		FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Game.fxml"));
 		Parent gameParent = (Parent) gameLoader.load();	
 		gameScene = new Scene(gameParent);
+		scenes[5] = gameScene;
 		/*** All Scenes End ***/
 		
 		/*** All Controllers Start ***/
@@ -83,6 +84,17 @@ public class Hockey extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
+	private static Stage primaryStage;
+	private static Scene menuScene, loginScene, signupScene, loggedScene, statsScene, gameScene;
+	private static MenuController menuController;
+	private static LoginController loginController;
+	private static SignupController signupController;
+	private static LoggedController loggedController;
+	private static StatsController statsController;
+	private static GameController  gameController;
+	
+	
 	public static Network getNetwork() {
 		return network;
 	}
