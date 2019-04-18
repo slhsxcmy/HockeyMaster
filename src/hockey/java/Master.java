@@ -79,11 +79,10 @@ public class Master extends Listener { // SERVER
 	public void received(Connection c, Object o) {
 		if (o instanceof PacketAttempt){
 			System.out.println("Server received PacketAttempt of type " + ((PacketAttempt) o).attempt);
-			
+			int id = ((PacketAttempt) o).id;
 			String username = ((PacketAttempt) o).username;
 			String pw = ((PacketAttempt) o).password;
 			String confirm = ((PacketAttempt) o).confirm;
-			PacketReturn p = null;
 			
 			switch(((PacketAttempt) o).attempt) {
 			
@@ -103,28 +102,29 @@ public class Master extends Listener { // SERVER
 				c.sendTCP(model.checkLogin(username, pw));
 				break;
 			case Constants.SIGNOUTATTEMPT: //3 = signout
+				users.remove(id);
+				c.sendTCP(new PacketReturn(Constants.SIGNOUTSUCCESS));
 				break;
+
 			case Constants.GETSTATSATTEMPT: //4 = get stats
+
+				c.sendTCP(model.getStats(id));
 				break;
+				
 			case Constants.PLAYLOGGEDATTEMPT: //5 = play logged
 				c.sendTCP(new PacketReturn(Constants.PLAYLOGGEDSUCCESS));
-//				if(!p1Ready) {
-//					p1Ready = true;
-//					c.sendTCP(new PacketReturn(Constants.PLAYFAILURE, "Not enough players. Please wait."));
-//				} 
-				// TODO
+
 				
 				break;
 			case Constants.PLAYGUESTATTEMPT: //6 = play guest
-				// scan 
+				// model.guestSignUp();
+				// test how many players
+				// c.sendTCP
+				
 				break;
 	
 			}
 			
-			if(p != null) {
-				System.out.println("Sending to client PacketReturn of type " + p.status);
-				c.sendTCP(p);
-			}
 			
 		} else if (o instanceof PacketStriker){
 			PVector location = ((PacketStriker) o).location;
