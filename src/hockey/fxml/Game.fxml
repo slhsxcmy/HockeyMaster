@@ -14,14 +14,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="800.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hockey.java.controller.GameController">
    <children>
-      <ImageView fitHeight="800.0" fitWidth="400.0">
-         <image>
-            <Image url="@../../Images/MenuBackground.jpeg" />
-         </image>
-      </ImageView>
+   		<BorderPane fx:id="borderPane" prefHeight="800.0" prefWidth="400.0">
+         	<center>
+            	<StackPane fx:id="stackPane" prefHeight="800.0" prefWidth="400.0" BorderPane.alignment="CENTER" />
+         	</center>
+      	</BorderPane>
    </children>
 </AnchorPane>
-

@@ -37,7 +37,7 @@ public class Hockey extends Application {
 		
 		/*** All Scenes Start ***/
 		FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Menu.fxml"));
-		Parent menuRoot = (Parent)menuLoader.load();	
+		Parent menuRoot = (Parent)menuLoader.load();
 		menuScene = new Scene(menuRoot);
 		scenes[0] = menuScene;
 		
@@ -62,7 +62,7 @@ public class Hockey extends Application {
 		scenes[4] = statsScene;
 		
 		FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Game.fxml"));
-		gameRoot = (Parent) gameLoader.load();	
+		gameRoot = (Parent)gameLoader.load();	
 		gameScene = new Scene(gameRoot);
 		
 		scenes[5] = gameScene;
@@ -81,7 +81,8 @@ public class Hockey extends Application {
 		primaryStage.show();
 		
 		// DEBUG
-		primaryStage.setScene(gameScene);
+		//primaryStage.setScene(gameScene);
+		//System.out.println("menuRoot is " + menuRoot.getClass());
 		
 	
 	}

@@ -3,7 +3,6 @@ package hockey.java.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import hockey.java.Hockey;
 import hockey.java.front.CenterCircle;
 import hockey.java.front.Goal;
 import hockey.java.front.Midline;
@@ -13,8 +12,9 @@ import hockey.java.front.PowerUpPuckSize;
 import hockey.java.front.Puck;
 import hockey.java.front.Striker;
 import hockey.java.front.Walls;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -22,6 +22,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class GameController implements Initializable {
+	@FXML
+	BorderPane borderPane;
+	
+	@FXML
+	StackPane stackPane;
 	
 	Pane playfield;
     Player p1;
@@ -39,7 +44,8 @@ public class GameController implements Initializable {
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		/*System.out.println("initializing game start");
+		 
+		 System.out.println("initializing game start");
     	
 	   	 p1 = new Player("p1", 1);
 	   	 p2 = new Player("p2", 2);
@@ -80,13 +86,10 @@ public class GameController implements Initializable {
 	   	 
 	   	 // create containers // playfield for our strikers 
 	   	 
-	   	 
-	   	 //BorderPane root = (BorderPane) Hockey.getGameRoot();
-	     Parent root = Hockey.getGameRoot();
-	   	 //StackPane layerPane = new StackPane();
+	   	 StackPane layerPane = new StackPane();
 	     playfield = new Pane();
-	     root.getChildren().addAll(playfield);
-	     //root.setCenter(layerPane);
+	     borderPane.getChildren().addAll(playfield);
+	     borderPane.setCenter(layerPane);
 	     
 	     playfield.getChildren().add(walls1);
 	     playfield.getChildren().add(walls2);
@@ -113,7 +116,7 @@ public class GameController implements Initializable {
         
 
     	 System.out.println("initializing game end");
-    	*/
+    	
         // capture mouse position
         /*Hockey.getGameScene().addEventFilter(MouseEvent.ANY, e -> {
        	 //u1.getStriker().getPlayer().getMouse().set(e.getX(), e.getY());
