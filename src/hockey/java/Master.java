@@ -1,7 +1,6 @@
 package hockey.java;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,10 +12,8 @@ import com.esotericsoftware.kryonet.Server;
 
 import hockey.java.database.SQLModel;
 import hockey.java.front.PVector;
-import hockey.java.front.Player;
-import hockey.java.front.Puck;
-import hockey.java.front.Striker;
 import hockey.java.front.User;
+import hockey.java.packet.Constants;
 import hockey.java.packet.PacketAttempt;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
@@ -41,6 +38,7 @@ public class Master extends Listener { // SERVER
 		k.register(PacketStats.class);
 		k.register(PacketStriker.class);
 		k.register(PacketPuck.class);
+		k.register(Constants.class);
 	}
 	
 	public static void main(String[] args) {
@@ -97,22 +95,22 @@ public class Master extends Listener { // SERVER
 			  7 = play (logged or guest)
 			  8 = stats
 			  */
-			case 1: //1 = signup
+			case Constants.SIGNUPATTEMPT: //1 = signup
 				 p = model.checkSignUp(username, pw, confirm);
 				
 				break;
-			case 2: //2 = login
+			case Constants.LOGINATTEMPT: //2 = login
 				c.sendTCP(model.checkLogin(username, pw));
 				break;
-			case 3: //3 = signout
+			case Constants.SIGNOUTATTEMPT: //3 = signout
 				break;
-			case 4: //4 = get stats
-				
-			case 5: //5 = play logged
+			case Constants.GETSTATSATTEMPT: //4 = get stats
+				break;
+			case Constants.PLAYLOGGEDATTEMPT: //5 = play logged
 				
 				break;
-			case 6: //6 = play guest
-				
+			case Constants.PLAYGUESTATTEMPT: //6 = play guest
+				// scan 
 				break;
 	
 			}

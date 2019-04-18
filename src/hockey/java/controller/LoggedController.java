@@ -26,7 +26,7 @@ public class LoggedController {
 	private static Label message;
 	
 	@FXML
-	private Button join;
+	private Button playLogged;
 	
 	@FXML
 	private Button stats;
@@ -34,9 +34,10 @@ public class LoggedController {
 	@FXML
 	private Button signout;
 	
-	public void join(ActionEvent event) throws IOException{
+	public void playLogged(ActionEvent event) throws IOException{
 		PacketAttempt p = new PacketAttempt(Constants.PLAYLOGGEDATTEMPT, Hockey.getUser().getUsername());
 		Hockey.getNetwork().getClient().sendTCP(p);
+		System.out.println("sent playAsGuest Attempt");
 		
 	}
 	

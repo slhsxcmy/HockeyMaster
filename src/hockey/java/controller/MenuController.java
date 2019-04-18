@@ -3,6 +3,8 @@ package hockey.java.controller;
 import java.io.IOException;
 
 import hockey.java.Hockey;
+import hockey.java.packet.Constants;
+import hockey.java.packet.PacketAttempt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,8 +32,10 @@ public class MenuController {
 	private Button playAsGuest;
 
 	
-	public void join(ActionEvent event) throws IOException{
-		
+	public void playAsGuest(ActionEvent event) throws IOException{
+		PacketAttempt p = new PacketAttempt(Constants.PLAYGUESTATTEMPT);
+		Hockey.getNetwork().getClient().sendTCP(p);
+		System.out.println("sent playAsGuest Attempt");
 	}
 	
 	public void goLogin(ActionEvent event) throws IOException{

@@ -16,7 +16,10 @@ public class PacketAttempt {
 	public String confirm = null;
 	
 	public PacketAttempt() {} // default
-	public PacketAttempt(int attempt, String username) { // signout, get stats, play
+	public PacketAttempt(int attempt) { // play guest
+		this(attempt,null,null,null);
+	}
+	public PacketAttempt(int attempt, String username) { // signout, get stats, playLogged
 		this(attempt,username,null,null);
 	}
 	public PacketAttempt(int attempt, String username, String password) { // login

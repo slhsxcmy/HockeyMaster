@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 public class Hockey extends Application {
 	
 	private static Network network = new Network();
-	private static User user = null; // instantiate when playAsGuest or Register or Login
+	private static User user = new User(); 
 	
 	private static Stage primaryStage;
 	private static Scene menuScene, loginScene, signupScene, loggedScene, statsScene, gameScene;
