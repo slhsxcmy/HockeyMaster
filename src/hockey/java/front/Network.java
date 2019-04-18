@@ -110,6 +110,7 @@ public class Network extends Listener{
                 });
 				break;
 			case Constants.PLAYLOGGEDSUCCESS: 
+				System.out.println("Going to game scene");
 				Platform.runLater(() -> {
 					Hockey.getPrimaryStage().setScene(Hockey.getGameScene());;
                 });

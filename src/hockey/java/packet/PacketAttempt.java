@@ -10,6 +10,7 @@ public class PacketAttempt {
 	  5 = play logged
 	  6 = play guest
 	*/
+	public int id = -1;
 	public String username = null;
 
 	public String password = null;
@@ -17,16 +18,20 @@ public class PacketAttempt {
 	
 	public PacketAttempt() {} // default
 	public PacketAttempt(int attempt) { // play guest
-		this(attempt,null,null,null);
+		this(attempt,-1,null,null,null);
 	}
-	public PacketAttempt(int attempt, String username) { // signout, get stats, playLogged
-		this(attempt,username,null,null);
+	public PacketAttempt(int attempt, int id) { // signout, get stats, playLogged
+		this(attempt,id,null,null,null);
 	}
 	public PacketAttempt(int attempt, String username, String password) { // login
-		this(attempt,username,password,null);
+		this(attempt,-1,username,password,null);
 	}				
 	public PacketAttempt(int attempt, String username, String password, String confirm) { // signup
+		this(attempt,-1,username,password,confirm);
+	}
+	public PacketAttempt(int attempt, int id, String username, String password, String confirm) { // signup
 		this.attempt = attempt;
+		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.confirm = confirm;

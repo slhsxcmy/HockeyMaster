@@ -38,7 +38,7 @@ public class GameController{
     
     @FXML
     public void initialize() {
-    	 p1 = new Player("p1", 1);
+    	/* p1 = new Player("p1", 1);
     	 p1.setPlayerID(1);
     	 p2 = new Player("p2", 2);
     	 p2.setPlayerID(2);
@@ -111,7 +111,7 @@ public class GameController{
          Hockey.getGameScene().addEventFilter(MouseEvent.ANY, e -> {
         	 //u1.getStriker().getPlayer().getMouse().set(e.getX(), e.getY());
         	 p1.getMouse().set(e.getX(), e.getY());
-         });
+         });*/
     }
     
 }
