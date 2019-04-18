@@ -15,7 +15,7 @@ public class CenterCircle extends Pane{
 	 
 	 Circle center;
 	 
-	 CenterCircle(){
+	 public CenterCircle(){
 		location = new PVector(BoardSettings.SCENE_WIDTH/2-radius, BoardSettings.SCENE_HEIGHT/2-radius);
 		center = new Circle(radius);
 		 

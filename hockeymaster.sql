@@ -6,10 +6,10 @@ CREATE TABLE Player(
     playerID INT(11) PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL,
     password VARCHAR(50) NOT NULL,
-    matchesWon INT(11) UNSIGNED NOT NULL, 
-    matchesLost INT(11) UNSIGNED NOT NULL, 
-    goalsFor INT(11) UNSIGNED NOT NULL, 
-    goalsAgainst INT(11) UNSIGNED NOT NULL
+    matchesWon INT(11) UNSIGNED DEFAULT 0 NOT NULL, 
+    matchesLost INT(11) UNSIGNED DEFAULT 0 NOT NULL, 
+    goalsFor INT(11) UNSIGNED DEFAULT 0 NOT NULL, 
+    goalsAgainst INT(11) UNSIGNED DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE Game(
@@ -24,9 +24,10 @@ CREATE TABLE Game(
 
 INSERT INTO Player (username,password,matchesWon,matchesLost,goalsFor,goalsAgainst)
     VALUES ('alice', 'alicespwd', 5, 3,  50, 36),
-                    ('bob', 'bobspwd', 4, 6,  46, 75),
-                    ('charlie', 'charliespwd', 3, 3,  30, 32)
+                    ('bob', 'bobspwd', 4, 6,  46, 75)
     ;
+INSERT INTO Player (username, password)
+    VALUES ('charlie', 'charliespws');
     
 INSERT INTO Game (winnerID,loserID,stamp,score)
     VALUES (1, 2 , CURRENT_TIMESTAMP + 1, 5),

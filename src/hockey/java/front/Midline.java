@@ -14,7 +14,7 @@ public class Midline extends Pane {
 	
 	Rectangle rec;
 
-	Midline(){
+	public Midline(){
 		location = new PVector(startingX, startingY);
 		rec = new Rectangle();
 		rec.setWidth(width);

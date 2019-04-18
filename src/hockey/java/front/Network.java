@@ -110,7 +110,9 @@ public class Network extends Listener{
                 });
 				break;
 			case Constants.PLAYLOGGEDSUCCESS: 
-				//Game game = new Game();
+				Platform.runLater(() -> {
+					Hockey.getPrimaryStage().setScene(Hockey.getGameScene());;
+                });
 				break;
 			case Constants.PLAYLOGGEDFAILURE: 
 				

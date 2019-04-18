@@ -8,7 +8,7 @@ public class Walls extends Pane{
 	private PVector location;
 	Rectangle rec;
 	
-	Walls(int num){
+	public Walls(int num){
 		
 		if(num == 1) {
 			location = new PVector(0, 0);
