@@ -64,8 +64,8 @@ public class Hockey extends Application {
 		FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Game.fxml"));
 		gameRoot = (Parent)gameLoader.load();	
 		gameScene = new Scene(gameRoot);
-		
 		scenes[5] = gameScene;
+	
 		/*** All Scenes End ***/
 		
 		/*** All Controllers Start ***/
@@ -76,6 +76,11 @@ public class Hockey extends Application {
 		statsController = statsLoader.getController();
 		gameController = gameLoader.getController();
 		/*** All Controllers End ***/
+
+		/*** Init game ***/
+		gameController.init();
+		/*** Init game ***/
+		
 		
 		primaryStage.setScene(menuScene);		
 		primaryStage.show();
