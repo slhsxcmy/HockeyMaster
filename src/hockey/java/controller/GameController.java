@@ -20,6 +20,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class GameController{
 	
@@ -38,26 +39,24 @@ public class GameController{
     
     @FXML
     public void initialize() {
-    	/* p1 = new Player("p1", 1);
-    	 p1.setPlayerID(1);
+    	 p1 = new Player("p1", 1);
     	 p2 = new Player("p2", 2);
-    	 p2.setPlayerID(2);
-    	 //s1 = new Striker(p1);
+    	 s1 = new Striker(p1);
     	 //s2 = new Striker();
     	
-    	//u1 = new User();
-    	//u2 = new User();
-    	//u1.initStriker();
-    	//u2.initStriker();
+    	 //u1 = new User();
+    	 //u2 = new User();
+    	 //u1.initStriker();
+    	 //u2.initStriker();
     	
-    	puck = new Puck();
+    	 puck = new Puck();
 
-    	//goal1 = new Goal(1, puck, u1.getStriker().getPlayer());
-    	//goal2 = new Goal(2, puck, u2.getStriker().getPlayer());
-    	goal1 = new Goal(1, puck, p1);
-    	goal2 = new Goal(2, puck, p2);
-    	walls1 = new Walls(1);
-    	walls2 = new Walls(2);
+    	 //goal1 = new Goal(1, puck, u1.getStriker().getPlayer());
+    	 //goal2 = new Goal(2, puck, u2.getStriker().getPlayer());
+    	 goal1 = new Goal(1, puck, p1);
+    	 goal2 = new Goal(2, puck, p2);
+    	 walls1 = new Walls(1);
+    	 walls2 = new Walls(2);
 
     	 mid = new Midline();
     	 center = new CenterCircle();
@@ -71,7 +70,7 @@ public class GameController{
      	 p1s.setY(400);
 
      	 //Text p2s = new Text(Integer.toString(u2.getStriker().getPlayer().getScore()));
-     	Text p2s = new Text(Integer.toString(p2.getScore()));
+     	 Text p2s = new Text(Integer.toString(p2.getScore()));
     	 p2s.setFont(Font.font ("Verdana", 50));
     	 p2s.setFill(Color.RED);
     	 p2s.setX(350);
@@ -84,7 +83,10 @@ public class GameController{
          playfield = new Pane();
          layerPane.getChildren().addAll(playfield);
          root.setCenter(layerPane);
-         
+//         Scene scene = new Scene(root, BoardSettings.SCENE_WIDTH, BoardSettings.SCENE_HEIGHT);
+//         Stage stage = new Stage();
+//         stage.setScene(scene);
+//         stage.show();
          playfield.getChildren().add(walls1);
          playfield.getChildren().add(walls2);
          playfield.getChildren().add(mid);
@@ -108,7 +110,7 @@ public class GameController{
     	 playfield.getChildren().add(puckPU);
          mid.display();
          // capture mouse position
-         Hockey.getGameScene().addEventFilter(MouseEvent.ANY, e -> {
+         /*Hockey.getGameScene().addEventFilter(MouseEvent.ANY, e -> {
         	 //u1.getStriker().getPlayer().getMouse().set(e.getX(), e.getY());
         	 p1.getMouse().set(e.getX(), e.getY());
          });*/

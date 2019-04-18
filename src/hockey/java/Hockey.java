@@ -76,7 +76,7 @@ public class Hockey extends Application {
 		gameController = gameLoader.getController();
 		/*** All Controllers End ***/
 		
-		primaryStage.setScene(menuScene);		
+		primaryStage.setScene(menuScene);
 		primaryStage.show();
 	
 	}
