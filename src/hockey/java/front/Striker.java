@@ -42,7 +42,7 @@ public class Striker extends Pane {
         circle.setCenterY(radius);
 
         circle.setStroke(Color.BLUE);
-        circle.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.3));
+        circle.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.6));
 
         getChildren().add(circle);
         

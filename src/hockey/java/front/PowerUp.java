@@ -28,7 +28,7 @@ public class PowerUp extends Pane{
         circle.setCenterY(radius);
 
         circle.setStroke(Color.GREEN);
-        circle.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.3));
+        circle.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.1));
 
         getChildren().add(circle);
         

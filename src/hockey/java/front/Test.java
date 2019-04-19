@@ -23,9 +23,9 @@ public class Test extends Application{
     Striker s1;
     Striker s2;
     Puck puck;
-    Goal goal1;
-    Goal goal2;
+    Goal goal1, goal2;
     Walls walls1, walls2;
+    GoalArch arc1, arc2;
     Midline mid;
     CenterCircle center;
     double friction;
@@ -43,12 +43,14 @@ public class Test extends Application{
 
     	 goal1 = new Goal(1, puck, p1);
     	 goal2 = new Goal(2, puck, p2);
+    	 arc1 = new GoalArch(goal1);
+    	 arc2 = new GoalArch(goal2);
     	 walls1 = new Walls(1);
     	 walls2 = new Walls(2);
 
     	 mid = new Midline();
     	 center = new CenterCircle();
-    	 friction = .988;
+    	 friction = .99;
     	 
     	 Text p1s = new Text(Integer.toString(p1.getScore()));
      	 p1s.setFont(Font.font ("Verdana", 50));
@@ -74,8 +76,10 @@ public class Test extends Application{
          stage.show();
          playfield.getChildren().add(walls1);
          playfield.getChildren().add(walls2);
-         playfield.getChildren().add(mid);
          playfield.getChildren().add(center);
+         playfield.getChildren().add(mid);
+         playfield.getChildren().add(arc1);
+         playfield.getChildren().add(arc2);
          playfield.getChildren().add(s1);
          playfield.getChildren().add(puck);
          playfield.getChildren().add(goal1);
@@ -84,6 +88,8 @@ public class Test extends Application{
          playfield.getChildren().add(p2s);
          //display static shapes
          center.display();
+         arc1.display();
+         arc2.display();
          goal1.display();
          goal2.display();
          walls1.display();
