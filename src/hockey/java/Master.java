@@ -1,8 +1,10 @@
 package hockey.java;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -37,10 +39,11 @@ public class Master extends Listener { // SERVER
 	private static Server server;
 	public static final String ngrok_url = "localhost";//"https://d69be386.ngrok.io";
 	public static final int tcpPort = 27960;
-	private static Map<Integer, User> users = Collections.synchronizedMap(new HashMap<>()); 
-	private static Queue<Integer> queuedPlayers;
-	private static List<Integer> players;
+	private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
+	private static Queue<Integer> waitList = new LinkedList<Integer>();
+	private static List<Integer> players = new ArrayList<Integer>(); //store id in database
 	private static SQLModel model = new SQLModel();
+
 	private static Puck puck;
 	private static Player p1;
 	private static Player p2;
@@ -84,6 +87,20 @@ public class Master extends Listener { // SERVER
 		ran = new Random();
 	}
 
+	
+	
+	public static Map<Integer, User> getMap(){
+		return onlineUsers;
+	}
+	
+	public static Queue<Integer> getWaitlist(){
+		return waitList;
+	}
+	
+	public static List<Integer> getPlayerlist(){
+		return players;
+	}
+	
 	public static void registerClasses(Kryo k) {
 
 		// register packet. ONLY objects registered as packets can be sent
@@ -124,8 +141,6 @@ public class Master extends Listener { // SERVER
 		server.start();
 		System.out.println("Server is ready!");
 
-
-
 	}
 
 	// runs when connection 
@@ -145,21 +160,50 @@ public class Master extends Listener { // SERVER
 
 			switch(((PacketAttempt) o).attempt) {
 
-			/* RETURN
-			  1 = sign up success
-			  2 = sign up failure
-			  3 = login success
-			  4 = login failure
-			  5 = signout
-			  7 = play (logged or guest)
-			  8 = stats
-			 */
-			case Constants.SIGNUPATTEMPT: //1 = signup
+		
+			case Constants.SIGNUPATTEMPT: 
+				System.out.println("received sign up attempt, begin to send return packet");
+
 				c.sendTCP(model.checkSignUp(username, pw, confirm));
+				//DEGUG
+				System.out.println("Map now contains: ");
+				for (Map.Entry<Integer,User> entry : onlineUsers.entrySet()) {  
+		            System.out.println("id = " + entry.getKey() + 
+		                             ", user = " + entry.getValue().getUsername()); 
+				}
+				
+				System.out.println("Waitlist now contains: ");
+				for(int i=0; i<waitList.size(); i++) {
+					System.out.println("ids in the waitlist- "+waitList);
+				}
+				
+				System.out.println("Playerlist now contains: ");
+				for(int i=0; i<players.size(); i++) {
+					System.out.println(players.get(i));
+				}
+			//DEBUG FINISH 
 				break;
-			case Constants.LOGINATTEMPT: //2 = login
+			case Constants.LOGINATTEMPT: 
 				c.sendTCP(model.checkLogin(username, pw));
+				//DEGUG
+				System.out.println("Map now contains: ");
+				for (Map.Entry<Integer,User> entry : onlineUsers.entrySet()) {  
+		            System.out.println("id = " + entry.getKey() + 
+		                             ", user = " + entry.getValue().getUsername()); 
+				}
+				
+				System.out.println("Waitlist now contains: ");
+				for(int i=0; i<waitList.size(); i++) {
+					System.out.println("ids in the waitlist- "+waitList);
+				}
+				
+				System.out.println("Playerlist now contains: ");
+				for(int i=0; i<players.size(); i++) {
+					System.out.println(players.get(i));
+				}
+			//DEBUG FINISH 
 				break;
+
 			case Constants.SIGNOUTATTEMPT: //3 = signout
 				users.remove(id);
 				c.sendTCP(new PacketReturn(Constants.SIGNOUTSUCCESS));
@@ -168,24 +212,72 @@ public class Master extends Listener { // SERVER
 			case Constants.GETSTATSATTEMPT: //4 = get stats
 				c.sendTCP(model.getStats(id));
 				break;
-			
+
+
 			case Constants.PLAYLOGGEDATTEMPT: //5 = play logged
 				c.sendTCP(new PacketReturn(Constants.PLAYLOGGEDSUCCESS));
 				initBoard();
 
 				break;
-			case Constants.PLAYGUESTATTEMPT: //6 = play guest
-				// model.guestSignUp();
-				// test how many players
-				// c.sendTCP
+			
+			case Constants.PLAYLOGGEDATTEMPT:
+				PacketReturn p = model.loggedPlay(username);
+				if(p.status == Constants.PLAYLOGGEDSUCCESS) initBoard(); // game board on server
+				c.sendTCP(p);
+				
+				/*// DEBUG
+				System.out.println("Map now contains: ");
+				for (Map.Entry<Integer,User> entry : onlineUsers.entrySet()) {  
+		            System.out.println("id = " + entry.getKey() + 
+		                             ", user = " + entry.getValue().getUsername()); 
+				}
+				
+				System.out.println("Waitlist now contains: ");
+				for(int i=0; i<waitList.size(); i++) {
+					System.out.println("ids in the waitlist- "+waitList);
+				}
+				
+				System.out.println("Playerlist now contains: ");
+				for(int i=0; i<players.size(); i++) {
+					System.out.println(players.get(i));
+				}
+				// DEBUG END
+				*/
+				
 
 				break;
+			case Constants.PLAYGUESTATTEMPT: 
+				PacketReturn p = model.signAsGuest();
+				if(p.status == Constants.PLAYGUESTSUCCESS) initBoard(); // game board on server
+				c.sendTCP(p);
+				
+				/*//DEGUG
+					System.out.println("Map now contains: ");
+					for (Map.Entry<Integer,User> entry : onlineUsers.entrySet()) {  
+			            System.out.println("id = " + entry.getKey() + 
+			                             ", user = " + entry.getValue().getUsername()); 
+					}
+					
+					System.out.println("Waitlist now contains: ");
+					for(int i=0; i<waitList.size(); i++) {
+						System.out.println("ids in the waitlist- "+waitList);
+					}
+					
+					System.out.println("Playerlist now contains: ");
+					for(int i=0; i<players.size(); i++) {
+						System.out.println(players.get(i));
+					}
+				//DEBUG FINISH 
+				*/
+				break;	
+
 			}
 		} else if (o instanceof Striker){
 			int player = ((Striker) o).getPlayer().getPlayerID();
 			if (player == 1) {
 				s1 = (Striker)o;
 			}
+			
 			else {
 				s2 = (Striker)o;
 			}

@@ -63,12 +63,19 @@ public class Network extends Listener{
 			
 			switch(((PacketReturn) o).status) {
 			
-			case Constants.SIGNUPSUCCESS: 
+			case Constants.SIGNUPSUCCESS:
+//				id = ((PacketReturn) o).id;
+//				username = ((PacketReturn) o).username;
+//				System.out.println("user id = " + id + " username = " + username);
+//				System.out.println("setting scene to logged");
+//				Platform.runLater(() -> {
+//					Hockey.getPrimaryStage().setScene(Hockey.getLoggedScene());
+//                });
+//				System.out.println("set scene complete");
+				break;
 			case Constants.LOGINSUCCESS: 
-				
+
 				System.out.println("user id = " + id + " username = " + username);
-				Hockey.getUser().setId(id);
-				Hockey.getUser().setUsername(username);
 				System.out.println("setting scene to logged");
 				Platform.runLater(() -> {
 					Hockey.getPrimaryStage().setScene(Hockey.getLoggedScene());
@@ -82,13 +89,14 @@ public class Network extends Listener{
 
 				break;
 			case Constants.LOGINFAILURE: 
+
 				Platform.runLater(() -> {
 				
 					Hockey.getLoginController().setMessage(message);
+
                 });
 				break;
 			case Constants.SIGNOUTSUCCESS: 
-				Hockey.setUser(new User());
 				Platform.runLater(() -> {
 					Hockey.getPrimaryStage().setScene(Hockey.getMenuScene());;
                 });
@@ -115,6 +123,7 @@ public class Network extends Listener{
 				break;
 			case Constants.PLAYGUESTFAILURE: 
 				
+
 				break;
 			case Constants.GAMEOVER:
 				

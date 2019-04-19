@@ -59,7 +59,8 @@ public class SignupController{
 		//sending signup packet
 		PacketAttempt p = new PacketAttempt(Constants.SIGNUPATTEMPT,username.getText(),password.getText(),passwordc.getText());
 		Hockey.getNetwork().getClient().sendTCP(p);
-		System.out.println("Sent PacketReturn of type 1: SignupAttempt");
+
+		System.out.println("Sent PacketAttempt of type 1: SignupAttempt");
 		
 	}
 	
