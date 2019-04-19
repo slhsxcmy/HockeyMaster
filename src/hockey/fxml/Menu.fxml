@@ -29,33 +29,33 @@
       </Rectangle>
       <Label fx:id="appTitle" alignment="CENTER" layoutX="107.0" layoutY="67.0" prefHeight="42.0" prefWidth="187.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Hockey Master" textAlignment="CENTER">
          <font>
-            <Font name="OLD SPORT 01 COLLEGE NCV" size="21.0" />
+            <Font name="HockeyFont" size="20.0" url="@../../Fonts/HockeyFont.ttf" />
          </font>
          <effect>
             <DropShadow color="WHITE" height="58.52" radius="20.96" spread="0.22" width="27.32" />
          </effect></Label>
       <Label fx:id="pageTitle" alignment="CENTER" layoutX="138.0" layoutY="144.0" prefHeight="28.0" prefWidth="125.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Main Menu" textAlignment="CENTER">
          <font>
-            <Font name="OLD SPORT 01 COLLEGE NCV" size="21.0" />
+            <Font name="HockeyFont" size="20.0" url="@../../Fonts/HockeyFont.ttf" />
          </font>
          <effect>
             <DropShadow color="WHITE" height="60.89" radius="30.66" spread="0.66" width="63.75" />
          </effect></Label>
-      <Button fx:id="login" layoutX="163.0" layoutY="380.0" mnemonicParsing="false" onAction="#goLogin" prefHeight="23.0" prefWidth="78.0" scaleX="3.0" scaleY="3.0" scaleZ="2.0" text="Login">
+      <Button fx:id="login" layoutX="142.0" layoutY="380.0" mnemonicParsing="false" onAction="#goLogin" prefHeight="31.0" prefWidth="118.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Login">
          <font>
-            <Font name="OLD SPORT 01 COLLEGE NCV" size="10.0" />
+            <Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
          </font>
          <effect>
             <InnerShadow />
          </effect></Button>
-      <Button fx:id="signup" layoutX="123.0" layoutY="464.0" mnemonicParsing="false" onAction="#goSignup" prefHeight="43.0" prefWidth="157.0" scaleX="1.5" scaleY="1.5" scaleZ="2.0" text="Sign UP">
+      <Button fx:id="signup" layoutX="142.0" layoutY="464.0" mnemonicParsing="false" onAction="#goSignup" prefHeight="31.0" prefWidth="118.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Sign Up">
    	     <font>
-            <Font name="OLD SPORT 01 COLLEGE NCV" size="22.0" />
+            <Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
          </font>
          <effect>
             <InnerShadow choke="0.06" radius="15.3125" width="42.25" />
          </effect></Button>
-      <Button fx:id="playAsGuest" layoutX="142.0" layoutY="558.0" mnemonicParsing="false" onAction="#playAsGuest" prefHeight="31.0" prefWidth="118.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="PLAY AS GUEST">
+      <Button fx:id="playAsGuest" layoutX="142.0" layoutY="547.0" mnemonicParsing="false" onAction="#playAsGuest" prefHeight="31.0" prefWidth="118.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="PLAY AS GUEST">
          <font>
             <Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
          </font>
