@@ -8,7 +8,7 @@ public class SQLConnection {
 	
 	private static String username = "root";
 
-	private static String password = "1QAZ2WSX";
+	private static String password = "cs201sql";
 
 	public static Connection Connector() { //trying to connect to database
 		try {

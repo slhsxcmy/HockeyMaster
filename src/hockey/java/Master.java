@@ -36,10 +36,11 @@ import hockey.java.packet.PacketStriker;
 public class Master extends Listener { // SERVER
 
 	private static Server server;
-	//public static final String ngrok_url = "localhost";
-	public static final String ngrok_url = "tcp://0.tcp.ngrok.io:17553";
-	 public static final int tcpPort = 17553;	
-	 private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
+	public static final String server_ngrok_url = "localhost";
+	public static final int server_tcpPort = 23333;
+	public static final String client_ngrok_url = "tcp://0.tcp.ngrok.io";
+	public static final int client_tcpPort = 18688;
+	private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
 	private static Map<Integer, Connection> connections = Collections.synchronizedMap(new HashMap<>()); 
 	private static Queue<Integer> waitList = new LinkedList<Integer>();
 	private static List<Integer> players = new ArrayList<Integer>(); //store id in database
@@ -117,7 +118,7 @@ public class Master extends Listener { // SERVER
 		k.register(Puck.class);
 		k.register(PVector.class);
 		k.register(Constants.class);
-		k.register(com.sun.javafx.geom.RectBounds.class);
+		//k.register(com.sun.javafx.geom.RectBounds.class);
 	}
 
 	public static void main(String[] args) {
@@ -131,9 +132,9 @@ public class Master extends Listener { // SERVER
 
 		try {
 			// bind to ports
-			server.bind(tcpPort);
+			server.bind(server_tcpPort);
 		} catch (IOException e) {
-			System.out.println("Failed to bind to port " + tcpPort + ". Exiting Server.");
+			System.out.println("Failed to bind to port " + server_tcpPort + ". Exiting Server.");
 			return;
 		}
 
