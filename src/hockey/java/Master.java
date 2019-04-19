@@ -39,6 +39,7 @@ public class Master extends Listener { // SERVER
 	public static final String ngrok_url = "localhost";//"https://d69be386.ngrok.io";
 	public static final int tcpPort = 27960;
 	private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
+	private static Map<Integer, Connection> connections = Collections.synchronizedMap(new HashMap<>()); 
 	private static Queue<Integer> waitList = new LinkedList<Integer>();
 	private static List<Integer> players = new ArrayList<Integer>(); //store id in database
 	private static SQLModel model = new SQLModel();
@@ -85,9 +86,13 @@ public class Master extends Listener { // SERVER
 	}
 
 	
-	
-	public static Map<Integer, User> getMap(){
+
+	public static Map<Integer, User> getUsers(){
 		return onlineUsers;
+	}
+
+	public static Map<Integer, Connection> getConnections(){
+		return connections;
 	}
 	
 	public static Queue<Integer> getWaitlist(){
@@ -162,17 +167,13 @@ public class Master extends Listener { // SERVER
 			case Constants.SIGNUPATTEMPT: 
 				System.out.println("received sign up attempt, begin to send return packet");
 
-				c.sendTCP(model.checkSignUp(username, pw, confirm));
+				c.sendTCP(model.checkSignUp(username, pw, confirm, c));
 				
 				debug();
 				
 				break;
 			case Constants.LOGINATTEMPT: 
-				System.out.println("entering LOGINATTEMPT response");
-				p = model.checkLogin(username, pw);
-				System.out.println("before sending LoginReturn");
-				c.sendTCP(p);
-				System.out.println("after sending LoginReturn");
+				c.sendTCP(model.checkLogin(username, pw, c));
 				
 				debug();
 				
@@ -190,20 +191,21 @@ public class Master extends Listener { // SERVER
 
 			
 			case Constants.PLAYLOGGEDATTEMPT:
-				p = model.loggedPlay(username);
-				if(p.status == Constants.PLAYSUCCESS) initBoard(); // game board on server
-				c.sendTCP(p);
+				p = model.loggedPlay(username, c);
+				if(p.status == Constants.PLAYSUCCESS) {
+					activateGame(); // game board on server					
+				}
 				
 				debug();
-				
-				
 
 				break;
 			case Constants.PLAYGUESTATTEMPT: 
-				p = model.signAsGuest();
-				if(p.status == Constants.PLAYSUCCESS) initBoard(); // game board on server
-				c.sendTCP(p);
-				
+
+				p = model.signAsGuest(c);
+				if(p.status == Constants.PLAYSUCCESS) {
+					activateGame(); // game board on server				
+				}
+
 				debug();
 				
 				break;	
@@ -283,6 +285,12 @@ public class Master extends Listener { // SERVER
 
 	}
 
+	public void activateGame() {	
+		connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.PLAYSUCCESS, players.get(0), onlineUsers.get(players.get(0)).getUsername(), 1));
+		connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.PLAYSUCCESS, players.get(1), onlineUsers.get(players.get(1)).getUsername(), 2));
+		initBoard();
+	}
+	
 	public void disconnected(Connection c) {
 		System.out.println("Lost connection from client.");
 	}

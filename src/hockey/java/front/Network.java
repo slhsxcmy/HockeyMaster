@@ -58,8 +58,7 @@ public class Network extends Listener{
 		if (o instanceof PacketReturn){
 			System.out.println("Client received PacketReturn of type " + ((PacketReturn) o).status);
 
-			int id = ((PacketReturn) o).id;
-			int playerID = ((PacketReturn) o).playerID;
+			int id = ((PacketReturn) o).dbid;
 			String username = ((PacketReturn) o).username;
 			String message = ((PacketReturn) o).message;
 			
@@ -68,7 +67,7 @@ public class Network extends Listener{
 			case Constants.SIGNUPSUCCESS:
 			case Constants.LOGINSUCCESS: 
 
-				System.out.println("user id = " + id + " username = " + username);
+				System.out.println("user dbid = " + id + " username = " + username);
 				Hockey.setUser(new User(id,username));
 				System.out.println("setting scene to logged");
 				Platform.runLater(() -> {
@@ -101,7 +100,7 @@ public class Network extends Listener{
                 });
 				break;
 			case Constants.PLAYSUCCESS: 
-				
+				System.out.println("You are No. "+ ((PacketReturn) o).playerNum + " player in player list");
 				System.out.println("Going to game scene");
 				Platform.runLater(() -> {
 					Hockey.getPrimaryStage().setScene(Hockey.getGameScene());

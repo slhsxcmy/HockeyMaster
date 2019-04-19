@@ -46,7 +46,7 @@ public class SQLModel {
 	}
 	
 	
-	public PacketReturn checkSignUp(String username, String pw, String cpw) {
+	public PacketReturn checkSignUp(String username, String pw, String cpw, com.esotericsoftware.kryonet.Connection c) {
 		
 		if(username == null || username.equals("") || pw == null || pw.equals("") || cpw == null || cpw.equals("")) { //they shouldn't be empty
 			//check = false;
@@ -89,7 +89,8 @@ public class SQLModel {
 					User tmp = new User(id);
 					tmp.setUsername(username);
 					//System.out.println("After setUser(), Hockey.getUser().getUsername() is "+ Hockey.getUser().getUsername());
-					Master.getMap().put(id, tmp);
+					Master.getConnections().put(id,c);
+					Master.getUsers().put(id, tmp);
 					return new PacketReturn(Constants.LOGINSUCCESS, id, username);
 				}
 			}
@@ -109,7 +110,7 @@ public class SQLModel {
 		
 	}
 	
-	public PacketReturn checkLogin(String username, String pw) {
+	public PacketReturn checkLogin(String username, String pw, com.esotericsoftware.kryonet.Connection c) {
 		System.out.println("starting checkLogin");
 		if(username == null || username == "" || pw == null || pw == "") { //they shouldn't be empty
 			return new PacketReturn(Constants.LOGINFAILURE, "username or password is empty");
@@ -140,7 +141,9 @@ public class SQLModel {
 				//p.status = 3;
 				System.out.println("3333333");
 				User u = new User(rs.getInt(1),username);
-				Master.getMap().put(rs.getInt(1), u); //create a new user and put it in map
+				
+				Master.getConnections().put(rs.getInt(1), c);
+				Master.getUsers().put(rs.getInt(1), u); //create a new user and put it in map
 				return new PacketReturn(Constants.LOGINSUCCESS, rs.getInt(1), username);
 			} catch (SQLException e) {
 				System.out.println("sqle: " + e.getMessage());
@@ -150,7 +153,7 @@ public class SQLModel {
 		}		
 	}
 	
-	public PacketReturn signAsGuest() {
+	public PacketReturn signAsGuest(com.esotericsoftware.kryonet.Connection c) {
 		try {
 			System.out.println("trying to insert a guest");
 			
@@ -168,7 +171,9 @@ public class SQLModel {
 			System.out.println("guest id is " + id);
 			
 			User u = new User(rs.getInt(1),"GUEST");
-			Master.getMap().put(id, u); //put it in online users map
+			
+			Master.getConnections().put(id, c);
+			Master.getUsers().put(id, u); //put it in online users map
 			return checkList(id);			
 			
 		}catch (SQLException e) {
@@ -177,7 +182,7 @@ public class SQLModel {
 		}		
 	}
 	
-	public PacketReturn loggedPlay(String username) {
+	public PacketReturn loggedPlay(String username, com.esotericsoftware.kryonet.Connection c) {
 		int id = -1;
 		try {
 			ps = connection.prepareStatement("SELECT * FROM Player WHERE username=?");
