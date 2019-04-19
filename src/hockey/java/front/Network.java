@@ -2,6 +2,7 @@ package hockey.java.front;
 
 import java.io.IOException;
 
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -13,6 +14,7 @@ import hockey.java.controller.LoggedController;
 import hockey.java.controller.LoginController;
 import hockey.java.controller.StatsController;
 import hockey.java.packet.Constants;
+import hockey.java.packet.PacketAttempt;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStats;
@@ -36,7 +38,19 @@ public class Network extends Listener{
 		
 		// register packet
 		System.out.println("Before client registering Kryo classes");
-		Master.registerClasses(client.getKryo());
+		//Master.registerClasses(client.getKryo());
+		
+		Kryo k = client.getKryo();
+		k.register(PacketAttempt.class);
+		k.register(PacketReturn.class);
+		k.register(PacketStats.class);
+		k.register(PacketStriker.class);
+		k.register(PacketPuck.class);
+		k.register(Striker.class);
+		k.register(Player.class);
+		k.register(Puck.class);
+		k.register(PVector.class);
+		k.register(Constants.class);
 		System.out.println("After client registering Kryo classes");
 
 		client.start();
