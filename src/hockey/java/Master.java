@@ -36,9 +36,10 @@ import hockey.java.packet.PacketStriker;
 public class Master extends Listener { // SERVER
 
 	private static Server server;
-	public static final String ngrok_url = "localhost";//"https://d69be386.ngrok.io";
-	public static final int tcpPort = 27960;
-	private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
+	//public static final String ngrok_url = "localhost";
+	public static final String ngrok_url = "tcp://0.tcp.ngrok.io:17553";
+	 public static final int tcpPort = 17553;	
+	 private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
 	private static Map<Integer, Connection> connections = Collections.synchronizedMap(new HashMap<>()); 
 	private static Queue<Integer> waitList = new LinkedList<Integer>();
 	private static List<Integer> players = new ArrayList<Integer>(); //store id in database

@@ -39,6 +39,7 @@ public class Network extends Listener{
 		
 		
 		try {
+		
 			client.connect(5000, ip, port); //blocks for 5 seconds
 		} catch (IOException e) {
 			System.out.println("Cannot connect to server. Exiting Client.");
