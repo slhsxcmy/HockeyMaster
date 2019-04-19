@@ -23,7 +23,7 @@ public class Hockey extends Application {
 	
 	public static final int NUMSCENES = 6;
 	private static Scene[] scenes = new Scene[NUMSCENES];
-	
+	private static Parent gameRoot;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -37,34 +37,35 @@ public class Hockey extends Application {
 		
 		/*** All Scenes Start ***/
 		FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Menu.fxml"));
-		Parent menuParent = (Parent)menuLoader.load();	
-		menuScene = new Scene(menuParent);
+		Parent menuRoot = (Parent)menuLoader.load();
+		menuScene = new Scene(menuRoot);
 		scenes[0] = menuScene;
 		
 		FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Login.fxml"));
-		Parent loginParent = (Parent)loginLoader.load();	
-		loginScene = new Scene(loginParent);
+		Parent loginRoot = (Parent)loginLoader.load();	
+		loginScene = new Scene(loginRoot);
 		scenes[1] = loginScene;
 		
 		FXMLLoader signupLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Signup.fxml"));
-		Parent signupParent = (Parent)signupLoader.load();	
-		signupScene = new Scene(signupParent);
+		Parent signupRoot = (Parent)signupLoader.load();	
+		signupScene = new Scene(signupRoot);
 		scenes[2] = signupScene;
 		
 		FXMLLoader loggedLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Logged.fxml"));
-		Parent loggedParent = (Parent)loggedLoader.load();	
-		loggedScene = new Scene(loggedParent);
+		Parent loggedRoot = (Parent)loggedLoader.load();	
+		loggedScene = new Scene(loggedRoot);
 		scenes[3] = loggedScene;
 		
 		FXMLLoader statsLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Stats.fxml"));
-		Parent statsParent = (Parent)statsLoader.load();	
-		statsScene = new Scene(statsParent);
+		Parent statsRoot = (Parent)statsLoader.load();	
+		statsScene = new Scene(statsRoot);
 		scenes[4] = statsScene;
 		
 		FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Game.fxml"));
-		Parent gameParent = (Parent) gameLoader.load();	
-		gameScene = new Scene(gameParent);
+		gameRoot = (Parent)gameLoader.load();	
+		gameScene = new Scene(gameRoot);
 		scenes[5] = gameScene;
+	
 		/*** All Scenes End ***/
 		
 		/*** All Controllers Start ***/
@@ -75,9 +76,19 @@ public class Hockey extends Application {
 		statsController = statsLoader.getController();
 		gameController = gameLoader.getController();
 		/*** All Controllers End ***/
+
+		/*** Init game ***/
+		gameController.init();
+		/*** Init game ***/
 		
-		primaryStage.setScene(menuScene);		
+		
+		primaryStage.setScene(menuScene);
 		primaryStage.show();
+		
+		// DEBUG
+		//primaryStage.setScene(gameScene);
+		//System.out.println("menuRoot is " + menuRoot.getClass());
+		
 	
 	}
 	
@@ -213,6 +224,14 @@ public class Hockey extends Application {
 
 	public static void setGameController(GameController gameController) {
 		Hockey.gameController = gameController;
+	}
+
+	public static Parent getGameRoot() {
+		return gameRoot;
+	}
+
+	public static void setGameRoot(Parent gameRoot) {
+		Hockey.gameRoot = gameRoot;
 	}
 
 	

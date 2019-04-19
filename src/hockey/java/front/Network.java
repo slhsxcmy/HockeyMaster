@@ -112,6 +112,7 @@ public class Network extends Listener{
                 });
 				break;
 			case Constants.PLAYLOGGEDSUCCESS: 
+				System.out.println("Going to game scene");
 				Platform.runLater(() -> {
 					Hockey.getPrimaryStage().setScene(Hockey.getGameScene());;
                 });
@@ -139,7 +140,6 @@ public class Network extends Listener{
 		} else if (o instanceof PacketStats){
 			System.out.println("Client received PacketStats!");
 			Hockey.getStatsController().setStats(((PacketStats) o).matchesWon, ((PacketStats) o).matchesLost, ((PacketStats) o).goalsFor, ((PacketStats) o).goalsAgainst);
-
 			Platform.runLater(() -> {
 				Hockey.getPrimaryStage().setScene(Hockey.getStatsScene());;
             });

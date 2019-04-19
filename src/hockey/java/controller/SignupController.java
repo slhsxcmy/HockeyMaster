@@ -61,22 +61,6 @@ public class SignupController{
 		Hockey.getNetwork().getClient().sendTCP(p);
 		System.out.println("Sent PacketReturn of type 1: SignupAttempt");
 		
-		
-		
-		
-//		if(!model.checkSignUp(username.getText(), password.getText(), passwordc.getText())) {
-//			errorMessage.setText("Sign up failed. Please try again.");
-//		}
-//		else {				
-//				Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Logged.fxml"));
-//				Scene scene = new Scene(root);
-//				scene.getStylesheets().add(getClass().getResource("/hockey/css/Logged.css").toExternalForm());
-//				
-//				Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-//				window.setScene(scene);
-//				window.show();				
-//		}
-	
 	}
 	
 

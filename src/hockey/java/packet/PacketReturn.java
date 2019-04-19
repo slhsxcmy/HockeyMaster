@@ -11,12 +11,16 @@ public class PacketReturn {
 	  5 = signout
 	  7 = play (logged or guest)
 	  8 = stats
+	  
 	  */
 	
 	public int id;
 	public String username;
 	public String message;
 	public PacketReturn() {} // for KryoNet; otherwise cannot be deserialized
+	public PacketReturn(int status) {
+		this.status = status;
+	}
 	public PacketReturn(int status, int id, String username) {
 		this.status = status;
 		this.id = id;

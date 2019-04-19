@@ -8,7 +8,7 @@ public class PacketStats {
 		goalsFor = 0;
 		goalsAgainst = 0;
 	}
-	
+
 	public PacketStats(int mw, int ml, int gf, int ga) {
 		matchesWon = mw;
 		matchesLost = ml;
