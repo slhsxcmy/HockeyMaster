@@ -16,12 +16,10 @@ public class User {
 //	}
 	
 	public User(int id) {
-		striker = null;
 		this.id = id;
 	}
 	
 	public User(int id, String username) {
-		striker = null;
 		this.id = id;
 		this.username = username;
 	}

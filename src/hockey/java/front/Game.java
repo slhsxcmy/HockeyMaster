@@ -44,9 +44,8 @@ public class Game extends Application{
     @Override
     public void start(Stage stage) {
     	 p1 = new Player(/*"p1", */1);
-    	 p1.setPlayerID(1);
+    	
     	 p2 = new Player(/*"p2", */2);
-    	 p2.setPlayerID(2);
     	 //s1 = new Striker(p1);
     	 //otherStriker = new Striker();
     	

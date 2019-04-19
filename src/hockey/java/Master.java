@@ -45,8 +45,7 @@ public class Master extends Listener { // SERVER
 	private static SQLModel model = new SQLModel();
 
 	private static Puck puck;
-	private static Player p1;
-	private static Player p2;
+
 	private static Striker s1;
 	private static Striker s2;
 	private static Goal g1;
@@ -60,10 +59,9 @@ public class Master extends Listener { // SERVER
 	private static Random ran;
 
 	public static void initBoard() {
-		p1 = new Player("p1", 1);
-		p2 = new Player("p2", 2);
-		s1 = new Striker(p1);
-		//s2 = new Striker();
+		
+		s1 = new Striker(new Player(1));
+		s2 = new Striker(new Player(2));
 		//u1 = new User();
 		//u2 = new User();
 		//u1.initStriker();
@@ -73,8 +71,8 @@ public class Master extends Listener { // SERVER
 
 		//goal1 = new Goal(1, puck, u1.getStriker().getPlayer());
 		//goal2 = new Goal(2, puck, u2.getStriker().getPlayer());
-		g1 = new Goal(1, puck, p1);
-		g2 = new Goal(2, puck, p2);
+		g1 = new Goal(1, puck, s1.getPlayer());
+		g2 = new Goal(2, puck, s2.getPlayer());
 		wall1 = new Walls(1);
 		wall2 = new Walls(2);
 
@@ -114,7 +112,7 @@ public class Master extends Listener { // SERVER
 		k.register(Puck.class);
 		k.register(PVector.class);
 		k.register(Constants.class);
-		// k.register(com.sun.javafx.geom.RectBounds.class);
+		k.register(com.sun.javafx.geom.RectBounds.class);
 	}
 
 	public static void main(String[] args) {
@@ -157,6 +155,7 @@ public class Master extends Listener { // SERVER
 			String username = ((PacketAttempt) o).username;
 			String pw = ((PacketAttempt) o).password;
 			String confirm = ((PacketAttempt) o).confirm;
+			PacketReturn p;
 
 			switch(((PacketAttempt) o).attempt) {
 
@@ -165,47 +164,23 @@ public class Master extends Listener { // SERVER
 				System.out.println("received sign up attempt, begin to send return packet");
 
 				c.sendTCP(model.checkSignUp(username, pw, confirm));
-				//DEGUG
-				System.out.println("Map now contains: ");
-				for (Map.Entry<Integer,User> entry : onlineUsers.entrySet()) {  
-		            System.out.println("id = " + entry.getKey() + 
-		                             ", user = " + entry.getValue().getUsername()); 
-				}
 				
-				System.out.println("Waitlist now contains: ");
-				for(int i=0; i<waitList.size(); i++) {
-					System.out.println("ids in the waitlist- "+waitList);
-				}
+				debug();
 				
-				System.out.println("Playerlist now contains: ");
-				for(int i=0; i<players.size(); i++) {
-					System.out.println(players.get(i));
-				}
-			//DEBUG FINISH 
 				break;
 			case Constants.LOGINATTEMPT: 
-				c.sendTCP(model.checkLogin(username, pw));
-				//DEGUG
-				System.out.println("Map now contains: ");
-				for (Map.Entry<Integer,User> entry : onlineUsers.entrySet()) {  
-		            System.out.println("id = " + entry.getKey() + 
-		                             ", user = " + entry.getValue().getUsername()); 
-				}
+				System.out.println("entering LOGINATTEMPT response");
+				p = model.checkLogin(username, pw);
+				System.out.println("before sending LoginReturn");
+				c.sendTCP(p);
+				System.out.println("after sending LoginReturn");
 				
-				System.out.println("Waitlist now contains: ");
-				for(int i=0; i<waitList.size(); i++) {
-					System.out.println("ids in the waitlist- "+waitList);
-				}
+				debug();
 				
-				System.out.println("Playerlist now contains: ");
-				for(int i=0; i<players.size(); i++) {
-					System.out.println(players.get(i));
-				}
-			//DEBUG FINISH 
 				break;
 
 			case Constants.SIGNOUTATTEMPT: //3 = signout
-				users.remove(id);
+				onlineUsers.remove(id);
 				c.sendTCP(new PacketReturn(Constants.SIGNOUTSUCCESS));
 				break;
 
@@ -214,66 +189,31 @@ public class Master extends Listener { // SERVER
 				break;
 
 
-			case Constants.PLAYLOGGEDATTEMPT: //5 = play logged
-				c.sendTCP(new PacketReturn(Constants.PLAYLOGGEDSUCCESS));
-				initBoard();
-
-				break;
 			
 			case Constants.PLAYLOGGEDATTEMPT:
-				PacketReturn p = model.loggedPlay(username);
-				if(p.status == Constants.PLAYLOGGEDSUCCESS) initBoard(); // game board on server
+				p = model.loggedPlay(username);
+				if(p.status == Constants.PLAYSUCCESS) initBoard(); // game board on server
 				c.sendTCP(p);
 				
-				/*// DEBUG
-				System.out.println("Map now contains: ");
-				for (Map.Entry<Integer,User> entry : onlineUsers.entrySet()) {  
-		            System.out.println("id = " + entry.getKey() + 
-		                             ", user = " + entry.getValue().getUsername()); 
-				}
+				debug();
 				
-				System.out.println("Waitlist now contains: ");
-				for(int i=0; i<waitList.size(); i++) {
-					System.out.println("ids in the waitlist- "+waitList);
-				}
-				
-				System.out.println("Playerlist now contains: ");
-				for(int i=0; i<players.size(); i++) {
-					System.out.println(players.get(i));
-				}
-				// DEBUG END
-				*/
 				
 
 				break;
 			case Constants.PLAYGUESTATTEMPT: 
-				PacketReturn p = model.signAsGuest();
-				if(p.status == Constants.PLAYGUESTSUCCESS) initBoard(); // game board on server
+				p = model.signAsGuest();
+				if(p.status == Constants.PLAYSUCCESS) initBoard(); // game board on server
 				c.sendTCP(p);
 				
-				/*//DEGUG
-					System.out.println("Map now contains: ");
-					for (Map.Entry<Integer,User> entry : onlineUsers.entrySet()) {  
-			            System.out.println("id = " + entry.getKey() + 
-			                             ", user = " + entry.getValue().getUsername()); 
-					}
-					
-					System.out.println("Waitlist now contains: ");
-					for(int i=0; i<waitList.size(); i++) {
-						System.out.println("ids in the waitlist- "+waitList);
-					}
-					
-					System.out.println("Playerlist now contains: ");
-					for(int i=0; i<players.size(); i++) {
-						System.out.println(players.get(i));
-					}
-				//DEBUG FINISH 
-				*/
+				
+				debug();
+				
 				break;	
 
 			}
-		} else if (o instanceof Striker){
-			int player = ((Striker) o).getPlayer().getPlayerID();
+		} else if (o instanceof PacketStriker){
+			System.out.println("Server received PacketStriker");
+			/*int player = ((Striker) o).getPlayer().getPlayerID();
 			if (player == 1) {
 				s1 = (Striker)o;
 			}
@@ -281,7 +221,7 @@ public class Master extends Listener { // SERVER
 			else {
 				s2 = (Striker)o;
 			}
-			s1.step(p1.getMouse(), mid);
+			s1.step(s1.getPlayer().getMouse(), mid);
 			//s2.step(p1.getMouse());
 			s1.checkBoundaries(puck);
 			//s2.checkBoundaries(puck);
@@ -292,23 +232,23 @@ public class Master extends Listener { // SERVER
 			puck.collision(mid, pu);
 			puck.collision(puckPU);
 			if (g1.goalDetection(1)) {
-				p1.score();
+				s1.getPlayer().score();
 				s1.reset(1);
 				mid.reset();
 				puck.resetSize();
 				//s2.reset(2);
 			}
 			if (g2.goalDetection(2)) {
-				p2.score();
+				s2.getPlayer().score();
 				s1.reset(1);
 				mid.reset();
 				puck.resetSize();
 				//s2.reset(2);
 			}
-			if (p1.getScore() == 7) {
+			if (s1.getPlayer().getScore() == 7) {
 				//send win/loss message
 			}
-			if (p2.getScore() == 7) {
+			if (s2.getPlayer().getScore() == 7) {
 				//send win/loss message
 			}
 			if (time == (int)(ran.nextDouble() * 2500)) {
@@ -326,12 +266,37 @@ public class Master extends Listener { // SERVER
 				}
 			}
 			time++;
+			*/
 		} 
 
 	}
 
 	public void disconnected(Connection c) {
 		System.out.println("Lost connection from client.");
+	}
+	
+	public void debug() {
+		// DEBUG
+		System.out.println("onlineUsers now contains------------------------");
+		for (Map.Entry<Integer,User> entry : onlineUsers.entrySet()) {  
+            System.out.println("id = " + entry.getKey() + 
+                             ", user = " + entry.getValue().getUsername()); 
+		}
+		System.out.println("------------------------------------------------");
+		
+		System.out.println("Waitlist now contains---------------------------");
+		for(int i=0; i<waitList.size(); i++) {
+			System.out.println("ids in the waitlist- "+waitList);
+		}
+		System.out.println("------------------------------------------------");
+		
+		System.out.println("Playerlist now contains-------------------------");
+		for(int i=0; i<players.size(); i++) {
+			System.out.println(players.get(i));
+		}
+		System.out.println("------------------------------------------------");
+		// DEBUG END
+		
 	}
 
 }

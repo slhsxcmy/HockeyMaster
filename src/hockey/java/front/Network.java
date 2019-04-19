@@ -41,7 +41,8 @@ public class Network extends Listener{
 		try {
 			client.connect(5000, ip, port); //blocks for 5 seconds
 		} catch (IOException e) {
-			System.out.println("Cannot connect to server.");
+			System.out.println("Cannot connect to server. Exiting Client.");
+			System.exit(2);
 		} 
 
 		// add listener for connected/received/disconnected methods
@@ -64,18 +65,10 @@ public class Network extends Listener{
 			switch(((PacketReturn) o).status) {
 			
 			case Constants.SIGNUPSUCCESS:
-//				id = ((PacketReturn) o).id;
-//				username = ((PacketReturn) o).username;
-//				System.out.println("user id = " + id + " username = " + username);
-//				System.out.println("setting scene to logged");
-//				Platform.runLater(() -> {
-//					Hockey.getPrimaryStage().setScene(Hockey.getLoggedScene());
-//                });
-//				System.out.println("set scene complete");
-				break;
 			case Constants.LOGINSUCCESS: 
 
 				System.out.println("user id = " + id + " username = " + username);
+				Hockey.setUser(new User(id,username));
 				System.out.println("setting scene to logged");
 				Platform.runLater(() -> {
 					Hockey.getPrimaryStage().setScene(Hockey.getLoggedScene());
@@ -106,7 +99,7 @@ public class Network extends Listener{
 					Hockey.getLoggedController().setMessage(message);
                 });
 				break;
-			case Constants.PLAYLOGGEDSUCCESS: 
+			case Constants.PLAYSUCCESS: 
 				
 				System.out.println("Going to game scene");
 				Platform.runLater(() -> {
@@ -115,18 +108,12 @@ public class Network extends Listener{
 					Hockey.getGameController().gameLoop(id);
                 });
 				break;
-			case Constants.PLAYLOGGEDFAILURE: 
-				
+			case Constants.PLAYFAILURE: 
+				// show error
 				break;
-			case Constants.PLAYGUESTSUCCESS: 
-				//Game game = new Game();
-				break;
-			case Constants.PLAYGUESTFAILURE: 
-				
-
-				break;
+			
 			case Constants.GAMEOVER:
-				
+				break;
 			}
 		} else if (o instanceof Striker){
 			System.out.println("Client received PacketStriker!");

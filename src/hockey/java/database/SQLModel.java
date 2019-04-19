@@ -110,12 +110,13 @@ public class SQLModel {
 	}
 	
 	public PacketReturn checkLogin(String username, String pw) {
-		
+		System.out.println("starting checkLogin");
 		if(username == null || username == "" || pw == null || pw == "") { //they shouldn't be empty
 			return new PacketReturn(Constants.LOGINFAILURE, "username or password is empty");
 		}
 		else {
 			try {
+				System.out.println("111111111");
 				ps = connection.prepareStatement("SELECT * FROM Player WHERE username=?");
 				ps.setString(1, username);
 				rs = ps.executeQuery();
@@ -126,6 +127,8 @@ public class SQLModel {
 				else {
 					//p.username = username;
 					//p.id = rs.getInt(1);
+
+					System.out.println("2222222");
 					
 					String dbpw = rs.getString(3);						
 					if(!dbpw.equals(pw)) { //once found this name exists, look at pw in database
@@ -135,10 +138,9 @@ public class SQLModel {
 				}
 				//check = true;
 				//p.status = 3;
-				User tmp = new User(rs.getInt(1));
-				tmp.setUsername(username);
-				Hockey.setUser(tmp);
-				Master.getMap().put(rs.getInt(1), tmp); //create a new user and put it in map
+				System.out.println("3333333");
+				User u = new User(rs.getInt(1),username);
+				Master.getMap().put(rs.getInt(1), u); //create a new user and put it in map
 				return new PacketReturn(Constants.LOGINSUCCESS, rs.getInt(1), username);
 			} catch (SQLException e) {
 				System.out.println("sqle: " + e.getMessage());
@@ -165,10 +167,8 @@ public class SQLModel {
 			System.out.println("insertion done");
 			System.out.println("guest id is " + id);
 			
-			User tmp = new User(id);
-			tmp.setUsername("GUEST");
-			Hockey.setUser(tmp);
-			Master.getMap().put(id, tmp); //put it in online users map
+			User u = new User(rs.getInt(1),"GUEST");
+			Master.getMap().put(id, u); //put it in online users map
 			return checkList(id);			
 			
 		}catch (SQLException e) {
@@ -186,6 +186,8 @@ public class SQLModel {
 			if(rs.next()) {
 				id = rs.getInt(1);
 				System.out.println("user "+username +" has id: "+id);
+			} else {
+				System.out.println("NO user "+username +" has id: "+id);
 			}
 		}catch (SQLException e) {
 			System.out.println("sqle: " + e.getMessage());
@@ -205,7 +207,19 @@ public class SQLModel {
 		}catch (SQLException e) {
 			System.out.println("sqle: " + e.getMessage());
 		}
-
+		
+		if(Master.getPlayerlist().size() == 0) {
+			Master.getPlayerlist().add(id);
+			return new PacketReturn(Constants.PLAYFAILURE, id, "Not Enough Players. Please Wait.");
+		}
+		else if(Master.getPlayerlist().size() == 1) {
+			Master.getPlayerlist().add(id);   
+			return new PacketReturn(Constants.PLAYSUCCESS, id, username);
+		}
+		else{
+			Master.getWaitlist().add(id);
+			return new PacketReturn(Constants.PLAYFAILURE, id, "Game already in progress. Please Wait.");
+		}   
 	}
 	
 	public PacketStats getStats(int id) {
