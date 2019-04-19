@@ -48,11 +48,11 @@ public class GameController {
     private static PowerUpPuckSize puckPU;
     private static double friction;
     
-	public void init(int id) {
+	public void init(int playerId) {
 		 System.out.println("init game start");
 	    	
-	   	 selfStriker = new Striker(new Player(id));
-	   	 otherStriker = new Striker(new Player(3-id));
+	   	 selfStriker = new Striker(new Player(playerId));
+	   	 otherStriker = new Striker(new Player(3-playerId));
 	   	 puck = new Puck();
 	
 	   	 otherGoal = new Goal(1, puck, selfStriker.getPlayer());
@@ -120,7 +120,7 @@ public class GameController {
        
 	}
 	
-	public void gameLoop(int id) {
+	public void gameLoop() {
 		
 		
    	 	AnimationTimer loop = new AnimationTimer() {
@@ -141,16 +141,9 @@ public class GameController {
 	           	 // TODO check collison with midline
 	           	 
 	           	 // send selfStriker to server
-	           	 //Hockey.getNetwork().getClient().sendTCP(new PacketStriker(id, selfStriker.getLocation(),selfStriker.getVelocity()));
-	           	 
-	           	 
-	           	 //PacketStriker p = new PacketStriker(id, selfStriker.getLocation(),selfStriker.getVelocity());
-	           	 //p.print();
-	           	 System.out.println("before sending Striker");
-	           	 //Hockey.getNetwork().getClient().sendTCP(p);
-	           	 
-	           	 Hockey.getNetwork().getClient().sendTCP(new PacketStriker(id,selfStriker.getLocation().x,selfStriker.getLocation().y,selfStriker.getVelocity().x,selfStriker.getVelocity().y));
-	           	 System.out.println("after sending Striker");
+	           	 // System.out.println("before sending PacketStriker"); 
+	           	 Hockey.getNetwork().getClient().sendTCP(new PacketStriker(selfStriker.getPlayer().getPlayerID(),selfStriker.getLocation().x,selfStriker.getLocation().y,selfStriker.getVelocity().x,selfStriker.getVelocity().y));
+	           	 // System.out.println("after sending PacketStriker");
                
                 
            }

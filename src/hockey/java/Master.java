@@ -16,7 +16,6 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import hockey.java.database.SQLModel;
-import hockey.java.front.CenterCircle;
 import hockey.java.front.Goal;
 import hockey.java.front.Midline;
 import hockey.java.front.PVector;
@@ -40,6 +39,7 @@ public class Master extends Listener { // SERVER
 	public static final String ngrok_url = "localhost";//"https://d69be386.ngrok.io";
 	public static final int tcpPort = 27960;
 	private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
+	private static Map<Integer, Connection> connections = Collections.synchronizedMap(new HashMap<>()); 
 	private static Queue<Integer> waitList = new LinkedList<Integer>();
 	private static List<Integer> players = new ArrayList<Integer>(); //store id in database
 	private static SQLModel model = new SQLModel();
@@ -86,9 +86,13 @@ public class Master extends Listener { // SERVER
 	}
 
 	
-	
-	public static Map<Integer, User> getMap(){
+
+	public static Map<Integer, User> getUsers(){
 		return onlineUsers;
+	}
+
+	public static Map<Integer, Connection> getConnections(){
+		return connections;
 	}
 	
 	public static Queue<Integer> getWaitlist(){
@@ -163,17 +167,13 @@ public class Master extends Listener { // SERVER
 			case Constants.SIGNUPATTEMPT: 
 				System.out.println("received sign up attempt, begin to send return packet");
 
-				c.sendTCP(model.checkSignUp(username, pw, confirm));
+				c.sendTCP(model.checkSignUp(username, pw, confirm, c));
 				
 				debug();
 				
 				break;
 			case Constants.LOGINATTEMPT: 
-				System.out.println("entering LOGINATTEMPT response");
-				p = model.checkLogin(username, pw);
-				System.out.println("before sending LoginReturn");
-				c.sendTCP(p);
-				System.out.println("after sending LoginReturn");
+				c.sendTCP(model.checkLogin(username, pw, c));
 				
 				debug();
 				
@@ -191,62 +191,76 @@ public class Master extends Listener { // SERVER
 
 			
 			case Constants.PLAYLOGGEDATTEMPT:
-				p = model.loggedPlay(username);
-				if(p.status == Constants.PLAYSUCCESS) initBoard(); // game board on server
-				c.sendTCP(p);
+				p = model.loggedPlay(username, c);
+				if(p.status == Constants.PLAYSUCCESS) {
+					activateGame(); // game board on server					
+				}
 				
 				debug();
-				
-				
 
 				break;
 			case Constants.PLAYGUESTATTEMPT: 
-				p = model.signAsGuest();
-				if(p.status == Constants.PLAYSUCCESS) initBoard(); // game board on server
-				c.sendTCP(p);
-				
-				
+
+				p = model.signAsGuest(c);
+				if(p.status == Constants.PLAYSUCCESS) {
+					activateGame(); // game board on server				
+				}
+
 				debug();
 				
 				break;	
 
 			}
 		} else if (o instanceof PacketStriker){
-			System.out.println("Server received PacketStriker");
-			/*int player = ((Striker) o).getPlayer().getPlayerID();
-			if (player == 1) {
-				s1 = (Striker)o;
-			}
+			int id = ((PacketStriker) o).id;
 			
-			else {
-				s2 = (Striker)o;
+			System.out.println("Server received PacketStriker id = " + id);
+			
+			
+			if (id == 1) {
+				s1.setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
+				s1.setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
+			} else {
+				s2.setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
+				s2.setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
 			}
-			s1.step(s1.getPlayer().getMouse(), mid);
+			//s1.step(s1.getPlayer().getMouse(), mid);
 			//s2.step(p1.getMouse());
-			s1.checkBoundaries(puck);
-			//s2.checkBoundaries(puck);
-			puck.collision(s1);
-			//puck.collision(s2);
-			puck.checkBoundaries();
-			puck.step(friction);
-			puck.collision(mid, pu);
-			puck.collision(puckPU);
+			s1.checkBoundaries(puck); // s1 cannot push puck into wall
+			puck.collision(s1); // resolve collision
+			
+			s2.checkBoundaries(puck); // s2 cannot push puck into wall
+			puck.collision(s2); // resolve collision
+			
+			puck.checkBoundaries(); // puck and wall
+			puck.step(friction); 
+			
+			puck.collision(mid, pu); // powerup move midline
+			puck.collision(puckPU); // powerup minimize puck
+			
 			if (g1.goalDetection(1)) {
 				s1.getPlayer().score();
 				s1.reset(1);
+				s2.reset(2);
+				
 				mid.reset();
 				puck.resetSize();
-				//s2.reset(2);
+				
 			}
 			if (g2.goalDetection(2)) {
 				s2.getPlayer().score();
 				s1.reset(1);
+				s2.reset(2);
+				
 				mid.reset();
 				puck.resetSize();
-				//s2.reset(2);
 			}
 			if (s1.getPlayer().getScore() == 7) {
 				//send win/loss message
+				// c.sendTCP(new PacketReturn(Constants.GAMEOVER, winnerUsername));
+				// TODO update SQL
+				
+				
 			}
 			if (s2.getPlayer().getScore() == 7) {
 				//send win/loss message
@@ -266,11 +280,17 @@ public class Master extends Listener { // SERVER
 				}
 			}
 			time++;
-			*/
+			
 		} 
 
 	}
 
+	public void activateGame() {	
+		connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.PLAYSUCCESS, players.get(0), onlineUsers.get(players.get(0)).getUsername(), 1));
+		connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.PLAYSUCCESS, players.get(1), onlineUsers.get(players.get(1)).getUsername(), 2));
+		initBoard();
+	}
+	
 	public void disconnected(Connection c) {
 		System.out.println("Lost connection from client.");
 	}
