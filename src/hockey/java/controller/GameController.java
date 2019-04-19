@@ -1,10 +1,12 @@
 package hockey.java.controller;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import hockey.java.Hockey;
 import hockey.java.front.CenterCircle;
 import hockey.java.front.Goal;
+import hockey.java.front.GoalArch;
 import hockey.java.front.Midline;
 import hockey.java.front.Player;
 import hockey.java.front.PowerUp;
@@ -46,8 +48,14 @@ public class GameController {
     private static CenterCircle center;
     private static PowerUp pu;
     private static PowerUpPuckSize puckPU;
+    private static GoalArch arc1, arc2;
+    private static boolean gameStarted;
+    private static long time;
+
     
 	public void init(int playerId) {
+		 time = 0;
+		 gameStarted = false;
 		 System.out.println("init game start");
 	    	
 	   	 selfStriker = new Striker(new Player(playerId));
@@ -58,6 +66,8 @@ public class GameController {
 	   	 selfGoal = new Goal(2, puck, otherStriker.getPlayer());
 	   	 walls1 = new Walls(1);
 	   	 walls2 = new Walls(2);
+    	 arc1 = new GoalArch(otherGoal);
+    	 arc2 = new GoalArch(selfGoal);
 	
 	   	 mid = new Midline();
 	   	 center = new CenterCircle();
@@ -88,6 +98,8 @@ public class GameController {
 	     playfield.getChildren().add(walls1);
 	     playfield.getChildren().add(walls2);
 	     playfield.getChildren().add(mid);
+         playfield.getChildren().add(arc1);
+         playfield.getChildren().add(arc2);
 	     playfield.getChildren().add(center);
 	     playfield.getChildren().add(otherStriker);
 	     playfield.getChildren().add(selfStriker);
@@ -102,6 +114,8 @@ public class GameController {
 	     selfGoal.display();
 	     walls1.display();
 	     walls2.display();
+	     arc1.display();
+	     arc2.display();
 	     playfield.getChildren().add(pu);
 		 playfield.getChildren().add(puckPU);
 	     mid.display();
@@ -113,19 +127,17 @@ public class GameController {
     	 });
 
     	 System.out.println("init game end");
-     	
-    	
-       
+ 
 	}
-	
 	public void gameLoop() {
-		
-		
+	   	Text countdown = new Text("GO!");
    	 	AnimationTimer loop = new AnimationTimer() {
 	      	 Random r = new Random();
+
 	      	 int ran = (int) (r.nextDouble() * 1000);
 	      	 @Override
 	      	 public void handle(long now) {
+	   	 		 time++;
       	 		 // move
 	      		 System.out.println(mid.getLocation());
 	      		 pu.display();
@@ -135,6 +147,19 @@ public class GameController {
 	           	 selfStriker.display();
 	           	 otherStriker.display();
 	           	 puck.display();
+//	           	 if(time == 150 && gameStarted == false) {
+//	        	   	 countdown.setFont(Font.font ("Verdana", 75));
+//	        	   	 countdown.setFill(Color.RED);
+//	        	   	 countdown.setX(100);
+//	        	   	 countdown.setY(200);
+//	        	   	 playfield.getChildren().add(countdown);
+//	           		 selfStriker.startGameBound();
+//	           		 otherStriker.startGameBound();
+//	           		 gameStarted = true;
+//	           	 }
+//	           	 if(time == 250 && gameStarted == true) {
+//	           		countdown.setText("");
+//	           	 }
                
 	           	 // TODO check collison with wall
 	           	 

@@ -119,7 +119,7 @@ public class Puck extends Pane{
 		double sr = s.getRadius();
 		if (Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
 			//hypotneuse divided by root 2 
-			double diag = (radius + sr)/(1.41421356);
+			//double diag = (radius + sr)/(1.41421356);
 			//left
 			if(px < sx && py >= (sy - .4 * sr) && py <= (sy + .4 * sr)) {
 				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
