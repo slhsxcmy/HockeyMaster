@@ -129,7 +129,6 @@ public class Puck extends Pane{
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					i++;
 					//System.out.println("LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
 				}
 			}
@@ -142,7 +141,6 @@ public class Puck extends Pane{
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					i++;
 					//System.out.println("TOPPPPPPPPPPPPP");
 				}
 			}
@@ -155,7 +153,6 @@ public class Puck extends Pane{
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					i++;
 					//System.out.println("RIIIIIGGGGGHHHHTTTT");
 				}
 			}
@@ -168,7 +165,6 @@ public class Puck extends Pane{
 					py = location.y;
 					sx = s.getLocation().x;
 					sy = s.getLocation().y;
-					i++;
 					//System.out.println("BOOOOTTTTTTOOOOOMMMMMM");
 				}
 			}

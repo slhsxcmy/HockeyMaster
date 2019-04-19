@@ -96,15 +96,17 @@ public class GameController {
 	     playfield.getChildren().add(selfGoal);
 	     playfield.getChildren().add(p1s);
 	     playfield.getChildren().add(p2s);
+	     playfield.getChildren().add(pu);
+		 playfield.getChildren().add(puckPU);
 	     //display static shapes
 	     center.display();
 	     otherGoal.display();
 	     selfGoal.display();
 	     walls1.display();
 	     walls2.display();
-	     playfield.getChildren().add(pu);
-		 playfield.getChildren().add(puckPU);
 	     mid.display();
+	     pu.display();
+	     puckPU.display();
        
     	 // capture mouse position
     	 Hockey.getGameScene().addEventFilter(MouseEvent.ANY, e -> {
