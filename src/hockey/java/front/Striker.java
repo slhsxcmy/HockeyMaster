@@ -191,6 +191,16 @@ public class Striker extends Pane {
     	location.y = y;
     }
     
+    public void setVelocity(PVector pv) {
+    	velocity.copy(pv);
+    }
+    
+    public void setVelocity(double x, double y) {
+    	velocity.x = x;
+    	velocity.y = y;
+    }
+    
+    
     public void reset(int player) {
     	mult = 1;
     	if (player == 1) {
@@ -205,15 +215,7 @@ public class Striker extends Pane {
     	velocity.y = 0;
     }
 
-    public void setVelocity(PVector pv) {
-    	velocity.copy(pv);
-    }
-    
-    public void setVelocity(double x, double y) {
-    	velocity.x = x;
-    	velocity.y = y;
-    }
-    
+
     public void step() {
     	location.sub(velocity);
     }

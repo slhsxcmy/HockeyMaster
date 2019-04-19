@@ -116,13 +116,18 @@ public class Network extends Listener{
 			case Constants.GAMEOVER:
 				break;
 			}
-		} else if (o instanceof Striker){
+		} else if (o instanceof PacketStriker){
 			System.out.println("Client received PacketStriker!");
-			GameController.setOtherStriker((Striker)o);
+			GameController.getOtherStriker().setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
+			GameController.getOtherStriker().setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
+
 			
-		} else if (o instanceof Puck){
+		} else if (o instanceof PacketPuck){
 			System.out.println("Client received PacketPuck!");
-			GameController.setPuck((Puck)o);
+			
+			GameController.getPuck().setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
+			GameController.getPuck().setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
+
 			
 		} else if (o instanceof PacketStats){
 			System.out.println("Client received PacketStats!");
