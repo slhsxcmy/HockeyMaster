@@ -17,9 +17,13 @@
 <AnchorPane prefHeight="700.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hockey.java.controller.GameController">
    <children>
    		<BorderPane fx:id="borderPane" prefHeight="700.0" prefWidth="400.0">
-         	<center>
-            	<StackPane fx:id="stackPane" prefHeight="700.0" prefWidth="400.0" BorderPane.alignment="CENTER" />
-         	</center>
+         <top>
+            <StackPane fx:id="upperPane" maxHeight="50.0" maxWidth="400.0" minHeight="50.0" minWidth="400.0" prefHeight="50.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="upperLabel" prefHeight="144.0" prefWidth="479.0" text="Label" />
+               </children>
+            </StackPane>
+         </top>
       	</BorderPane>
    </children>
 </AnchorPane>

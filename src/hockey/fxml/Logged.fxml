@@ -13,8 +13,7 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hockey.java.controller.LoggedController">
    <children>
-
-      <ImageView fitHeight="800.0" fitWidth="400.0">
+      <ImageView fitHeight="700.0" fitWidth="400.0">
          <image>
             <Image url="@../../Images/background.jpeg" />
          </image>
