@@ -35,9 +35,10 @@ public class LoggedController {
 	private Button signout;
 	
 	public void playLogged(ActionEvent event) throws IOException{
+		
 		PacketAttempt p = new PacketAttempt(Constants.PLAYLOGGEDATTEMPT, Hockey.getUser().getUsername());
 		Hockey.getNetwork().getClient().sendTCP(p);
-		System.out.println("sent playAsGuest Attempt");
+		System.out.println("sent "+Hockey.getUser().getUsername()+"'s playAsUser Attempt");
 		
 	}
 	

@@ -19,11 +19,19 @@ import javafx.stage.Stage;
 public class Hockey extends Application {
 	
 	private static Network network = new Network();
-	private static User user = new User(); 
+	private static User user = null;// = new User(); 
 	
 	public static final int NUMSCENES = 6;
 	private static Scene[] scenes = new Scene[NUMSCENES];
 	
+	
+	public static void setUser(User user) {
+		Hockey.user = user;
+	}
+	
+	public static User getUser() {
+		return user;
+	}
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -101,14 +109,6 @@ public class Hockey extends Application {
 
 	public static void setNetwork(Network network) {
 		Hockey.network = network;
-	}
-
-	public static User getUser() {
-		return user;
-	}
-
-	public static void setUser(User self) {
-		Hockey.user = self;
 	}
 
 	public static Stage getPrimaryStage() {

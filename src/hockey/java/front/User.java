@@ -11,20 +11,26 @@ public class User {
 	private int goalsFor;
 	private int goalsAgainst;
 	
-	public User() { // guest
-		this.id = -1;
-		this.username = "guest";
+//	public User() { // guest
+//		this.id = -1;
+//		this.username = "guest";
+//	}
+	
+	public User(int id) {
+		striker = null;
+		this.id = id;
 	}
 	
-	/*public User(int id,String username) {
+	public User(int id, String username) {
 		striker = null;
 		this.id = id;
 		this.username = username;
-	}*/
+	}
 	
 	public void initStriker() {
 		striker = new Striker(new Player(username, id));
 	}
+	
 	public Striker getStriker() {
 		return striker;
 	}
