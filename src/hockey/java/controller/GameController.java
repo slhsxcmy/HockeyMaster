@@ -113,7 +113,7 @@ public class GameController {
 	       	 //u1.getStriker().getPlayer().getMouse().set(e.getX(), e.getY());
 	       	 selfStriker.getPlayer().getMouse().set(e.getX(), e.getY());
     	 });
-    	
+
     	 System.out.println("init game end");
      	
     	

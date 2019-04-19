@@ -14,6 +14,7 @@ public class PacketReturn {
 	}
 	
 	public PacketReturn() {} // for KryoNet; otherwise cannot be deserialized
+	
 	public PacketReturn(int status) {
 		this.status = status;
 	}
