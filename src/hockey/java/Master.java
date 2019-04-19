@@ -239,7 +239,6 @@ public class Master extends Listener { // SERVER
 
 	public void disconnected(Connection c) {
 		System.out.println("Lost connection from client.");
-
 	}
 
 }
