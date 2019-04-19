@@ -20,9 +20,8 @@ public class PowerUpPuckSize extends Pane{
     Circle circle;
     
 	public PowerUpPuckSize() {
-		location = new PVector(0, 0);
-		location.x = -100;
-		location.y = -100;
+		location = new PVector(-100, -100);
+
 		circle = new Circle(radius);
         circle.setCenterX(radius);
         circle.setCenterY(radius);

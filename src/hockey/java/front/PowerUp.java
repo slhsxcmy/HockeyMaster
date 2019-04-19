@@ -19,10 +19,8 @@ public class PowerUp extends Pane{
     Circle circle;
 	
 	public PowerUp() {
-		location = new PVector(0, 0);
-
-		location.x = -100;
-		location.y = -100;
+		location = new PVector(-100, -100);
+		
 		circle = new Circle(radius);
         circle.setCenterX(radius);
         circle.setCenterY(radius);
@@ -72,8 +70,7 @@ public class PowerUp extends Pane{
 //				r.nextDouble() * (BoardSettings.SCENE_HEIGHT - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT);
 		double x =r.nextDouble() * (BoardSettings.SCENE_WIDTH - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT;
 		double y = r.nextDouble() * (BoardSettings.SCENE_HEIGHT - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT;
-		y = 0;
-		x = 0;
+
 		if(x >= BoardSettings.SCENE_WIDTH - BoardSettings.BOARDER_HEIGHT) {
 			x = BoardSettings.SCENE_WIDTH - BoardSettings.BOARDER_HEIGHT-10;
 		}
