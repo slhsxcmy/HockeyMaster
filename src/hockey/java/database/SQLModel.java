@@ -135,7 +135,7 @@ public class SQLModel {
 				//p.status = 3;
 				User tmp = new User(rs.getInt(1));
 				tmp.setUsername(username);
-				Hockey.setUser(tmp);
+				//Hockey.setUser(tmp);
 				Master.getMap().put(rs.getInt(1), tmp); //create a new user and put it in map
 				return new PacketReturn(Constants.LOGINSUCCESS, rs.getInt(1), username);
 			} catch (SQLException e) {
@@ -165,7 +165,7 @@ public class SQLModel {
 			
 			User tmp = new User(id);
 			tmp.setUsername("GUEST");
-			Hockey.setUser(tmp);
+			//Hockey.setUser(tmp);
 			Master.getMap().put(id, tmp); //put it in online users map
 			return checkList(id);			
 			

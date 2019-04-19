@@ -73,16 +73,8 @@ public class Network extends Listener{
 			String username;
 			switch(((PacketReturn) o).status) {
 			
-			case Constants.SIGNUPSUCCESS:
-//				id = ((PacketReturn) o).id;
-//				username = ((PacketReturn) o).username;
-//				System.out.println("user id = " + id + " username = " + username);
-//				System.out.println("setting scene to logged");
-//				Platform.runLater(() -> {
-//					Hockey.getPrimaryStage().setScene(Hockey.getLoggedScene());
-//                });
-//				System.out.println("set scene complete");
-				break;
+			case Constants.SIGNUPSUCCESS: //NEVER USED
+				
 			case Constants.LOGINSUCCESS: 
 				id = ((PacketReturn) o).id;
 				username = ((PacketReturn) o).username;
