@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Random;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
@@ -52,6 +53,8 @@ public class Master extends Listener { // SERVER
 	private static double friction;
 	private static PowerUp pu;
 	private static PowerUpPuckSize puckPU;
+	private static int time;
+	private static Random ran;
 
 	public static void initBoard() {
 		p1 = new Player("p1", 1);
@@ -77,6 +80,8 @@ public class Master extends Listener { // SERVER
 
 		pu = new PowerUp();
 		puckPU = new PowerUpPuckSize();
+		time = 0;
+		ran = new Random();
 	}
 
 	public static void registerClasses(Kryo k) {
@@ -191,6 +196,8 @@ public class Master extends Listener { // SERVER
 			//puck.collision(s2);
 			puck.checkBoundaries();
 			puck.step(friction);
+			puck.collision(mid, pu);
+			puck.collision(puckPU);
 			if (g1.goalDetection(1)) {
 				p1.score();
 				s1.reset(1);
@@ -211,7 +218,21 @@ public class Master extends Listener { // SERVER
 			if (p2.getScore() == 7) {
 				//send win/loss message
 			}
-
+			if (time == (int)(ran.nextDouble() * 2500)) {
+				time = 0;
+				int choose = new Random().nextInt() % 2;
+				if (choose == 0) {
+					if (pu.hidden() && mid.inMiddle()) {
+						pu.reset();
+					}
+				}
+				else {
+					if (puckPU.hidden() && puck.width == 30) {
+						puckPU.reset(puck);
+					}
+				}
+			}
+			time++;
 		} 
 
 	}
