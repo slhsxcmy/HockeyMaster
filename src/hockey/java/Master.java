@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -18,7 +17,6 @@ import com.esotericsoftware.kryonet.Server;
 import hockey.java.database.SQLModel;
 import hockey.java.front.Goal;
 import hockey.java.front.Midline;
-import hockey.java.front.PVector;
 import hockey.java.front.Player;
 import hockey.java.front.PowerUp;
 import hockey.java.front.PowerUpPuckSize;
@@ -26,20 +24,16 @@ import hockey.java.front.Puck;
 import hockey.java.front.Striker;
 import hockey.java.front.User;
 import hockey.java.front.Walls;
+import hockey.java.network.NetworkHelper;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketAttempt;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
-import hockey.java.packet.PacketStats;
 import hockey.java.packet.PacketStriker;
 
 public class Master extends Listener { // SERVER
 
 	private static Server server;
-	public static final String server_ngrok_url = "localhost";
-	public static final int server_tcpPort = 23333;
-	public static final String client_ngrok_url = "tcp://0.tcp.ngrok.io";
-	public static final int client_tcpPort = 18688;
 	private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
 	private static Map<Integer, Connection> connections = Collections.synchronizedMap(new HashMap<>()); 
 	private static Queue<Integer> waitList = new LinkedList<Integer>();
@@ -105,22 +99,7 @@ public class Master extends Listener { // SERVER
 		return players;
 	}
 	
-	public static void registerClasses(Kryo k) {
-
-		// register packet. ONLY objects registered as packets can be sent
-		k.register(PacketAttempt.class);
-		k.register(PacketReturn.class);
-		k.register(PacketStats.class);
-		k.register(PacketStriker.class);
-		k.register(PacketPuck.class);
-		k.register(Striker.class);
-		k.register(Player.class);
-		k.register(Puck.class);
-		k.register(PVector.class);
-		k.register(Constants.class);
-		//k.register(com.sun.javafx.geom.RectBounds.class);
-	}
-
+	
 	public static void main(String[] args) {
 
 		System.out.println("Creating server...");
@@ -128,13 +107,13 @@ public class Master extends Listener { // SERVER
 		// create server
 		server = new Server();
 
-		Master.registerClasses(server.getKryo());
+		NetworkHelper.registerClasses(server.getKryo());
 
 		try {
 			// bind to ports
-			server.bind(server_tcpPort);
+			server.bind(NetworkHelper.server_tcpPort);
 		} catch (IOException e) {
-			System.out.println("Failed to bind to port " + server_tcpPort + ". Exiting Server.");
+			System.out.println("Failed to bind to port " + NetworkHelper.server_tcpPort + ". Exiting Server.");
 			return;
 		}
 

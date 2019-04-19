@@ -1,17 +1,15 @@
-package hockey.java.front;
+package hockey.java.network;
 
 import java.io.IOException;
 
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 import hockey.java.Hockey;
-import hockey.java.Master;
 import hockey.java.controller.GameController;
-import hockey.java.controller.LoggedController;
-import hockey.java.controller.LoginController;
-import hockey.java.controller.StatsController;
+import hockey.java.front.User;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
@@ -22,26 +20,29 @@ import javafx.application.Platform;
 public class Network extends Listener{
 
 	//private static Hockey hockey;
-	private static Client client;
-	private static String ip = Master.client_ngrok_url;
-	private static int port = Master.client_tcpPort;
+	private static Client client = new Client();;
+	private static String ip = NetworkHelper.client_ngrok_url;
+	private static int port = NetworkHelper.client_tcpPort;
 	
 	public Network(/*Hockey hockey*/) {
 	
 		System.out.println("Starting Network constructor");
 
-		System.out.println("Before init Kryo client");
-		client = new Client();
-		System.out.println("After init Kryo client");
+		//System.out.println("Before init Kryo client");
+//		client = new Client();
+		//System.out.println("After init Kryo client");
 		
 		// register packet
 		System.out.println("Before client registering Kryo classes");
-		Master.registerClasses(client.getKryo());
+		Kryo k = client.getKryo();
+		System.out.println("Got client Kryo");
+		NetworkHelper.registerClasses(k);
 		System.out.println("After client registering Kryo classes");
 
 		client.start();
 		
-		
+		System.out.println("Client started");
+
 		try {
 			System.out.println("Client trying to connect to " + ip + ":" + port);
 			client.connect(5000, ip, port); //blocks for 5 seconds
