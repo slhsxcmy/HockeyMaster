@@ -117,7 +117,7 @@ public class Network extends Listener{
 				break;
 			}
 		} else if (o instanceof PacketStriker){
-			System.out.println("Client received PacketStriker!");
+			System.out.println("Client received PacketStriker of id = " + ((PacketStriker) o).id);
 			GameController.getOtherStriker().setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
 			GameController.getOtherStriker().setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
 
@@ -125,8 +125,8 @@ public class Network extends Listener{
 		} else if (o instanceof PacketPuck){
 			System.out.println("Client received PacketPuck!");
 			
-			GameController.getPuck().setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
-			GameController.getPuck().setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
+			GameController.getPuck().setPosition(((PacketPuck) o).locX, ((PacketPuck) o).locY);
+			GameController.getPuck().setVelocity(((PacketPuck) o).velX, ((PacketPuck) o).velY);
 
 			
 		} else if (o instanceof PacketStats){
