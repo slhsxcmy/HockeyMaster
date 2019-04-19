@@ -176,7 +176,6 @@ public class Master extends Listener { // SERVER
 				// c.sendTCP
 
 				break;
-
 			}
 
 
