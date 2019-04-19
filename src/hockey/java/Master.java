@@ -206,8 +206,7 @@ public class Master extends Listener { // SERVER
 					activateGame(); // game board on server				
 				}
 
-				debug();
-				
+				debug();				
 				break;	
 
 			}
@@ -224,7 +223,6 @@ public class Master extends Listener { // SERVER
 			} else {
 				s2.setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
 				s2.setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
-
 				
 			}
 			

@@ -124,7 +124,6 @@ public class GameController {
    	 	AnimationTimer loop = new AnimationTimer() {
 	      	 Random r = new Random();
 	      	 int ran = (int) (r.nextDouble() * 1000);
-	      	 private long lastUpdate = 0 ;
 	      	 @Override
 	      	 public void handle(long now) {
       	 		 // move
