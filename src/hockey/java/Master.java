@@ -214,15 +214,19 @@ public class Master extends Listener { // SERVER
 		} else if (o instanceof PacketStriker){
 			int id = ((PacketStriker) o).id;
 			
-			System.out.println("Server received PacketStriker id = " + id);
+			// System.out.println("Server received PacketStriker id = " + id);
 			
 			
 			if (id == 1) {
 				s1.setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
 				s1.setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
+				
+				connections.get(players.get(1)).sendTCP(o);
 			} else {
 				s2.setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
 				s2.setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
+
+				connections.get(players.get(0)).sendTCP(o);
 			}
 			//s1.step(s1.getPlayer().getMouse(), mid);
 			//s2.step(p1.getMouse());
@@ -238,7 +242,11 @@ public class Master extends Listener { // SERVER
 			puck.collision(mid, pu); // powerup move midline
 			puck.collision(puckPU); // powerup minimize puck
 			
+			connections.get(players.get(0)).sendTCP(o);
+			connections.get(players.get(1)).sendTCP(o);
+			
 			if (g1.goalDetection(1)) {
+				//TODO update score
 				s1.getPlayer().score();
 				s1.reset(1);
 				s2.reset(2);

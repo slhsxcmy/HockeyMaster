@@ -282,6 +282,27 @@ public class Puck extends Pane{
     	return location;
     }
     
+    
+    public void setPosition(PVector pv) {
+    	location.copy(pv);
+    }
+
+    public void setPosition(double x, double y) {
+    	location.x = x;
+    	location.y = y;
+    }
+    
+    public void setVelocity(PVector pv) {
+    	velocity.copy(pv);
+    }
+    
+    public void setVelocity(double x, double y) {
+    	velocity.x = x;
+    	velocity.y = y;
+    }
+    
+    
+    
     public void move(double x, double y) {
     	location.x = x;
     	location.y = y;
