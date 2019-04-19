@@ -27,6 +27,7 @@
          </effect>
       </Rectangle>
       <Label fx:id="appTitle" alignment="CENTER" layoutX="111.0" layoutY="76.0" prefHeight="28.0" prefWidth="178.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Hockey Master" textAlignment="CENTER">
+         
          <font>
             <Font name="OLD SPORT 01 COLLEGE NCV" size="21.0" />
          </font>

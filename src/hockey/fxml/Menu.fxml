@@ -28,6 +28,7 @@
          </effect>
       </Rectangle>
       <Label fx:id="appTitle" alignment="CENTER" layoutX="107.0" layoutY="67.0" prefHeight="42.0" prefWidth="187.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Hockey Master" textAlignment="CENTER">
+         
          <font>
             <Font name="HockeyFont" size="20.0" url="@../../Fonts/HockeyFont.ttf" />
          </font>

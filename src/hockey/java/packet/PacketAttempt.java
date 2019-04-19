@@ -16,6 +16,9 @@ public class PacketAttempt {
 	public PacketAttempt(int attempt, int id) { // signout, get stats, playLogged
 		this(attempt,id,null,null,null);
 	}
+	public PacketAttempt(int attempt, int id, String username) { // signout, get stats, playLogged
+		this(attempt,id,username,null,null);
+	}
 	public PacketAttempt(int attempt, String username, String password) { // login
 		this(attempt,-1,username,password,null);
 	}				
