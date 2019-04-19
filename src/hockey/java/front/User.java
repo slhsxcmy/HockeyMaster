@@ -1,7 +1,7 @@
 package hockey.java.front;
 
 public class User {
-	private Striker striker;
+	//private Striker striker;
 	
 	// get from DB
 	private int id;
@@ -21,13 +21,6 @@ public class User {
 		this.id = id;
 		this.username = username;
 	}*/
-	
-	public void initStriker() {
-		striker = new Striker(new Player(username, id));
-	}
-	public Striker getStriker() {
-		return striker;
-	}
 	
 
 	public int getId() {
@@ -66,8 +59,6 @@ public class User {
 	public void setGoalsAgainst(int goalsAgainst) {
 		this.goalsAgainst = goalsAgainst;
 	}
-	public void setStriker(Striker striker) {
-		this.striker = striker;
-	}
+
 	
 }

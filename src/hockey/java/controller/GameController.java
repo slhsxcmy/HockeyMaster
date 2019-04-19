@@ -12,6 +12,7 @@ import hockey.java.front.PowerUpPuckSize;
 import hockey.java.front.Puck;
 import hockey.java.front.Striker;
 import hockey.java.front.Walls;
+import hockey.java.packet.PacketStriker;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
@@ -31,29 +32,30 @@ public class GameController {
 	
 	private Pane playfield;
 	
-    private Player selfPlayer;
-    private Player otherPlayer;
-    private Striker selfStriker;
-    private Striker otherStriker;
-    private Puck puck;
-    private Goal otherGoal;
-    private Goal selfGoal;
-    private Walls walls1, walls2;
-    private Midline mid;
-    private CenterCircle center;
-    private double friction;
+	//private static int id;
+    //private static boolean started = false;
     
-	public void init() {
+    private static Striker selfStriker;
+    private static Striker otherStriker;
+    private static Puck puck;
+    private static Goal otherGoal;
+    private static Goal selfGoal;
+    private static Walls walls1, walls2;
+    private static Midline mid;
+    private static CenterCircle center;
+    private static PowerUp pu;
+    private static PowerUpPuckSize puckPU;
+    private static double friction;
+    
+	public void init(int id) {
 		 System.out.println("init game start");
 	    	
-	   	 selfPlayer = new Player("selfPlayer", 1);
-	   	 otherPlayer = new Player("otherPlayer", 2);
-	   	 selfStriker = new Striker(selfPlayer);
-	   	 otherStriker = new Striker(otherPlayer);
+	   	 selfStriker = new Striker(new Player(id));
+	   	 otherStriker = new Striker(new Player(3-id));
 	   	 puck = new Puck();
 	
-	   	 otherGoal = new Goal(1, puck, selfPlayer);
-	   	 selfGoal = new Goal(2, puck, otherPlayer);
+	   	 otherGoal = new Goal(1, puck, selfStriker.getPlayer());
+	   	 selfGoal = new Goal(2, puck, otherStriker.getPlayer());
 	   	 walls1 = new Walls(1);
 	   	 walls2 = new Walls(2);
 	
@@ -61,15 +63,19 @@ public class GameController {
 	   	 center = new CenterCircle();
 	   	 friction = .988;
 	   	 
+	   	 pu = new PowerUp();
+	     puckPU = new PowerUpPuckSize();
+		 
+	   	 
 	   	 //Text p1s = new Text(Integer.toString(u1.getStriker().getPlayer().getScore()));
-	   	 Text p1s = new Text(Integer.toString(selfPlayer.getScore()));
+	   	 Text p1s = new Text(Integer.toString(selfStriker.getPlayer().getScore()));
 	   	 p1s.setFont(Font.font ("Verdana", 50));
 	   	 p1s.setFill(Color.RED);
 	   	 p1s.setX(350);
 	   	 p1s.setY(400);
 	
 	   	 //Text p2s = new Text(Integer.toString(u2.getStriker().getPlayer().getScore()));
-	   	 Text p2s = new Text(Integer.toString(otherPlayer.getScore()));
+	   	 Text p2s = new Text(Integer.toString(otherStriker.getPlayer().getScore()));
 	   	 p2s.setFont(Font.font ("Verdana", 50));
 	   	 p2s.setFill(Color.RED);
 	   	 p2s.setX(350);
@@ -97,40 +103,83 @@ public class GameController {
 	     selfGoal.display();
 	     walls1.display();
 	     walls2.display();
-	     PowerUp pu = new PowerUp();
-	     PowerUpPuckSize puckPU = new PowerUpPuckSize();
-		 playfield.getChildren().add(pu);
+	     playfield.getChildren().add(pu);
 		 playfield.getChildren().add(puckPU);
 	     mid.display();
        
     	 // capture mouse position
     	 Hockey.getGameScene().addEventFilter(MouseEvent.ANY, e -> {
 	       	 //u1.getStriker().getPlayer().getMouse().set(e.getX(), e.getY());
-	       	 selfPlayer.getMouse().set(e.getX(), e.getY());
+	       	 selfStriker.getPlayer().getMouse().set(e.getX(), e.getY());
     	 });
     	
     	 System.out.println("init game end");
      	
-    	 // process all strikers
-    	 AnimationTimer loop = new AnimationTimer() {
-       	 int time = 0;
-       	 Random r = new Random();
-       	 int ran = (int) (r.nextDouble() * 1000);
-       	 	@Override
-            public void handle(long now) {
-       	 		// move
-	           	pu.display();
-	           	puckPU.display();
-                selfStriker.step(selfPlayer.getMouse(), mid);
-                selfStriker.display();
-                otherStriker.display();
-                puck.display();
-               
-                // send selfStriker to server
-                Hockey.getNetwork().getClient().sendTCP(selfStriker);
-            }
-        };
-        loop.start();
+    	
+       
 	}
-    
+	
+	public void gameLoop(int id) {
+		
+		
+   	 	AnimationTimer loop = new AnimationTimer() {
+	      	 Random r = new Random();
+	      	 int ran = (int) (r.nextDouble() * 1000);
+	      	 @Override
+	      	 public void handle(long now) {
+      	 		 // move
+	      		 pu.display();
+	           	 puckPU.display();
+	           	 selfStriker.step(selfStriker.getPlayer().getMouse(), mid);
+	           	 selfStriker.display();
+	           	 otherStriker.display();
+	           	 puck.display();
+               
+	           	 // TODO check collison with wall
+              
+	           	 // TODO check collison with midline
+	           	 
+	           	 // send selfStriker to server
+	           	 //Hockey.getNetwork().getClient().sendTCP(new PacketStriker(id, selfStriker.getLocation(),selfStriker.getVelocity()));
+	           	 
+	           	 
+	           	 //PacketStriker p = new PacketStriker(id, selfStriker.getLocation(),selfStriker.getVelocity());
+	           	 //p.print();
+	           	 System.out.println("before sending PacketStriker");
+	           	 //Hockey.getNetwork().getClient().sendTCP(p);
+	           	 Hockey.getNetwork().getClient().sendTCP(new PacketStriker());
+	           	 //System.out.println("after sending PacketStriker");
+               
+                
+           }
+       };
+       System.out.println("starting game loop");
+       loop.start();
+       
+	}
+
+	public static Striker getSelfStriker() {
+		return selfStriker;
+	}
+
+	public static void setSelfStriker(Striker selfStriker) {
+		GameController.selfStriker = selfStriker;
+	}
+
+	public static Striker getOtherStriker() {
+		return otherStriker;
+	}
+
+	public static void setOtherStriker(Striker otherStriker) {
+		GameController.otherStriker = otherStriker;
+	}
+
+	public static Puck getPuck() {
+		return puck;
+	}
+
+	public static void setPuck(Puck puck) {
+		GameController.puck = puck;
+	}
+
 }

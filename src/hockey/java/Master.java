@@ -20,6 +20,7 @@ import hockey.java.front.Striker;
 import hockey.java.front.User;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketAttempt;
+import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStats;
 import hockey.java.packet.PacketStriker;
@@ -40,11 +41,14 @@ public class Master extends Listener { // SERVER
 		k.register(PacketAttempt.class);
 		k.register(PacketReturn.class);
 		k.register(PacketStats.class);
+		k.register(PacketStriker.class);
+		k.register(PacketPuck.class);
 		k.register(Striker.class);
 		k.register(Player.class);
 		k.register(Puck.class);
 		k.register(PVector.class);
 		k.register(Constants.class);
+		// k.register(com.sun.javafx.geom.RectBounds.class);
 	}
 	
 	public static void main(String[] args) {
@@ -131,6 +135,8 @@ public class Master extends Listener { // SERVER
 			
 			
 		} else if (o instanceof PacketStriker){
+			System.out.println("received PacketStriker");
+			
 			PVector location = ((PacketStriker) o).location;
 			PVector velocity = ((PacketStriker) o).velocity;
 			// TODO detect collision

@@ -9,13 +9,9 @@
 
 <!--prefWidth="${screen.visualBounds.height}" prefHeight="${screen.visualBounds.height}"-->
 
-<AnchorPane prefHeight="800.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hockey.java.controller.LoggedController">
+<AnchorPane prefHeight="700.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hockey.java.controller.LoggedController">
    <children>
-      <ImageView fitHeight="800.0" fitWidth="400.0">
-         <image>
-            <Image url="@../../Images/MenuBackground.jpeg" />
-         </image>
-      </ImageView>
+      
       <Label fx:id="appTitle" alignment="CENTER" layoutX="117.0" layoutY="72.0" prefHeight="27.0" prefWidth="170.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Hockey Master" textAlignment="CENTER">
          <font>
             <Font name="HockeyFont" size="20.0" url="@../../Fonts/HockeyFont.ttf" />
