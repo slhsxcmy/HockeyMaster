@@ -78,7 +78,7 @@ public class Hockey extends Application {
 		/*** All Controllers End ***/
 
 		
-		primaryStage.setScene(menuScene);		
+		primaryStage.setScene(menuScene);
 		primaryStage.show();
 		
 		// DEBUG
