@@ -8,6 +8,10 @@ import hockey.java.network.NetworkHelper;
 
 public class SQLConnection {
 	
+	private static String username = "root";
+
+	private static String password = "635639";
+
 	public static Connection Connector() { //trying to connect to database
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
