@@ -142,6 +142,7 @@ public class GameController {
 	           	 
 	           	 // send selfStriker to server
 	           	 // System.out.println("before sending PacketStriker"); 
+	           	 System.out.println("Sending PacketStriker from id = " + selfStriker.getPlayer().getPlayerID());
 	           	 Hockey.getNetwork().getClient().sendTCP(new PacketStriker(selfStriker.getPlayer().getPlayerID(),selfStriker.getLocation().x,selfStriker.getLocation().y,selfStriker.getVelocity().x,selfStriker.getVelocity().y));
 	           	 // System.out.println("after sending PacketStriker");
                
