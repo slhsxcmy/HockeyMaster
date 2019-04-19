@@ -35,6 +35,14 @@ import hockey.java.packet.PacketStriker;
 public class Master extends Listener { // SERVER
 
 	private static Server server;
+
+	public static final String server_ngrok_url = "localhost";
+	public static final int server_tcpPort = 23333;
+//	public static final String client_ngrok_url = "tcp://0.tcp.ngrok.io";
+//	public static final int client_tcpPort = 18688;
+	public static final String client_ngrok_url = "localhost";
+	public static final int client_tcpPort = 23333;
+
 	private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
 	private static Map<Integer, Connection> connections = Collections.synchronizedMap(new HashMap<>()); 
 	private static Queue<Integer> waitList = new LinkedList<Integer>();
@@ -215,6 +223,7 @@ public class Master extends Listener { // SERVER
 			
 			//s1.step(s1.getPlayer().getMouse(), mid);
 			//s2.step(p1.getMouse());
+
 			s1.checkBoundaries(puck); // s1 cannot push puck into wall
 			
 			
@@ -228,8 +237,9 @@ public class Master extends Listener { // SERVER
 			
 			s2.checkBoundaries(puck); // s2 cannot push puck into wall
 			if(puck.collision(s2)) puck.recalculate(s2); // resolve collision
+
 			
-			puck.checkBoundaries(); // puck and wall
+			 // puck and wall
 			puck.step(friction); 
 			
 			puck.collision(mid, pu); // powerup move midline
