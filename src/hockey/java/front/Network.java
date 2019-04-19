@@ -57,8 +57,9 @@ public class Network extends Listener{
 		
 		if (o instanceof PacketReturn){
 			System.out.println("Client received PacketReturn of type " + ((PacketReturn) o).status);
-			
+
 			int id = ((PacketReturn) o).id;
+			int playerID = ((PacketReturn) o).playerID;
 			String username = ((PacketReturn) o).username;
 			String message = ((PacketReturn) o).message;
 			
@@ -104,8 +105,8 @@ public class Network extends Listener{
 				System.out.println("Going to game scene");
 				Platform.runLater(() -> {
 					Hockey.getPrimaryStage().setScene(Hockey.getGameScene());
-					Hockey.getGameController().init(id);
-					Hockey.getGameController().gameLoop(id);
+					Hockey.getGameController().init(playerID);
+					Hockey.getGameController().gameLoop();
                 });
 				break;
 			case Constants.PLAYFAILURE: 

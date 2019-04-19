@@ -205,48 +205,61 @@ public class Master extends Listener { // SERVER
 				if(p.status == Constants.PLAYSUCCESS) initBoard(); // game board on server
 				c.sendTCP(p);
 				
-				
 				debug();
 				
 				break;	
 
 			}
 		} else if (o instanceof PacketStriker){
-			System.out.println("Server received PacketStriker");
-			/*int player = ((Striker) o).getPlayer().getPlayerID();
-			if (player == 1) {
-				s1 = (Striker)o;
-			}
+			int id = ((PacketStriker) o).id;
 			
-			else {
-				s2 = (Striker)o;
+			System.out.println("Server received PacketStriker id = " + id);
+			
+			
+			if (id == 1) {
+				s1.setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
+				s1.setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
+			} else {
+				s2.setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
+				s2.setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
 			}
-			s1.step(s1.getPlayer().getMouse(), mid);
+			//s1.step(s1.getPlayer().getMouse(), mid);
 			//s2.step(p1.getMouse());
-			s1.checkBoundaries(puck);
-			//s2.checkBoundaries(puck);
-			puck.collision(s1);
-			//puck.collision(s2);
-			puck.checkBoundaries();
-			puck.step(friction);
-			puck.collision(mid, pu);
-			puck.collision(puckPU);
+			s1.checkBoundaries(puck); // s1 cannot push puck into wall
+			puck.collision(s1); // resolve collision
+			
+			s2.checkBoundaries(puck); // s2 cannot push puck into wall
+			puck.collision(s2); // resolve collision
+			
+			puck.checkBoundaries(); // puck and wall
+			puck.step(friction); 
+			
+			puck.collision(mid, pu); // powerup move midline
+			puck.collision(puckPU); // powerup minimize puck
+			
 			if (g1.goalDetection(1)) {
 				s1.getPlayer().score();
 				s1.reset(1);
+				s2.reset(2);
+				
 				mid.reset();
 				puck.resetSize();
-				//s2.reset(2);
+				
 			}
 			if (g2.goalDetection(2)) {
 				s2.getPlayer().score();
 				s1.reset(1);
+				s2.reset(2);
+				
 				mid.reset();
 				puck.resetSize();
-				//s2.reset(2);
 			}
 			if (s1.getPlayer().getScore() == 7) {
 				//send win/loss message
+				// c.sendTCP(new PacketReturn(Constants.GAMEOVER, winnerUsername));
+				// TODO update SQL
+				
+				
 			}
 			if (s2.getPlayer().getScore() == 7) {
 				//send win/loss message
@@ -266,7 +279,7 @@ public class Master extends Listener { // SERVER
 				}
 			}
 			time++;
-			*/
+			
 		} 
 
 	}

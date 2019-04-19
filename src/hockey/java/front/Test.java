@@ -31,14 +31,12 @@ public class Test extends Application{
     double friction;
 
 
-    public void displayWinner(Pane playfield, String name) {
-
-    }
+    public void displayWinner(Pane playfield, String name) {}
     
     @Override
     public void start(Stage stage) {
-    	 p1 = new Player(/*"p1", */1);
-    	 p2 = new Player(/*"p2", */2);
+    	 p1 = new Player(1);
+    	 p2 = new Player(2);
     	 s1 = new Striker(p1);
     	 //otherStriker = new Striker();
     	 puck = new Puck();
