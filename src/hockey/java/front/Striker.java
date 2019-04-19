@@ -97,6 +97,7 @@ public class Striker extends Pane {
 			}
 		}
 		
+		
 		if(player.getPlayerID() == 1) {
 			
 			if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
@@ -108,16 +109,17 @@ public class Striker extends Pane {
 			if (location.y > BoardSettings.SCENE_HEIGHT-radius-BoardSettings.BOARDER_HEIGHT) {
 				location.y = BoardSettings.SCENE_HEIGHT-radius-BoardSettings.BOARDER_HEIGHT;
 			}
+			
 			//if the striker hits the midline
 			else if (started == true && location.y < (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult) {
-				System.out.println("midline");
+				//System.out.println("midline");
 				location.y = (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult;
 			}
 			else if (started == false && location.y < ((radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult)*1.5) {
 				location.y = ((radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult*1.5);
 			}
 		}
-		else if(player.getPlayerID() == 2 && started == true) {
+		else if(player.getPlayerID() == 2) {
 			if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
 				location.x = BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT;
 			} else if (location.x < 0 +radius+BoardSettings.BOARDER_HEIGHT) {
@@ -129,29 +131,15 @@ public class Striker extends Pane {
 			//TODO
 			//WE HAVE TO TEST THIS WHEN SERVER IS RUNNIGN
 			//if striker 2 hits the midline
-			if (location.y > (radius-(BoardSettings.SCENE_HEIGHT/2)-2)*mult) {
-				location.y = radius-(BoardSettings.SCENE_HEIGHT/2)-2;
-			} else if (started == true && location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)*mult) {
+			if (location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)*mult) {
 				location.y = 0+radius+BoardSettings.BOARDER_HEIGHT*mult;
 			}
-			else if (started == false && location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)*mult*0.5) {
-				location.y = 0+radius+BoardSettings.BOARDER_HEIGHT*mult*0.5;
+			else if (started == true && location.y > ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult) {
+				location.y = (BoardSettings.SCENE_HEIGHT/2)-radius-2.5;
 			}
-		}
-//		else if(player.getPlayerID() == 1 && started == false) {
-//			
-//		}
-//		
-		if (location.x > BoardSettings.SCENE_WIDTH-(width/2)-BoardSettings.BOARDER_HEIGHT) {
-			location.x = BoardSettings.SCENE_WIDTH-(width/2)-BoardSettings.BOARDER_HEIGHT;
-		} else if (location.x < 0 +(width/2)+BoardSettings.BOARDER_HEIGHT) {
-			location.x = 0+(width/2)+BoardSettings.BOARDER_HEIGHT;
-		}
-
-		if (location.y > BoardSettings.SCENE_HEIGHT-(width/2)-BoardSettings.BOARDER_HEIGHT) {
-			location.y = BoardSettings.SCENE_HEIGHT-(width/2)-BoardSettings.BOARDER_HEIGHT;
-		} else if (location.y < 0 +(width/2)+BoardSettings.BOARDER_HEIGHT) {
-			location.y = 0+(width/2)+BoardSettings.BOARDER_HEIGHT;
+			else if(started == false && location.y > ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult*0.5) {
+				location.y = ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult*0.5;
+			}
 		}
 	}
 	
@@ -219,5 +207,4 @@ public class Striker extends Pane {
     	velocity.x = 0;
     	velocity.y = 0;
     }
-    
 }
