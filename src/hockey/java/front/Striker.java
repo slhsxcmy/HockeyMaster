@@ -28,8 +28,6 @@ public class Striker extends Pane {
     double mult = 1;
 
     Circle circle;
-    
-    private boolean update;
 	
 	public Striker(Player player) {
 		this.player = player;
@@ -44,12 +42,15 @@ public class Striker extends Pane {
         circle.setCenterX(radius);
         circle.setCenterY(radius);
 
-        circle.setStroke(Color.BLUE);
-        circle.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.6));
-
+        if (player.getPlayerID() == 1) {
+        	circle.setStroke(Color.BLUE);
+            circle.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.6));
+        }
+        else {
+        	circle.setStroke(Color.CYAN);
+        	circle.setFill(Color.CYAN.deriveColor(1, 1, 1, 0.6));
+        }
         getChildren().add(circle);
-        
-        update = true;
 	}
 	
 	public void step(PVector mouse, Midline mid) {
