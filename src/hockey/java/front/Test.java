@@ -103,7 +103,7 @@ public class Test extends Application{
          mid.display();
          // capture mouse position
          scene.addEventFilter(MouseEvent.ANY, e -> {
-             p1.getMouse().set(e.getX(), e.getY());
+             p2.getMouse().set(e.getX(), e.getY());
          });
          // process all strikers
          AnimationTimer loop = new AnimationTimer() {
@@ -115,7 +115,7 @@ public class Test extends Application{
                  // move
             	 pu.display();
             	 puckPU.display();
-                 s1.step(p1.getMouse(), mid);
+                 s1.step(p2.getMouse(), mid);
                  //otherStriker.step(p1.getMouse());
                  s1.checkBoundaries(puck);
                  

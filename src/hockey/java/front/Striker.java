@@ -62,11 +62,7 @@ public class Striker extends Pane {
     }
 	
 	public void checkBoundaries(Puck p) {
-		//TODO
-		//CUrrently mouse goes across half line and physics is very off
-		//PUCK SPEEDS UP TO MAX
-		//player1 gets the bottom half
-		
+		//player1 gets the bottom half		
 		double px = p.getLocation().x;
 		double py = p.getLocation().y;
 		double pr = p.getRadius();
@@ -115,24 +111,28 @@ public class Striker extends Pane {
 				location.y = ((radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult*1.5);
 			}
 		}
-		else if(player.getPlayerID() == 2 && started == true) {
+		else if(player.getPlayerID() == 2) {
 			if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
 				location.x = BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT;
 			} else if (location.x < 0 +radius+BoardSettings.BOARDER_HEIGHT) {
 				location.x = 0+radius+BoardSettings.BOARDER_HEIGHT;
 			}
-			//TODO
-			//WE HAVE TO TEST THIS WHEN SERVER IS RUNNIGN
 			//if striker 2 hits the midline
-			if (location.y > (radius-(BoardSettings.SCENE_HEIGHT/2)-2)*mult) {
-				location.y = radius-(BoardSettings.SCENE_HEIGHT/2)-2;
-			} else if (started == true && location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)*mult) {
+			if (location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)*mult) {
 				location.y = 0+radius+BoardSettings.BOARDER_HEIGHT*mult;
 			}
-			else if (started == false && location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)*mult*0.5) {
-				location.y = 0+radius+BoardSettings.BOARDER_HEIGHT*mult*0.5;
+			else if (started == true && location.y > ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult) {
+				location.y = (BoardSettings.SCENE_HEIGHT/2)-radius-2.5;
+			}
+			else if(started == false && location.y > ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult*0.5) {
+				location.y = ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult*0.5;
 			}
 		}
+		
+		
+		
+		
+		
 //		else if(player.getPlayerID() == 1 && started == false) {
 //			
 //		}
