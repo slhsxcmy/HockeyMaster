@@ -107,7 +107,7 @@ public class Test extends Application{
          AnimationTimer loop = new AnimationTimer() {
         	 int time = 0;
         	 Random r = new Random();
-        	 int ran = (int) (r.nextDouble() * 1000);
+        	 int ran = (int) (r.nextDouble() * 500);
              @Override
              public void handle(long now) {
                  // move
@@ -182,6 +182,7 @@ public class Test extends Application{
                     		 puckPU.reset(puck);
                     	 }
                 	 }
+                	 ran = (int)r.nextDouble() * 2500;
                  }
              }
          };
