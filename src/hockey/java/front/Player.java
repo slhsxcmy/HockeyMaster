@@ -36,7 +36,4 @@ public class Player {
 		return playerID;
 	}
 	
-	public void setPlayerID(int id) {
-		this.playerID = id;
-	}
 }

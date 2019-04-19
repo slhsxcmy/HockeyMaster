@@ -37,7 +37,7 @@ public class LoggedController {
 	public void playLogged(ActionEvent event) throws IOException{
 		PacketAttempt p = new PacketAttempt(Constants.PLAYLOGGEDATTEMPT, Hockey.getUser().getId());
 		Hockey.getNetwork().getClient().sendTCP(p);
-		System.out.println("sent playAsGuest Attempt");
+		System.out.println("sent playLogged Attempt");
 		
 	}
 	
@@ -53,7 +53,7 @@ public class LoggedController {
 //		Hockey.getNetwork().getClient().sendTCP(p);
 //	}
 	
-	public void signout(ActionEvent event) throws IOException{
+	/*public void signout(ActionEvent event) throws IOException{
 		// add sign out logic
 		
 		Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
@@ -62,7 +62,12 @@ public class LoggedController {
 		
 		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 		window.setScene(scene);
-		window.show();	
+		window.show();	*/
+	
+	public void signout(ActionEvent event) throws IOException{	
+		PacketAttempt p = new PacketAttempt(Constants.SIGNOUTATTEMPT, Hockey.getUser().getId());		
+		Hockey.getNetwork().getClient().sendTCP(p);
+		System.out.println("sent signout attempt");
 	}
 
 	public void setMessage(String string) {

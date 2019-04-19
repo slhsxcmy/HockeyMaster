@@ -50,27 +50,13 @@ public class LoginController{
 		//sending login packet
 		PacketAttempt p = new PacketAttempt(Constants.LOGINATTEMPT,username.getText(),password.getText());		
 		Hockey.getNetwork().getClient().sendTCP(p);
-		//sent
-		
-		
-//		if(!model.checkLogin(username.getText(), password.getText())) {
-//			errorMessage.setText("Username doesn't match with password. Please try again.");
-//		}		
-//		else {
-//			Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Logged.fxml"));
-//			Scene scene = new Scene(root);
-//			scene.getStylesheets().add(getClass().getResource("/hockey/css/Logged.css").toExternalForm());
-//			
-//			Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-//			window.setScene(scene);
-//			window.show();			
-//		}
+	
 	}
 	
 	
 	@FXML
 	public void goBack(ActionEvent event) throws IOException {
-		
+		System.out.println("going back to main menu");
 		Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
 		primaryStage.setScene(Hockey.getMenuScene());
 		//primaryStage.show();

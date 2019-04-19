@@ -12,11 +12,11 @@ public class Puck extends Pane{
 	public PVector location;
     public PVector velocity;
 
-    double width = 30;
-    double height = width;
-    double centerX = width / 2.0;
-    double centerY = height / 2.0;
-    double radius = width / 2.0;
+    public double width = 30;
+    public double height = width;
+    public double centerX = width / 2.0;
+    public double centerY = height / 2.0;
+    public double radius = width / 2.0;
     
     Circle circle;
     

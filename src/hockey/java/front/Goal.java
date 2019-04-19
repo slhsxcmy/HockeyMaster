@@ -44,7 +44,7 @@ public class Goal extends Pane {
 		getChildren().add(goal);
 	}
 	
-	boolean goalDetection(int num){
+	public boolean goalDetection(int num){
 		if(num == 1) {
 			if((puckLocation.x+(currPuck.width/2) > location.x) && 
 					puckLocation.x-(currPuck.width/2) < location.x+width && 

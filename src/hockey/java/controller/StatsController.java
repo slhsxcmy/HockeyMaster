@@ -56,6 +56,5 @@ public class StatsController {
 		GA.setText(Integer.toString(ga));
 		
 	}
-	
-	
+  
 }
