@@ -49,6 +49,7 @@ public class Puck extends Pane{
 		velocity.mult(friction);
 	}
 	
+	// check wall hit
 	public boolean checkBoundaries() {
 		onWall = false;
 		//todo
@@ -88,6 +89,7 @@ public class Puck extends Pane{
 		return onWall;
     }
 	
+	// hit change midline location powerup
 	public void collision(Midline m, PowerUp pu) {
 		double px = location.x;
 		double py = location.y;
@@ -99,6 +101,7 @@ public class Puck extends Pane{
 		}
 	}
 	
+	// hit powerup change puck size
 	public void collision(PowerUpPuckSize pu) {
 		double px = location.x;
 		double py = location.y;
@@ -111,6 +114,7 @@ public class Puck extends Pane{
 
 	}
 	
+	// collision with striker
 	public boolean collision(Striker s) {
 		double px = location.x;
 		double py = location.y;
@@ -238,6 +242,7 @@ public class Puck extends Pane{
 		return false;
 	}
 	
+	// called in collision to recalculate movement 
 	public void recalculate(Striker s) {
 		PVector sV = new PVector(s.getVelocity().x, s.getVelocity().y);
 		PVector pV = new PVector(velocity.x, velocity.y);

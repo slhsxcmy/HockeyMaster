@@ -243,9 +243,9 @@ public class Master extends Listener { // SERVER
 				puck.resetSize();
 				
 				//TODO update score
-				PacketScore ps = new PacketScore(1,2,s1.getPlayer().getScore(),s2.getPlayer().getScore());
-				connections.get(players.get(0)).sendTCP(ps);
-				connections.get(players.get(1)).sendTCP(ps);
+				//PacketScore ps = new PacketScore(1,2,s1.getPlayer().getScore(),s2.getPlayer().getScore());
+				//connections.get(players.get(0)).sendTCP(ps);
+				//connections.get(players.get(1)).sendTCP(ps);
 				
 			}
 			if (g2.goalDetection(2)) {
@@ -256,9 +256,10 @@ public class Master extends Listener { // SERVER
 				mid.reset();
 				puck.resetSize();
 
-				PacketScore ps = new PacketScore(1,2,s1.getPlayer().getScore(),s2.getPlayer().getScore());
-				connections.get(players.get(0)).sendTCP(ps);
-				connections.get(players.get(1)).sendTCP(ps);
+				//TODO update score
+				//PacketScore ps = new PacketScore(1,2,s1.getPlayer().getScore(),s2.getPlayer().getScore());
+				//connections.get(players.get(0)).sendTCP(ps);
+				//connections.get(players.get(1)).sendTCP(ps);
 			}
 			if (s1.getPlayer().getScore() == 7) {
 				//send win/loss message
