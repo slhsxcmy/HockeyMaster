@@ -27,13 +27,13 @@ import javafx.stage.Stage;
 public class GameController {
 	@FXML
 	private BorderPane borderPane;
-	
+
 	@FXML
 	private StackPane stackPane;
-	
+
 	private Pane playfield;
+
 	
-	//private static int id;
     //private static boolean started = false;
     
     private static Striker selfStriker;
@@ -46,7 +46,6 @@ public class GameController {
     private static CenterCircle center;
     private static PowerUp pu;
     private static PowerUpPuckSize puckPU;
-    private static double friction;
     
 	public void init(int playerId) {
 		 System.out.println("init game start");
@@ -62,7 +61,6 @@ public class GameController {
 	
 	   	 mid = new Midline();
 	   	 center = new CenterCircle();
-	   	 friction = .988;
 	   	 
 	   	 pu = new PowerUp();
 	     puckPU = new PowerUpPuckSize();
@@ -129,15 +127,17 @@ public class GameController {
 	      	 @Override
 	      	 public void handle(long now) {
       	 		 // move
+	      		 System.out.println(mid.getLocation());
 	      		 pu.display();
 	           	 puckPU.display();
 	           	 selfStriker.step(selfStriker.getPlayer().getMouse(), mid);
+	           	 selfStriker.checkBoundaries(puck);
 	           	 selfStriker.display();
 	           	 otherStriker.display();
 	           	 puck.display();
                
 	           	 // TODO check collison with wall
-              
+	           	 
 	           	 // TODO check collison with midline
 	           	 
 	           	 // send selfStriker to server
@@ -151,6 +151,7 @@ public class GameController {
        };
        System.out.println("starting game loop");
        loop.start();
+       
        
 	}
 

@@ -98,6 +98,7 @@ public class Striker extends Pane {
 		}
 		
 		if(player.getPlayerID() == 1) {
+			
 			if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
 				location.x = BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT;
 			} else if (location.x < 0 +radius+BoardSettings.BOARDER_HEIGHT) {
@@ -109,6 +110,7 @@ public class Striker extends Pane {
 			}
 			//if the striker hits the midline
 			else if (started == true && location.y < (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult) {
+				System.out.println("midline");
 				location.y = (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult;
 			}
 			else if (started == false && location.y < ((radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult)*1.5) {
@@ -214,10 +216,14 @@ public class Striker extends Pane {
     	velocity.x = 0;
     	velocity.y = 0;
     }
-
-
-    public void step() {
-    	location.sub(velocity);
+  
+    public void setVelocity(PVector pv) {
+    	velocity.copy(pv);
+    }
+    
+    public void setVelocity(double x, double y) {
+    	velocity.x = x;
+    	velocity.y = y;
     }
     
 }
