@@ -4,12 +4,14 @@ USE hockeymaster;
 
 CREATE TABLE Player(
     playerID INT(11) PRIMARY KEY AUTO_INCREMENT,
+
     username VARCHAR(50) NOT NULL,
     password VARCHAR(50) NOT NULL,
     matchesWon INT(11) UNSIGNED DEFAULT 0 NOT NULL, 
     matchesLost INT(11) UNSIGNED DEFAULT 0 NOT NULL, 
     goalsFor INT(11) UNSIGNED DEFAULT 0 NOT NULL, 
     goalsAgainst INT(11) UNSIGNED DEFAULT 0 NOT NULL
+
 );
 
 CREATE TABLE Game(
