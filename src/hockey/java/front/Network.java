@@ -58,6 +58,7 @@ public class Network extends Listener{
 		if (o instanceof PacketReturn){
 			System.out.println("Client received PacketReturn of type " + ((PacketReturn) o).status);
 
+			int playerID = ((PacketReturn) o).playerNum;
 			int id = ((PacketReturn) o).dbid;
 			String username = ((PacketReturn) o).username;
 			String message = ((PacketReturn) o).message;
