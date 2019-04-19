@@ -1,17 +1,15 @@
-package hockey.java.front;
+package hockey.java.network;
 
 import java.io.IOException;
 
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 import hockey.java.Hockey;
-import hockey.java.Master;
 import hockey.java.controller.GameController;
-import hockey.java.controller.LoggedController;
-import hockey.java.controller.LoginController;
-import hockey.java.controller.StatsController;
+import hockey.java.front.User;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
@@ -22,23 +20,22 @@ import javafx.application.Platform;
 public class Network extends Listener{
 
 	//private static Hockey hockey;
-	private static Client client;
-	private static String ip = Master.ngrok_url;
-	private static int port = Master.tcpPort;
+	private static Client client = new Client();;
+	private static String ip = NetworkHelper.client_ngrok_url;
+	private static int port = NetworkHelper.client_tcpPort;
 	
 	public Network(/*Hockey hockey*/) {
 	
 		System.out.println("Starting Network constructor");
-		
-		client = new Client();
-		
+
 		// register packet
-		Master.registerClasses(client.getKryo());
+		NetworkHelper.registerClasses(client.getKryo());
 
 		client.start();
-		
-		
+
+
 		try {
+			System.out.println("Client trying to connect to " + ip + ":" + port);
 			client.connect(5000, ip, port); //blocks for 5 seconds
 		} catch (IOException e) {
 			System.out.println("Cannot connect to server. Exiting Client.");
@@ -48,7 +45,7 @@ public class Network extends Listener{
 		// add listener for connected/received/disconnected methods
 		client.addListener(this);
 		
-		System.out.println("Client waiting for a packet...\n");		
+		System.out.println("Client waiting for a packet...");		
 			
 	}
 	

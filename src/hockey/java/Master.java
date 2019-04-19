@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -18,7 +17,6 @@ import com.esotericsoftware.kryonet.Server;
 import hockey.java.database.SQLModel;
 import hockey.java.front.Goal;
 import hockey.java.front.Midline;
-import hockey.java.front.PVector;
 import hockey.java.front.Player;
 import hockey.java.front.PowerUp;
 import hockey.java.front.PowerUpPuckSize;
@@ -26,18 +24,17 @@ import hockey.java.front.Puck;
 import hockey.java.front.Striker;
 import hockey.java.front.User;
 import hockey.java.front.Walls;
+import hockey.java.network.NetworkHelper;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketAttempt;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
-import hockey.java.packet.PacketStats;
+import hockey.java.packet.PacketScore;
 import hockey.java.packet.PacketStriker;
 
 public class Master extends Listener { // SERVER
 
 	private static Server server;
-	public static final String ngrok_url = "localhost";//"https://d69be386.ngrok.io";
-	public static final int tcpPort = 27960;
 	private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
 	private static Map<Integer, Connection> connections = Collections.synchronizedMap(new HashMap<>()); 
 	private static Queue<Integer> waitList = new LinkedList<Integer>();
@@ -103,22 +100,7 @@ public class Master extends Listener { // SERVER
 		return players;
 	}
 	
-	public static void registerClasses(Kryo k) {
-
-		// register packet. ONLY objects registered as packets can be sent
-		k.register(PacketAttempt.class);
-		k.register(PacketReturn.class);
-		k.register(PacketStats.class);
-		k.register(PacketStriker.class);
-		k.register(PacketPuck.class);
-		k.register(Striker.class);
-		k.register(Player.class);
-		k.register(Puck.class);
-		k.register(PVector.class);
-		k.register(Constants.class);
-		k.register(com.sun.javafx.geom.RectBounds.class);
-	}
-
+	
 	public static void main(String[] args) {
 
 		System.out.println("Creating server...");
@@ -126,13 +108,13 @@ public class Master extends Listener { // SERVER
 		// create server
 		server = new Server();
 
-		Master.registerClasses(server.getKryo());
+		NetworkHelper.registerClasses(server.getKryo());
 
 		try {
 			// bind to ports
-			server.bind(tcpPort);
+			server.bind(NetworkHelper.server_tcpPort);
 		} catch (IOException e) {
-			System.out.println("Failed to bind to port " + tcpPort + ". Exiting Server.");
+			System.out.println("Failed to bind to port " + NetworkHelper.server_tcpPort + ". Exiting Server.");
 			return;
 		}
 
@@ -252,13 +234,18 @@ public class Master extends Listener { // SERVER
 			connections.get(players.get(1)).sendTCP(pp);
 			
 			if (g1.goalDetection(1)) {
-				//TODO update score
+				
 				s1.getPlayer().score();
 				s1.reset(1);
 				s2.reset(2);
 				
 				mid.reset();
 				puck.resetSize();
+				
+				//TODO update score
+				PacketScore ps = new PacketScore(1,2,s1.getPlayer().getScore(),s2.getPlayer().getScore());
+				connections.get(players.get(0)).sendTCP(ps);
+				connections.get(players.get(1)).sendTCP(ps);
 				
 			}
 			if (g2.goalDetection(2)) {
@@ -268,11 +255,17 @@ public class Master extends Listener { // SERVER
 				
 				mid.reset();
 				puck.resetSize();
+
+				PacketScore ps = new PacketScore(1,2,s1.getPlayer().getScore(),s2.getPlayer().getScore());
+				connections.get(players.get(0)).sendTCP(ps);
+				connections.get(players.get(1)).sendTCP(ps);
 			}
 			if (s1.getPlayer().getScore() == 7) {
 				//send win/loss message
 				// c.sendTCP(new PacketReturn(Constants.GAMEOVER, winnerUsername));
 				// TODO update SQL
+				
+				
 				
 				
 			}
