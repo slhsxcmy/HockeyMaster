@@ -214,7 +214,7 @@ public class Master extends Listener { // SERVER
 		} else if (o instanceof PacketStriker){
 			int id = ((PacketStriker) o).id;
 			
-			System.out.println("Server received PacketStriker id = " + id);
+			// System.out.println("Server received PacketStriker id = " + id);
 			
 			
 			if (id == 1) {
