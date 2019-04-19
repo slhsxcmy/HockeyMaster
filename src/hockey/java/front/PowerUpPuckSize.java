@@ -60,8 +60,21 @@ public class PowerUpPuckSize extends Pane{
 	
 	public void reset(Puck p) {
 		Random r = new Random();
-		move(r.nextDouble() * (BoardSettings.SCENE_WIDTH - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT, 
-				r.nextDouble() * (BoardSettings.SCENE_HEIGHT - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT);
+		double x =r.nextDouble() * (BoardSettings.SCENE_WIDTH - (2 * BoardSettings.BOARDER_HEIGHT));
+		double y = r.nextDouble() * (BoardSettings.SCENE_HEIGHT - (2 * BoardSettings.BOARDER_HEIGHT));
+		if(x >= BoardSettings.SCENE_WIDTH - BoardSettings.BOARDER_HEIGHT) {
+			x = BoardSettings.SCENE_WIDTH - BoardSettings.BOARDER_HEIGHT-10;
+		}
+		else if(x <= BoardSettings.BOARDER_HEIGHT) {
+			x = BoardSettings.BOARDER_HEIGHT+10;
+		}
+		if(y >= BoardSettings.SCENE_HEIGHT - BoardSettings.BOARDER_HEIGHT){
+			y = BoardSettings.SCENE_HEIGHT - BoardSettings.BOARDER_HEIGHT-10;
+		}
+		else if(y <= BoardSettings.BOARDER_HEIGHT) {
+			y = BoardSettings.BOARDER_HEIGHT+10;
+		}
+		move(x, y);
 		hidden = false;
 	}
 	

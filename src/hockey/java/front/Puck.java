@@ -35,7 +35,7 @@ public class Puck extends Pane{
         circle.setCenterY(radius);
 
         circle.setStroke(Color.RED);
-        circle.setFill(Color.RED.deriveColor(1, 1, 1, 0.6));
+        circle.setFill(Color.RED.deriveColor(1, 1, 1, 0.8));
 
         getChildren().add(circle);
         
