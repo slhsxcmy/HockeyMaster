@@ -38,8 +38,13 @@ public class Test extends Application{
     	 p1 = new Player(1);
     	 p2 = new Player(2);
     	 s1 = new Striker(p1);
-    	 //otherStriker = new Striker();
+    	 s2 = new Striker(p2);
     	 puck = new Puck();
+    	 
+    	 
+    	 // TESTTESTTEST
+//    	 s1 = null;
+//    	 s2 = null;
 
     	 goal1 = new Goal(1, puck, p1);
     	 goal2 = new Goal(2, puck, p2);
@@ -80,7 +85,14 @@ public class Test extends Application{
          playfield.getChildren().add(mid);
          playfield.getChildren().add(arc1);
          playfield.getChildren().add(arc2);
-         playfield.getChildren().add(s1);
+         
+         
+         if(s1 != null) playfield.getChildren().add(s1);
+         
+         // ADD s2
+         if(s2 != null) playfield.getChildren().add(s2);
+         
+         
          playfield.getChildren().add(puck);
          playfield.getChildren().add(goal1);
          playfield.getChildren().add(goal2);
@@ -102,6 +114,7 @@ public class Test extends Application{
          // capture mouse position
          scene.addEventFilter(MouseEvent.ANY, e -> {
              p1.getMouse().set(e.getX(), e.getY());
+             p2.getMouse().set(e.getX(), e.getY());
          });
          // process all strikers
          AnimationTimer loop = new AnimationTimer() {
@@ -113,26 +126,36 @@ public class Test extends Application{
                  // move
             	 pu.display();
             	 puckPU.display();
-                 s1.step(p1.getMouse(), mid);
-                 //otherStriker.step(p1.getMouse());
-                 s1.checkBoundaries(puck);
+            	 
+            	 if(s1 != null) s1.step(p1.getMouse(), mid);
+            	 if(s2 != null) s2.step(p2.getMouse(), mid);
+
+            	 if(s1 != null) System.out.println("s1: id = " + s1.getPlayer().getPlayerID() + " at " + s1.getLocation().x + "," + s1.getLocation().y);
+                 if(s2 != null) System.out.println("s2: id = " + s2.getPlayer().getPlayerID() + " at " + s2.getLocation().x + "," + s2.getLocation().y);
+                
+
+                 if(s1 != null) s1.checkBoundaries(puck);
+                 if(s2 != null) s2.checkBoundaries(puck);
                  
-                 //otherStriker.checkBoundaries();
                  if (puck.checkBoundaries()) {
                 	 //striker can't overlap with puck
                  }
-                 puck.collision(s1);
+                 if(s1 != null) puck.collision(s1);
+                 if(s2 != null) puck.collision(s2);
+                 
                  //puck.collision(otherStriker);
                  puck.step(friction);
                  // update in fx scene
-                 s1.display();
+                 if(s1 != null) s1.display();
+                 if(s2 != null) s2.display();
                  //otherStriker.display();
                  puck.display();
                  if (goal1.goalDetection(1)) {
                 	 p1.score();
                 	 p1s.setText(Integer.toString(p1.getScore()));
                 	 stage.show();
-                	 s1.reset(1);
+                	 if(s1 != null) s1.reset(1);
+                	 if(s2 != null) s2.reset(2);
                 	 mid.reset();
                 	 puck.resetSize();
                 	 //otherStriker.reset(2);
@@ -141,7 +164,8 @@ public class Test extends Application{
                 	 p2.score();
                 	 p2s.setText(Integer.toString(p2.getScore()));
                 	 stage.show();
-                	 s1.reset(1);
+                	 if(s1 != null) s1.reset(1);
+                	 if(s2 != null) s2.reset(2);
                 	 mid.reset();
                 	 puck.resetSize();
                 	 //otherStriker.reset(2);
