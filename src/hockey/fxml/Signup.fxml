@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -18,29 +20,49 @@
    <children>
       <ImageView fitHeight="800.0" fitWidth="400.0">
          <image>
-            <Image url="@../../Images/MenuBackground.jpeg" />
+            <Image url="@../../Images/background.jpeg" />
          </image>
+         <effect>
+            <GaussianBlur />
+         </effect>
       </ImageView>
-      <Label fx:id="appTitle" alignment="CENTER" layoutX="117.0" layoutY="72.0" prefHeight="27.0" prefWidth="170.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Hockey Master" textAlignment="CENTER">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fcfcfc" height="263.0" layoutX="-6.0" layoutY="-6.0" opacity="0.7" stroke="WHITE" strokeType="INSIDE" width="406.0">
+         <effect>
+            <GaussianBlur radius="63.0" />
+         </effect>
+      </Rectangle>
+      <Label fx:id="appTitle" alignment="CENTER" layoutX="113.0" layoutY="72.0" prefHeight="28.0" prefWidth="175.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Hockey Master" textAlignment="CENTER">
          <font>
-            <Font name="HockeyFont" size="20.0" url="@../../Fonts/HockeyFont.ttf" />
-         </font></Label>
-      <Label fx:id="pageTitle" alignment="CENTER" layoutX="152.0" layoutY="132.0" prefHeight="27.0" prefWidth="97.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Sign Up" textAlignment="CENTER">
+            <Font name="OLD SPORT 01 COLLEGE NCV" size="21.0" />
+         </font>
+         <effect>
+            <DropShadow color="WHITE" height="65.36" radius="25.705" spread="0.23" width="39.46" />
+         </effect></Label>
+      <Label fx:id="pageTitle" alignment="CENTER" layoutX="147.0" layoutY="139.0" prefHeight="27.0" prefWidth="106.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Sign Up" textAlignment="CENTER">
          <font>
-            <Font name="HockeyFont" size="17.0" url="@../../Fonts/HockeyFont.ttf" />
-         </font></Label>
+            <Font name="OLD SPORT 01 COLLEGE NCV" size="21.0" />
+         </font>
+         <effect>
+            <DropShadow color="WHITE" height="20.18" radius="23.515" spread="0.72" width="75.88" />
+         </effect></Label>
       <TextField fx:id="username" layoutX="117.0" layoutY="321.0" promptText="Username" />
       <PasswordField fx:id="password" layoutX="117.0" layoutY="361.0" promptText="Password" />
       <PasswordField fx:id="passwordc" layoutX="117.0" layoutY="400.0" promptText="Confirm Password" />
-      <Button fx:id="signup" layoutX="166.0" layoutY="455.0" mnemonicParsing="false" onAction="#signup" scaleX="2.0" scaleY="2.0" text="Sign Up">
+      <Button fx:id="signup" layoutX="161.0" layoutY="472.0" mnemonicParsing="false" onAction="#signup" prefHeight="27.0" prefWidth="84.0" scaleX="2.0" scaleY="2.0" text="Sign Up">
       	<font><Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
 		</font>
+         <effect>
+            <InnerShadow />
+         </effect>
 	  </Button>
-      <Button fx:id="back" layoutX="176.0" layoutY="545.0" mnemonicParsing="false" onAction="#goBack" scaleX="2.0" scaleY="2.0" text="Back">
+      <Button fx:id="back" layoutX="161.0" layoutY="576.0" mnemonicParsing="false" onAction="#goBack" prefHeight="19.0" prefWidth="84.0" scaleX="2.0" scaleY="2.0" text="Back">
       	<font><Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
 		</font>
+         <effect>
+            <InnerShadow />
+         </effect>
 	  </Button>
-      <Label fx:id="message" layoutX="14.0" layoutY="497.0" prefHeight="34.0" prefWidth="372.0" textAlignment="CENTER" textFill="#c30c0c">
+      <Label fx:id="message" layoutX="14.0" layoutY="519.0" prefHeight="34.0" prefWidth="372.0" textAlignment="CENTER" textFill="#c30c0c">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>

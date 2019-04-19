@@ -47,6 +47,22 @@ public class LoggedController {
 		Hockey.getNetwork().getClient().sendTCP(p);
 	}
 	
+//	public void getStats(ActionEvent event) throws IOException{		
+//		//sending login packet
+//		PacketAttempt p = new PacketAttempt(Constants.GETSTATSATTEMPT, Hockey.getUser().getId());		
+//		Hockey.getNetwork().getClient().sendTCP(p);
+//	}
+	
+	/*public void signout(ActionEvent event) throws IOException{
+		// add sign out logic
+		
+		Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/hockey/css/Menu.css").toExternalForm());
+		
+		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+		window.setScene(scene);
+		window.show();	*/
 	
 	public void signout(ActionEvent event) throws IOException{	
 		PacketAttempt p = new PacketAttempt(Constants.SIGNOUTATTEMPT, Hockey.getUser().getId());		
