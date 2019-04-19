@@ -126,25 +126,28 @@ public class GameController {
    	 	AnimationTimer loop = new AnimationTimer() {
 	      	 Random r = new Random();
 	      	 int ran = (int) (r.nextDouble() * 1000);
+	      	 private long lastUpdate = 0 ;
 	      	 @Override
 	      	 public void handle(long now) {
       	 		 // move
-	      		 pu.display();
-	           	 puckPU.display();
-	           	 selfStriker.step(selfStriker.getPlayer().getMouse(), mid);
-	           	 selfStriker.display();
-	           	 otherStriker.display();
-	           	 puck.display();
-               
-	           	 // TODO check collison with wall
-              
-	           	 // TODO check collison with midline
-	           	 
-	           	 // send selfStriker to server
-	           	 // System.out.println("before sending PacketStriker"); 
-	           	 Hockey.getNetwork().getClient().sendTCP(new PacketStriker(selfStriker.getPlayer().getPlayerID(),selfStriker.getLocation().x,selfStriker.getLocation().y,selfStriker.getVelocity().x,selfStriker.getVelocity().y));
-	           	 // System.out.println("after sending PacketStriker");
-               
+	      		 if (now - lastUpdate >=0) {
+		      		 pu.display();
+		           	 puckPU.display();
+		           	 selfStriker.step(selfStriker.getPlayer().getMouse(), mid);
+		           	 selfStriker.display();
+		           	 otherStriker.display();
+		           	 puck.display();
+	               
+		           	 // TODO check collison with wall
+	              
+		           	 // TODO check collison with midline
+		           	 
+		           	 // send selfStriker to server
+		           	 // System.out.println("before sending PacketStriker"); 
+		           	 Hockey.getNetwork().getClient().sendTCP(new PacketStriker(selfStriker.getPlayer().getPlayerID(),selfStriker.getLocation().x,selfStriker.getLocation().y,selfStriker.getVelocity().x,selfStriker.getVelocity().y));
+		           	 // System.out.println("after sending PacketStriker");
+	               
+	      		 }
                 
            }
        };
