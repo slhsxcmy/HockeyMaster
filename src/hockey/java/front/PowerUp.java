@@ -68,8 +68,25 @@ public class PowerUp extends Pane{
 	
 	public void reset() {
 		Random r = new Random();
-		move(r.nextDouble() * (BoardSettings.SCENE_WIDTH - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT, 
-				r.nextDouble() * (BoardSettings.SCENE_HEIGHT - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT);
+//		move(r.nextDouble() * (BoardSettings.SCENE_WIDTH - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT, 
+//				r.nextDouble() * (BoardSettings.SCENE_HEIGHT - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT);
+		double x =r.nextDouble() * (BoardSettings.SCENE_WIDTH - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT;
+		double y = r.nextDouble() * (BoardSettings.SCENE_HEIGHT - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT;
+		y = 0;
+		x = 0;
+		if(x >= BoardSettings.SCENE_WIDTH - BoardSettings.BOARDER_HEIGHT) {
+			x = BoardSettings.SCENE_WIDTH - BoardSettings.BOARDER_HEIGHT-10;
+		}
+		if(x <= BoardSettings.BOARDER_HEIGHT) {
+			x = BoardSettings.BOARDER_HEIGHT+10;
+		}
+		if(y >= BoardSettings.SCENE_HEIGHT - BoardSettings.BOARDER_HEIGHT){
+			y = BoardSettings.SCENE_HEIGHT - BoardSettings.BOARDER_HEIGHT-10;
+		}
+		if(y <= BoardSettings.BOARDER_HEIGHT) {
+			y = BoardSettings.BOARDER_HEIGHT+10;
+		}
+		move(x, y);
 		hidden = false;
 	}
 	

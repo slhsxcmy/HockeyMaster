@@ -28,7 +28,6 @@ public class CenterCircle extends Pane{
 		 
 	 }
 	 
-	 
 	public void display() {
 	    relocate(location.x, location.y);
 	}

@@ -52,7 +52,7 @@ public class Test extends Application{
 
     	 mid = new Midline();
     	 center = new CenterCircle();
-    	 friction = .99;
+    	 friction = .988;
     	 
     	 Text p1s = new Text(Integer.toString(p1.getScore()));
      	 p1s.setFont(Font.font ("Verdana", 50));
