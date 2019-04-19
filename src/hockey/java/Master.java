@@ -287,7 +287,6 @@ public class Master extends Listener { // SERVER
 				}
 			}
 			time++;
-			
 		} 
 
 	}
