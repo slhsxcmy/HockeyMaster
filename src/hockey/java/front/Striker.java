@@ -93,7 +93,9 @@ public class Striker extends Pane {
 			}
 		}
 		
+		
 		if(player.getPlayerID() == 1) {
+			
 			if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
 				location.x = BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT;
 			} else if (location.x < 0 +radius+BoardSettings.BOARDER_HEIGHT) {
@@ -103,8 +105,10 @@ public class Striker extends Pane {
 			if (location.y > BoardSettings.SCENE_HEIGHT-radius-BoardSettings.BOARDER_HEIGHT) {
 				location.y = BoardSettings.SCENE_HEIGHT-radius-BoardSettings.BOARDER_HEIGHT;
 			}
+			
 			//if the striker hits the midline
 			else if (started == true && location.y < (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult) {
+				//System.out.println("midline");
 				location.y = (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult;
 			}
 			else if (started == false && location.y < ((radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult)*1.5) {
@@ -128,26 +132,6 @@ public class Striker extends Pane {
 				location.y = ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult*0.5;
 			}
 		}
-		
-		
-		
-		
-		
-//		else if(player.getPlayerID() == 1 && started == false) {
-//			
-//		}
-//		
-//		if (location.x > BoardSettings.SCENE_WIDTH-(width/2)-BoardSettings.BOARDER_HEIGHT) {
-//			location.x = BoardSettings.SCENE_WIDTH-(width/2)-BoardSettings.BOARDER_HEIGHT;
-//		} else if (location.x < 0 +(width/2)+BoardSettings.BOARDER_HEIGHT) {
-//			location.x = 0+(width/2)+BoardSettings.BOARDER_HEIGHT;
-//		}
-//
-//		if (location.y > BoardSettings.SCENE_HEIGHT-(width/2)-BoardSettings.BOARDER_HEIGHT) {
-//			location.y = BoardSettings.SCENE_HEIGHT-(width/2)-BoardSettings.BOARDER_HEIGHT;
-//		} else if (location.y < 0 +(width/2)+BoardSettings.BOARDER_HEIGHT) {
-//			location.y = 0+(width/2)+BoardSettings.BOARDER_HEIGHT;
-//		}
 	}
 	
 	public void startGameBound() {
@@ -181,11 +165,25 @@ public class Striker extends Pane {
     public Player getPlayer() {
     	return player;
     }
-    
+
+    public void setPosition(PVector pv) {
+    	location.copy(pv);
+    }
+
     public void setPosition(double x, double y) {
     	location.x = x;
     	location.y = y;
     }
+    
+    public void setVelocity(PVector pv) {
+    	velocity.copy(pv);
+    }
+    
+    public void setVelocity(double x, double y) {
+    	velocity.x = x;
+    	velocity.y = y;
+    }
+    
     
     public void reset(int player) {
     	mult = 1;
@@ -195,18 +193,10 @@ public class Striker extends Pane {
     	}
     	else {
     		location.x = 200;
-    		location.y = 200;
+    		location.y = 100;
     	}
     	velocity.x = 0;
     	velocity.y = 0;
     }
-    
-    public void setVelocity(PVector pv) {
-    	velocity.copy(pv);
-    }
-    
-    public void step() {
-    	location.sub(velocity);
-    }
-    
+
 }

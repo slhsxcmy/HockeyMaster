@@ -27,13 +27,13 @@ import javafx.stage.Stage;
 public class GameController {
 	@FXML
 	private BorderPane borderPane;
-	
+
 	@FXML
 	private StackPane stackPane;
-	
+
 	private Pane playfield;
+
 	
-	//private static int id;
     //private static boolean started = false;
     
     private static Striker selfStriker;
@@ -46,13 +46,12 @@ public class GameController {
     private static CenterCircle center;
     private static PowerUp pu;
     private static PowerUpPuckSize puckPU;
-    private static double friction;
     
-	public void init(int id) {
+	public void init(int playerId) {
 		 System.out.println("init game start");
 	    	
-	   	 selfStriker = new Striker(new Player(id));
-	   	 otherStriker = new Striker(new Player(3-id));
+	   	 selfStriker = new Striker(new Player(playerId));
+	   	 otherStriker = new Striker(new Player(3-playerId));
 	   	 puck = new Puck();
 	
 	   	 otherGoal = new Goal(1, puck, selfStriker.getPlayer());
@@ -62,7 +61,6 @@ public class GameController {
 	
 	   	 mid = new Midline();
 	   	 center = new CenterCircle();
-	   	 friction = .988;
 	   	 
 	   	 pu = new PowerUp();
 	     puckPU = new PowerUpPuckSize();
@@ -120,7 +118,7 @@ public class GameController {
        
 	}
 	
-	public void gameLoop(int id) {
+	public void gameLoop() {
 		
 		
    	 	AnimationTimer loop = new AnimationTimer() {
@@ -129,34 +127,31 @@ public class GameController {
 	      	 @Override
 	      	 public void handle(long now) {
       	 		 // move
+	      		 System.out.println(mid.getLocation());
 	      		 pu.display();
 	           	 puckPU.display();
 	           	 selfStriker.step(selfStriker.getPlayer().getMouse(), mid);
+	           	 selfStriker.checkBoundaries(puck);
 	           	 selfStriker.display();
 	           	 otherStriker.display();
 	           	 puck.display();
                
 	           	 // TODO check collison with wall
-              
+	           	 
 	           	 // TODO check collison with midline
 	           	 
 	           	 // send selfStriker to server
-	           	 //Hockey.getNetwork().getClient().sendTCP(new PacketStriker(id, selfStriker.getLocation(),selfStriker.getVelocity()));
-	           	 
-	           	 
-	           	 //PacketStriker p = new PacketStriker(id, selfStriker.getLocation(),selfStriker.getVelocity());
-	           	 //p.print();
-	           	 System.out.println("before sending Striker");
-	           	 //Hockey.getNetwork().getClient().sendTCP(p);
-	           	 
-	           	 Hockey.getNetwork().getClient().sendTCP(new PacketStriker(id,selfStriker.getLocation().x,selfStriker.getLocation().y,selfStriker.getVelocity().x,selfStriker.getVelocity().y));
-	           	 System.out.println("after sending Striker");
+	           	 // System.out.println("before sending PacketStriker"); 
+	           	 System.out.println("Sending PacketStriker from id = " + selfStriker.getPlayer().getPlayerID());
+	           	 Hockey.getNetwork().getClient().sendTCP(new PacketStriker(selfStriker.getPlayer().getPlayerID(),selfStriker.getLocation().x,selfStriker.getLocation().y,selfStriker.getVelocity().x,selfStriker.getVelocity().y));
+	           	 // System.out.println("after sending PacketStriker");
                
                 
            }
        };
        System.out.println("starting game loop");
        loop.start();
+       
        
 	}
 
