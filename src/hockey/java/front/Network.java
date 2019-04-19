@@ -23,22 +23,27 @@ public class Network extends Listener{
 
 	//private static Hockey hockey;
 	private static Client client;
-	private static String ip = Master.ngrok_url;
-	private static int port = Master.tcpPort;
+	private static String ip = Master.client_ngrok_url;
+	private static int port = Master.client_tcpPort;
 	
 	public Network(/*Hockey hockey*/) {
 	
 		System.out.println("Starting Network constructor");
-		
+
+		System.out.println("Before init Kryo client");
 		client = new Client();
+		System.out.println("After init Kryo client");
 		
 		// register packet
+		System.out.println("Before client registering Kryo classes");
 		Master.registerClasses(client.getKryo());
+		System.out.println("After client registering Kryo classes");
 
 		client.start();
 		
 		
 		try {
+			System.out.println("Client trying to connect to " + ip + ":" + port);
 			client.connect(5000, ip, port); //blocks for 5 seconds
 		} catch (IOException e) {
 			System.out.println("Cannot connect to server. Exiting Client.");
