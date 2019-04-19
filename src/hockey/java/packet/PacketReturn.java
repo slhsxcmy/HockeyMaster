@@ -18,6 +18,7 @@ public class PacketReturn {
 	public String username;
 	public String message;
 	public PacketReturn() {} // for KryoNet; otherwise cannot be deserialized
+	
 	public PacketReturn(int playerID, int id) {
 		this.playerID = playerID;
 		this.id = id;
