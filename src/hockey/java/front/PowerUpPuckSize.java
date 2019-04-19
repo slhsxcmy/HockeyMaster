@@ -27,8 +27,8 @@ public class PowerUpPuckSize extends Pane{
         circle.setCenterX(radius);
         circle.setCenterY(radius);
 
-        circle.setStroke(Color.ORANGE);
-        circle.setFill(Color.ORANGE.deriveColor(1, 1, 1, 0.3));
+        circle.setStroke(Color.RED);
+        circle.setFill(Color.RED.deriveColor(1, 1, 1, 0.1));
 
         getChildren().add(circle);
         hide();

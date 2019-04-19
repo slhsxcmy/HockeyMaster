@@ -22,9 +22,8 @@ public class CenterCircle extends Pane{
 		center.setCenterX(radius);
 		center.setCenterY(radius);
 		
-		center.setStroke(Color.BLUE.deriveColor(1, 1, 1, 0.1));
+		center.setStroke(Color.RED.deriveColor(1, 1, 1, 0.1));
 		center.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.1));
-		
 		getChildren().add(center);
 		 
 	 }
