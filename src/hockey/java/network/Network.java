@@ -28,20 +28,11 @@ public class Network extends Listener{
 	
 		System.out.println("Starting Network constructor");
 
-		//System.out.println("Before init Kryo client");
-//		client = new Client();
-		//System.out.println("After init Kryo client");
-		
 		// register packet
-		System.out.println("Before client registering Kryo classes");
-		Kryo k = client.getKryo();
-		System.out.println("Got client Kryo");
-		NetworkHelper.registerClasses(k);
-		System.out.println("After client registering Kryo classes");
+		NetworkHelper.registerClasses(client.getKryo());
 
 		client.start();
-		
-		System.out.println("Client started");
+
 
 		try {
 			System.out.println("Client trying to connect to " + ip + ":" + port);
@@ -54,7 +45,7 @@ public class Network extends Listener{
 		// add listener for connected/received/disconnected methods
 		client.addListener(this);
 		
-		System.out.println("Client waiting for a packet...\n");		
+		System.out.println("Client waiting for a packet...");		
 			
 	}
 	

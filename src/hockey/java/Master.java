@@ -29,6 +29,7 @@ import hockey.java.packet.Constants;
 import hockey.java.packet.PacketAttempt;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
+import hockey.java.packet.PacketScore;
 import hockey.java.packet.PacketStriker;
 
 public class Master extends Listener { // SERVER
@@ -233,13 +234,18 @@ public class Master extends Listener { // SERVER
 			connections.get(players.get(1)).sendTCP(pp);
 			
 			if (g1.goalDetection(1)) {
-				//TODO update score
+				
 				s1.getPlayer().score();
 				s1.reset(1);
 				s2.reset(2);
 				
 				mid.reset();
 				puck.resetSize();
+				
+				//TODO update score
+				PacketScore ps = new PacketScore(1,2,s1.getPlayer().getScore(),s2.getPlayer().getScore());
+				connections.get(players.get(0)).sendTCP(ps);
+				connections.get(players.get(1)).sendTCP(ps);
 				
 			}
 			if (g2.goalDetection(2)) {
@@ -249,11 +255,17 @@ public class Master extends Listener { // SERVER
 				
 				mid.reset();
 				puck.resetSize();
+
+				PacketScore ps = new PacketScore(1,2,s1.getPlayer().getScore(),s2.getPlayer().getScore());
+				connections.get(players.get(0)).sendTCP(ps);
+				connections.get(players.get(1)).sendTCP(ps);
 			}
 			if (s1.getPlayer().getScore() == 7) {
 				//send win/loss message
 				// c.sendTCP(new PacketReturn(Constants.GAMEOVER, winnerUsername));
 				// TODO update SQL
+				
+				
 				
 				
 			}
