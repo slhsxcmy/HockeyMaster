@@ -210,16 +210,24 @@ public class Master extends Listener { // SERVER
 				
 			}
 			
-			System.out.println("Server forwarding PacketStriker to id = " + (3 - id));
+			//System.out.println("Server forwarding PacketStriker to id = " + (3 - id));
 			connections.get(players.get(2-id)).sendTCP(o);
 			
 			//s1.step(s1.getPlayer().getMouse(), mid);
 			//s2.step(p1.getMouse());
 			s1.checkBoundaries(puck); // s1 cannot push puck into wall
-			puck.collision(s1); // resolve collision
+			
+			
+			if(puck.collision(s1)) {
+				System.out.println("server checks puck hit s1");
+				puck.recalculate(s1); // resolve collision
+			}
+			else {
+				System.out.println("server checks puck NO hit s1");
+			}
 			
 			s2.checkBoundaries(puck); // s2 cannot push puck into wall
-			puck.collision(s2); // resolve collision
+			if(puck.collision(s2)) puck.recalculate(s2); // resolve collision
 			
 			puck.checkBoundaries(); // puck and wall
 			puck.step(friction); 
@@ -228,7 +236,7 @@ public class Master extends Listener { // SERVER
 			puck.collision(puckPU); // powerup minimize puck
 
 			
-			System.out.println("Server sending PacketPuck " );
+			//System.out.println("Server sending PacketPuck " );
 			PacketPuck pp = new PacketPuck(puck.getLocation().x,puck.getLocation().y,puck.getVelocity().x,puck.getVelocity().y);
 			connections.get(players.get(0)).sendTCP(pp);
 			connections.get(players.get(1)).sendTCP(pp);

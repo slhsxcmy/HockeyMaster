@@ -5,6 +5,9 @@ public class PVector {
     public double x;
     public double y;
 
+    public PVector() {
+    	this(0,0);
+    }
     public PVector(double x, double y) {
         super();
         this.x = x;
@@ -23,20 +26,39 @@ public class PVector {
         y /= value;
     }
 
+ // added for recalculate
+    public static PVector div(PVector v, double value) {
+    	return new PVector(v.x / value, v.y / value);
+    }
+    
     public void mult(double value) {
         x *= value;
         y *= value;
     }
 
+// added for recalculate
+    public static PVector mult(PVector v, double value) {
+    	return new PVector(v.x * value, v.y * value);
+    }
     public void add(PVector v) {
         x += v.x;
         y += v.y;
     }
 
+ // added for recalculate
+    public static PVector add(PVector a, PVector b) {
+    	return new PVector(a.x+b.x,a.y+b.y);
+    }
+    
     public void sub(PVector v) {
         x -= v.x;
         y -= v.y;
     }
+    
+    public static PVector sub(PVector a, PVector b) {
+    	return new PVector(a.x-b.x,a.y-b.y);
+    }
+    
 
     public void limit(float max) {
         if (mag() > max) {
@@ -47,10 +69,6 @@ public class PVector {
 
     public double mag() {
         return Math.sqrt(x * x + y * y);
-    }
-
-    public static PVector sub(PVector v1, PVector v2) {
-        return sub(v1, v2, null);
     }
 
     public static PVector sub(PVector v1, PVector v2, PVector target) {

@@ -3,6 +3,7 @@ package hockey.java.front;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
 
 public class Puck extends Pane{
 	private double mass;
@@ -118,152 +119,36 @@ public class Puck extends Pane{
 	public boolean collision(Striker s) {
 		double px = location.x;
 		double py = location.y;
+		double pr = radius;
 		double sx = s.getLocation().x;
 		double sy = s.getLocation().y;
 		double sr = s.getRadius();
-		if (Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-			//hypotneuse divided by root 2 
-			double diag = (radius + sr)/(1.41421356);
-			//left
-			if(px < sx && py >= (sy - .4 * sr) && py <= (sy + .4 * sr)) {
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					int i = 0;
-					s.setPosition(px + radius + sr + i, sy);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					i++;
-					//System.out.println("LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
-				}
-			}
-			//top
-			else if(py < sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
-				int i = 0;
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py + radius + sr + i);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					i++;
-					//System.out.println("TOPPPPPPPPPPPPP");
-				}
-			}
-			//right
-			else if(px > sx && py >= (sy - .4 * sr) && py <= (sy + .4 * sr)) {
-				int i = 0;
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(px - radius - sr - i, sy);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					i++;
-					//System.out.println("RIIIIIGGGGGHHHHTTTT");
-				}
-			}
-			//bottom
-			else if(py > sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
-				int i = 0;
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py - radius - sr - i);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					i++;
-					//System.out.println("BOOOOTTTTTTOOOOOMMMMMM");
-				}
-			}
-			//top left
-			else if(px < sx && py < sy) {
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					double dx = sx-px+1;
-					double dy = sy-py+1;
-					s.setPosition((px+dx), py+dy);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					//System.out.println("TOPPPPPPPPPP LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
-				}
-			}
-			
-			//top right
-			else if(px > sx && py < sy) {
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					double dx = px-sx+1;
-					double dy = sy-py+1;
-					s.setPosition((px - dx) , py + dy);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					//System.out.println("TOPPPPPPPPPP RIIIIGGGGGGHTTT");
-				}
-			}
-			
-			//bottom right
-			else if(px > sx && py > sy) {
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					double dx = px-sx+1;
-					double dy = py-sy+1;
-					s.setPosition((px - dx), py - dy);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					//System.out.println("BOOOOTTTTTTOOOOOMMMMMM RIIIIGGGGGHHHHHHTTT");
-				}
-			}
-			
-			//bottom left
-			else if(px < sx && py > sy) {
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					double dx = sx-px+1;
-					double dy = py-sy+1;
-					s.setPosition((px + dx), py - dy);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					//System.out.println("BOOOOTTTTTTOOOOOMMMMMM LLLLEEEEEEEFFFFFFFTTTTT");
-				}
-			}
-			location.x = px;
-			location.y = py;
-			s.getLocation().x = sx;
-			s.getLocation().y = sy;
-			recalculate(s);
-			lastHit = s;
+
+		System.out.println((px - sx) * (px - sx) + (py - sy) * (py - sy) - (pr + sr) * (pr + sr));
+		if ((px - sx) * (px - sx) + (py - sy) * (py - sy) - (pr + sr) * (pr + sr) <= 0) {
+			System.out.println("collision");
 			return true;
+		} else {
+			return false;
 		}
-		return false;
+
 	}
 	
 	// called in collision to recalculate movement 
 	public void recalculate(Striker s) {
-		PVector sV = new PVector(s.getVelocity().x, s.getVelocity().y);
-		PVector pV = new PVector(velocity.x, velocity.y);
-		if (sV.x == 0 && sV.y == 0) {
-			pV.mult(-1);
-		}
-		else {
-			pV.mult(mass - s.getMass());
-			sV.mult(2 * s.getMass());
-			pV.add(sV);
-			pV.div(mass + s.getMass());
-//			sV = new PVector(s.getVelocity().x, s.getVelocity().y);
-//			sV.mult(-1);
-//			s.setVelocity(sV);
-//			s.step();
-//			sV.mult(-1);
-//			s.setVelocity(sV);
-		}
-		pV.mult(0.85);
-		velocity.copy(pV);
-		velocity.limit(25);
+		// 1 = puck; 2 = striker
+		
+		PVector v1 = new PVector(this.getVelocity().x, this.getVelocity().y);
+		PVector v2 = new PVector(s.getVelocity().x, s.getVelocity().y);
+		
+		double m1 = mass;
+		double m2 = s.getMass();
+		
+		PVector v1p = PVector.div(PVector.add(PVector.mult(v1, m1-m2),PVector.mult(v2, 2*m2)), m1+m2);
+		PVector v2p = PVector.div(PVector.add(PVector.mult(v2, m2-m1),PVector.mult(v1, 2*m1)), m1+m2);
+		
+		this.setVelocity(v1p);
+		s.setVelocity(v2p);
 	}
 	
 	public void changePuckSize(double size) {

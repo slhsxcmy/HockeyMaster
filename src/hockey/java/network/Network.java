@@ -114,13 +114,13 @@ public class Network extends Listener{
 				break;
 			}
 		} else if (o instanceof PacketStriker){
-			System.out.println("Client received PacketStriker of id = " + ((PacketStriker) o).id);
+			//System.out.println("Client received PacketStriker of id = " + ((PacketStriker) o).id);
 			GameController.getOtherStriker().setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
 			GameController.getOtherStriker().setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
 
 			
 		} else if (o instanceof PacketPuck){
-			System.out.println("Client received PacketPuck!");
+			//System.out.println("Client received PacketPuck!");
 			
 			GameController.getPuck().setPosition(((PacketPuck) o).locX, ((PacketPuck) o).locY);
 			GameController.getPuck().setVelocity(((PacketPuck) o).velX, ((PacketPuck) o).velY);

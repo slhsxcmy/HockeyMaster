@@ -206,5 +206,7 @@ public class Striker extends Pane {
     	velocity.x = 0;
     	velocity.y = 0;
     }
+    
+    public Circle getCircle() { return circle; }
 
 }

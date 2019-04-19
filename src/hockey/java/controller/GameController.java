@@ -127,7 +127,7 @@ public class GameController {
 	      	 @Override
 	      	 public void handle(long now) {
       	 		 // move
-	      		 System.out.println(mid.getLocation());
+	      		 //System.out.println(mid.getLocation());
 	      		 pu.display();
 	           	 puckPU.display();
 	           	 selfStriker.step(selfStriker.getPlayer().getMouse(), mid);
@@ -142,7 +142,7 @@ public class GameController {
 	           	 
 	           	 // send selfStriker to server
 	           	 // System.out.println("before sending PacketStriker"); 
-	           	 System.out.println("Sending PacketStriker from id = " + selfStriker.getPlayer().getPlayerID());
+	           	 //System.out.println("Sending PacketStriker from id = " + selfStriker.getPlayer().getPlayerID());
 	           	 Hockey.getNetwork().getClient().sendTCP(new PacketStriker(selfStriker.getPlayer().getPlayerID(),selfStriker.getLocation().x,selfStriker.getLocation().y,selfStriker.getVelocity().x,selfStriker.getVelocity().y));
 	           	 // System.out.println("after sending PacketStriker");
                
