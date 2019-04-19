@@ -110,7 +110,7 @@ public class Network extends Listener{
                 });
 				break;
 			case Constants.PLAYFAILURE: 
-				// show error
+				// TODO show error
 				break;
 			
 			case Constants.GAMEOVER:

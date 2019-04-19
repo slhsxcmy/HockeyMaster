@@ -16,7 +16,6 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import hockey.java.database.SQLModel;
-import hockey.java.front.CenterCircle;
 import hockey.java.front.Goal;
 import hockey.java.front.Midline;
 import hockey.java.front.PVector;
