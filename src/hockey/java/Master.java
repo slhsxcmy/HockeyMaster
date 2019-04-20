@@ -1,6 +1,7 @@
 package hockey.java;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import com.esotericsoftware.kryonet.Server;
 import hockey.java.database.SQLModel;
 import hockey.java.front.Goal;
 import hockey.java.front.Midline;
+import hockey.java.front.PVector;
 import hockey.java.front.Player;
 import hockey.java.front.PowerUp;
 import hockey.java.front.PowerUpPuckSize;
@@ -27,9 +29,9 @@ import hockey.java.front.Walls;
 import hockey.java.network.NetworkHelper;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketAttempt;
+import hockey.java.packet.PacketMouse;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
-import hockey.java.packet.PacketScore;
 import hockey.java.packet.PacketStriker;
 
 public class Master extends Listener { // SERVER
@@ -201,30 +203,42 @@ public class Master extends Listener { // SERVER
 				break;	
 
 			}
-		} else if (o instanceof PacketStriker){
+		} else if (o instanceof PacketMouse){
 			
 			
+			PVector mouse = new PVector(((PacketMouse)o).x,((PacketMouse)o).y);
+			int id = ((PacketMouse) o).id;
+			// id     = 1~2 
+			// id - 1 = 1~2 
+			// 2 - id = 1~0
+			// 3 - id = 2~1
 			
-          	
-			int id = ((PacketStriker) o).id;
-			
-			
-			
+			PacketStriker ps;
 			if (id == 1) {
-				s1.setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
-				s1.setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
+//				s1.setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
+//				s1.setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
+				
+				s1.step(mouse, mid);
+	           	s1.checkStrikerWallsMidline();
+	           	 
+	           	
+	           	ps = new PacketStriker(id,s1.getLocation().x,s1.getLocation().y,s1.getVelocity().x,s1.getVelocity().y);
 				
 				
 			} else {
-				s2.setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
-				s2.setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
+//				s2.setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
+//				s2.setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
 
-				
+
+				s2.step(mouse, mid);
+	           	s2.checkStrikerWallsMidline();
+	           	
+	           	ps = new PacketStriker(id,s2.getLocation().x,s2.getLocation().y,s2.getVelocity().x,s2.getVelocity().y);
+	           	
 			}
 			
-			//System.out.println("Server forwarding PacketStriker to id = " + (3 - id));
-			connections.get(players.get(2-id)).sendTCP(o);
-			connections.get(players.get(id-1)).sendTCP(o); // added to send to self as well
+			connections.get(players.get(2-id)).sendTCP(ps);
+			connections.get(players.get(id-1)).sendTCP(ps);// added to send to self as well
 			
 			//s1.step(s1.getPlayer().getMouse(), mid);
 			//s2.step(p1.getMouse());
@@ -243,17 +257,20 @@ public class Master extends Listener { // SERVER
 				puck.recalculate(s2); // resolve collision
 			}
 
-			puck.checkPuckWalls();
-			
-			 // puck and wall
 			puck.step(friction); 
 
-          	
-          	 
+			puck.checkPuckWalls();
+			
 			puck.collision(mid, pu); // powerup move midline
 			puck.collision(puckPU); // powerup minimize puck
 
+			DecimalFormat form = new DecimalFormat("#.00");
+       	 	/*if(s1 != null) System.out.println("s1 at (" + form.format(s1.getLocation().x) + "," + form.format(s1.getLocation().y) + ") vel (" + form.format(s1.getVelocity().x) + "," + form.format(s1.getVelocity().y) + ")");
+			if(s1 != null) System.out.println("s2 at (" + form.format(s2.getLocation().x) + "," + form.format(s2.getLocation().y) + ") vel (" + form.format(s2.getVelocity().x) + "," + form.format(s2.getVelocity().y) + ")");
+			System.out.println("pk at (" + form.format(puck.getLocation().x) + "," + form.format(puck.getLocation().y) + ") vel (" + form.format(puck.getVelocity().x) + "," + form.format(puck.getVelocity().y) + ")");
+        	 */
 			
+			//System.out.println("Server forwarding PacketStriker to id = " + (3 - id));
 			//System.out.println("Server sending PacketPuck " );
 			PacketPuck pp = new PacketPuck(puck.getLocation().x,puck.getLocation().y,puck.getVelocity().x,puck.getVelocity().y);
 			connections.get(players.get(0)).sendTCP(pp);

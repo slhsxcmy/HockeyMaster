@@ -8,6 +8,7 @@ import hockey.java.front.Puck;
 import hockey.java.front.Striker;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketAttempt;
+import hockey.java.packet.PacketMouse;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStats;
@@ -31,6 +32,7 @@ public class NetworkHelper {
 		k.register(PacketReturn.class);
 		k.register(PacketStats.class);
 		k.register(PacketStriker.class);
+		k.register(PacketMouse.class);
 		k.register(PacketPuck.class);
 		k.register(Striker.class);
 		k.register(Player.class);

@@ -114,27 +114,28 @@ public class Network extends Listener{
 				break;
 			}
 		} else if (o instanceof PacketStriker){
+			System.out.println("Client received PacketStriker of id = " + ((PacketStriker) o).id);
 			
 			if(GameController.getOtherStriker().getPlayer().getPlayerID() == ((PacketStriker)o).id) {
 				// update other striker
 				GameController.getOtherStriker().setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
 				GameController.getOtherStriker().setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
-
+				GameController.getOtherStriker().display();
+	           	 
 			} else {
 				// update self striker
 				GameController.getSelfStriker().setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
 				GameController.getSelfStriker().setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
-
+				GameController.getSelfStriker().display();
 			}
-			//System.out.println("Client received PacketStriker of id = " + ((PacketStriker) o).id);
 			
 			
 		} else if (o instanceof PacketPuck){
-			//System.out.println("Client received PacketPuck!");
+			System.out.println("Client received PacketPuck!");
 			
 			GameController.getPuck().setPosition(((PacketPuck) o).locX, ((PacketPuck) o).locY);
 			GameController.getPuck().setVelocity(((PacketPuck) o).velX, ((PacketPuck) o).velY);
-
+			GameController.getPuck().display();
 			
 		} else if (o instanceof PacketStats){
 			System.out.println("Client received PacketStats!");

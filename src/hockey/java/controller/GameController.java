@@ -12,7 +12,7 @@ import hockey.java.front.PowerUpPuckSize;
 import hockey.java.front.Puck;
 import hockey.java.front.Striker;
 import hockey.java.front.Walls;
-import hockey.java.packet.PacketStriker;
+import hockey.java.packet.PacketMouse;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
@@ -22,7 +22,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class GameController {
 	@FXML
@@ -65,15 +64,14 @@ public class GameController {
 	   	 pu = new PowerUp();
 	     puckPU = new PowerUpPuckSize();
 		 
-	   	 
-	   	 //Text p1s = new Text(Integer.toString(u1.getStriker().getPlayer().getScore()));
+
 	   	 Text p1s = new Text(Integer.toString(selfStriker.getPlayer().getScore()));
 	   	 p1s.setFont(Font.font ("Verdana", 50));
 	   	 p1s.setFill(Color.RED);
 	   	 p1s.setX(350);
 	   	 p1s.setY(400);
 	
-	   	 //Text p2s = new Text(Integer.toString(u2.getStriker().getPlayer().getScore()));
+
 	   	 Text p2s = new Text(Integer.toString(otherStriker.getPlayer().getScore()));
 	   	 p2s.setFont(Font.font ("Verdana", 50));
 	   	 p2s.setFill(Color.RED);
@@ -128,25 +126,30 @@ public class GameController {
 	      	 public void handle(long now) {
       	 		 // move
 	      		 //System.out.println(mid.getLocation());
-	      		 pu.display();
-	           	 puckPU.display();
-	           	 
+//	      		 pu.display();
+//	           	 puckPU.display();
+//	           	 
 	           	 // TODO transfer to server
-	           	 selfStriker.step(selfStriker.getPlayer().getMouse(), mid);
+//	           	 selfStriker.step(selfStriker.getPlayer().getMouse(), mid);
+//	           	 selfStriker.checkStrikerWallsMidline();
+//	           	 
 	           	 
-	           	 
-	           	 //selfStriker.checkBoundaries(puck);
-	           	 selfStriker.checkStrikerWallsMidline();
-	           	 selfStriker.display();
-	           	 otherStriker.display();
-	           	 puck.display();
+	           	
+//	           	 selfStriker.display();
+//	           	 otherStriker.display();
+//	           	 puck.display();
                
-	           	 System.out.println("vel: " + selfStriker.getVelocity().x + " , " + selfStriker.getVelocity().y);
-	           	 
 	           	 // send selfStriker to server
+	           	 //Hockey.getNetwork().getClient().sendTCP(new PacketStriker(selfStriker.getPlayer().getPlayerID(),selfStriker.getLocation().x,selfStriker.getLocation().y,selfStriker.getVelocity().x,selfStriker.getVelocity().y));
+	           	 
+	           	 // send self mouse to server
+	           	 Hockey.getNetwork().getClient().sendTCP(new PacketMouse(selfStriker.getPlayer().getPlayerID(),selfStriker.getPlayer().getMouse().x,selfStriker.getPlayer().getMouse().y));
+	           	
+	           	
+	           	// System.out.println("vel: " + selfStriker.getVelocity().x + " , " + selfStriker.getVelocity().y);
+	           	 
 	           	 // System.out.println("before sending PacketStriker"); 
 	           	 //System.out.println("Sending PacketStriker from id = " + selfStriker.getPlayer().getPlayerID());
-	           	 Hockey.getNetwork().getClient().sendTCP(new PacketStriker(selfStriker.getPlayer().getPlayerID(),selfStriker.getLocation().x,selfStriker.getLocation().y,selfStriker.getVelocity().x,selfStriker.getVelocity().y));
 	           	 // System.out.println("after sending PacketStriker");
                
                 
