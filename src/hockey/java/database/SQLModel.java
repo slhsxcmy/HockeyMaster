@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import com.sun.jndi.url.corbaname.corbanameURLContextFactory;
+
 import hockey.java.Hockey;
 import hockey.java.Master;
 import hockey.java.front.Game;
@@ -241,9 +243,55 @@ public class SQLModel {
 			
 		} catch (SQLException e) {
 			System.out.println("sqle: " + e.getMessage());
-			//check = false;
 			return null;
 		}		
-
+	}
+	
+	public PacketReturn updateStats(int dbid, String result) {
+		try {
+			
+			ps = connection.prepareStatement("SELECT * FROM Player WHERE playerID=?");
+			ps.setString(1, Integer.toString(dbid));
+			rs = ps.executeQuery();
+			rs.next();
+			int matchW = rs.getInt(4);
+			int matchL = rs.getInt(5);
+			int goalsFor = rs.getInt(6);
+			int goalsAgainst = rs.getInt(7);
+			
+			
+			String username = "";
+			ps = connection.prepareStatement("SELECT * FROM Player WHERE playerID=?");
+			ps.setString(1, Integer.toString(dbid));
+			if(rs.next()) {
+				username = rs.getString(2);
+			}
+			if(username.equals("GUEST")) {		
+				//does not update db, only show result message
+				return new PacketReturn(Constants.GAMEOVER, result);
+			}
+			else {
+				ps = connection.prepareStatement("UPDATE Player SET matchesWon=? AND matchesLost=? "
+						+ "AND goalsFor=? AND goalsAgainst=? WHERE playerID=?");
+				ps.setString(5, Integer.toString(dbid));
+				rs = ps.executeQuery();
+				rs.next();
+				if(result.equals("WIN")){
+					ps.setInt(1, matchW+1);
+				}
+				else if (result.equals("LOSE")) {
+					ps.setInt(2, matchL+1);
+				}
+				ps.setInt(3, goalsFor+Master.getGoalsFor(dbid));
+				ps.setInt(4, goalsAgainst+Master.getGoalsAgainst(dbid));
+				ps.executeUpdate();
+				System.out.println("After update stats in db");
+				return new PacketReturn(Constants.GAMEOVER, result);
+			}
+			
+		}catch (SQLException e) {
+			System.out.println("sqle: " + e.getMessage());
+			return new PacketReturn(Constants.GAMEOVER, "SQL Error");
+		}
 	}
 }

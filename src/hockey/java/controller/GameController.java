@@ -46,7 +46,10 @@ public class GameController {
     private static CenterCircle center;
     private static PowerUp pu;
     private static PowerUpPuckSize puckPU;
-    
+  	Text p1s = new Text("0");
+   	Text p2s = new Text("0");
+   	Text goalMessage = new Text("");
+
 	public void init(int playerId) {
 		 System.out.println("init game start");
 	    	
@@ -67,18 +70,21 @@ public class GameController {
 		 
 	   	 
 	   	 //Text p1s = new Text(Integer.toString(u1.getStriker().getPlayer().getScore()));
-	   	 Text p1s = new Text(Integer.toString(selfStriker.getPlayer().getScore()));
 	   	 p1s.setFont(Font.font ("Verdana", 50));
 	   	 p1s.setFill(Color.RED);
 	   	 p1s.setX(350);
 	   	 p1s.setY(400);
 	
-	   	 //Text p2s = new Text(Integer.toString(u2.getStriker().getPlayer().getScore()));
-	   	 Text p2s = new Text(Integer.toString(otherStriker.getPlayer().getScore()));
+	   	 //Text p2s = new Text(Integer.toString(u2.getStriker().getPlayer().get()));
 	   	 p2s.setFont(Font.font ("Verdana", 50));
 	   	 p2s.setFill(Color.RED);
 	   	 p2s.setX(350);
 	   	 p2s.setY(335);
+	   	 
+	   	 goalMessage.setFont(Font.font ("Verdana", 50));
+	   	 goalMessage.setFill(Color.RED);
+	   	 goalMessage.setX(200);
+	   	 goalMessage.setY(350);
 	   	 
 	   	 // create containers // playfield for our strikers 
 	     playfield = new Pane();
@@ -135,7 +141,7 @@ public class GameController {
 	           	 selfStriker.display();
 	           	 otherStriker.display();
 	           	 puck.display();
-               
+
 	           	 // TODO check collison with wall
 	           	 
 	           	 // TODO check collison with midline
@@ -179,4 +185,19 @@ public class GameController {
 		GameController.puck = puck;
 	}
 
+	
+	public void setScore(int playerNum) {
+		if(playerNum == 1) {
+			int oldScore = Integer.parseInt(p1s.getText());
+			p1s.setText(Integer.toString(oldScore+1));
+		}else if(playerNum == 2) {
+			int oldScore = Integer.parseInt(p2s.getText());
+			p2s.setText(Integer.toString(oldScore+1));
+		}
+	}
+	
+	public void showGoalMessage(String message) {
+		//TODO
+	}
+	
 }
