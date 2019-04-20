@@ -224,18 +224,21 @@ public class Master extends Listener { // SERVER
 			//s1.step(s1.getPlayer().getMouse(), mid);
 			//s2.step(p1.getMouse());
 
-			s1.checkBoundaries(puck); // s1 cannot push puck into wall
+			//s1.checkBoundaries(puck); // s1 cannot push puck into wall
 			
 			
 			if(puck.collision(s1)) {
+				System.out.println("collision with 1");
 				puck.recalculate(s1); // resolve collision
 			}
 			
-			s2.checkBoundaries(puck); // s2 cannot push puck into wall
+			//s2.checkBoundaries(puck); // s2 cannot push puck into wall
 			if(puck.collision(s2)) {
+				System.out.println("collision with 2");
 				puck.recalculate(s2); // resolve collision
 			}
 
+			puck.checkPuckWalls();
 			
 			 // puck and wall
 			puck.step(friction); 

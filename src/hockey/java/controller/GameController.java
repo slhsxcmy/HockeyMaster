@@ -131,7 +131,8 @@ public class GameController {
 	      		 pu.display();
 	           	 puckPU.display();
 	           	 selfStriker.step(selfStriker.getPlayer().getMouse(), mid);
-	           	 selfStriker.checkBoundaries(puck);
+	           	 //selfStriker.checkBoundaries(puck);
+	           	 selfStriker.checkStrikerWallsMidline();
 	           	 selfStriker.display();
 	           	 otherStriker.display();
 	           	 puck.display();
