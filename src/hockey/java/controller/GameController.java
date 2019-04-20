@@ -45,7 +45,10 @@ public class GameController {
     private static CenterCircle center;
     private static PowerUp pu;
     private static PowerUpPuckSize puckPU;
-    
+  	Text p1s = new Text("0");
+   	Text p2s = new Text("0");
+   	Text goalMessage = new Text("");
+
 	public void init(int playerId) {
 		 System.out.println("init game start");
 	    	
@@ -64,19 +67,20 @@ public class GameController {
 	   	 pu = new PowerUp();
 	     puckPU = new PowerUpPuckSize();
 		 
-
-	   	 Text p1s = new Text(Integer.toString(selfStriker.getPlayer().getScore()));
 	   	 p1s.setFont(Font.font ("Verdana", 50));
 	   	 p1s.setFill(Color.RED);
 	   	 p1s.setX(350);
 	   	 p1s.setY(400);
 	
-
-	   	 Text p2s = new Text(Integer.toString(otherStriker.getPlayer().getScore()));
 	   	 p2s.setFont(Font.font ("Verdana", 50));
 	   	 p2s.setFill(Color.RED);
 	   	 p2s.setX(350);
 	   	 p2s.setY(335);
+	   	 
+	   	 goalMessage.setFont(Font.font ("Verdana", 50));
+	   	 goalMessage.setFill(Color.RED);
+	   	 goalMessage.setX(200);
+	   	 goalMessage.setY(350);
 	   	 
 	   	 // create containers // playfield for our strikers 
 	     playfield = new Pane();
@@ -124,6 +128,7 @@ public class GameController {
 	      	 int ran = (int) (r.nextDouble() * 1000);
 	      	 @Override
 	      	 public void handle(long now) {
+
 	           	 // send self mouse to server
 	           	 Hockey.getNetwork().getClient().sendTCP(new PacketMouse(selfStriker.getPlayer().getPlayerID(),selfStriker.getPlayer().getMouse().x,selfStriker.getPlayer().getMouse().y));
            }
@@ -158,4 +163,19 @@ public class GameController {
 		GameController.puck = puck;
 	}
 
+	
+	public void setScore(int playerNum) {
+		if(playerNum == 1) {
+			int oldScore = Integer.parseInt(p1s.getText());
+			p1s.setText(Integer.toString(oldScore+1));
+		}else if(playerNum == 2) {
+			int oldScore = Integer.parseInt(p2s.getText());
+			p2s.setText(Integer.toString(oldScore+1));
+		}
+	}
+	
+	public void showGoalMessage(String message) {
+		//TODO
+	}
+	
 }

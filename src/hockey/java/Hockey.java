@@ -50,7 +50,7 @@ public class Hockey extends Application {
 		scenes[0] = menuScene;
 		
 		FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Login.fxml"));
-		Parent loginRoot = (Parent)loginLoader.load();	
+		Parent loginRoot = (Parent)loginLoader.load();
 		loginScene = new Scene(loginRoot);
 		scenes[1] = loginScene;
 		

@@ -11,6 +11,7 @@ import hockey.java.Hockey;
 import hockey.java.controller.GameController;
 import hockey.java.front.User;
 import hockey.java.packet.Constants;
+import hockey.java.packet.PacketAttempt;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStats;
@@ -107,10 +108,23 @@ public class Network extends Listener{
                 });
 				break;
 			case Constants.PLAYFAILURE: 
-				// TODO show error
+				// TODO show please wait
 				break;
-			
+			case Constants.GOAL:
+				String goalmessage = ((PacketReturn) o).message;
+				int goalplayer = ((PacketReturn) o).dbid;
+				Platform.runLater(() -> {
+					Hockey.getGameController().setScore(goalplayer);
+					Hockey.getGameController().showGoalMessage(goalmessage);
+				});
+				//Show goal message on screen and stop for 3 seconds
+				
+				
+				break;
 			case Constants.GAMEOVER:
+				String endmessage = ((PacketReturn) o).message;
+				//Show endmessage in the screen with a button to return to main page;
+				//TODO
 				break;
 			}
 		} else if (o instanceof PacketStriker){

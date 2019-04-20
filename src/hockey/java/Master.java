@@ -64,7 +64,26 @@ public class Master extends Listener { // SERVER
 	private static PowerUpPuckSize puckPU;
 	private static int time;
 	private static Random ran;
-
+	
+	public static int getGoalsFor(int dbid) {
+		if(dbid == players.get(0)) {
+			return s1.getPlayer().getScore();
+		}
+		else {
+			return s2.getPlayer().getScore();
+		}	
+	}
+	
+	public static int getGoalsAgainst(int dbid) {
+		if(dbid == players.get(0)) {
+			return s2.getPlayer().getScore();
+		}
+		else {
+			return s1.getPlayer().getScore();
+		}	
+	}
+	
+	
 	public static void initBoard() {
 		
 		s1 = new Striker(new Player(1));
@@ -198,8 +217,7 @@ public class Master extends Listener { // SERVER
 					activateGame(); // game board on server				
 				}
 
-				debug();
-				
+				debug();				
 				break;	
 
 			}
@@ -249,6 +267,8 @@ public class Master extends Listener { // SERVER
 			connections.get(players.get(0)).sendTCP(pp);
 			connections.get(players.get(1)).sendTCP(pp);
 			
+			
+			
 			if (g1.goalDetection(1)) {
 				
 				s1.getPlayer().score();
@@ -258,26 +278,33 @@ public class Master extends Listener { // SERVER
 				mid.reset();
 				puck.resetSize();
 				
-				//TODO update score
-				//PacketScore ps = new PacketScore(1,2,s1.getPlayer().getScore(),s2.getPlayer().getScore());
-				//connections.get(players.get(0)).sendTCP(ps);
-				//connections.get(players.get(1)).sendTCP(ps);
-				
+				// send goal message
+				connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 1, onlineUsers.get(players.get(0)).getUsername()+" GOAL!"));
+				connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 1, onlineUsers.get(players.get(0)).getUsername()+" GOAL!"));
+
 			}
 			if (g2.goalDetection(2)) {
 				s2.getPlayer().score();
 				s1.reset(1);
 				s2.reset(2);
-				
 				mid.reset();
 				puck.resetSize();
+				
+				connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 2, onlineUsers.get(players.get(1)).getUsername()+" GOAL!"));
+				connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 2, onlineUsers.get(players.get(1)).getUsername()+" GOAL!"));
 
 				
 			}
-			if (s1.getPlayer().getScore() == 7) {
+			if (s1.getPlayer().getScore() == 7) { //GAME OVER HERE
+				//Update SQL inside updateStats
+				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "WIN"));
+				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "LOSE"));				
 				
 			}
-			if (s2.getPlayer().getScore() == 7) {
+			if (s2.getPlayer().getScore() == 7) { //GAME OVER HERE
+				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "WIN"));
+				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "LOSE"));
+
 				
 			}
 			if (time == (int)(ran.nextDouble() * 2500)) {
