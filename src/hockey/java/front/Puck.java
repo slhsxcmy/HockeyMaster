@@ -22,7 +22,7 @@ public class Puck extends Pane{
     
     private Striker lastHit;
     
-    private boolean onWall;
+    //private boolean onWall;
 	
 	public Puck() {
 		mass = 5;
@@ -41,7 +41,7 @@ public class Puck extends Pane{
         
         lastHit = null;
         
-        onWall = false;
+        //onWall = false;
 	}
 	
 	public void step(double friction) {
@@ -49,8 +49,44 @@ public class Puck extends Pane{
 		velocity.mult(friction);
 	}
 	
+	
+	public void checkPuckWalls() {
+		if((location.x-radius > 145-5) && 
+				(location.x+radius < (145+110)+5) && 
+				(location.y-radius < 0+BoardSettings.BOARDER_HEIGHT))
+		{}
+		else if((location.x-radius > 145-5) && 
+				(location.x+radius < (145+110)+5) && 
+				(location.y+radius > (BoardSettings.SCENE_HEIGHT-BoardSettings.BOARDER_HEIGHT)))
+		{}
+		else {
+	        if (location.x > BoardSettings.SCENE_WIDTH - radius - BoardSettings.BOARDER_HEIGHT) {
+	        	location.x = BoardSettings.SCENE_WIDTH - radius - BoardSettings.BOARDER_HEIGHT - 1;
+	        	velocity.x *= -1;
+	        	
+	        } 
+	        else if (location.x < BoardSettings.BOARDER_HEIGHT + radius) {
+	        	location.x = radius + BoardSettings.BOARDER_HEIGHT + 1;
+	        	velocity.x *= -1;
+	        	
+	        }
+	
+	        if (location.y > BoardSettings.SCENE_HEIGHT - radius - BoardSettings.BOARDER_HEIGHT) {
+	        	location.y = BoardSettings.SCENE_HEIGHT - radius - BoardSettings.BOARDER_HEIGHT - 1;
+	            velocity.y *= -1;
+
+	        } 
+	        else if (location.y < radius + BoardSettings.BOARDER_HEIGHT) {
+	        	location.y = radius + BoardSettings.BOARDER_HEIGHT + 1;
+	        	velocity.y *= -1;
+
+	        }
+		}
+
+	}
+	
 	// check wall hit
-	public boolean checkBoundaries() {
+	/*public boolean checkBoundaries() {
 		onWall = false;
 		//todo
 		//if puck is in the goal, keep it moving
@@ -67,27 +103,36 @@ public class Puck extends Pane{
 	        if (location.x > BoardSettings.SCENE_WIDTH - radius - BoardSettings.BOARDER_HEIGHT) {
 	        	location.x = BoardSettings.SCENE_WIDTH - radius - BoardSettings.BOARDER_HEIGHT - 1;
 	        	velocity.x *= -1;
+	        	// Try setting vel to 0 on second wall hit
+	        	//if(onWall) velocity.x = 0;
 	        	onWall = true;
 	        } 
 	        else if (location.x < BoardSettings.BOARDER_HEIGHT + radius) {
 	        	location.x = radius + BoardSettings.BOARDER_HEIGHT + 1;
 	        	velocity.x *= -1;
+	        	// Try setting vel to 0 on second wall hit
+	        	//if(onWall) velocity.x = 0;
 	        	onWall = true;
 	        }
 	
 	        if (location.y > BoardSettings.SCENE_HEIGHT - radius - BoardSettings.BOARDER_HEIGHT) {
 	        	location.y = BoardSettings.SCENE_HEIGHT - radius - BoardSettings.BOARDER_HEIGHT - 1;
 	            velocity.y *= -1;
+	         // Try setting vel to 0 on second wall hit
+	        	//if(onWall) velocity.y = 0;
 	            onWall = true;
 	        } 
 	        else if (location.y < radius + BoardSettings.BOARDER_HEIGHT) {
 	        	location.y = radius + BoardSettings.BOARDER_HEIGHT + 1;
 	        	velocity.y *= -1;
+	        	// Try setting vel to 0 on second wall hit
+	        	//if(onWall) velocity.y = 0;
 	        	onWall = true;
 	        }
 		}
 		return onWall;
     }
+    */
 	
 	// hit change midline location powerup
 	public void collision(Midline m, PowerUp pu) {
@@ -137,6 +182,9 @@ public class Puck extends Pane{
 	public void recalculate(Striker s) {
 		// 1 = puck; 2 = striker
 
+		float acc = 1;
+		float max = 10;
+		
 		double m1 = mass;
 		double m2 = s.getMass();
 		
@@ -154,18 +202,26 @@ public class Puck extends Pane{
 		System.out.println("Normal : " + n.x + ", " + n.y);
 		System.out.println("Tangent: " + t.x + ", " + t.y);
 
-		PVector v1cn = PVector.mult(n, PVector.dot(n,v1c));
+		PVector v1cn = PVector.mult(n, PVector.dot(n,v1c)); 
 		PVector v1ct = PVector.mult(t, PVector.dot(t, v1c));
 		
-		PVector v1cnp = PVector.div(PVector.mult(v1cn, m1-m2), m1+m2);
-		PVector v2cnp = PVector.div(PVector.mult(v1cn, 2*m1), m1+m2);
+								/* reverse velocity       , force out puck       */
+		PVector v1cnp = PVector.add(PVector.mult(v1cn, -1), PVector.mult(n, -1*acc)); // striker stays
+		//PVector v1cnp = PVector.div(PVector.mult(v1cn, m1-m2), m1+m2); // elastic
+		//PVector v2cnp = PVector.div(PVector.mult(v1cn, 2*m1), m1+m2);
 		
 		
 		PVector v1p = PVector.add(PVector.add(v2, v1cnp), v1ct);
-		PVector v2p = PVector.add(v2, v2cnp);
+		//PVector v2p = PVector.add(v2, v2cnp);
+		
+		
+		v1p.limit(max);
+		//v2p.limit(max);
 		
 		this.setVelocity(v1p);
-		s.setVelocity(v2p);
+		//s.setVelocity(v2p);
+		
+		
 		
 /*		PVector v1 = new PVector(this.getVelocity().x, this.getVelocity().y);
 		PVector v2 = new PVector(s.getVelocity().x, s.getVelocity().y);
@@ -239,10 +295,7 @@ public class Puck extends Pane{
 		display();
     }
     
-    public boolean onWall() {
-    	return onWall;
-    }
-    
+
     public double getRadius() {
     	return radius;
     }
