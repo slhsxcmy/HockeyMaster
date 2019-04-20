@@ -206,9 +206,14 @@ public class Puck extends Pane{
 		PVector v1ct = PVector.mult(t, PVector.dot(t, v1c));
 		
 		PVector v1cnp = PVector.add(PVector.mult(v1cn, -1), PVector.mult(n, -1*acc));
-		//PVector v1cnp = PVector.mult(v1cn, -1); // striker stays
-		this.setPosition(new PVector(PVector.add(s.getLocation(), PVector.mult(n, -1*(this.radius+s.radius)))));
+
+		PVector newloc = new PVector(PVector.add(s.getLocation(), PVector.mult(n, -1*(this.radius+s.radius))));
+		System.out.println("v1cnp: " + v1cnp.x + ", " + v1cnp.y);
+		System.out.println("oldloc:" + this.location.x + ", " + this.location.y);
+		System.out.println("newloc:" + newloc.x + ", " + newloc.y);
 		
+		//PVector v1cnp = PVector.mult(v1cn, -1); // striker stays
+		this.setPosition(newloc);
 								/* reverse velocity       , force out puck       */
 		//PVector v1cnp = PVector.add(PVector.mult(v1cn, -1), PVector.mult(n, -1*acc)); // striker stays
 		//PVector v1cnp = PVector.div(PVector.mult(v1cn, m1-m2), m1+m2); // elastic
@@ -216,6 +221,9 @@ public class Puck extends Pane{
 		
 		
 		PVector v1p = PVector.add(PVector.add(v2, v1cnp), v1ct);
+		System.out.println("s vel: " + s.getVelocity().x + ", " + s.getVelocity().y);
+		System.out.println("v2:    " + v2.x + ", " + v2.y);
+		System.out.println("v1p:   " + v1p.x + ", " + v1p.y);
 		//PVector v2p = PVector.add(v2, v2cnp);
 		
 		

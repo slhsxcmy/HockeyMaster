@@ -202,6 +202,10 @@ public class Master extends Listener { // SERVER
 
 			}
 		} else if (o instanceof PacketStriker){
+			
+			
+			
+          	
 			int id = ((PacketStriker) o).id;
 			
 			
@@ -220,6 +224,7 @@ public class Master extends Listener { // SERVER
 			
 			//System.out.println("Server forwarding PacketStriker to id = " + (3 - id));
 			connections.get(players.get(2-id)).sendTCP(o);
+			connections.get(players.get(id-1)).sendTCP(o); // added to send to self as well
 			
 			//s1.step(s1.getPlayer().getMouse(), mid);
 			//s2.step(p1.getMouse());
@@ -242,7 +247,9 @@ public class Master extends Listener { // SERVER
 			
 			 // puck and wall
 			puck.step(friction); 
-			
+
+          	
+          	 
 			puck.collision(mid, pu); // powerup move midline
 			puck.collision(puckPU); // powerup minimize puck
 

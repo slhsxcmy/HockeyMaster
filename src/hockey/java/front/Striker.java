@@ -58,7 +58,7 @@ public class Striker extends Pane {
 		// midline
 		if (player.getPlayerID() == 1 && location.y <= mid.getLocation() + mid.getHeight() + radius - 1 || 
 				player.getPlayerID() == 2 && location.y >= mid.getLocation() - mid.getHeight() - radius + 1) {
-			velocity.y = 0;
+			velocity.y = 0; 
 			location.x = mouse.x;
 		} // try adding else for not on midline
 		/*else */location.copy(mouse);
@@ -152,40 +152,50 @@ public class Striker extends Pane {
 					
 					if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
 						location.x = BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT;
+						velocity.x = 0; // added by caesar
 					} else if (location.x < 0 +radius+BoardSettings.BOARDER_HEIGHT) {
 						location.x = 0+radius+BoardSettings.BOARDER_HEIGHT;
+						velocity.x = 0; // added by caesar
 					}
 
 					if (location.y > BoardSettings.SCENE_HEIGHT-radius-BoardSettings.BOARDER_HEIGHT) {
 						location.y = BoardSettings.SCENE_HEIGHT-radius-BoardSettings.BOARDER_HEIGHT;
+						velocity.y = 0; // added by caesar
 					}
 					
 					//if the striker hits the midline
 					else if (started == true && location.y < (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult) {
 						//System.out.println("midline");
 						location.y = (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult;
+						velocity.y = 0; // added by caesar
 					}
 					else if (started == false && location.y < ((radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult)*1.5) {
 						location.y = ((radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult*1.5);
+						velocity.y = 0; // added by caesar
 					}
 				}
 				else if(player.getPlayerID() == 2) {
 					if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
 						location.x = BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT;
+						velocity.x = 0; // added by caesar
 					} else if (location.x < 0 +radius+BoardSettings.BOARDER_HEIGHT) {
 						location.x = 0+radius+BoardSettings.BOARDER_HEIGHT;
+						velocity.x = 0; // added by caesar
 					}
 					//TODO
 					//WE HAVE TO TEST THIS WHEN SERVER IS RUNNIGN
 					//if striker 2 hits the midline
 					if (location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)*mult) {
 						location.y = 0+radius+BoardSettings.BOARDER_HEIGHT*mult;
+						velocity.y = 0; // added by caesar
 					}
 					else if (started == true && location.y > ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult) {
 						location.y = (BoardSettings.SCENE_HEIGHT/2)-radius-2.5;
+						velocity.y = 0; // added by caesar
 					}
 					else if(started == false && location.y > ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult*0.5) {
 						location.y = ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult*0.5;
+						velocity.y = 0; // added by caesar
 					}
 				}
 	}

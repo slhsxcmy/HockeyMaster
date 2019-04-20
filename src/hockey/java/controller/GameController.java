@@ -130,16 +130,18 @@ public class GameController {
 	      		 //System.out.println(mid.getLocation());
 	      		 pu.display();
 	           	 puckPU.display();
+	           	 
+	           	 // TODO transfer to server
 	           	 selfStriker.step(selfStriker.getPlayer().getMouse(), mid);
+	           	 
+	           	 
 	           	 //selfStriker.checkBoundaries(puck);
 	           	 selfStriker.checkStrikerWallsMidline();
 	           	 selfStriker.display();
 	           	 otherStriker.display();
 	           	 puck.display();
                
-	           	 // TODO check collison with wall
-	           	 
-	           	 // TODO check collison with midline
+	           	 System.out.println("vel: " + selfStriker.getVelocity().x + " , " + selfStriker.getVelocity().y);
 	           	 
 	           	 // send selfStriker to server
 	           	 // System.out.println("before sending PacketStriker"); 
