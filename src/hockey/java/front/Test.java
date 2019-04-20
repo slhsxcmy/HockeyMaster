@@ -44,7 +44,7 @@ public class Test extends Application{
     	 
     	 // TESTTESTTEST
 //    	 s1 = null;
-//    	 s2 = null;
+    	 s2 = null;
 
     	 goal1 = new Goal(1, puck, p1);
     	 goal2 = new Goal(2, puck, p2);
@@ -130,8 +130,8 @@ public class Test extends Application{
             	 if(s1 != null) s1.step(p1.getMouse(), mid);
             	 if(s2 != null) s2.step(p2.getMouse(), mid);
 
-            	 if(s1 != null) System.out.println("s1: id = " + s1.getPlayer().getPlayerID() + " at " + s1.getLocation().x + "," + s1.getLocation().y);
-                 if(s2 != null) System.out.println("s2: id = " + s2.getPlayer().getPlayerID() + " at " + s2.getLocation().x + "," + s2.getLocation().y);
+//            	 if(s1 != null) System.out.println("s1: id = " + s1.getPlayer().getPlayerID() + " at " + s1.getLocation().x + "," + s1.getLocation().y);
+//                 if(s2 != null) System.out.println("s2: id = " + s2.getPlayer().getPlayerID() + " at " + s2.getLocation().x + "," + s2.getLocation().y);
                 
 
                  if(s1 != null) s1.checkBoundaries(puck);
@@ -140,8 +140,15 @@ public class Test extends Application{
                  if (puck.checkBoundaries()) {
                 	 //striker can't overlap with puck
                  }
-                 if(s1 != null) puck.collision(s1);
-                 if(s2 != null) puck.collision(s2);
+                 if(s1 != null) {
+                	 if(puck.collision(s1)) {
+                		 puck.recalculate(s1);
+                	 }
+                 }
+                 if(s2 != null) 
+                	 if(puck.collision(s2)) {
+                		 puck.recalculate(s2);
+                	 }
                  
                  //puck.collision(otherStriker);
                  puck.step(friction);

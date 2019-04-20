@@ -228,15 +228,13 @@ public class Master extends Listener { // SERVER
 			
 			
 			if(puck.collision(s1)) {
-				System.out.println("server checks puck hit s1");
 				puck.recalculate(s1); // resolve collision
-			}
-			else {
-				System.out.println("server checks puck NO hit s1");
 			}
 			
 			s2.checkBoundaries(puck); // s2 cannot push puck into wall
-			if(puck.collision(s2)) puck.recalculate(s2); // resolve collision
+			if(puck.collision(s2)) {
+				puck.recalculate(s2); // resolve collision
+			}
 
 			
 			 // puck and wall

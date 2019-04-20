@@ -3,7 +3,6 @@ package hockey.java.front;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
 
 public class Puck extends Pane{
 	private double mass;
@@ -124,33 +123,65 @@ public class Puck extends Pane{
 		double sy = s.getLocation().y;
 		double sr = s.getRadius();
 
-		System.out.println((px - sx) * (px - sx) + (py - sy) * (py - sy) - (pr + sr) * (pr + sr));
+		//System.out.println((px - sx) * (px - sx) + (py - sy) * (py - sy) - (pr + sr) * (pr + sr));
 		if ((px - sx) * (px - sx) + (py - sy) * (py - sy) - (pr + sr) * (pr + sr) <= 0) {
-			System.out.println("collision");
+			//System.out.println("collision");
 			return true;
 		} else {
 			return false;
 		}
 
 	}
-	
+
 	// called in collision to recalculate movement 
 	public void recalculate(Striker s) {
 		// 1 = puck; 2 = striker
-		
-		PVector v1 = new PVector(this.getVelocity().x, this.getVelocity().y);
-		PVector v2 = new PVector(s.getVelocity().x, s.getVelocity().y);
-		
+
 		double m1 = mass;
 		double m2 = s.getMass();
 		
+		PVector v1 = new PVector(this.getVelocity().x, this.getVelocity().y);
+		PVector v2 = new PVector(s.getVelocity().x, s.getVelocity().y);
+
+		PVector v1c = new PVector(PVector.sub(v1, v2));
+		
+		PVector c1 = this.getLocation();
+		PVector c2 = s.getLocation();
+		
+		PVector n = PVector.normalize(PVector.sub(c2,c1));
+		PVector t = PVector.normal(n);
+
+		System.out.println("Normal : " + n.x + ", " + n.y);
+		System.out.println("Tangent: " + t.x + ", " + t.y);
+
+		PVector v1cn = PVector.mult(n, PVector.dot(n,v1c));
+		PVector v1ct = PVector.mult(t, PVector.dot(t, v1c));
+		
+		PVector v1cnp = PVector.div(PVector.mult(v1cn, m1-m2), m1+m2);
+		PVector v2cnp = PVector.div(PVector.mult(v1cn, 2*m1), m1+m2);
+		
+		
+		PVector v1p = PVector.add(PVector.add(v2, v1cnp), v1ct);
+		PVector v2p = PVector.add(v2, v2cnp);
+		
+		this.setVelocity(v1p);
+		s.setVelocity(v2p);
+		
+/*		PVector v1 = new PVector(this.getVelocity().x, this.getVelocity().y);
+		PVector v2 = new PVector(s.getVelocity().x, s.getVelocity().y);
+
+		double m1 = mass;
+		double m2 = s.getMass();
+
 		PVector v1p = PVector.div(PVector.add(PVector.mult(v1, m1-m2),PVector.mult(v2, 2*m2)), m1+m2);
 		PVector v2p = PVector.div(PVector.add(PVector.mult(v2, m2-m1),PVector.mult(v1, 2*m1)), m1+m2);
 		
 		this.setVelocity(v1p);
 		s.setVelocity(v2p);
+*/
 	}
 	
+
 	public void changePuckSize(double size) {
 		this.width = size;
 		this.height = width;

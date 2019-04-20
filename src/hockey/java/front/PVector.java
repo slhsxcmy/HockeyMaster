@@ -14,11 +14,24 @@ public class PVector {
         this.y = y;
     }
 
-    public void normalize() {
+    public PVector(PVector v) {
+    	this.copy(v);
+	}
+    
+	public void normalize() {
         double m = mag(); 
         if (m != 0 && m != 1) { 
           div(m); 
         } 
+    }
+
+	public static PVector normalize(PVector v) {
+        PVector p = new PVector(v);
+		double m = p.mag(); 
+        if (m != 0 && m != 1) { 
+          p.div(m); 
+        } 
+        return p;
     }
 
     public void div(double value) {
@@ -93,5 +106,14 @@ public class PVector {
     public void print() {
     	System.out.println(this.x + " " + this.y);
     }
+    
+    // added by caesar
+    public static PVector normal(PVector v) {
+    	return new PVector(-v.y,v.x);
+    }
+    
+    public static double dot(PVector p, PVector q) {
+		return p.x * q.x + p.y * q.y;
+	}
     
 }
