@@ -124,35 +124,8 @@ public class GameController {
 	      	 int ran = (int) (r.nextDouble() * 1000);
 	      	 @Override
 	      	 public void handle(long now) {
-      	 		 // move
-	      		 //System.out.println(mid.getLocation());
-//	      		 pu.display();
-//	           	 puckPU.display();
-//	           	 
-	           	 // TODO transfer to server
-//	           	 selfStriker.step(selfStriker.getPlayer().getMouse(), mid);
-//	           	 selfStriker.checkStrikerWallsMidline();
-//	           	 
-	           	 
-	           	
-//	           	 selfStriker.display();
-//	           	 otherStriker.display();
-//	           	 puck.display();
-               
-	           	 // send selfStriker to server
-	           	 //Hockey.getNetwork().getClient().sendTCP(new PacketStriker(selfStriker.getPlayer().getPlayerID(),selfStriker.getLocation().x,selfStriker.getLocation().y,selfStriker.getVelocity().x,selfStriker.getVelocity().y));
-	           	 
 	           	 // send self mouse to server
 	           	 Hockey.getNetwork().getClient().sendTCP(new PacketMouse(selfStriker.getPlayer().getPlayerID(),selfStriker.getPlayer().getMouse().x,selfStriker.getPlayer().getMouse().y));
-	           	
-	           	
-	           	// System.out.println("vel: " + selfStriker.getVelocity().x + " , " + selfStriker.getVelocity().y);
-	           	 
-	           	 // System.out.println("before sending PacketStriker"); 
-	           	 //System.out.println("Sending PacketStriker from id = " + selfStriker.getPlayer().getPlayerID());
-	           	 // System.out.println("after sending PacketStriker");
-               
-                
            }
        };
        System.out.println("starting game loop");

@@ -199,36 +199,17 @@ public class Puck extends Pane{
 		PVector n = PVector.normalize(PVector.sub(c2,c1));
 		PVector t = PVector.normal(n);
 
-//		System.out.println("Normal : " + n.x + ", " + n.y);
-//		System.out.println("Tangent: " + t.x + ", " + t.y);
-
 		PVector v1cn = PVector.mult(n, PVector.dot(n,v1c)); 
 		PVector v1ct = PVector.mult(t, PVector.dot(t, v1c));
 		
+		// cheat 1: accelerate puck towards out of striker
 		PVector v1cnp = PVector.add(PVector.mult(v1cn, -1), PVector.mult(n, -1*acc));
 
+		// cheat 2: set location of puck outside of striker
 		PVector newloc = new PVector(PVector.add(s.getLocation(), PVector.mult(n, -1*(this.radius+s.radius))));
-	
-		/*System.out.println("v1cnp: " + v1cnp.x + ", " + v1cnp.y);
-		System.out.println("oldloc:" + this.location.x + ", " + this.location.y);
-		System.out.println("newloc:" + newloc.x + ", " + newloc.y);
-		*/
-		//PVector v1cnp = PVector.mult(v1cn, -1); // striker stays
 		this.setPosition(newloc);
-								/* reverse velocity       , force out puck       */
-		//PVector v1cnp = PVector.add(PVector.mult(v1cn, -1), PVector.mult(n, -1*acc)); // striker stays
-		//PVector v1cnp = PVector.div(PVector.mult(v1cn, m1-m2), m1+m2); // elastic
-		//PVector v2cnp = PVector.div(PVector.mult(v1cn, 2*m1), m1+m2);
-		
 		
 		PVector v1p = PVector.add(PVector.add(v2, v1cnp), v1ct);
-		
-		/*System.out.println("s vel: " + s.getVelocity().x + ", " + s.getVelocity().y);
-		System.out.println("v2:    " + v2.x + ", " + v2.y);
-		System.out.println("v1p:   " + v1p.x + ", " + v1p.y);
-		*/
-		
-		//PVector v2p = PVector.add(v2, v2cnp);
 		
 		
 		v1p.limit(max);

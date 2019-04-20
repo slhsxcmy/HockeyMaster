@@ -205,53 +205,32 @@ public class Master extends Listener { // SERVER
 			}
 		} else if (o instanceof PacketMouse){
 			
-			
 			PVector mouse = new PVector(((PacketMouse)o).x,((PacketMouse)o).y);
 			int id = ((PacketMouse) o).id;
+			PacketStriker ps;
+			
 			// id     = 1~2 
 			// id - 1 = 1~2 
 			// 2 - id = 1~0
 			// 3 - id = 2~1
-			
-			PacketStriker ps;
 			if (id == 1) {
-//				s1.setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
-//				s1.setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
-				
 				s1.step(mouse, mid);
-	           	s1.checkStrikerWallsMidline();
-	           	 
-	           	
+	           	s1.checkStrikerWallsMidline(); 
 	           	ps = new PacketStriker(id,s1.getLocation().x,s1.getLocation().y,s1.getVelocity().x,s1.getVelocity().y);
-				
-				
 			} else {
-//				s2.setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
-//				s2.setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
-
-
 				s2.step(mouse, mid);
 	           	s2.checkStrikerWallsMidline();
-	           	
 	           	ps = new PacketStriker(id,s2.getLocation().x,s2.getLocation().y,s2.getVelocity().x,s2.getVelocity().y);
-	           	
 			}
 			
 			connections.get(players.get(2-id)).sendTCP(ps);
 			connections.get(players.get(id-1)).sendTCP(ps);// added to send to self as well
-			
-			//s1.step(s1.getPlayer().getMouse(), mid);
-			//s2.step(p1.getMouse());
-
-			//s1.checkBoundaries(puck); // s1 cannot push puck into wall
-			
 			
 			if(puck.collision(s1)) {
 				System.out.println("collision with 1");
 				puck.recalculate(s1); // resolve collision
 			}
 			
-			//s2.checkBoundaries(puck); // s2 cannot push puck into wall
 			if(puck.collision(s2)) {
 				System.out.println("collision with 2");
 				puck.recalculate(s2); // resolve collision
@@ -265,13 +244,7 @@ public class Master extends Listener { // SERVER
 			puck.collision(puckPU); // powerup minimize puck
 
 			DecimalFormat form = new DecimalFormat("#.00");
-       	 	/*if(s1 != null) System.out.println("s1 at (" + form.format(s1.getLocation().x) + "," + form.format(s1.getLocation().y) + ") vel (" + form.format(s1.getVelocity().x) + "," + form.format(s1.getVelocity().y) + ")");
-			if(s1 != null) System.out.println("s2 at (" + form.format(s2.getLocation().x) + "," + form.format(s2.getLocation().y) + ") vel (" + form.format(s2.getVelocity().x) + "," + form.format(s2.getVelocity().y) + ")");
-			System.out.println("pk at (" + form.format(puck.getLocation().x) + "," + form.format(puck.getLocation().y) + ") vel (" + form.format(puck.getVelocity().x) + "," + form.format(puck.getVelocity().y) + ")");
-        	 */
-			
-			//System.out.println("Server forwarding PacketStriker to id = " + (3 - id));
-			//System.out.println("Server sending PacketPuck " );
+       	 	
 			PacketPuck pp = new PacketPuck(puck.getLocation().x,puck.getLocation().y,puck.getVelocity().x,puck.getVelocity().y);
 			connections.get(players.get(0)).sendTCP(pp);
 			connections.get(players.get(1)).sendTCP(pp);
@@ -299,22 +272,13 @@ public class Master extends Listener { // SERVER
 				mid.reset();
 				puck.resetSize();
 
-				//TODO update score
-				//PacketScore ps = new PacketScore(1,2,s1.getPlayer().getScore(),s2.getPlayer().getScore());
-				//connections.get(players.get(0)).sendTCP(ps);
-				//connections.get(players.get(1)).sendTCP(ps);
+				
 			}
 			if (s1.getPlayer().getScore() == 7) {
-				//send win/loss message
-				// c.sendTCP(new PacketReturn(Constants.GAMEOVER, winnerUsername));
-				// TODO update SQL
-				
-				
-				
 				
 			}
 			if (s2.getPlayer().getScore() == 7) {
-				//send win/loss message
+				
 			}
 			if (time == (int)(ran.nextDouble() * 2500)) {
 				time = 0;
