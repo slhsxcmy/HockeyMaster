@@ -182,7 +182,7 @@ public class Puck extends Pane{
 	public void recalculate(Striker s) {
 		// 1 = puck; 2 = striker
 
-		float acc = 1;
+		//float acc = 1;
 		float max = 10;
 		
 		double m1 = mass;
@@ -205,8 +205,11 @@ public class Puck extends Pane{
 		PVector v1cn = PVector.mult(n, PVector.dot(n,v1c)); 
 		PVector v1ct = PVector.mult(t, PVector.dot(t, v1c));
 		
+		PVector v1cnp = PVector.mult(v1cn, -1); // striker stays
+		this.setPosition(new PVector(PVector.add(s.getLocation(), PVector.mult(n, -1*(this.radius+s.radius)))));
+		
 								/* reverse velocity       , force out puck       */
-		PVector v1cnp = PVector.add(PVector.mult(v1cn, -1), PVector.mult(n, -1*acc)); // striker stays
+		//PVector v1cnp = PVector.add(PVector.mult(v1cn, -1), PVector.mult(n, -1*acc)); // striker stays
 		//PVector v1cnp = PVector.div(PVector.mult(v1cn, m1-m2), m1+m2); // elastic
 		//PVector v2cnp = PVector.div(PVector.mult(v1cn, 2*m1), m1+m2);
 		
