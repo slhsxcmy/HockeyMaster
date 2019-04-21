@@ -126,7 +126,8 @@ public class Network extends Listener{
 				
 				System.out.println("GAME OVER HEREEEEEEEEEEEEEEEEEEEEEE");
 				Platform.runLater(() -> {
-					Hockey.getGameOverController().setMessage(endmessage);
+					Hockey.getGameController().stopGame();
+					Hockey.getGameOverController().setMessage(endmessage);					
 					Hockey.getPrimaryStage().setScene(Hockey.getGameOverScene());
 				});
 				//TODO

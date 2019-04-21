@@ -16,6 +16,7 @@ import hockey.java.front.User;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStats;
+import sun.net.www.content.audio.wav;
 
 public class SQLModel {
 	//private boolean singlePlayerDebug = true;
@@ -215,13 +216,13 @@ public class SQLModel {
 			System.out.println("sqle: " + e.getMessage());
 		}
 		
-		if(Master.getPlayerlist().size() == 0) {
+		if(Master.getPlayerlist().size() == 0 && Master.getWaitlist().size() == 0) {
 			Master.getPlayerlist().add(id);
 			return new PacketReturn(Constants.PLAYFAILURE, id, "Not Enough Players. Please Wait.");
 		}
-		else if(Master.getPlayerlist().size() == 1) {
-			Master.getPlayerlist().add(id);   
-			return new PacketReturn(Constants.PLAYSUCCESS, id, username);
+		else if(Master.getPlayerlist().size() == 1 && Master.getWaitlist().size() == 0) {		
+			Master.getPlayerlist().add(id);
+			return new PacketReturn(Constants.PLAYSUCCESS, id);			
 		}
 		else{
 			Master.getWaitlist().add(id);
@@ -267,7 +268,7 @@ public class SQLModel {
 //			if(rs.next()) {
 				
 			//}
-			if(username.equals("GUEST")) {		
+			if(username.equals("GUEST")) {
 				//does not update db, only show result message
 				return new PacketReturn(Constants.GAMEOVER, result);
 			}
@@ -277,10 +278,10 @@ public class SQLModel {
 				ps.setString(5, Integer.toString(dbid));
 				//rs = ps.executeQuery();
 				//rs.next();
-				if(result.equals("WIN")){
+				if(result.equals("YOU WIN!")){
 					ps.setInt(1, matchW+1);
 				}
-				else if (result.equals("LOSE")) {
+				else if (result.equals("YOU LOSE...")) {
 					ps.setInt(2, matchL+1);
 				}
 				ps.setInt(3, goalsFor+Master.getGoalsFor(dbid));

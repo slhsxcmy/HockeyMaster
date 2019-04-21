@@ -47,7 +47,7 @@ public class Master extends Listener { // SERVER
 	public static final String client_ngrok_url = "localhost";
 	public static final int client_tcpPort = 23333;
 
-	//private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
+	private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
 	private static Map<Integer, Connection> connections = Collections.synchronizedMap(new HashMap<>()); 
 	private static Queue<Integer> waitList = new LinkedList<Integer>();
 	private static List<Integer> players = new ArrayList<Integer>(); //store id in database
@@ -116,9 +116,9 @@ public class Master extends Listener { // SERVER
 
 	
 
-//	public static Map<Integer, User> getUsers(){
-//		return onlineUsers;
-//	}
+	public static Map<Integer, User> getUsers(){
+		return onlineUsers;
+	}
 
 	public static Map<Integer, Connection> getConnections(){
 		return connections;
@@ -208,8 +208,7 @@ public class Master extends Listener { // SERVER
 				p = model.loggedPlay(username, c);
 				if(p.status == Constants.PLAYSUCCESS) {
 					activateGame(); // game board on server					
-				}
-				
+				}				
 				debug();
 
 				break;
@@ -300,15 +299,20 @@ public class Master extends Listener { // SERVER
 			}
 			if (s1.getPlayer().getScore() == GOALSTOWIN) { //GAME OVER HERE
 				//Update SQL inside updateStats
-				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "WIN"));
-				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "LOSE"));				
-				
+				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "YOU WIN!"));
+				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "YOU LOSE..."));	
+				//update data structures				
+				players.clear();
+				//TODO: Begin next game
+				nextGame();
 			}
 			if (s2.getPlayer().getScore() == GOALSTOWIN) { //GAME OVER HERE
-				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "WIN"));
-				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "LOSE"));
-
-				
+				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "YOU WIN!"));
+				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "YOU LOSE..."));
+				//update data structures
+				players.clear();
+				//TODO: Begin next game
+				nextGame();
 			}
 			
 			// Power up control
@@ -327,8 +331,7 @@ public class Master extends Listener { // SERVER
 				}
 			}
 			time++;
-		} 
-
+		}
 	}
 
 	public void activateGame() {	
@@ -339,8 +342,52 @@ public class Master extends Listener { // SERVER
 	
 	public void disconnected(Connection c) {
 		System.out.println("Lost connection from client.");
-		int player = 
+		int dbid = -1;
 		
+		//first get dbid of c
+		for (Map.Entry<Integer,Connection> entry : connections.entrySet()) {
+			if(entry.getValue().getID() == c.getID()) {
+				dbid = entry.getKey();
+			}
+		}
+		
+		//update data structures
+		if(dbid == players.get(0)) {
+			connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WIN!"));
+			players.clear();
+			
+			//TODO: next game here
+			nextGame();
+		}else if(dbid == players.get(1)) {
+			connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WIN!"));
+			players.clear();
+			
+			//TODO: next game here
+			nextGame();
+		}						
+		onlineUsers.remove(dbid);
+		waitList.remove(dbid);
+		
+	}
+	
+//	public void stopGame() {
+//		connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GAMEOVER));
+//		connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GAMEOVER));
+//	}
+//	
+	public void nextGame() { //only start next game if there are people in waitlist
+		if(waitList.size()>=1) {			
+			players.add(waitList.peek());
+			connections.get(waitList.peek()).sendTCP(new PacketReturn(Constants.PLAYFAILURE, waitList.peek(), "Not Enough Players. Please Wait."));	
+			waitList.remove();	
+			
+			if(waitList.peek()!=null) {
+				players.add(waitList.peek());
+				connections.get(waitList.peek()).sendTCP(new PacketReturn(Constants.PLAYSUCCESS, waitList.peek()));
+				waitList.remove();
+				activateGame();
+			}
+		}
 	}
 	
 	public void debug() {

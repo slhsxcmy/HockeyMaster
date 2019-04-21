@@ -35,6 +35,7 @@ public class GameController {
 	
     //private static boolean started = false;
     
+	private AnimationTimer loop;
     private static Striker selfStriker;
     private static Striker otherStriker;
     private static Puck puck;
@@ -121,9 +122,8 @@ public class GameController {
 	}
 	
 	public void gameLoop() {
-		
-		
-   	 	AnimationTimer loop = new AnimationTimer() {
+				
+   	 	loop = new AnimationTimer() {
 	      	 Random r = new Random();
 	      	 int ran = (int) (r.nextDouble() * 1000);
 	      	 @Override
@@ -135,8 +135,11 @@ public class GameController {
        };
        System.out.println("starting game loop");
        loop.start();
-       
-       
+              
+	}
+	
+	public void stopGame() {
+		loop.stop();
 	}
 
 	public static Striker getSelfStriker() {
