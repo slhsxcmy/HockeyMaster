@@ -272,13 +272,6 @@ public class Hockey extends Application {
 		Hockey.waitScene = waitScene;
 	}
 
-	public static Scene getGameOverScene() {
-		return gameOverScene;
-	}
-
-	public static void setGameOverScene(Scene gameOverScene) {
-		Hockey.gameOverScene = gameOverScene;
-	}
 
 	public static WaitController getWaitController() {
 		return waitController;
@@ -288,16 +281,4 @@ public class Hockey extends Application {
 		Hockey.waitController = waitController;
 	}
 
-	public static GameOverController getGameOverController() {
-		return gameOverController;
-	}
-
-	public static void setGameOverController(GameOverController gameOverController) {
-		Hockey.gameOverController = gameOverController;
-	}
-
-	
-	
-	
-	
 }

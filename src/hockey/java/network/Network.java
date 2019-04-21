@@ -116,7 +116,6 @@ public class Network extends Listener{
 				Platform.runLater(() -> {
 					Hockey.getWaitController().setMessage("Game already in progress.");
 					Hockey.getPrimaryStage().setScene(Hockey.getWaitScene());
-					
                 });
 				break;
 			case Constants.GOAL:
