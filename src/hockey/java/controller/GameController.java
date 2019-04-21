@@ -106,7 +106,7 @@ public class GameController {
 	     playfield.getChildren().add(selfGoal);
 	     playfield.getChildren().add(p1s);
 	     playfield.getChildren().add(p2s);
-
+	     
 	     playfield.getChildren().add(puMidline);
 	     playfield.getChildren().add(puPuck);
 	     playfield.getChildren().add(puGoal);
@@ -118,6 +118,8 @@ public class GameController {
 	     walls1.display();
 	     walls2.display();
 	     mid.display();
+	     pu.display();
+	     puckPU.display();
        
     	 // capture mouse position
     	 Hockey.getGameScene().addEventFilter(MouseEvent.ANY, e -> {
