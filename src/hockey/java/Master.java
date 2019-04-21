@@ -38,6 +38,8 @@ public class Master extends Listener { // SERVER
 
 	private static Server server;
 
+	public static final int GOALSTOWIN = 2;
+	
 	public static final String server_ngrok_url = "localhost";
 	public static final int server_tcpPort = 23333;
 //	public static final String client_ngrok_url = "tcp://0.tcp.ngrok.io";
@@ -109,6 +111,7 @@ public class Master extends Listener { // SERVER
 		puckPU = new PowerUpPuckSize();
 		time = 0;
 		ran = new Random();
+		
 	}
 
 	
@@ -295,27 +298,29 @@ public class Master extends Listener { // SERVER
 
 				
 			}
-			if (s1.getPlayer().getScore() == 7) { //GAME OVER HERE
+			if (s1.getPlayer().getScore() == GOALSTOWIN) { //GAME OVER HERE
 				//Update SQL inside updateStats
 				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "WIN"));
 				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "LOSE"));				
 				
 			}
-			if (s2.getPlayer().getScore() == 7) { //GAME OVER HERE
+			if (s2.getPlayer().getScore() == GOALSTOWIN) { //GAME OVER HERE
 				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "WIN"));
 				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "LOSE"));
 
 				
 			}
+			
+			// Power up control
 			if (time == (int)(ran.nextDouble() * 2500)) {
 				time = 0;
 				int choose = new Random().nextInt() % 2;
-				if (choose == 0) {
+				if (choose == 0) { // midline
 					if (pu.hidden() && mid.inMiddle()) {
 						pu.reset();
 					}
 				}
-				else {
+				else { // pucksize
 					if (puckPU.hidden() && puck.width == 30) {
 						puckPU.reset(puck);
 					}
