@@ -33,11 +33,13 @@ public class PowerUpMidline extends Pane implements PowerUp {
         hide();
 	}
 	
+	
 	public void display() {
 		relocate(location.x - centerX, location.y - centerY);
 	}
 	
-	public void activate(Midline m, Striker s) {
+	// on hit
+	public void activate(Midline m, Striker s) { 
 		int id = 1;//s.getPlayer().getPlayerID();
 		if (id == 1) {
 			m.move((m.startingY*0.5)-15);
@@ -50,6 +52,12 @@ public class PowerUpMidline extends Pane implements PowerUp {
 		hide();
 	}
 
+
+	public void show(double x, double y) {
+		move(x, y);
+		hidden = false;
+	}
+	
 	public PVector getLocation() {
 		return location;
 	}

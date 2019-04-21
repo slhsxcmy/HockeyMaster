@@ -142,6 +142,7 @@ public class Puck extends Pane{
 		double puy = pu.getLocation().y;
 		double pur = pu.getRadius();
 		if (Math.sqrt((px - pux) * (px - pux) + (py - puy) * (py - puy)) <= radius + pur) {
+			
 			pu.activate(m, lastHit);
 			return lastHit.getPlayer().getPlayerID();
 		}
@@ -175,6 +176,7 @@ public class Puck extends Pane{
 		//System.out.println((px - sx) * (px - sx) + (py - sy) * (py - sy) - (pr + sr) * (pr + sr));
 		if ((px - sx) * (px - sx) + (py - sy) * (py - sy) - (pr + sr) * (pr + sr) <= 0) {
 			//System.out.println("collision");
+			lastHit = s; // for power up 
 			return true;
 		} else {
 			return false;

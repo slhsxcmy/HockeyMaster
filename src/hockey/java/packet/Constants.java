@@ -6,10 +6,8 @@ public class Constants {
 	public static final int PUGOALSIZESHOW = 43;
 
 	public static final int PUPUCKSIZEACT = 50;
-	public static final int PUMIDLINEACT1 = 51;	
-	public static final int PUMIDLINEACT2 = 52;
-	public static final int PUGOALSIZEACT1 = 55;
-	public static final int PUGOALSIZEACT2 = 56;
+	public static final int PUMIDLINEACT = 51;
+	public static final int PUGOALSIZEACT = 55;
 	
 	
 	public static final int SIGNUPATTEMPT = 21;

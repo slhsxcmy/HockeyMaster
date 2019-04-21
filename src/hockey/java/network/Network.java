@@ -8,6 +8,8 @@ import com.esotericsoftware.kryonet.Listener;
 
 import hockey.java.Hockey;
 import hockey.java.controller.GameController;
+import hockey.java.front.PowerUpMidline;
+import hockey.java.front.Striker;
 import hockey.java.front.User;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketPU;
@@ -59,9 +61,9 @@ public class Network extends Listener{
 			int id = ((PacketReturn) o).dbid;
 			String username = ((PacketReturn) o).username;
 			String message = ((PacketReturn) o).message;
-			
+
 			switch(((PacketReturn) o).status) {
-			
+
 			case Constants.SIGNUPSUCCESS:
 			case Constants.LOGINSUCCESS: 
 
@@ -175,25 +177,42 @@ public class Network extends Listener{
             });
 		} else if (o instanceof PacketPU){
 			System.out.println("Client recieved PacketPU");
+
+			double x = ((PacketPU) o).x;
+			double y = ((PacketPU) o).y;
+			int id = ((PacketPU) o).playerID;
 			switch(((PacketPU) o).puid) {
+			/*** Midline ***/
 			case Constants.PUMIDLINESHOW: 
-				//GameController.getPuMidline().reset();
+				Platform.runLater(() -> {
+					GameController.getPuMidline().show(x, y);
+	            });
+				
+				
 				break;
+			case Constants.PUMIDLINEACT: 
+				
+				Platform.runLater(() -> {
+					Striker s;
+					if(GameController.getSelfStriker().getPlayer().getPlayerID() == id) {
+						s = GameController.getSelfStriker();
+					} else {
+						s = GameController.getOtherStriker();
+					}
+					GameController.getPuMidline().activate(GameController.getMidline(), s);
+					GameController.getPuMidline().hide();
+	            });
+				break;
+				
 			case Constants.PUPUCKSIZESHOW:
 				//GameController.getPuPuck().reset();
 				break;
 			case Constants.PUGOALSIZESHOW:
 				break;
-			case Constants.PUMIDLINEACT1: 
-				
-				break;
-			case Constants.PUMIDLINEACT2: 
-				break;
+			
 			case Constants.PUPUCKSIZEACT:
 				break;
-			case Constants.PUGOALSIZEACT1: 
-				break;
-			case Constants.PUGOALSIZEACT2: 
+			case Constants.PUGOALSIZEACT: 
 				break;
 			
 			}

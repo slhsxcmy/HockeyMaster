@@ -114,6 +114,9 @@ public class Test extends Application{
          
     	 playfield.getChildren().add(pu);
     	 playfield.getChildren().add(puckPU);
+         
+    	 playfield.getChildren().remove(pu);
+    	 playfield.getChildren().remove(puckPU);
          mid.display();
          // capture mouse position
          scene.addEventFilter(MouseEvent.ANY, e -> {

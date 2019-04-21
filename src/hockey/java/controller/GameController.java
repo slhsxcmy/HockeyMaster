@@ -7,6 +7,7 @@ import hockey.java.front.CenterCircle;
 import hockey.java.front.Goal;
 import hockey.java.front.Midline;
 import hockey.java.front.Player;
+import hockey.java.front.PowerUpGoalSize;
 import hockey.java.front.PowerUpMidline;
 import hockey.java.front.PowerUpPuckSize;
 import hockey.java.front.Puck;
@@ -45,6 +46,7 @@ public class GameController {
     private static CenterCircle center;
     private static PowerUpMidline puMidline;
     private static PowerUpPuckSize puPuck;
+    private static PowerUpGoalSize puGoal;
   	Text p1s = new Text("0");
    	Text p2s = new Text("0");
    	Text goalMessage = new Text("");
@@ -66,6 +68,7 @@ public class GameController {
 	   	 
 	   	 puMidline = new PowerUpMidline();
 	     puPuck = new PowerUpPuckSize();
+	     puGoal = new PowerUpGoalSize();
 		 
 	   	 p1s.setFont(Font.font ("Verdana", 50));
 	   	 p1s.setFill(Color.RED);
@@ -98,14 +101,17 @@ public class GameController {
 	     playfield.getChildren().add(selfGoal);
 	     playfield.getChildren().add(p1s);
 	     playfield.getChildren().add(p2s);
+
+	     playfield.getChildren().add(puMidline);
+	     playfield.getChildren().add(puPuck);
+	     playfield.getChildren().add(puGoal);
+	     
 	     //display static shapes
 	     center.display();
 	     otherGoal.display();
 	     selfGoal.display();
 	     walls1.display();
 	     walls2.display();
-	     playfield.getChildren().add(puMidline);
-		 playfield.getChildren().add(puPuck);
 	     mid.display();
        
     	 // capture mouse position
@@ -193,5 +199,14 @@ public class GameController {
 	public static void setPuPuck(PowerUpPuckSize puPuck) {
 		GameController.puPuck = puPuck;
 	}
+
+	public static Midline getMidline() {
+		return mid;
+	}
+
+	public static void setMidline(Midline mid) {
+		GameController.mid = mid;
+	}
+ 
 	
 }

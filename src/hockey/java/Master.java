@@ -17,6 +17,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
+import hockey.java.controller.GameController;
 import hockey.java.database.SQLModel;
 import hockey.java.front.Goal;
 import hockey.java.front.Midline;
@@ -100,8 +101,8 @@ public class Master extends Listener { // SERVER
 	public static void initBoard() {
 
 		powerups.add(new PowerUpMidline());
-		powerups.add(new PowerUpPuckSize());
-		powerups.add(new PowerUpGoalSize());
+//		powerups.add(new PowerUpPuckSize());
+//		powerups.add(new PowerUpGoalSize());
 		
 		s1 = new Striker(new Player(1));
 		s2 = new Striker(new Player(2));
@@ -257,22 +258,19 @@ public class Master extends Listener { // SERVER
 
 			puck.checkPuckWalls();
 
-			/*
+			
 			int checkMidline = puck.collision(mid, puMidline);
 			int checkPuck = puck.collision(puPuck);
-			if(checkMidline == 1) { // powerup move midline
-				PacketPU ppu = new PacketPU(Constants.PUMIDLINEACT1);
+			if(checkMidline > 0) { // powerup move midline activate
+				PacketPU ppu = new PacketPU(Constants.PUMIDLINEACT, checkMidline);
+				Striker s = (checkMidline == 1) ? s1 : s2;
+				puMidline.activate(mid, s);
 				connections.get(players.get(0)).sendTCP(ppu);
 				connections.get(players.get(1)).sendTCP(ppu);
 				System.out.println("s1 hit Midline Power Up");
-			}  else if (checkMidline == 2) {
-				PacketPU ppu = new PacketPU(Constants.PUMIDLINEACT2);
-				connections.get(players.get(0)).sendTCP(ppu);
-				connections.get(players.get(1)).sendTCP(ppu);
-				System.out.println("s2 hit Midline Power Up");
 			} 
-			
-			if(checkPuck == 1) {// powerup minimize puck
+			/*
+			if(checkPuck > 0) {// powerup minimize puck activate
 				PacketPU ppu = new PacketPU(Constants.PUPUCKSIZEACT);
 				connections.get(players.get(0)).sendTCP(ppu);
 				connections.get(players.get(1)).sendTCP(ppu);
