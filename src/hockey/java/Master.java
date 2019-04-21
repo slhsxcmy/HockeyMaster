@@ -156,11 +156,6 @@ public class Master extends Listener { // SERVER
 
 	}
 
-	// runs when connection 
-	public void connected(Connection c) {
-		System.out.println("Received connection from " + c.getRemoteAddressTCP().getHostString());
-
-	}
 
 	// runs when packet received
 	public void received(Connection c, Object o) {
@@ -371,8 +366,15 @@ public class Master extends Listener { // SERVER
 		initBoard();
 	}
 	
+
+	// runs when connection 
+	public void connected(Connection c) {
+		System.out.println("Received connection from " + c.getRemoteAddressTCP().getHostString());
+
+	}
+	
 	public void disconnected(Connection c) {
-		System.out.println("Lost connection from client.");
+		System.out.println("Lost connection from client. ");
 	}
 	
 	public void debug() {
