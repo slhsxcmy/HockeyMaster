@@ -69,8 +69,7 @@ public class Master extends Listener { // SERVER
 	private static PowerUpPuckSize puPuck;
 	private static int time;
 	private static Random rnd = new Random();
-	private static int rt = (int)(rnd.nextDouble() * 2500);
-
+	private static int rt = rnd.nextInt(2 * PUMT);
 	public static PowerUp getRandomPowerUp() {
 		int index = rnd.nextInt(powerups.size());
 		Iterator<PowerUp> iter = powerups.iterator();
@@ -100,8 +99,8 @@ public class Master extends Listener { // SERVER
 
 	public static void initBoard() {
 
-//		powerups.add(new PowerUpMidline());
-		powerups.add(new PowerUpPuckSize());
+		powerups.add(new PowerUpMidline());
+//		powerups.add(new PowerUpPuckSize());
 //		powerups.add(new PowerUpGoalSize());
 		
 		s1 = new Striker(new Player(1));
@@ -332,7 +331,7 @@ public class Master extends Listener { // SERVER
 			
 			if (time == rt) {
 				time = 0;
-				rt = rnd.nextInt() % (2 * PUMT);
+				rt = rnd.nextInt(2 * PUMT);
 				
 				PowerUp p = getRandomPowerUp();
 				PacketPU ppu;
