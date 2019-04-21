@@ -5,7 +5,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class PowerUp extends Pane{
+public class PowerUpMidline extends Pane{
 	
 	private PVector location;
 	private boolean hidden;
@@ -18,7 +18,7 @@ public class PowerUp extends Pane{
 
     Circle circle;
 	
-	public PowerUp() {
+	public PowerUpMidline() {
 		location = new PVector(-100, -100);
 		
 		circle = new Circle(radius);
@@ -64,11 +64,11 @@ public class PowerUp extends Pane{
 		display();
 	}
 	
-	public void reset() {
+	public PVector reset() {
 		Random r = new Random();
 //		move(r.nextDouble() * (BoardSettings.SCENE_WIDTH - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT, 
 //				r.nextDouble() * (BoardSettings.SCENE_HEIGHT - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT);
-		double x =r.nextDouble() * (BoardSettings.SCENE_WIDTH - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT;
+		double x = r.nextDouble() * (BoardSettings.SCENE_WIDTH - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT;
 		double y = r.nextDouble() * (BoardSettings.SCENE_HEIGHT - (2 * BoardSettings.BOARDER_HEIGHT)) + BoardSettings.BOARDER_HEIGHT;
 
 		if(x >= BoardSettings.SCENE_WIDTH - BoardSettings.BOARDER_HEIGHT) {
@@ -85,6 +85,7 @@ public class PowerUp extends Pane{
 		}
 		move(x, y);
 		hidden = false;
+		return new PVector(x,y);
 	}
 	
 	public void hide() {

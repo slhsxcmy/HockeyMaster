@@ -9,6 +9,7 @@ import hockey.java.front.Striker;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketAttempt;
 import hockey.java.packet.PacketMouse;
+import hockey.java.packet.PacketPU;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStats;
@@ -34,11 +35,13 @@ public class NetworkHelper {
 		k.register(PacketStriker.class);
 		k.register(PacketMouse.class);
 		k.register(PacketPuck.class);
+		k.register(PacketPU.class);
 		k.register(Striker.class);
 		k.register(Player.class);
 		k.register(Puck.class);
 		k.register(PVector.class);
 		k.register(Constants.class);
+		
 		//k.register(com.sun.javafx.geom.RectBounds.class);
 	}
 

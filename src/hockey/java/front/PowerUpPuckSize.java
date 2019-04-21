@@ -57,7 +57,7 @@ public class PowerUpPuckSize extends Pane{
 		display();
 	}
 	
-	public void reset(Puck p) {
+	public PVector reset() {
 		Random r = new Random();
 		double x =r.nextDouble() * (BoardSettings.SCENE_WIDTH - (2 * BoardSettings.BOARDER_HEIGHT));
 		double y = r.nextDouble() * (BoardSettings.SCENE_HEIGHT - (2 * BoardSettings.BOARDER_HEIGHT));
@@ -75,6 +75,7 @@ public class PowerUpPuckSize extends Pane{
 		}
 		move(x, y);
 		hidden = false;
+		return new PVector(x,y);
 	}
 	
 	public void hide() {

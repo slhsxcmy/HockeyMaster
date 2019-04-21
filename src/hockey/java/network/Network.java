@@ -2,7 +2,6 @@ package hockey.java.network;
 
 import java.io.IOException;
 
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -11,7 +10,7 @@ import hockey.java.Hockey;
 import hockey.java.controller.GameController;
 import hockey.java.front.User;
 import hockey.java.packet.Constants;
-import hockey.java.packet.PacketAttempt;
+import hockey.java.packet.PacketPU;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStats;
@@ -107,8 +106,18 @@ public class Network extends Listener{
 					Hockey.getGameController().gameLoop();
                 });
 				break;
-			case Constants.PLAYFAILURE: 
-				// TODO show please wait
+			case Constants.PLAYFAILUREFEW: 
+				Platform.runLater(() -> {
+					Hockey.getWaitController().setMessage("Please wait for another player.");
+					Hockey.getPrimaryStage().setScene(Hockey.getWaitScene());	
+                });
+				break;
+			case Constants.PLAYFAILUREMANY: 
+				Platform.runLater(() -> {
+					Hockey.getWaitController().setMessage("Game already in progress.");
+					Hockey.getPrimaryStage().setScene(Hockey.getWaitScene());
+					
+                });
 				break;
 			case Constants.GOAL:
 				String goalmessage = ((PacketReturn) o).message;
@@ -129,7 +138,7 @@ public class Network extends Listener{
 				break;
 			}
 		} else if (o instanceof PacketStriker){
-			System.out.println("Client received PacketStriker of id = " + ((PacketStriker) o).id);
+			//System.out.println("Client received PacketStriker of id = " + ((PacketStriker) o).id);
 			
 			if(GameController.getOtherStriker().getPlayer().getPlayerID() == ((PacketStriker)o).id) {
 				// update other striker
@@ -146,7 +155,7 @@ public class Network extends Listener{
 			
 			
 		} else if (o instanceof PacketPuck){
-			System.out.println("Client received PacketPuck!");
+			//System.out.println("Client received PacketPuck!");
 			
 			GameController.getPuck().setPosition(((PacketPuck) o).locX, ((PacketPuck) o).locY);
 			GameController.getPuck().setVelocity(((PacketPuck) o).velX, ((PacketPuck) o).velY);
@@ -158,8 +167,32 @@ public class Network extends Listener{
 			Platform.runLater(() -> {
 				Hockey.getPrimaryStage().setScene(Hockey.getStatsScene());
             });
-		} 
-		
+		} else if (o instanceof PacketPU){
+			System.out.println("Client recieved PacketPU");
+			switch(((PacketPU) o).puid) {
+			case Constants.PUMIDLINESHOW: 
+				GameController.getPuMidline().reset();
+				break;
+			case Constants.PUPUCKSIZESHOW:
+				GameController.getPuPuck().reset();
+				break;
+			case Constants.PUGOALSIZESHOW:
+				break;
+			case Constants.PUMIDLINEACT1: 
+				
+				break;
+			case Constants.PUMIDLINEACT2: 
+				break;
+			case Constants.PUPUCKSIZEACT:
+				break;
+			case Constants.PUGOALSIZEACT1: 
+				break;
+			case Constants.PUGOALSIZEACT2: 
+				break;
+			
+			}
+			
+		}
 
 	}
 	

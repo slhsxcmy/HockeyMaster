@@ -7,6 +7,7 @@ import hockey.java.controller.LoginController;
 import hockey.java.controller.MenuController;
 import hockey.java.controller.SignupController;
 import hockey.java.controller.StatsController;
+import hockey.java.controller.WaitController;
 import hockey.java.front.User;
 import hockey.java.network.Network;
 import javafx.application.Application;
@@ -21,9 +22,20 @@ public class Hockey extends Application {
 	private static Network network = new Network();
 	private static User user = null;// = new User(); 
 	
-	public static final int NUMSCENES = 6;
+	public static final int NUMSCENES = 8;
 	private static Scene[] scenes = new Scene[NUMSCENES];
 	private static Parent gameRoot;
+
+	private static Stage primaryStage;
+	private static Scene menuScene, loginScene, signupScene, loggedScene, statsScene, gameScene, waitScene, gameOverScene;
+	private static MenuController menuController;
+	private static LoginController loginController;
+	private static SignupController signupController;
+	private static LoggedController loggedController;
+	private static StatsController statsController;
+	private static GameController  gameController;
+	private static WaitController waitController;
+	private static GameOverController  gameOverController;
 	
 	public static void setUser(User user) {
 		Hockey.user = user;
@@ -73,6 +85,18 @@ public class Hockey extends Application {
 		gameRoot = (Parent)gameLoader.load();	
 		gameScene = new Scene(gameRoot);
 		scenes[5] = gameScene;
+
+		
+		FXMLLoader waitLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Wait.fxml"));
+		Parent waitRoot = (Parent)waitLoader.load();	
+		waitScene = new Scene(waitRoot);
+		scenes[6] = waitScene;
+
+		
+		FXMLLoader gameOverLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/GameOver.fxml"));
+		Parent gameOverRoot = (Parent)gameOverLoader.load();	
+		gameOverScene = new Scene(gameOverRoot);
+		scenes[7] = gameOverScene;
 	
 		/*** All Scenes End ***/
 		
@@ -99,15 +123,6 @@ public class Hockey extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
-	private static Stage primaryStage;
-	private static Scene menuScene, loginScene, signupScene, loggedScene, statsScene, gameScene;
-	private static MenuController menuController;
-	private static LoginController loginController;
-	private static SignupController signupController;
-	private static LoggedController loggedController;
-	private static StatsController statsController;
-	private static GameController  gameController;
 	
 	
 	public static Network getNetwork() {
@@ -228,6 +243,38 @@ public class Hockey extends Application {
 
 	public static void setGameRoot(Parent gameRoot) {
 		Hockey.gameRoot = gameRoot;
+	}
+
+	public static Scene getWaitScene() {
+		return waitScene;
+	}
+
+	public static void setWaitScene(Scene waitScene) {
+		Hockey.waitScene = waitScene;
+	}
+
+	public static Scene getGameOverScene() {
+		return gameOverScene;
+	}
+
+	public static void setGameOverScene(Scene gameOverScene) {
+		Hockey.gameOverScene = gameOverScene;
+	}
+
+	public static WaitController getWaitController() {
+		return waitController;
+	}
+
+	public static void setWaitController(WaitController waitController) {
+		Hockey.waitController = waitController;
+	}
+
+	public static GameOverController getGameOverController() {
+		return gameOverController;
+	}
+
+	public static void setGameOverController(GameOverController gameOverController) {
+		Hockey.gameOverController = gameOverController;
 	}
 
 	

@@ -1,7 +1,6 @@
 package hockey.java;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,7 +19,7 @@ import hockey.java.front.Goal;
 import hockey.java.front.Midline;
 import hockey.java.front.PVector;
 import hockey.java.front.Player;
-import hockey.java.front.PowerUp;
+import hockey.java.front.PowerUpMidline;
 import hockey.java.front.PowerUpPuckSize;
 import hockey.java.front.Puck;
 import hockey.java.front.Striker;
@@ -30,6 +29,7 @@ import hockey.java.network.NetworkHelper;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketAttempt;
 import hockey.java.packet.PacketMouse;
+import hockey.java.packet.PacketPU;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStriker;
@@ -39,13 +39,10 @@ public class Master extends Listener { // SERVER
 	private static Server server;
 
 	public static final int GOALSTOWIN = 2;
+	public static final int NUMPU = 2;
 	
-	public static final String server_ngrok_url = "localhost";
-	public static final int server_tcpPort = 23333;
-//	public static final String client_ngrok_url = "tcp://0.tcp.ngrok.io";
-//	public static final int client_tcpPort = 18688;
-	public static final String client_ngrok_url = "localhost";
-	public static final int client_tcpPort = 23333;
+	public static final String server_ngrok_url = NetworkHelper.server_ngrok_url;
+	public static final int server_tcpPort = NetworkHelper.server_tcpPort;
 
 	private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
 	private static Map<Integer, Connection> connections = Collections.synchronizedMap(new HashMap<>()); 
@@ -62,10 +59,10 @@ public class Master extends Listener { // SERVER
 	private static Walls wall1, wall2;
 	private static Midline mid;
 	private static double friction;
-	private static PowerUp pu;
-	private static PowerUpPuckSize puckPU;
+	private static PowerUpMidline puMidline;
+	private static PowerUpPuckSize puPuck;
 	private static int time;
-	private static Random ran;
+	private static int rt = (int)(new Random().nextDouble() * 2500);
 	
 	public static int getGoalsFor(int dbid) {
 		if(dbid == players.get(0)) {
@@ -107,10 +104,10 @@ public class Master extends Listener { // SERVER
 		mid = new Midline();
 		friction = .988;
 
-		pu = new PowerUp();
-		puckPU = new PowerUpPuckSize();
+		puMidline = new PowerUpMidline();
+		puPuck = new PowerUpPuckSize();
 		time = 0;
-		ran = new Random();
+		
 		
 	}
 
@@ -208,7 +205,9 @@ public class Master extends Listener { // SERVER
 				p = model.loggedPlay(username, c);
 				if(p.status == Constants.PLAYSUCCESS) {
 					activateGame(); // game board on server					
-				}
+				} else {
+					c.sendTCP(p);
+				} 
 				
 				debug();
 
@@ -261,11 +260,31 @@ public class Master extends Listener { // SERVER
 
 			puck.checkPuckWalls();
 			
-			puck.collision(mid, pu); // powerup move midline
-			puck.collision(puckPU); // powerup minimize puck
-
-			DecimalFormat form = new DecimalFormat("#.00");
-       	 	
+			int checkMidline = puck.collision(mid, puMidline);
+			int checkPuck = puck.collision(puPuck);
+			if(checkMidline == 1) { // powerup move midline
+				PacketPU ppu = new PacketPU(Constants.PUMIDLINEACT1);
+				connections.get(players.get(0)).sendTCP(ppu);
+				connections.get(players.get(1)).sendTCP(ppu);
+				System.out.println("s1 hit Midline Power Up");
+			}  else if (checkMidline == 2) {
+				PacketPU ppu = new PacketPU(Constants.PUMIDLINEACT2);
+				connections.get(players.get(0)).sendTCP(ppu);
+				connections.get(players.get(1)).sendTCP(ppu);
+				System.out.println("s2 hit Midline Power Up");
+			} 
+			
+			if(checkPuck == 1) {// powerup minimize puck
+				PacketPU ppu = new PacketPU(Constants.PUPUCKSIZEACT);
+				connections.get(players.get(0)).sendTCP(ppu);
+				connections.get(players.get(1)).sendTCP(ppu);
+				System.out.println("HIT Puck Size Power Up");
+			}
+				
+			//puck.collision(goal1, puGoal); // powerup change goal size
+			//puck.collision(goal2, puGoal);
+			
+			
 			PacketPuck pp = new PacketPuck(puck.getLocation().x,puck.getLocation().y,puck.getVelocity().x,puck.getVelocity().y);
 			connections.get(players.get(0)).sendTCP(pp);
 			connections.get(players.get(1)).sendTCP(pp);
@@ -312,21 +331,36 @@ public class Master extends Listener { // SERVER
 			}
 			
 			// Power up control
-			if (time == (int)(ran.nextDouble() * 2500)) {
+			
+			if (time == rt) {
 				time = 0;
-				int choose = new Random().nextInt() % 2;
+				rt = (int)(new Random().nextDouble() * 2500);
+				
+				int choose = new Random().nextInt() % NUMPU;
+				PacketPU ppu;
 				if (choose == 0) { // midline
-					if (pu.hidden() && mid.inMiddle()) {
-						pu.reset();
+					if (puMidline.hidden() && mid.inMiddle()) {
+						PVector v = puMidline.reset();
+						ppu = new PacketPU(Constants.PUMIDLINESHOW, v.x, v.y);
+						connections.get(players.get(0)).sendTCP(ppu);
+						connections.get(players.get(1)).sendTCP(ppu);
+						System.out.println("Showing Midline Power Up");
 					}
 				}
-				else { // pucksize
-					if (puckPU.hidden() && puck.width == 30) {
-						puckPU.reset(puck);
+				else if (choose == 1){ // pucksize
+					if (puPuck.hidden() && puck.width == 30) {
+						PVector v = puPuck.reset();
+						ppu = new PacketPU(Constants.PUPUCKSIZESHOW, v.x, v.y);
+						connections.get(players.get(0)).sendTCP(ppu);
+						connections.get(players.get(1)).sendTCP(ppu);
+						System.out.println("Showing Puck Size Power Up");
 					}
+				} else if (choose == 2) { // goal size
+					// TODO 
 				}
 			}
 			time++;
+			System.out.println(time + " < " + rt);
 		} 
 
 	}
