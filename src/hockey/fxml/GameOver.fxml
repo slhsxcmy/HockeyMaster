@@ -50,8 +50,11 @@
 	  </Button>
       <Label fx:id="message" layoutX="14.0" layoutY="300.0" prefHeight="34.0" prefWidth="372.0" textAlignment="CENTER" textFill="#c30c0c">
          <font>
-            <Font name="System Bold" size="22.0" />
+            <Font name="OLD SPORT 01 COLLEGE NCV" size="21.0" />
          </font>
+         <effect>
+            <DropShadow color="WHITE" height="42.25" radius="28.215" spread="0.49" width="72.61" />
+         </effect>
       </Label>
    </children>
 </AnchorPane>

@@ -47,7 +47,7 @@ public class Master extends Listener { // SERVER
 	public static final String client_ngrok_url = "localhost";
 	public static final int client_tcpPort = 23333;
 
-	private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
+	//private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
 	private static Map<Integer, Connection> connections = Collections.synchronizedMap(new HashMap<>()); 
 	private static Queue<Integer> waitList = new LinkedList<Integer>();
 	private static List<Integer> players = new ArrayList<Integer>(); //store id in database
@@ -116,9 +116,9 @@ public class Master extends Listener { // SERVER
 
 	
 
-	public static Map<Integer, User> getUsers(){
-		return onlineUsers;
-	}
+//	public static Map<Integer, User> getUsers(){
+//		return onlineUsers;
+//	}
 
 	public static Map<Integer, Connection> getConnections(){
 		return connections;
@@ -339,6 +339,8 @@ public class Master extends Listener { // SERVER
 	
 	public void disconnected(Connection c) {
 		System.out.println("Lost connection from client.");
+		int player = 
+		
 	}
 	
 	public void debug() {

@@ -90,6 +90,7 @@ public class Hockey extends Application {
 		loggedController = loggedLoader.getController();
 		statsController = statsLoader.getController();
 		gameController = gameLoader.getController();
+		gameOverController = gameOverLoader.getController();
 		/*** All Controllers End ***/
 
 		
