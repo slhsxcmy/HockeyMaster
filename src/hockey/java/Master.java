@@ -47,6 +47,7 @@ public class Master extends Listener { // SERVER
 
 	private static final int GOALSTOWIN = 100;
 	private static final int PUMT = 300; // power up mean time
+
 	public static final String server_ngrok_url = NetworkHelper.server_ngrok_url;
 	public static final int server_tcpPort = NetworkHelper.server_tcpPort;
 

@@ -118,8 +118,8 @@ public class GameController {
 	     walls1.display();
 	     walls2.display();
 	     mid.display();
-	     pu.display();
-	     puckPU.display();
+	     puMidline.display();
+	     puPuck.display();
        
     	 // capture mouse position
     	 Hockey.getGameScene().addEventFilter(MouseEvent.ANY, e -> {

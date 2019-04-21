@@ -41,7 +41,6 @@ public class Goal extends Pane {
 			goal.setHeight(height);
 			goal.setStroke(Color.RED);
 	        goal.setFill(Color.RED);
-			
 		}
 		getChildren().add(goal);
 	}
@@ -78,4 +77,17 @@ public class Goal extends Pane {
         relocate(location.x, location.y);
     }
 
+	public void enlarge() {
+		location.x -= 50;
+		width += 100;
+		goal.setWidth(width);
+		display();
+	}
+	
+	public void reset() {
+		location.x += 50;
+		width -= 100;
+		goal.setWidth(width);
+		display();
+	}
 }
