@@ -10,13 +10,13 @@ public class PowerUpMidline extends Pane implements PowerUp {
 	private PVector location;
 	private boolean hidden;
 	
-	double width = 20;
-    double height = width;
-    double centerX = width / 2.0;
-    double centerY = height / 2.0;
-    double radius = width / 2.0;
+	private double width = 20;
+	private double height = width;
+	private double centerX = width / 2.0;
+	private double centerY = height / 2.0;
+	private double radius = width / 2.0;
 
-    Circle circle;
+	private Circle circle;
 	
 	public PowerUpMidline() {
 		location = new PVector(-100, -100);

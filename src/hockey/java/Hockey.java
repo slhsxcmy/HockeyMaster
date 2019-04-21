@@ -38,25 +38,23 @@ public class Hockey extends Application {
 	private static GameController  gameController;
 	private static WaitController waitController;
 	private static GameOverController  gameOverController;
-	
+
 	public static void setUser(User user) {
 		Hockey.user = user;
 	}
-	
+
 	public static User getUser() {
 		return user;
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Hockey.primaryStage = primaryStage;
-// https://stackoverflow.com/questions/12804664/how-to-swap-screens-in-a-javafx-application-in-the-controller-class
 		
-		
-			
+		// https://stackoverflow.com/questions/12804664/how-to-swap-screens-in-a-javafx-application-in-the-controller-class
 		// FXML
 		//Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
-		
+
 		/*** All Scenes Start ***/
 		FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Menu.fxml"));
 		Parent menuRoot = (Parent)menuLoader.load();
@@ -97,9 +95,6 @@ public class Hockey extends Application {
 		Parent waitRoot = (Parent)waitLoader.load();	
 		waitScene = new Scene(waitRoot);
 		scenes[7] = waitScene;
-
-
-	
 		/*** All Scenes End ***/
 		
 		/*** All Controllers Start ***/
