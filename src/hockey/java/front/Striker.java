@@ -28,8 +28,6 @@ public class Striker extends Pane {
     double mult = 1;
 
     Circle circle;
-    
-    private boolean update;
 	
 	public Striker(Player player) {
 		this.player = player;
@@ -44,103 +42,81 @@ public class Striker extends Pane {
         circle.setCenterX(radius);
         circle.setCenterY(radius);
 
-        circle.setStroke(Color.BLUE);
-        circle.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.6));
-
+        if (player.getPlayerID() == 1) {
+        	circle.setStroke(Color.BLUE);
+            circle.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.6));
+        }
+        else {
+        	circle.setStroke(Color.CYAN);
+        	circle.setFill(Color.CYAN.deriveColor(1, 1, 1, 0.6));
+        }
         getChildren().add(circle);
-        
-        update = true;
 	}
 	
 	public void step(PVector mouse, Midline mid) {
-		velocity = PVector.sub(mouse, location, velocity);
-		if (player.getPlayerID() == 1 && location.y == mid.getLocation() + mid.getHeight() + radius - 1 || 
-				player.getPlayerID() == 2 && location.y == mid.getLocation() - mid.getHeight() - radius + 1) {
-			velocity.y = 0;
-		}
+		velocity = PVector.sub(mouse, location);
+		// midline
+		if (player.getPlayerID() == 1 && location.y <= mid.getLocation() + mid.getHeight() + radius - 1 || 
+				player.getPlayerID() == 2 && location.y >= mid.getLocation() - mid.getHeight() - radius + 1) {
+			velocity.y = 0; 
+			location.x = mouse.x;
+		} 
 		location.copy(mouse);
     }
 	
-	public void checkBoundaries(Puck p) {
-		//TODO
-		//CUrrently mouse goes across half line and physics is very off
-		//PUCK SPEEDS UP TO MAX
-		//player1 gets the bottom half
-		
-		double px = p.getLocation().x;
-		double py = p.getLocation().y;
-		double pr = p.getRadius();
-		double sx = location.x;
-		double sy = location.y;
-		if (p.onWall()) {
-			while (p.onWall() && Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + pr) {
-				p.checkBoundaries();
-				System.out.println("While");
-				double dx;
-				double dy = py - sy + 10;
-				if (px < sx) {
-					dx = sx - px + 10;
-					location.x = px + dx;
-				}
-				else {
-					dx = px - sx + 10;
-					location.x = px - dx;
-				}
-				if (py < sy) {
-					dy = sy - py + 10;
-					location.y = py + dy;
-				}
-				else {
-					dy = py - sy + 10;
-					location.y = py - dy;
-				}
-			}
-		}
-		
-		
-		if(player.getPlayerID() == 1) {
-			
-			if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
-				location.x = BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT;
-			} else if (location.x < 0 +radius+BoardSettings.BOARDER_HEIGHT) {
-				location.x = 0+radius+BoardSettings.BOARDER_HEIGHT;
-			}
+	// limit striker to walls and midline
+	public void checkStrikerWallsMidline() {
+		// Walls and midline
+				if(player.getPlayerID() == 1) {
+					
+					if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
+						location.x = BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT;
+						velocity.x = 0; // added by caesar
+					} else if (location.x < 0 +radius+BoardSettings.BOARDER_HEIGHT) {
+						location.x = 0+radius+BoardSettings.BOARDER_HEIGHT;
+						velocity.x = 0; // added by caesar
+					}
 
-			if (location.y > BoardSettings.SCENE_HEIGHT-radius-BoardSettings.BOARDER_HEIGHT) {
-				location.y = BoardSettings.SCENE_HEIGHT-radius-BoardSettings.BOARDER_HEIGHT;
-			}
-			
-			//if the striker hits the midline
-			else if (started == true && location.y < (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult) {
-				//System.out.println("midline");
-				location.y = (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult;
-			}
-			else if (started == false && location.y < ((radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult)*1.5) {
-				location.y = ((radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult*1.5);
-			}
-		}
-		else if(player.getPlayerID() == 2) {
-			if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
-				location.x = BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT;
-			} else if (location.x < 0 +radius+BoardSettings.BOARDER_HEIGHT) {
-				location.x = 0+radius+BoardSettings.BOARDER_HEIGHT;
-			}
-			if (location.y > BoardSettings.SCENE_HEIGHT-radius-BoardSettings.BOARDER_HEIGHT) {
-				location.y = BoardSettings.SCENE_HEIGHT-radius-BoardSettings.BOARDER_HEIGHT;
-			}
-			//TODO
-			//WE HAVE TO TEST THIS WHEN SERVER IS RUNNIGN
-			//if striker 2 hits the midline
-			if (location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)*mult) {
-				location.y = 0+radius+BoardSettings.BOARDER_HEIGHT*mult;
-			}
-			else if (started == true && location.y > ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult) {
-				location.y = (BoardSettings.SCENE_HEIGHT/2)-radius-2.5;
-			}
-			else if(started == false && location.y > ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult*0.5) {
-				location.y = ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult*0.5;
-			}
-		}
+					if (location.y > BoardSettings.SCENE_HEIGHT-radius-BoardSettings.BOARDER_HEIGHT) {
+						location.y = BoardSettings.SCENE_HEIGHT-radius-BoardSettings.BOARDER_HEIGHT;
+						velocity.y = 0; // added by caesar
+					}
+					
+					//if the striker hits the midline
+					else if (started == true && location.y < (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult) {
+						//System.out.println("midline");
+						location.y = (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult;
+						velocity.y = 0; // added by caesar
+					}
+					else if (started == false && location.y < ((radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult)*1.5) {
+						location.y = ((radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult*1.5);
+						velocity.y = 0; // added by caesar
+					}
+				}
+				else if(player.getPlayerID() == 2) {
+					if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
+						location.x = BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT;
+						velocity.x = 0; // added by caesar
+					} else if (location.x < 0 +radius+BoardSettings.BOARDER_HEIGHT) {
+						location.x = 0+radius+BoardSettings.BOARDER_HEIGHT;
+						velocity.x = 0; // added by caesar
+					}
+					//TODO
+					//WE HAVE TO TEST THIS WHEN SERVER IS RUNNIGN
+					//if striker 2 hits the midline
+					if (location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)*mult) {
+						location.y = 0+radius+BoardSettings.BOARDER_HEIGHT*mult;
+						velocity.y = 0; // added by caesar
+					}
+					else if (started == true && location.y > ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult) {
+						location.y = (BoardSettings.SCENE_HEIGHT/2)-radius-2.5;
+						velocity.y = 0; // added by caesar
+					}
+					else if(started == false && location.y > ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult*0.5) {
+						location.y = ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult*0.5;
+						velocity.y = 0; // added by caesar
+					}
+				}
 	}
 	
 	public void startGameBound() {
@@ -207,4 +183,7 @@ public class Striker extends Pane {
     	velocity.x = 0;
     	velocity.y = 0;
     }
+    
+    public Circle getCircle() { return circle; }
+
 }

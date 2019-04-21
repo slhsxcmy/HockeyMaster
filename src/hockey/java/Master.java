@@ -1,6 +1,7 @@
 package hockey.java;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import com.esotericsoftware.kryonet.Server;
 import hockey.java.database.SQLModel;
 import hockey.java.front.Goal;
 import hockey.java.front.Midline;
+import hockey.java.front.PVector;
 import hockey.java.front.Player;
 import hockey.java.front.PowerUp;
 import hockey.java.front.PowerUpPuckSize;
@@ -27,6 +29,7 @@ import hockey.java.front.Walls;
 import hockey.java.network.NetworkHelper;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketAttempt;
+import hockey.java.packet.PacketMouse;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStriker;
@@ -34,6 +37,14 @@ import hockey.java.packet.PacketStriker;
 public class Master extends Listener { // SERVER
 
 	private static Server server;
+
+	public static final String server_ngrok_url = "localhost";
+	public static final int server_tcpPort = 23333;
+//	public static final String client_ngrok_url = "tcp://0.tcp.ngrok.io";
+//	public static final int client_tcpPort = 18688;
+	public static final String client_ngrok_url = "localhost";
+	public static final int client_tcpPort = 23333;
+
 	private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
 	private static Map<Integer, Connection> connections = Collections.synchronizedMap(new HashMap<>()); 
 	private static Queue<Integer> waitList = new LinkedList<Integer>();
@@ -210,41 +221,48 @@ public class Master extends Listener { // SERVER
 				break;	
 
 			}
-		} else if (o instanceof PacketStriker){
-			int id = ((PacketStriker) o).id;
+		} else if (o instanceof PacketMouse){
 			
+			PVector mouse = new PVector(((PacketMouse)o).x,((PacketMouse)o).y);
+			int id = ((PacketMouse) o).id;
+			PacketStriker ps;
 			
-			
+			// id     = 1~2 
+			// id - 1 = 1~2 
+			// 2 - id = 1~0
+			// 3 - id = 2~1
 			if (id == 1) {
-				s1.setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
-				s1.setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
-				
-				
+				s1.step(mouse, mid);
+	           	s1.checkStrikerWallsMidline(); 
+	           	ps = new PacketStriker(id,s1.getLocation().x,s1.getLocation().y,s1.getVelocity().x,s1.getVelocity().y);
 			} else {
-				s2.setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
-				s2.setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
-				
+				s2.step(mouse, mid);
+	           	s2.checkStrikerWallsMidline();
+	           	ps = new PacketStriker(id,s2.getLocation().x,s2.getLocation().y,s2.getVelocity().x,s2.getVelocity().y);
 			}
 			
-			System.out.println("Server forwarding PacketStriker to id = " + (3 - id));
-			connections.get(players.get(2-id)).sendTCP(o);
+			connections.get(players.get(2-id)).sendTCP(ps);
+			connections.get(players.get(id-1)).sendTCP(ps);// added to send to self as well
 			
-			//s1.step(s1.getPlayer().getMouse(), mid);
-			//s2.step(p1.getMouse());
-			s1.checkBoundaries(puck); // s1 cannot push puck into wall
-			puck.collision(s1); // resolve collision
+			if(puck.collision(s1)) {
+				System.out.println("collision with 1");
+				puck.recalculate(s1); // resolve collision
+			}
 			
-			s2.checkBoundaries(puck); // s2 cannot push puck into wall
-			puck.collision(s2); // resolve collision
-			
-			puck.checkBoundaries(); // puck and wall
+			if(puck.collision(s2)) {
+				System.out.println("collision with 2");
+				puck.recalculate(s2); // resolve collision
+			}
+
 			puck.step(friction); 
+
+			puck.checkPuckWalls();
 			
 			puck.collision(mid, pu); // powerup move midline
 			puck.collision(puckPU); // powerup minimize puck
 
-			
-			System.out.println("Server sending PacketPuck " );
+			DecimalFormat form = new DecimalFormat("#.00");
+       	 	
 			PacketPuck pp = new PacketPuck(puck.getLocation().x,puck.getLocation().y,puck.getVelocity().x,puck.getVelocity().y);
 			connections.get(players.get(0)).sendTCP(pp);
 			connections.get(players.get(1)).sendTCP(pp);
@@ -252,7 +270,7 @@ public class Master extends Listener { // SERVER
 			
 			
 			if (g1.goalDetection(1)) {
-				//TODO update score
+				
 				s1.getPlayer().score();
 				s1.reset(1);
 				s2.reset(2);
@@ -260,7 +278,7 @@ public class Master extends Listener { // SERVER
 				mid.reset();
 				puck.resetSize();
 				
-				//call packetreturn(status, dbid, message)
+				// send goal message
 				connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 1, onlineUsers.get(players.get(0)).getUsername()+" GOAL!"));
 				connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 1, onlineUsers.get(players.get(0)).getUsername()+" GOAL!"));
 
@@ -286,6 +304,7 @@ public class Master extends Listener { // SERVER
 			if (s2.getPlayer().getScore() == 7) { //GAME OVER HERE
 				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "WIN"));
 				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "LOSE"));
+
 				
 			}
 			if (time == (int)(ran.nextDouble() * 2500)) {
@@ -303,7 +322,6 @@ public class Master extends Listener { // SERVER
 				}
 			}
 			time++;
-			
 		} 
 
 	}

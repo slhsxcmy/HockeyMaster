@@ -8,6 +8,7 @@ import hockey.java.front.Puck;
 import hockey.java.front.Striker;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketAttempt;
+import hockey.java.packet.PacketMouse;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStats;
@@ -21,7 +22,7 @@ public class NetworkHelper {
 	public static final String server_ngrok_url = "localhost";
 	public static final int server_tcpPort = 23333;
 	public static final String client_ngrok_url = "tcp://0.tcp.ngrok.io";
-	public static final int client_tcpPort = 18688;
+	public static final int client_tcpPort = 14160;
 	
 	
 	public static void registerClasses(Kryo k) {
@@ -31,6 +32,7 @@ public class NetworkHelper {
 		k.register(PacketReturn.class);
 		k.register(PacketStats.class);
 		k.register(PacketStriker.class);
+		k.register(PacketMouse.class);
 		k.register(PacketPuck.class);
 		k.register(Striker.class);
 		k.register(Player.class);

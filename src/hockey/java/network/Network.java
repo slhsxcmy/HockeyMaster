@@ -29,20 +29,11 @@ public class Network extends Listener{
 	
 		System.out.println("Starting Network constructor");
 
-		//System.out.println("Before init Kryo client");
-//		client = new Client();
-		//System.out.println("After init Kryo client");
-		
 		// register packet
-		System.out.println("Before client registering Kryo classes");
-		Kryo k = client.getKryo();
-		System.out.println("Got client Kryo");
-		NetworkHelper.registerClasses(k);
-		System.out.println("After client registering Kryo classes");
+		NetworkHelper.registerClasses(client.getKryo());
 
 		client.start();
-		
-		System.out.println("Client started");
+
 
 		try {
 			System.out.println("Client trying to connect to " + ip + ":" + port);
@@ -55,7 +46,7 @@ public class Network extends Listener{
 		// add listener for connected/received/disconnected methods
 		client.addListener(this);
 		
-		System.out.println("Client waiting for a packet...\n");		
+		System.out.println("Client waiting for a packet...");		
 			
 	}
 	
@@ -141,16 +132,27 @@ public class Network extends Listener{
 			}
 		} else if (o instanceof PacketStriker){
 			System.out.println("Client received PacketStriker of id = " + ((PacketStriker) o).id);
-			GameController.getOtherStriker().setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
-			GameController.getOtherStriker().setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
-
+			
+			if(GameController.getOtherStriker().getPlayer().getPlayerID() == ((PacketStriker)o).id) {
+				// update other striker
+				GameController.getOtherStriker().setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
+				GameController.getOtherStriker().setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
+				GameController.getOtherStriker().display();
+	           	 
+			} else {
+				// update self striker
+				GameController.getSelfStriker().setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
+				GameController.getSelfStriker().setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
+				GameController.getSelfStriker().display();
+			}
+			
 			
 		} else if (o instanceof PacketPuck){
 			System.out.println("Client received PacketPuck!");
 			
 			GameController.getPuck().setPosition(((PacketPuck) o).locX, ((PacketPuck) o).locY);
 			GameController.getPuck().setVelocity(((PacketPuck) o).velX, ((PacketPuck) o).velY);
-
+			GameController.getPuck().display();
 			
 		} else if (o instanceof PacketStats){
 			System.out.println("Client received PacketStats!");

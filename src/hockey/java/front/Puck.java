@@ -22,7 +22,7 @@ public class Puck extends Pane{
     
     private Striker lastHit;
     
-    private boolean onWall;
+    //private boolean onWall;
 	
 	public Puck() {
 		mass = 5;
@@ -41,7 +41,7 @@ public class Puck extends Pane{
         
         lastHit = null;
         
-        onWall = false;
+        //onWall = false;
 	}
 	
 	public void step(double friction) {
@@ -49,7 +49,44 @@ public class Puck extends Pane{
 		velocity.mult(friction);
 	}
 	
-	public boolean checkBoundaries() {
+	
+	public void checkPuckWalls() {
+		if((location.x-radius > 145-5) && 
+				(location.x+radius < (145+110)+5) && 
+				(location.y-radius < 0+BoardSettings.BOARDER_HEIGHT))
+		{}
+		else if((location.x-radius > 145-5) && 
+				(location.x+radius < (145+110)+5) && 
+				(location.y+radius > (BoardSettings.SCENE_HEIGHT-BoardSettings.BOARDER_HEIGHT)))
+		{}
+		else {
+	        if (location.x > BoardSettings.SCENE_WIDTH - radius - BoardSettings.BOARDER_HEIGHT) {
+	        	location.x = BoardSettings.SCENE_WIDTH - radius - BoardSettings.BOARDER_HEIGHT - 1;
+	        	velocity.x *= -1;
+	        	
+	        } 
+	        else if (location.x < BoardSettings.BOARDER_HEIGHT + radius) {
+	        	location.x = radius + BoardSettings.BOARDER_HEIGHT + 1;
+	        	velocity.x *= -1;
+	        	
+	        }
+	
+	        if (location.y > BoardSettings.SCENE_HEIGHT - radius - BoardSettings.BOARDER_HEIGHT) {
+	        	location.y = BoardSettings.SCENE_HEIGHT - radius - BoardSettings.BOARDER_HEIGHT - 1;
+	            velocity.y *= -1;
+
+	        } 
+	        else if (location.y < radius + BoardSettings.BOARDER_HEIGHT) {
+	        	location.y = radius + BoardSettings.BOARDER_HEIGHT + 1;
+	        	velocity.y *= -1;
+
+	        }
+		}
+
+	}
+	
+	// check wall hit
+	/*public boolean checkBoundaries() {
 		onWall = false;
 		//todo
 		//if puck is in the goal, keep it moving
@@ -66,28 +103,38 @@ public class Puck extends Pane{
 	        if (location.x > BoardSettings.SCENE_WIDTH - radius - BoardSettings.BOARDER_HEIGHT) {
 	        	location.x = BoardSettings.SCENE_WIDTH - radius - BoardSettings.BOARDER_HEIGHT - 1;
 	        	velocity.x *= -1;
+	        	// Try setting vel to 0 on second wall hit
+	        	//if(onWall) velocity.x = 0;
 	        	onWall = true;
 	        } 
 	        else if (location.x < BoardSettings.BOARDER_HEIGHT + radius) {
 	        	location.x = radius + BoardSettings.BOARDER_HEIGHT + 1;
 	        	velocity.x *= -1;
+	        	// Try setting vel to 0 on second wall hit
+	        	//if(onWall) velocity.x = 0;
 	        	onWall = true;
 	        }
 	
 	        if (location.y > BoardSettings.SCENE_HEIGHT - radius - BoardSettings.BOARDER_HEIGHT) {
 	        	location.y = BoardSettings.SCENE_HEIGHT - radius - BoardSettings.BOARDER_HEIGHT - 1;
 	            velocity.y *= -1;
+	         // Try setting vel to 0 on second wall hit
+	        	//if(onWall) velocity.y = 0;
 	            onWall = true;
 	        } 
 	        else if (location.y < radius + BoardSettings.BOARDER_HEIGHT) {
 	        	location.y = radius + BoardSettings.BOARDER_HEIGHT + 1;
 	        	velocity.y *= -1;
+	        	// Try setting vel to 0 on second wall hit
+	        	//if(onWall) velocity.y = 0;
 	        	onWall = true;
 	        }
 		}
 		return onWall;
     }
+    */
 	
+	// hit change midline location powerup
 	public void collision(Midline m, PowerUp pu) {
 		double px = location.x;
 		double py = location.y;
@@ -99,6 +146,7 @@ public class Puck extends Pane{
 		}
 	}
 	
+	// hit powerup change puck size
 	public void collision(PowerUpPuckSize pu) {
 		double px = location.x;
 		double py = location.y;
@@ -111,156 +159,82 @@ public class Puck extends Pane{
 
 	}
 	
+	// collision with striker
 	public boolean collision(Striker s) {
 		double px = location.x;
 		double py = location.y;
+		double pr = radius;
 		double sx = s.getLocation().x;
 		double sy = s.getLocation().y;
 		double sr = s.getRadius();
-		if (Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-			//hypotneuse divided by root 2 
-			double diag = (radius + sr)/(1.41421356);
-			//left
-			if(px < sx && py >= (sy - .4 * sr) && py <= (sy + .4 * sr)) {
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					int i = 0;
-					s.setPosition(px + radius + sr + i, sy);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					i++;
-					//System.out.println("LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
-				}
-			}
-			//top
-			else if(py < sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
-				int i = 0;
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py + radius + sr + i);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					i++;
-					//System.out.println("TOPPPPPPPPPPPPP");
-				}
-			}
-			//right
-			else if(px > sx && py >= (sy - .4 * sr) && py <= (sy + .4 * sr)) {
-				int i = 0;
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(px - radius - sr - i, sy);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					i++;
-					//System.out.println("RIIIIIGGGGGHHHHTTTT");
-				}
-			}
-			//bottom
-			else if(py > sy && px >= (sx - .4 * sr) && px <= (sx + .4 * sr)) {
-				int i = 0;
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					s.setPosition(sx, py - radius - sr - i);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					i++;
-					//System.out.println("BOOOOTTTTTTOOOOOMMMMMM");
-				}
-			}
-			//top left
-			else if(px < sx && py < sy) {
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					double dx = sx-px+1;
-					double dy = sy-py+1;
-					s.setPosition((px+dx), py+dy);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					//System.out.println("TOPPPPPPPPPP LLEEEEEEEEFFFFFFFFFTTTTTTTTTTT");
-				}
-			}
-			
-			//top right
-			else if(px > sx && py < sy) {
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					double dx = px-sx+1;
-					double dy = sy-py+1;
-					s.setPosition((px - dx) , py + dy);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					//System.out.println("TOPPPPPPPPPP RIIIIGGGGGGHTTT");
-				}
-			}
-			
-			//bottom right
-			else if(px > sx && py > sy) {
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					double dx = px-sx+1;
-					double dy = py-sy+1;
-					s.setPosition((px - dx), py - dy);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					//System.out.println("BOOOOTTTTTTOOOOOMMMMMM RIIIIGGGGGHHHHHHTTT");
-				}
-			}
-			
-			//bottom left
-			else if(px < sx && py > sy) {
-				while(Math.sqrt((px - sx) * (px - sx) + (py - sy) * (py - sy)) <= radius + sr) {
-					double dx = sx-px+1;
-					double dy = py-sy+1;
-					s.setPosition((px + dx), py - dy);
-					px = location.x;
-					py = location.y;
-					sx = s.getLocation().x;
-					sy = s.getLocation().y;
-					//System.out.println("BOOOOTTTTTTOOOOOMMMMMM LLLLEEEEEEEFFFFFFFTTTTT");
-				}
-			}
-			location.x = px;
-			location.y = py;
-			s.getLocation().x = sx;
-			s.getLocation().y = sy;
-			recalculate(s);
-			lastHit = s;
+
+		//System.out.println((px - sx) * (px - sx) + (py - sy) * (py - sy) - (pr + sr) * (pr + sr));
+		if ((px - sx) * (px - sx) + (py - sy) * (py - sy) - (pr + sr) * (pr + sr) <= 0) {
+			//System.out.println("collision");
 			return true;
+		} else {
+			return false;
 		}
-		return false;
+
 	}
-	
+
+	// called in collision to recalculate movement 
 	public void recalculate(Striker s) {
-		PVector sV = new PVector(s.getVelocity().x, s.getVelocity().y);
-		PVector pV = new PVector(velocity.x, velocity.y);
-		if (sV.x == 0 && sV.y == 0) {
-			pV.mult(-1);
-		}
-		else {
-			pV.mult(mass - s.getMass());
-			sV.mult(2 * s.getMass());
-			pV.add(sV);
-			pV.div(mass + s.getMass());
-//			sV = new PVector(s.getVelocity().x, s.getVelocity().y);
-//			sV.mult(-1);
-//			s.setVelocity(sV);
-//			s.step();
-//			sV.mult(-1);
-//			s.setVelocity(sV);
-		}
-		pV.mult(0.85);
-		velocity.copy(pV);
-		velocity.limit(25);
+		// 1 = puck; 2 = striker
+
+		float acc = 1;
+		float max = 10;
+		
+		double m1 = mass;
+		double m2 = s.getMass();
+		
+		PVector v1 = new PVector(this.getVelocity().x, this.getVelocity().y);
+		PVector v2 = new PVector(s.getVelocity().x, s.getVelocity().y);
+
+		PVector v1c = new PVector(PVector.sub(v1, v2));
+		
+		PVector c1 = this.getLocation();
+		PVector c2 = s.getLocation();
+		
+		PVector n = PVector.normalize(PVector.sub(c2,c1));
+		PVector t = PVector.normal(n);
+
+		PVector v1cn = PVector.mult(n, PVector.dot(n,v1c)); 
+		PVector v1ct = PVector.mult(t, PVector.dot(t, v1c));
+		
+		// cheat 1: accelerate puck towards out of striker
+		PVector v1cnp = PVector.add(PVector.mult(v1cn, -1), PVector.mult(n, -1*acc));
+
+		// cheat 2: set location of puck outside of striker
+		PVector newloc = new PVector(PVector.add(s.getLocation(), PVector.mult(n, -1*(this.radius+s.radius))));
+		this.setPosition(newloc);
+		
+		PVector v1p = PVector.add(PVector.add(v2, v1cnp), v1ct);
+		
+		
+		v1p.limit(max);
+		//v2p.limit(max);
+		
+		this.setVelocity(v1p);
+		//s.setVelocity(v2p);
+		
+		
+		
+/*		PVector v1 = new PVector(this.getVelocity().x, this.getVelocity().y);
+		PVector v2 = new PVector(s.getVelocity().x, s.getVelocity().y);
+
+		double m1 = mass;
+		double m2 = s.getMass();
+
+		PVector v1p = PVector.div(PVector.add(PVector.mult(v1, m1-m2),PVector.mult(v2, 2*m2)), m1+m2);
+		PVector v2p = PVector.div(PVector.add(PVector.mult(v2, m2-m1),PVector.mult(v1, 2*m1)), m1+m2);
+		
+		this.setVelocity(v1p);
+		s.setVelocity(v2p);
+*/
 	}
 	
+
 	public void changePuckSize(double size) {
 		this.width = size;
 		this.height = width;
@@ -318,10 +292,7 @@ public class Puck extends Pane{
 		display();
     }
     
-    public boolean onWall() {
-    	return onWall;
-    }
-    
+
     public double getRadius() {
     	return radius;
     }
