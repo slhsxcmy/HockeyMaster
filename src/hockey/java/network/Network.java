@@ -2,7 +2,6 @@ package hockey.java.network;
 
 import java.io.IOException;
 
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -11,6 +10,7 @@ import hockey.java.Hockey;
 import hockey.java.controller.GameController;
 import hockey.java.front.User;
 import hockey.java.packet.Constants;
+import hockey.java.packet.PacketPU;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStats;
@@ -66,9 +66,9 @@ public class Network extends Listener{
 			case Constants.LOGINSUCCESS: 
 
 				System.out.println("user dbid = " + id + " username = " + username);
-				Hockey.setUser(new User(id,username));
 				System.out.println("setting scene to logged");
 				Platform.runLater(() -> {
+					Hockey.setUser(new User(id,username));
 					Hockey.getPrimaryStage().setScene(Hockey.getLoggedScene());
                 });
 				System.out.println("set scene complete");
@@ -106,34 +106,99 @@ public class Network extends Listener{
 					Hockey.getGameController().gameLoop();
                 });
 				break;
-			case Constants.PLAYFAILURE: 
-				// TODO show error
+			case Constants.PLAYFAILUREFEW: 
+				Platform.runLater(() -> {
+					Hockey.getWaitController().setMessage("Please wait for another player.");
+					Hockey.getPrimaryStage().setScene(Hockey.getWaitScene());	
+                });
 				break;
-			
+			case Constants.PLAYFAILUREMANY: 
+				Platform.runLater(() -> {
+					Hockey.getWaitController().setMessage("Game already in progress.");
+					Hockey.getPrimaryStage().setScene(Hockey.getWaitScene());
+                });
+				break;
+			case Constants.GOAL:
+				String goalmessage = ((PacketReturn) o).message;
+				int goalplayer = ((PacketReturn) o).dbid;
+				Platform.runLater(() -> {
+					Hockey.getGameController().setScore(goalplayer);
+					Hockey.getGameController().showGoalMessage(goalmessage);
+				});
+				//Show goal message on screen and stop for 3 seconds
+				
+				
+				break;
 			case Constants.GAMEOVER:
+				String endmessage = ((PacketReturn) o).message;
+				Platform.runLater(() -> {
+					Hockey.getGameOverController().setMessage(endmessage);
+					Hockey.getPrimaryStage().setScene(Hockey.getGameOverScene());
+				});
+				//TODO
 				break;
 			}
 		} else if (o instanceof PacketStriker){
-			System.out.println("Client received PacketStriker of id = " + ((PacketStriker) o).id);
-			GameController.getOtherStriker().setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
-			GameController.getOtherStriker().setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
-
+			//System.out.println("Client received PacketStriker of id = " + ((PacketStriker) o).id);
+			Platform.runLater(() -> {
+				if(GameController.getOtherStriker().getPlayer().getPlayerID() == ((PacketStriker)o).id) {
+					// update other striker
+					GameController.getOtherStriker().setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
+					GameController.getOtherStriker().setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
+					GameController.getOtherStriker().display();
+		           	 
+				} else {
+					// update self striker
+					GameController.getSelfStriker().setPosition(((PacketStriker) o).locX, ((PacketStriker) o).locY);
+					GameController.getSelfStriker().setVelocity(((PacketStriker) o).velX, ((PacketStriker) o).velY);
+					GameController.getSelfStriker().display();
+				}
+			});
+				
+			
 			
 		} else if (o instanceof PacketPuck){
-			System.out.println("Client received PacketPuck!");
-			
-			GameController.getPuck().setPosition(((PacketPuck) o).locX, ((PacketPuck) o).locY);
-			GameController.getPuck().setVelocity(((PacketPuck) o).velX, ((PacketPuck) o).velY);
-
+			//System.out.println("Client received PacketPuck!");
+			Platform.runLater(() -> {
+					
+				GameController.getPuck().setPosition(((PacketPuck) o).locX, ((PacketPuck) o).locY);
+				GameController.getPuck().setVelocity(((PacketPuck) o).velX, ((PacketPuck) o).velY);
+				GameController.getPuck().display();
+			});
 			
 		} else if (o instanceof PacketStats){
 			System.out.println("Client received PacketStats!");
-			Hockey.getStatsController().setStats(((PacketStats) o).matchesWon, ((PacketStats) o).matchesLost, ((PacketStats) o).goalsFor, ((PacketStats) o).goalsAgainst);
 			Platform.runLater(() -> {
+				Hockey.getStatsController().setStats(((PacketStats) o).matchesWon, ((PacketStats) o).matchesLost, ((PacketStats) o).goalsFor, ((PacketStats) o).goalsAgainst);
+			
 				Hockey.getPrimaryStage().setScene(Hockey.getStatsScene());
             });
-		} 
-		
+		} else if (o instanceof PacketPU){
+			System.out.println("Client recieved PacketPU");
+			switch(((PacketPU) o).puid) {
+			case Constants.PUMIDLINESHOW: 
+				//GameController.getPuMidline().reset();
+				break;
+			case Constants.PUPUCKSIZESHOW:
+				//GameController.getPuPuck().reset();
+				break;
+			case Constants.PUGOALSIZESHOW:
+				break;
+			case Constants.PUMIDLINEACT1: 
+				
+				break;
+			case Constants.PUMIDLINEACT2: 
+				break;
+			case Constants.PUPUCKSIZEACT:
+				break;
+			case Constants.PUGOALSIZEACT1: 
+				break;
+			case Constants.PUGOALSIZEACT2: 
+				break;
+			
+			}
+			
+		}
 
 	}
 	

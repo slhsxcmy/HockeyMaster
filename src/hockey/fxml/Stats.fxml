@@ -58,7 +58,7 @@
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Label fx:id="pageTitle1" alignment="CENTER" layoutX="19.0" layoutY="274.0" prefHeight="56.0" prefWidth="177.0" text="Matches Won:" textAlignment="CENTER">
+      <Label fx:id="MWP" alignment="CENTER" layoutX="19.0" layoutY="274.0" prefHeight="56.0" prefWidth="177.0" text="Matches Won:" textAlignment="CENTER">
          <font>
             <Font name="OLD SPORT 01 COLLEGE NCV" size="23.0" />
          </font>
@@ -66,7 +66,7 @@
             <DropShadow color="WHITE" height="66.54" radius="30.4925" spread="0.56" width="57.43" />
          </effect>
       </Label>
-      <Label fx:id="pageTitle11" alignment="CENTER" layoutX="19.0" layoutY="330.0" prefHeight="56.0" prefWidth="188.0" text="Matches Lost:" textAlignment="CENTER">
+      <Label fx:id="MLP" alignment="CENTER" layoutX="19.0" layoutY="330.0" prefHeight="56.0" prefWidth="188.0" text="Matches Lost:" textAlignment="CENTER">
          <font>
             <Font name="OLD SPORT 01 COLLEGE NCV" size="23.0" />
          </font>
@@ -74,7 +74,7 @@
             <DropShadow color="WHITE" height="71.1" radius="36.185" spread="0.67" width="75.64" />
          </effect>
       </Label>
-      <Label fx:id="pageTitle111" alignment="CENTER" layoutX="-6.0" layoutY="386.0" prefHeight="56.0" prefWidth="188.0" text="Goals For:" textAlignment="CENTER">
+      <Label fx:id="GFP" alignment="CENTER" layoutX="-6.0" layoutY="386.0" prefHeight="56.0" prefWidth="188.0" text="Goals For:" textAlignment="CENTER">
          <font>
             <Font name="OLD SPORT 01 COLLEGE NCV" size="23.0" />
          </font>
@@ -82,7 +82,7 @@
             <DropShadow color="WHITE" height="83.99" radius="39.4075" spread="0.7" width="75.64" />
          </effect>
       </Label>
-      <Label fx:id="pageTitle1111" alignment="CENTER" layoutX="25.0" layoutY="442.0" prefHeight="56.0" prefWidth="188.0" text="Goals Against:" textAlignment="CENTER">
+      <Label fx:id="GAP" alignment="CENTER" layoutX="25.0" layoutY="442.0" prefHeight="56.0" prefWidth="188.0" text="Goals Against:" textAlignment="CENTER">
          <font>
             <Font name="OLD SPORT 01 COLLEGE NCV" size="23.0" />
          </font>

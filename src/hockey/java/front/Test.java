@@ -1,5 +1,6 @@
 package hockey.java.front;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
@@ -29,7 +30,8 @@ public class Test extends Application{
     Midline mid;
     CenterCircle center;
     double friction;
-
+    PowerUpMidline pu;
+    PowerUpPuckSize puckPU;
 
     public void displayWinner(Pane playfield, String name) {}
     
@@ -45,6 +47,9 @@ public class Test extends Application{
     	 // TESTTESTTEST
 //    	 s1 = null;
 //    	 s2 = null;
+    	 
+    	 pu = new PowerUpMidline();
+    	 puckPU = new PowerUpPuckSize();
 
     	 goal1 = new Goal(1, puck, p1);
     	 goal2 = new Goal(2, puck, p2);
@@ -106,8 +111,7 @@ public class Test extends Application{
          goal2.display();
          walls1.display();
          walls2.display();
-         PowerUp pu = new PowerUp();
-         PowerUpPuckSize puckPU = new PowerUpPuckSize();
+         
     	 playfield.getChildren().add(pu);
     	 playfield.getChildren().add(puckPU);
          mid.display();
@@ -123,6 +127,15 @@ public class Test extends Application{
         	 int ran = (int) (r.nextDouble() * 500);
              @Override
              public void handle(long now) {
+            	 
+
+            	 DecimalFormat form = new DecimalFormat("#.00");
+            	 if(s1 != null) System.out.println("s1 at (" + form.format(s1.getLocation().x) + "," + form.format(s1.getLocation().y) + ") vel (" + form.format(s1.getVelocity().x) + "," + form.format(s1.getVelocity().y) + ")");
+            	 if(s1 != null) System.out.println("s2 at (" + form.format(s2.getLocation().x) + "," + form.format(s2.getLocation().y) + ") vel (" + form.format(s2.getVelocity().x) + "," + form.format(s2.getVelocity().y) + ")");
+            	 
+            	 System.out.println("pk at (" + form.format(puck.getLocation().x) + "," + form.format(puck.getLocation().y) + ") vel (" + form.format(puck.getVelocity().x) + "," + form.format(puck.getVelocity().y) + ")");
+            	 
+            	 
                  // move
             	 pu.display();
             	 puckPU.display();
@@ -130,18 +143,22 @@ public class Test extends Application{
             	 if(s1 != null) s1.step(p1.getMouse(), mid);
             	 if(s2 != null) s2.step(p2.getMouse(), mid);
 
-            	 if(s1 != null) System.out.println("s1: id = " + s1.getPlayer().getPlayerID() + " at " + s1.getLocation().x + "," + s1.getLocation().y);
-                 if(s2 != null) System.out.println("s2: id = " + s2.getPlayer().getPlayerID() + " at " + s2.getLocation().x + "," + s2.getLocation().y);
-                
 
-                 if(s1 != null) s1.checkBoundaries(puck);
-                 if(s2 != null) s2.checkBoundaries(puck);
+                 if(s1 != null) s1.checkStrikerWallsMidline();
+                 if(s2 != null) s2.checkStrikerWallsMidline();
                  
-                 if (puck.checkBoundaries()) {
-                	 //striker can't overlap with puck
+                 puck.checkPuckWalls();
+                 
+                 if(s1 != null) {
+                	 if(puck.collision(s1)) {
+                		 puck.recalculate(s1);
+                	 }
                  }
-                 if(s1 != null) puck.collision(s1);
-                 if(s2 != null) puck.collision(s2);
+                 if(s2 != null) {
+                	 if(puck.collision(s2)) {
+                		 puck.recalculate(s2);
+                	 }
+                 }
                  
                  //puck.collision(otherStriker);
                  puck.step(friction);
@@ -203,7 +220,7 @@ public class Test extends Application{
                 	 }
                 	 else {
                 		 if (puckPU.hidden() && puck.width == 30) {
-                    		 puckPU.reset(puck);
+                    		 puckPU.reset();
                     	 }
                 	 }
                 	 ran = (int)r.nextDouble() * 2500;

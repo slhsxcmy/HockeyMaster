@@ -13,7 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class StatsController {
+public class WaitController {
 	@FXML
 	private Label appTitle;
 
@@ -21,21 +21,12 @@ public class StatsController {
 	private Label pageTitle;
 	
 	@FXML
-	private Label MW;
-	
-	@FXML
-	private Label ML;
-	
-	@FXML
-	private Label GF;
-	
-	@FXML
-	private Label GA;
-	
+	private Label message;
+
 	@FXML
 	private Button back;
 
-
+	
 	@FXML
 	public void goBack(ActionEvent event) throws IOException {
 		
@@ -51,13 +42,11 @@ public class StatsController {
         // populate listView https://stackoverflow.com/questions/47509117/javafx-populate-a-simple-listview?rq=1
 		
     }
-	
-	public void setStats(int mw, int ml, int gf, int ga) {
-		MW.setText(Integer.toString(mw));
-		ML.setText(Integer.toString(ml));
-		GF.setText(Integer.toString(gf));
-		GA.setText(Integer.toString(ga));
+
+	public void setMessage(String string) {
+		message.setText(string);
 		
 	}
-  
+	
+
 }
