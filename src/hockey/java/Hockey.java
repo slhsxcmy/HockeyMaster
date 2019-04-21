@@ -2,6 +2,7 @@ package hockey.java;
 
 
 import hockey.java.controller.GameController;
+import hockey.java.controller.GameOverController;
 import hockey.java.controller.LoggedController;
 import hockey.java.controller.LoginController;
 import hockey.java.controller.MenuController;
@@ -21,7 +22,7 @@ public class Hockey extends Application {
 	private static Network network = new Network();
 	private static User user = null;// = new User(); 
 	
-	public static final int NUMSCENES = 6;
+	public static final int NUMSCENES = 7;
 	private static Scene[] scenes = new Scene[NUMSCENES];
 	private static Parent gameRoot;
 	
@@ -73,6 +74,12 @@ public class Hockey extends Application {
 		gameRoot = (Parent)gameLoader.load();	
 		gameScene = new Scene(gameRoot);
 		scenes[5] = gameScene;
+		
+		FXMLLoader gameOverLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/GameOver.fxml"));
+		Parent gameOverRoot = (Parent)gameOverLoader.load();
+		gameOverScene = new Scene(gameOverRoot);
+		scenes[6] = gameOverScene;
+		
 	
 		/*** All Scenes End ***/
 		
@@ -101,13 +108,14 @@ public class Hockey extends Application {
 	}
 	
 	private static Stage primaryStage;
-	private static Scene menuScene, loginScene, signupScene, loggedScene, statsScene, gameScene;
+	private static Scene menuScene, loginScene, signupScene, loggedScene, statsScene, gameScene, gameOverScene;
 	private static MenuController menuController;
 	private static LoginController loginController;
 	private static SignupController signupController;
 	private static LoggedController loggedController;
 	private static StatsController statsController;
 	private static GameController  gameController;
+	private static GameOverController  gameOverController;
 	
 	
 	public static Network getNetwork() {
@@ -174,6 +182,14 @@ public class Hockey extends Application {
 		Hockey.gameScene = gameScene;
 	}
 
+	public static void setGameOverScene(Scene gameOverScene) {
+		Hockey.gameOverScene = gameOverScene;
+	}
+	
+	public static Scene getGameOverScene() {
+		return gameOverScene;
+	}
+
 	public static MenuController getMenuController() {
 		return menuController;
 	}
@@ -220,6 +236,14 @@ public class Hockey extends Application {
 
 	public static void setGameController(GameController gameController) {
 		Hockey.gameController = gameController;
+	}
+	
+	public static GameOverController getGameOverController() {
+		return gameOverController;
+	}
+
+	public static void setGameOverController(GameOverController gameOverController) {
+		Hockey.gameOverController = gameOverController;
 	}
 
 	public static Parent getGameRoot() {
