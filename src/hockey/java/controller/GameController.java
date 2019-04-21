@@ -9,12 +9,12 @@ import hockey.java.front.Goal;
 import hockey.java.front.GoalArch;
 import hockey.java.front.Midline;
 import hockey.java.front.Player;
-import hockey.java.front.PowerUp;
+import hockey.java.front.PowerUpMidline;
 import hockey.java.front.PowerUpPuckSize;
 import hockey.java.front.Puck;
 import hockey.java.front.Striker;
 import hockey.java.front.Walls;
-import hockey.java.packet.PacketStriker;
+import hockey.java.packet.PacketMouse;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
@@ -24,7 +24,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class GameController {
 	@FXML
@@ -46,13 +45,12 @@ public class GameController {
     private static Walls walls1, walls2;
     private static Midline mid;
     private static CenterCircle center;
-    private static PowerUp pu;
-    private static PowerUpPuckSize puckPU;
-    private static GoalArch arc1, arc2;
-    private static boolean gameStarted;
-    private static long time;
+    private static PowerUpMidline puMidline;
+    private static PowerUpPuckSize puPuck;
+  	Text p1s = new Text("0");
+   	Text p2s = new Text("0");
+   	Text goalMessage = new Text("");
 
-    
 	public void init(int playerId) {
 		 time = 0;
 		 gameStarted = false;
@@ -72,23 +70,23 @@ public class GameController {
 	   	 mid = new Midline();
 	   	 center = new CenterCircle();
 	   	 
-	   	 pu = new PowerUp();
-	     puckPU = new PowerUpPuckSize();
+	   	 puMidline = new PowerUpMidline();
+	     puPuck = new PowerUpPuckSize();
 		 
-	   	 
-	   	 //Text p1s = new Text(Integer.toString(u1.getStriker().getPlayer().getScore()));
-	   	 Text p1s = new Text(Integer.toString(selfStriker.getPlayer().getScore()));
 	   	 p1s.setFont(Font.font ("Verdana", 50));
 	   	 p1s.setFill(Color.RED);
 	   	 p1s.setX(350);
 	   	 p1s.setY(400);
 	
-	   	 //Text p2s = new Text(Integer.toString(u2.getStriker().getPlayer().getScore()));
-	   	 Text p2s = new Text(Integer.toString(otherStriker.getPlayer().getScore()));
 	   	 p2s.setFont(Font.font ("Verdana", 50));
 	   	 p2s.setFill(Color.RED);
 	   	 p2s.setX(350);
 	   	 p2s.setY(335);
+	   	 
+	   	 goalMessage.setFont(Font.font ("Verdana", 50));
+	   	 goalMessage.setFill(Color.RED);
+	   	 goalMessage.setX(200);
+	   	 goalMessage.setY(350);
 	   	 
 	   	 // create containers // playfield for our strikers 
 	     playfield = new Pane();
@@ -108,17 +106,19 @@ public class GameController {
 	     playfield.getChildren().add(selfGoal);
 	     playfield.getChildren().add(p1s);
 	     playfield.getChildren().add(p2s);
+	     playfield.getChildren().add(pu);
+		 playfield.getChildren().add(puckPU);
 	     //display static shapes
 	     center.display();
 	     otherGoal.display();
 	     selfGoal.display();
 	     walls1.display();
 	     walls2.display();
-	     arc1.display();
-	     arc2.display();
-	     playfield.getChildren().add(pu);
-		 playfield.getChildren().add(puckPU);
+	     playfield.getChildren().add(puMidline);
+		 playfield.getChildren().add(puPuck);
 	     mid.display();
+	     pu.display();
+	     puckPU.display();
        
     	 // capture mouse position
     	 Hockey.getGameScene().addEventFilter(MouseEvent.ANY, e -> {
@@ -137,41 +137,9 @@ public class GameController {
 	      	 int ran = (int) (r.nextDouble() * 1000);
 	      	 @Override
 	      	 public void handle(long now) {
-	   	 		 time++;
-      	 		 // move
-	      		 System.out.println(mid.getLocation());
-	      		 pu.display();
-	           	 puckPU.display();
-	           	 selfStriker.step(selfStriker.getPlayer().getMouse(), mid);
-	           	 selfStriker.checkBoundaries(puck);
-	           	 selfStriker.display();
-	           	 otherStriker.display();
-	           	 puck.display();
-//	           	 if(time == 150 && gameStarted == false) {
-//	        	   	 countdown.setFont(Font.font ("Verdana", 75));
-//	        	   	 countdown.setFill(Color.RED);
-//	        	   	 countdown.setX(100);
-//	        	   	 countdown.setY(200);
-//	        	   	 playfield.getChildren().add(countdown);
-//	           		 selfStriker.startGameBound();
-//	           		 otherStriker.startGameBound();
-//	           		 gameStarted = true;
-//	           	 }
-//	           	 if(time == 250 && gameStarted == true) {
-//	           		countdown.setText("");
-//	           	 }
-               
-	           	 // TODO check collison with wall
-	           	 
-	           	 // TODO check collison with midline
-	           	 
-	           	 // send selfStriker to server
-	           	 // System.out.println("before sending PacketStriker"); 
-	           	 System.out.println("Sending PacketStriker from id = " + selfStriker.getPlayer().getPlayerID());
-	           	 Hockey.getNetwork().getClient().sendTCP(new PacketStriker(selfStriker.getPlayer().getPlayerID(),selfStriker.getLocation().x,selfStriker.getLocation().y,selfStriker.getVelocity().x,selfStriker.getVelocity().y));
-	           	 // System.out.println("after sending PacketStriker");
-               
-                
+
+	           	 // send self mouse to server
+	           	 Hockey.getNetwork().getClient().sendTCP(new PacketMouse(selfStriker.getPlayer().getPlayerID(),selfStriker.getPlayer().getMouse().x,selfStriker.getPlayer().getMouse().y));
            }
        };
        System.out.println("starting game loop");
@@ -204,4 +172,35 @@ public class GameController {
 		GameController.puck = puck;
 	}
 
+	
+	public void setScore(int playerNum) {
+		if(playerNum == 1) {
+			int oldScore = Integer.parseInt(p1s.getText());
+			p1s.setText(Integer.toString(oldScore+1));
+		}else if(playerNum == 2) {
+			int oldScore = Integer.parseInt(p2s.getText());
+			p2s.setText(Integer.toString(oldScore+1));
+		}
+	}
+	
+	public void showGoalMessage(String message) {
+		//TODO
+	}
+
+	public static PowerUpMidline getPuMidline() {
+		return puMidline;
+	}
+
+	public static void setPuMidline(PowerUpMidline puMidline) {
+		GameController.puMidline = puMidline;
+	}
+
+	public static PowerUpPuckSize getPuPuck() {
+		return puPuck;
+	}
+
+	public static void setPuPuck(PowerUpPuckSize puPuck) {
+		GameController.puPuck = puPuck;
+	}
+	
 }
