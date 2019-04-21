@@ -254,18 +254,19 @@ public class SQLModel {
 			ps.setString(1, Integer.toString(dbid));
 			rs = ps.executeQuery();
 			rs.next();
+			String username = rs.getString(2);
 			int matchW = rs.getInt(4);
 			int matchL = rs.getInt(5);
 			int goalsFor = rs.getInt(6);
 			int goalsAgainst = rs.getInt(7);
 			
 			
-			String username = "";
-			ps = connection.prepareStatement("SELECT * FROM Player WHERE playerID=?");
-			ps.setString(1, Integer.toString(dbid));
-			if(rs.next()) {
-				username = rs.getString(2);
-			}
+//			String username = "";
+//			ps = connection.prepareStatement("SELECT * FROM Player WHERE playerID=?");
+//			ps.setString(1, Integer.toString(dbid));
+//			if(rs.next()) {
+				
+			//}
 			if(username.equals("GUEST")) {		
 				//does not update db, only show result message
 				return new PacketReturn(Constants.GAMEOVER, result);
@@ -274,8 +275,8 @@ public class SQLModel {
 				ps = connection.prepareStatement("UPDATE Player SET matchesWon=? AND matchesLost=? "
 						+ "AND goalsFor=? AND goalsAgainst=? WHERE playerID=?");
 				ps.setString(5, Integer.toString(dbid));
-				rs = ps.executeQuery();
-				rs.next();
+				//rs = ps.executeQuery();
+				//rs.next();
 				if(result.equals("WIN")){
 					ps.setInt(1, matchW+1);
 				}

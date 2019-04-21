@@ -1,6 +1,11 @@
 package hockey.java.packet;
 
 public class Constants {
+	public static final int PUMIDLINE = 41;
+	public static final int PUPUCKSIZE = 42;
+	public static final int PUGOALSIZE = 43;
+	
+	
 	public static final int SIGNUPATTEMPT = 21;
 	public static final int LOGINATTEMPT = 22;
 	public static final int SIGNOUTATTEMPT = 23;
@@ -27,6 +32,5 @@ public class Constants {
 	public static final int PLAYFAILURE = 14;
 
 	public static final int GAMEOVER = 31;
-	
-	public static final int GOAL = 100;
+	public static final int GOAL = 32;
 }

@@ -30,7 +30,8 @@ public class Test extends Application{
     Midline mid;
     CenterCircle center;
     double friction;
-
+    PowerUp pu;
+    PowerUpPuckSize puckPU;
 
     public void displayWinner(Pane playfield, String name) {}
     
@@ -46,6 +47,9 @@ public class Test extends Application{
     	 // TESTTESTTEST
 //    	 s1 = null;
 //    	 s2 = null;
+    	 
+    	 pu = new PowerUp();
+    	 puckPU = new PowerUpPuckSize();
 
     	 goal1 = new Goal(1, puck, p1);
     	 goal2 = new Goal(2, puck, p2);
@@ -107,8 +111,7 @@ public class Test extends Application{
          goal2.display();
          walls1.display();
          walls2.display();
-         PowerUp pu = new PowerUp();
-         PowerUpPuckSize puckPU = new PowerUpPuckSize();
+         
     	 playfield.getChildren().add(pu);
     	 playfield.getChildren().add(puckPU);
          mid.display();
