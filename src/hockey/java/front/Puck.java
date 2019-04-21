@@ -175,6 +175,7 @@ public class Puck extends Pane{
 		//System.out.println((px - sx) * (px - sx) + (py - sy) * (py - sy) - (pr + sr) * (pr + sr));
 		if ((px - sx) * (px - sx) + (py - sy) * (py - sy) - (pr + sr) * (pr + sr) <= 0) {
 			//System.out.println("collision");
+			lastHit = s;
 			return true;
 		} else {
 			return false;
