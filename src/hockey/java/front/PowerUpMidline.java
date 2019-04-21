@@ -1,6 +1,7 @@
 package hockey.java.front;
 import java.util.Random;
 
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -103,6 +104,12 @@ public class PowerUpMidline extends Pane implements PowerUp {
 	
 	public boolean hidden() {
 		return hidden;
+	}
+
+
+	public Circle getCircle() {
+		// TODO Auto-generated method stub
+		return circle;
 	}
 	
 }

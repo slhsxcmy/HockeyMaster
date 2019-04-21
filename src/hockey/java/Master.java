@@ -39,13 +39,14 @@ import hockey.java.packet.PacketPU;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStriker;
+import javafx.scene.paint.Color;
 
 public class Master extends Listener { // SERVER
 
 	private static Server server;
 
 	private static final int GOALSTOWIN = 100;
-	private static final int PUMT = 100; // power up mean time
+	private static final int PUMT = 300; // power up mean time
 	public static final String server_ngrok_url = NetworkHelper.server_ngrok_url;
 	public static final int server_tcpPort = NetworkHelper.server_tcpPort;
 
@@ -67,9 +68,11 @@ public class Master extends Listener { // SERVER
 	private static Set<PowerUp> powerups = Collections.synchronizedSet(new HashSet<>());
 	private static PowerUpMidline puMidline;
 	private static PowerUpPuckSize puPuck;
+	private static PowerUpGoalSize puGoal;
 	private static int time;
 	private static Random rnd = new Random();
 	private static int rt = rnd.nextInt(2 * PUMT);
+	
 	public static PowerUp getRandomPowerUp() {
 		int index = rnd.nextInt(powerups.size());
 		Iterator<PowerUp> iter = powerups.iterator();
@@ -99,9 +102,17 @@ public class Master extends Listener { // SERVER
 
 	public static void initBoard() {
 
-		powerups.add(new PowerUpMidline());
-//		powerups.add(new PowerUpPuckSize());
-//		powerups.add(new PowerUpGoalSize());
+
+		puMidline = new PowerUpMidline();
+		powerups.add(puMidline);
+		System.out.println("midline : " + ((Color)puMidline.getCircle().getFill()).getRed() + "," + ((Color)puMidline.getCircle().getFill()).getGreen() + "," + ((Color)puMidline.getCircle().getFill()).getBlue() + ",");
+		
+		puPuck = new PowerUpPuckSize();
+		powerups.add(puPuck);
+		System.out.println("pucksize: " + ((Color)puPuck.getCircle().getFill()).getRed() + "," + ((Color)puPuck.getCircle().getFill()).getGreen() + "," + ((Color)puPuck.getCircle().getFill()).getBlue() + ",");
+		
+//		puGoal = new PowerUpGoalSize();
+//		powerups.add(puGoal);
 		
 		s1 = new Striker(new Player(1));
 		s2 = new Striker(new Player(2));
@@ -116,8 +127,6 @@ public class Master extends Listener { // SERVER
 		mid = new Midline();
 		friction = .988;
 
-		puMidline = new PowerUpMidline();
-		puPuck = new PowerUpPuckSize();
 		time = 0;
 
 	}
@@ -329,13 +338,13 @@ public class Master extends Listener { // SERVER
 			
 			// Power up control
 			
+			time %= 2 * PUMT;
 			if (time == rt) {
-				time = 0;
 				rt = rnd.nextInt(2 * PUMT);
 				
 				PowerUp p = getRandomPowerUp();
 				PacketPU ppu;
-				if (p instanceof PowerUpMidline) {
+				if (p == puMidline) {
 					if (puMidline.hidden() && mid.inMiddle()) {
 						PVector v = puMidline.reset();
 						ppu = new PacketPU(Constants.PUMIDLINESHOW, v.x, v.y);
@@ -344,7 +353,7 @@ public class Master extends Listener { // SERVER
 						System.out.println("Showing Midline Power Up");
 					}
 				}
-				else if (p instanceof PowerUpPuckSize){ // pucksize
+				else if (p == puPuck){ // pucksize
 					if (puPuck.hidden() && puck.width == 30) {
 						PVector v = puPuck.reset();
 						ppu = new PacketPU(Constants.PUPUCKSIZESHOW, v.x, v.y);

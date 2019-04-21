@@ -8,7 +8,6 @@ import com.esotericsoftware.kryonet.Listener;
 
 import hockey.java.Hockey;
 import hockey.java.controller.GameController;
-import hockey.java.front.PowerUpMidline;
 import hockey.java.front.Striker;
 import hockey.java.front.User;
 import hockey.java.packet.Constants;
@@ -18,6 +17,7 @@ import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStats;
 import hockey.java.packet.PacketStriker;
 import javafx.application.Platform;
+import javafx.scene.paint.Color;
 
 public class Network extends Listener{
 
@@ -188,6 +188,7 @@ public class Network extends Listener{
 			/*** Midline ***/
 			case Constants.PUMIDLINESHOW: 
 				Platform.runLater(() -> {
+					System.out.println("midline : " + ((Color)GameController.getPuMidline().getCircle().getFill()).getRed() + "," + ((Color)GameController.getPuMidline().getCircle().getFill()).getGreen() + "," + ((Color)GameController.getPuMidline().getCircle().getFill()).getBlue() + ",");
 					GameController.getPuMidline().show(x, y);
 	            });
 				
@@ -209,14 +210,16 @@ public class Network extends Listener{
 				
 			case Constants.PUPUCKSIZESHOW:
 				Platform.runLater(() -> {
-					GameController.getPuMidline().show(x, y);
+					
+					System.out.println("pucksize: " + ((Color)GameController.getPuPuck().getCircle().getFill()).getRed() + "," + ((Color)GameController.getPuPuck().getCircle().getFill()).getGreen() + "," + ((Color)GameController.getPuPuck().getCircle().getFill()).getBlue() + ",");
+					GameController.getPuPuck().show(x, y);
 	            });
 				break;
 
 			case Constants.PUPUCKSIZEACT:
 				Platform.runLater(() -> {
 					GameController.getPuPuck().activate(GameController.getPuck());
-					GameController.getPuMidline().hide();
+					GameController.getPuPuck().hide();
 	            });
 				break;
 			case Constants.PUGOALSIZESHOW:

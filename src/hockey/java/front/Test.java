@@ -127,16 +127,16 @@ public class Test extends Application{
          AnimationTimer loop = new AnimationTimer() {
         	 int time = 0;
         	 Random r = new Random();
-        	 int ran = (int) (r.nextDouble() * 500);
+        	 int ran = (int) (r.nextDouble() * 100);
              @Override
              public void handle(long now) {
             	 
 
             	 DecimalFormat form = new DecimalFormat("#.00");
-            	 if(s1 != null) System.out.println("s1 at (" + form.format(s1.getLocation().x) + "," + form.format(s1.getLocation().y) + ") vel (" + form.format(s1.getVelocity().x) + "," + form.format(s1.getVelocity().y) + ")");
-            	 if(s1 != null) System.out.println("s2 at (" + form.format(s2.getLocation().x) + "," + form.format(s2.getLocation().y) + ") vel (" + form.format(s2.getVelocity().x) + "," + form.format(s2.getVelocity().y) + ")");
             	 
-            	 System.out.println("pk at (" + form.format(puck.getLocation().x) + "," + form.format(puck.getLocation().y) + ") vel (" + form.format(puck.getVelocity().x) + "," + form.format(puck.getVelocity().y) + ")");
+//            	 if(s1 != null) System.out.println("s1 at (" + form.format(s1.getLocation().x) + "," + form.format(s1.getLocation().y) + ") vel (" + form.format(s1.getVelocity().x) + "," + form.format(s1.getVelocity().y) + ")");
+//            	 if(s1 != null) System.out.println("s2 at (" + form.format(s2.getLocation().x) + "," + form.format(s2.getLocation().y) + ") vel (" + form.format(s2.getVelocity().x) + "," + form.format(s2.getVelocity().y) + ")");
+//            	 System.out.println("pk at (" + form.format(puck.getLocation().x) + "," + form.format(puck.getLocation().y) + ") vel (" + form.format(puck.getVelocity().x) + "," + form.format(puck.getVelocity().y) + ")");
             	 
             	 
                  // move
@@ -212,8 +212,11 @@ public class Test extends Application{
                  } 
                  puck.collision(mid, pu);
                  puck.collision(puckPU);
+                 
                  time++;
+                 
                  if (time == ran) {
+                	 
                 	 time = 0;
                 	 int choose = new Random().nextInt() % 2;
                 	 if (choose == 0) {
@@ -226,8 +229,9 @@ public class Test extends Application{
                     		 puckPU.reset();
                     	 }
                 	 }
-                	 ran = (int)r.nextDouble() * 2500;
+                	 ran = (int)r.nextDouble() * 100;
                  }
+                 System.out.println(time + " < " + ran);
              }
          };
          loop.start();

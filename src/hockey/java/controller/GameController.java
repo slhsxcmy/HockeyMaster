@@ -67,7 +67,12 @@ public class GameController {
 	   	 center = new CenterCircle();
 	   	 
 	   	 puMidline = new PowerUpMidline();
+	   	 System.out.println("midline : " + ((Color)puMidline.getCircle().getFill()).getRed() + "," + ((Color)puMidline.getCircle().getFill()).getGreen() + "," + ((Color)puMidline.getCircle().getFill()).getBlue() + ",");
+		
+		
 	     puPuck = new PowerUpPuckSize();
+	     System.out.println("pucksize: " + ((Color)puPuck.getCircle().getFill()).getRed() + "," + ((Color)puPuck.getCircle().getFill()).getGreen() + "," + ((Color)puPuck.getCircle().getFill()).getBlue() + ",");
+			
 	     puGoal = new PowerUpGoalSize();
 		 
 	   	 p1s.setFont(Font.font ("Verdana", 50));
