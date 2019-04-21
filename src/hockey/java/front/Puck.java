@@ -135,7 +135,7 @@ public class Puck extends Pane{
     */
 	
 	// hit change midline location powerup
-	public void collision(Midline m, PowerUp pu) {
+	public int collision(Midline m, PowerUpMidline pu) {
 		double px = location.x;
 		double py = location.y;
 		double pux = pu.getLocation().x;
@@ -143,11 +143,13 @@ public class Puck extends Pane{
 		double pur = pu.getRadius();
 		if (Math.sqrt((px - pux) * (px - pux) + (py - puy) * (py - puy)) <= radius + pur) {
 			pu.activate(m, lastHit);
+			return lastHit.getPlayer().getPlayerID();
 		}
+		return 0;
 	}
 	
 	// hit powerup change puck size
-	public void collision(PowerUpPuckSize pu) {
+	public int collision(PowerUpPuckSize pu) {
 		double px = location.x;
 		double py = location.y;
 		double pux = pu.getLocation().x;
@@ -155,7 +157,9 @@ public class Puck extends Pane{
 		double pur = pu.getRadius();
 		if (Math.sqrt((px - pux) * (px - pux) + (py - puy) * (py - puy)) <= radius + pur) {
 			pu.activate(this);
+			return 1;
 		}
+		return 0;
 
 	}
 	

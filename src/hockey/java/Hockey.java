@@ -8,6 +8,7 @@ import hockey.java.controller.LoginController;
 import hockey.java.controller.MenuController;
 import hockey.java.controller.SignupController;
 import hockey.java.controller.StatsController;
+import hockey.java.controller.WaitController;
 import hockey.java.front.User;
 import hockey.java.network.Network;
 import javafx.application.Application;
@@ -22,28 +23,38 @@ public class Hockey extends Application {
 	private static Network network = new Network();
 	private static User user = null;// = new User(); 
 	
-	public static final int NUMSCENES = 7;
+
+	public static final int NUMSCENES = 8;
 	private static Scene[] scenes = new Scene[NUMSCENES];
 	private static Parent gameRoot;
-	
+
+	private static Stage primaryStage;
+	private static Scene menuScene, loginScene, signupScene, loggedScene, statsScene, gameScene, waitScene, gameOverScene;
+	private static MenuController menuController;
+	private static LoginController loginController;
+	private static SignupController signupController;
+	private static LoggedController loggedController;
+	private static StatsController statsController;
+	private static GameController  gameController;
+	private static WaitController waitController;
+	private static GameOverController  gameOverController;
+
 	public static void setUser(User user) {
 		Hockey.user = user;
 	}
-	
+
 	public static User getUser() {
 		return user;
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Hockey.primaryStage = primaryStage;
-// https://stackoverflow.com/questions/12804664/how-to-swap-screens-in-a-javafx-application-in-the-controller-class
 		
-		
-			
+		// https://stackoverflow.com/questions/12804664/how-to-swap-screens-in-a-javafx-application-in-the-controller-class
 		// FXML
 		//Parent root = FXMLLoader.load(getClass().getResource("/hockey/fxml/Menu.fxml"));
-		
+
 		/*** All Scenes Start ***/
 		FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Menu.fxml"));
 		Parent menuRoot = (Parent)menuLoader.load();
@@ -74,13 +85,16 @@ public class Hockey extends Application {
 		gameRoot = (Parent)gameLoader.load();	
 		gameScene = new Scene(gameRoot);
 		scenes[5] = gameScene;
-		
+
 		FXMLLoader gameOverLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/GameOver.fxml"));
 		Parent gameOverRoot = (Parent)gameOverLoader.load();
 		gameOverScene = new Scene(gameOverRoot);
 		scenes[6] = gameOverScene;
-		
-	
+
+		FXMLLoader waitLoader = new FXMLLoader(getClass().getResource("/hockey/fxml/Wait.fxml"));
+		Parent waitRoot = (Parent)waitLoader.load();	
+		waitScene = new Scene(waitRoot);
+		scenes[7] = waitScene;
 		/*** All Scenes End ***/
 		
 		/*** All Controllers Start ***/
@@ -91,6 +105,7 @@ public class Hockey extends Application {
 		statsController = statsLoader.getController();
 		gameController = gameLoader.getController();
 		gameOverController = gameOverLoader.getController();
+		waitController = waitLoader.getController();
 		/*** All Controllers End ***/
 
 		
@@ -107,17 +122,6 @@ public class Hockey extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
-	private static Stage primaryStage;
-	private static Scene menuScene, loginScene, signupScene, loggedScene, statsScene, gameScene, gameOverScene;
-	private static MenuController menuController;
-	private static LoginController loginController;
-	private static SignupController signupController;
-	private static LoggedController loggedController;
-	private static StatsController statsController;
-	private static GameController  gameController;
-	private static GameOverController  gameOverController;
-	
 	
 	public static Network getNetwork() {
 		return network;
@@ -255,8 +259,21 @@ public class Hockey extends Application {
 		Hockey.gameRoot = gameRoot;
 	}
 
-	
-	
-	
-	
+	public static Scene getWaitScene() {
+		return waitScene;
+	}
+
+	public static void setWaitScene(Scene waitScene) {
+		Hockey.waitScene = waitScene;
+	}
+
+
+	public static WaitController getWaitController() {
+		return waitController;
+	}
+
+	public static void setWaitController(WaitController waitController) {
+		Hockey.waitController = waitController;
+	}
+
 }

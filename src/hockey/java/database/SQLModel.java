@@ -5,13 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 
-import com.sun.jndi.url.corbaname.corbanameURLContextFactory;
-
-import hockey.java.Hockey;
 import hockey.java.Master;
-import hockey.java.front.Game;
 import hockey.java.front.User;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketReturn;
@@ -218,7 +213,7 @@ public class SQLModel {
 		
 		if(Master.getPlayerlist().size() == 0 && Master.getWaitlist().size() == 0) {
 			Master.getPlayerlist().add(id);
-			return new PacketReturn(Constants.PLAYFAILURE, id, "Not Enough Players. Please Wait.");
+			return new PacketReturn(Constants.PLAYFAILUREFEW, id, "Not Enough Players. Please Wait.");
 		}
 		else if(Master.getPlayerlist().size() == 1 && Master.getWaitlist().size() == 0) {		
 			Master.getPlayerlist().add(id);
@@ -226,7 +221,7 @@ public class SQLModel {
 		}
 		else{
 			Master.getWaitlist().add(id);
-			return new PacketReturn(Constants.PLAYFAILURE, id, "Game already in progress. Please Wait.");
+			return new PacketReturn(Constants.PLAYFAILUREMANY, id, "Game already in progress. Please Wait.");
 		}   
 	}
 	

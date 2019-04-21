@@ -1,15 +1,17 @@
 package hockey.java;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
+import java.util.Set;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -21,6 +23,8 @@ import hockey.java.front.Midline;
 import hockey.java.front.PVector;
 import hockey.java.front.Player;
 import hockey.java.front.PowerUp;
+import hockey.java.front.PowerUpGoalSize;
+import hockey.java.front.PowerUpMidline;
 import hockey.java.front.PowerUpPuckSize;
 import hockey.java.front.Puck;
 import hockey.java.front.Striker;
@@ -30,6 +34,7 @@ import hockey.java.network.NetworkHelper;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketAttempt;
 import hockey.java.packet.PacketMouse;
+import hockey.java.packet.PacketPU;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStriker;
@@ -38,14 +43,10 @@ public class Master extends Listener { // SERVER
 
 	private static Server server;
 
-	public static final int GOALSTOWIN = 2;
-	
-	public static final String server_ngrok_url = "localhost";
-	public static final int server_tcpPort = 23333;
-//	public static final String client_ngrok_url = "tcp://0.tcp.ngrok.io";
-//	public static final int client_tcpPort = 18688;
-	public static final String client_ngrok_url = "localhost";
-	public static final int client_tcpPort = 23333;
+	private static final int GOALSTOWIN = 100;
+	private static final int PUMT = 1000; // power up mean time
+	public static final String server_ngrok_url = NetworkHelper.server_ngrok_url;
+	public static final int server_tcpPort = NetworkHelper.server_tcpPort;
 
 	private static Map<Integer, User> onlineUsers = Collections.synchronizedMap(new HashMap<>()); 
 	private static Map<Integer, Connection> connections = Collections.synchronizedMap(new HashMap<>()); 
@@ -62,11 +63,22 @@ public class Master extends Listener { // SERVER
 	private static Walls wall1, wall2;
 	private static Midline mid;
 	private static double friction;
-	private static PowerUp pu;
-	private static PowerUpPuckSize puckPU;
+	private static Set<PowerUp> powerups = Collections.synchronizedSet(new HashSet<>());
+	private static PowerUpMidline puMidline;
+	private static PowerUpPuckSize puPuck;
 	private static int time;
-	private static Random ran;
-	
+	private static Random rnd = new Random();
+	private static int rt = (int)(rnd.nextDouble() * 2500);
+
+	public static PowerUp getRandomPowerUp() {
+		int index = rnd.nextInt(powerups.size());
+		Iterator<PowerUp> iter = powerups.iterator();
+		for (int i = 0; i < index; i++) {
+		    iter.next();
+		}
+		return iter.next();	
+	}
+
 	public static int getGoalsFor(int dbid) {
 		if(dbid == players.get(0)) {
 			return s1.getPlayer().getScore();
@@ -75,7 +87,7 @@ public class Master extends Listener { // SERVER
 			return s2.getPlayer().getScore();
 		}	
 	}
-	
+
 	public static int getGoalsAgainst(int dbid) {
 		if(dbid == players.get(0)) {
 			return s2.getPlayer().getScore();
@@ -84,21 +96,18 @@ public class Master extends Listener { // SERVER
 			return s1.getPlayer().getScore();
 		}	
 	}
-	
-	
+
 	public static void initBoard() {
+
+		powerups.add(new PowerUpMidline());
+		powerups.add(new PowerUpPuckSize());
+		powerups.add(new PowerUpGoalSize());
 		
 		s1 = new Striker(new Player(1));
 		s2 = new Striker(new Player(2));
-		//u1 = new User();
-		//u2 = new User();
-		//u1.initStriker();
-		//u2.initStriker();
 
 		puck = new Puck();
 
-		//goal1 = new Goal(1, puck, u1.getStriker().getPlayer());
-		//goal2 = new Goal(2, puck, u2.getStriker().getPlayer());
 		g1 = new Goal(1, puck, s1.getPlayer());
 		g2 = new Goal(2, puck, s2.getPlayer());
 		wall1 = new Walls(1);
@@ -107,14 +116,11 @@ public class Master extends Listener { // SERVER
 		mid = new Midline();
 		friction = .988;
 
-		pu = new PowerUp();
-		puckPU = new PowerUpPuckSize();
+		puMidline = new PowerUpMidline();
+		puPuck = new PowerUpPuckSize();
 		time = 0;
-		ran = new Random();
-		
-	}
 
-	
+	}
 
 	public static Map<Integer, User> getUsers(){
 		return onlineUsers;
@@ -123,18 +129,16 @@ public class Master extends Listener { // SERVER
 	public static Map<Integer, Connection> getConnections(){
 		return connections;
 	}
-	
+
 	public static Queue<Integer> getWaitlist(){
 		return waitList;
 	}
-	
+
 	public static List<Integer> getPlayerlist(){
 		return players;
 	}
-	
-	
-	public static void main(String[] args) {
 
+	public static void main(String[] args) {
 		System.out.println("Creating server...");
 
 		// create server
@@ -159,12 +163,6 @@ public class Master extends Listener { // SERVER
 
 	}
 
-	// runs when connection 
-	public void connected(Connection c) {
-		System.out.println("Received connection from " + c.getRemoteAddressTCP().getHostString());
-
-	}
-
 	// runs when packet received
 	public void received(Connection c, Object o) {
 		if (o instanceof PacketAttempt){
@@ -176,8 +174,6 @@ public class Master extends Listener { // SERVER
 			PacketReturn p;
 
 			switch(((PacketAttempt) o).attempt) {
-
-		
 			case Constants.SIGNUPATTEMPT: 
 				System.out.println("received sign up attempt, begin to send return packet");
 
@@ -202,13 +198,14 @@ public class Master extends Listener { // SERVER
 				c.sendTCP(model.getStats(id));
 				break;
 
-
-			
 			case Constants.PLAYLOGGEDATTEMPT:
 				p = model.loggedPlay(username, c);
 				if(p.status == Constants.PLAYSUCCESS) {
 					activateGame(); // game board on server					
-				}				
+				} else {
+					c.sendTCP(p);
+				} 
+
 				debug();
 
 				break;
@@ -224,11 +221,11 @@ public class Master extends Listener { // SERVER
 
 			}
 		} else if (o instanceof PacketMouse){
-			
+
 			PVector mouse = new PVector(((PacketMouse)o).x,((PacketMouse)o).y);
 			int id = ((PacketMouse) o).id;
 			PacketStriker ps;
-			
+
 			// id     = 1~2 
 			// id - 1 = 1~2 
 			// 2 - id = 1~0
@@ -242,29 +239,51 @@ public class Master extends Listener { // SERVER
 	           	s2.checkStrikerWallsMidline();
 	           	ps = new PacketStriker(id,s2.getLocation().x,s2.getLocation().y,s2.getVelocity().x,s2.getVelocity().y);
 			}
-			
+
 			connections.get(players.get(2-id)).sendTCP(ps);
 			connections.get(players.get(id-1)).sendTCP(ps);// added to send to self as well
-			
+
 			if(puck.collision(s1)) {
 				System.out.println("collision with 1");
 				puck.recalculate(s1); // resolve collision
 			}
-			
+
 			if(puck.collision(s2)) {
 				System.out.println("collision with 2");
 				puck.recalculate(s2); // resolve collision
 			}
-
+			
 			puck.step(friction); 
 
 			puck.checkPuckWalls();
-			
-			puck.collision(mid, pu); // powerup move midline
-			puck.collision(puckPU); // powerup minimize puck
 
-			DecimalFormat form = new DecimalFormat("#.00");
-       	 	
+			/*
+			int checkMidline = puck.collision(mid, puMidline);
+			int checkPuck = puck.collision(puPuck);
+			if(checkMidline == 1) { // powerup move midline
+				PacketPU ppu = new PacketPU(Constants.PUMIDLINEACT1);
+				connections.get(players.get(0)).sendTCP(ppu);
+				connections.get(players.get(1)).sendTCP(ppu);
+				System.out.println("s1 hit Midline Power Up");
+			}  else if (checkMidline == 2) {
+				PacketPU ppu = new PacketPU(Constants.PUMIDLINEACT2);
+				connections.get(players.get(0)).sendTCP(ppu);
+				connections.get(players.get(1)).sendTCP(ppu);
+				System.out.println("s2 hit Midline Power Up");
+			} 
+			
+			if(checkPuck == 1) {// powerup minimize puck
+				PacketPU ppu = new PacketPU(Constants.PUPUCKSIZEACT);
+				connections.get(players.get(0)).sendTCP(ppu);
+				connections.get(players.get(1)).sendTCP(ppu);
+				System.out.println("HIT Puck Size Power Up");
+			}
+			*/
+				
+			//puck.collision(goal1, puGoal); // powerup change goal size
+			//puck.collision(goal2, puGoal);
+			
+			
 			PacketPuck pp = new PacketPuck(puck.getLocation().x,puck.getLocation().y,puck.getVelocity().x,puck.getVelocity().y);
 			connections.get(players.get(0)).sendTCP(pp);
 			connections.get(players.get(1)).sendTCP(pp);
@@ -316,22 +335,38 @@ public class Master extends Listener { // SERVER
 			}
 			
 			// Power up control
-			if (time == (int)(ran.nextDouble() * 2500)) {
+			
+			if (time == rt) {
 				time = 0;
-				int choose = new Random().nextInt() % 2;
-				if (choose == 0) { // midline
-					if (pu.hidden() && mid.inMiddle()) {
-						pu.reset();
+				rt = rnd.nextInt(PUMT * 2);
+				
+				PowerUp p = getRandomPowerUp();
+				PacketPU ppu;
+				if (p instanceof PowerUpMidline) {
+					if (puMidline.hidden() && mid.inMiddle()) {
+						PVector v = puMidline.reset();
+						ppu = new PacketPU(Constants.PUMIDLINESHOW, v.x, v.y);
+						connections.get(players.get(0)).sendTCP(ppu);
+						connections.get(players.get(1)).sendTCP(ppu);
+						System.out.println("Showing Midline Power Up");
 					}
 				}
-				else { // pucksize
-					if (puckPU.hidden() && puck.width == 30) {
-						puckPU.reset(puck);
+				else if (p instanceof PowerUpPuckSize){ // pucksize
+					if (puPuck.hidden() && puck.width == 30) {
+						PVector v = puPuck.reset();
+						ppu = new PacketPU(Constants.PUPUCKSIZESHOW, v.x, v.y);
+						connections.get(players.get(0)).sendTCP(ppu);
+						connections.get(players.get(1)).sendTCP(ppu);
+						System.out.println("Showing Puck Size Power Up");
 					}
+				} else if (p instanceof PowerUpGoalSize) { // goal size
+					// TODO 
 				}
 			}
 			time++;
-		}
+			System.out.println(time + " < " + rt);
+		} 
+
 	}
 
 	public void activateGame() {	
@@ -339,7 +374,12 @@ public class Master extends Listener { // SERVER
 		connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.PLAYSUCCESS, players.get(1), onlineUsers.get(players.get(1)).getUsername(), 2));
 		initBoard();
 	}
-	
+
+	// runs when connection 
+	public void connected(Connection c) {
+		System.out.println("Received connection from " + c.getRemoteAddressTCP().getHostString());
+	}
+
 	public void disconnected(Connection c) {
 		System.out.println("Lost connection from client.");
 		int dbid = -1;
@@ -389,13 +429,12 @@ public class Master extends Listener { // SERVER
 			}
 		}
 	}
-	
+
 	public void debug() {
 		// DEBUG
 		System.out.println("onlineUsers now contains------------------------");
 		for (Map.Entry<Integer,User> entry : onlineUsers.entrySet()) {  
-            System.out.println("id = " + entry.getKey() + 
-                             ", user = " + entry.getValue().getUsername()); 
+            System.out.println("id = " + entry.getKey() + ", user = " + entry.getValue().getUsername()); 
 		}
 		System.out.println("------------------------------------------------");
 		
@@ -411,7 +450,7 @@ public class Master extends Listener { // SERVER
 		}
 		System.out.println("------------------------------------------------");
 		// DEBUG END
-		
+
 	}
 
 }

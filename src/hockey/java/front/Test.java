@@ -30,7 +30,7 @@ public class Test extends Application{
     Midline mid;
     CenterCircle center;
     double friction;
-    PowerUp pu;
+    PowerUpMidline pu;
     PowerUpPuckSize puckPU;
 
     public void displayWinner(Pane playfield, String name) {}
@@ -48,7 +48,7 @@ public class Test extends Application{
 //    	 s1 = null;
 //    	 s2 = null;
     	 
-    	 pu = new PowerUp();
+    	 pu = new PowerUpMidline();
     	 puckPU = new PowerUpPuckSize();
 
     	 goal1 = new Goal(1, puck, p1);
@@ -220,7 +220,7 @@ public class Test extends Application{
                 	 }
                 	 else {
                 		 if (puckPU.hidden() && puck.width == 30) {
-                    		 puckPU.reset(puck);
+                    		 puckPU.reset();
                     	 }
                 	 }
                 	 ran = (int)r.nextDouble() * 2500;
