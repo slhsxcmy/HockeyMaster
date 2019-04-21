@@ -19,12 +19,12 @@ public class NetworkHelper {
 
 
 	public static final String username = "root";
-	public static final String password = "cs201sql";
+	public static final String password = "635639";
 	public static final String server_ngrok_url = "localhost";
 	public static final int server_tcpPort = 23333;
 	public static final String client_ngrok_url = "tcp://0.tcp.ngrok.io";
 
-	public static final int client_tcpPort = 16329;
+	public static final int client_tcpPort = 13609;
 	public static void registerClasses(Kryo k) {
 
 		// register packet. ONLY objects registered as packets can be sent

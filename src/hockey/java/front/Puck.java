@@ -49,7 +49,6 @@ public class Puck extends Pane{
 		velocity.mult(friction);
 	}
 	
-	
 	public void checkPuckWalls() {
 		if((location.x-radius > 145-5) && 
 				(location.x+radius < (145+110)+5) && 
@@ -160,7 +159,27 @@ public class Puck extends Pane{
 			return 1;
 		}
 		return 0;
-
+	}
+	
+	public int collision(PowerUpGoalSize pu, Goal g1, Goal g2) {
+		double px = location.x;
+		double py = location.y;
+		double pux = pu.getLocation().x;
+		double puy = pu.getLocation().y;
+		double pur = pu.getRadius();
+		if (Math.sqrt((px - pux) * (px - pux) + (py - puy) * (py - puy)) <= radius + pur) {
+			if (lastHit.getPlayer().getPlayerID() == 1) {
+				System.out.println("entered");
+				pu.activate(g1);
+				return 1;
+			}
+			else {
+				pu.activate(g2);
+				return 2;
+			}
+			
+		}
+		return 0;
 	}
 	
 	// collision with striker
