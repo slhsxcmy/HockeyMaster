@@ -255,6 +255,7 @@ public class Master extends Listener { // SERVER
 
 			puck.checkPuckWalls();
 			
+			/*
 			int checkMidline = puck.collision(mid, puMidline);
 			int checkPuck = puck.collision(puPuck);
 			if(checkMidline == 1) { // powerup move midline
@@ -275,6 +276,7 @@ public class Master extends Listener { // SERVER
 				connections.get(players.get(1)).sendTCP(ppu);
 				System.out.println("HIT Puck Size Power Up");
 			}
+			*/
 				
 			//puck.collision(goal1, puGoal); // powerup change goal size
 			//puck.collision(goal2, puGoal);
@@ -314,13 +316,13 @@ public class Master extends Listener { // SERVER
 			}
 			if (s1.getPlayer().getScore() == GOALSTOWIN) { //GAME OVER HERE
 				//Update SQL inside updateStats
-				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "WIN"));
-				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "LOSE"));				
+				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "You won!"));
+				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "You lost..."));				
 				
 			}
 			if (s2.getPlayer().getScore() == GOALSTOWIN) { //GAME OVER HERE
-				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "WIN"));
-				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "LOSE"));
+				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "You won!"));
+				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "You lost..."));
 
 				
 			}

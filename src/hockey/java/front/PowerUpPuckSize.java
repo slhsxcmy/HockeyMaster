@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class PowerUpPuckSize extends Pane{
+public class PowerUpPuckSize extends Pane implements PowerUp {
 	
 	private PVector location;
 	private boolean hidden;

@@ -5,7 +5,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class PowerUpMidline extends Pane{
+public class PowerUpMidline extends Pane implements PowerUp {
 	
 	private PVector location;
 	private boolean hidden;
