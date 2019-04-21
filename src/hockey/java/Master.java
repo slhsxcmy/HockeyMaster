@@ -45,7 +45,7 @@ public class Master extends Listener { // SERVER
 	private static Server server;
 
 	private static final int GOALSTOWIN = 100;
-	private static final int PUMT = 1000; // power up mean time
+	private static final int PUMT = 100; // power up mean time
 	public static final String server_ngrok_url = NetworkHelper.server_ngrok_url;
 	public static final int server_tcpPort = NetworkHelper.server_tcpPort;
 
@@ -100,8 +100,8 @@ public class Master extends Listener { // SERVER
 
 	public static void initBoard() {
 
-		powerups.add(new PowerUpMidline());
-//		powerups.add(new PowerUpPuckSize());
+//		powerups.add(new PowerUpMidline());
+		powerups.add(new PowerUpPuckSize());
 //		powerups.add(new PowerUpGoalSize());
 		
 		s1 = new Striker(new Player(1));
@@ -269,14 +269,15 @@ public class Master extends Listener { // SERVER
 				connections.get(players.get(1)).sendTCP(ppu);
 				System.out.println("s1 hit Midline Power Up");
 			} 
-			/*
+			
 			if(checkPuck > 0) {// powerup minimize puck activate
 				PacketPU ppu = new PacketPU(Constants.PUPUCKSIZEACT);
+				puPuck.activate(puck);
 				connections.get(players.get(0)).sendTCP(ppu);
 				connections.get(players.get(1)).sendTCP(ppu);
 				System.out.println("HIT Puck Size Power Up");
 			}
-			*/
+			
 				
 			//puck.collision(goal1, puGoal); // powerup change goal size
 			//puck.collision(goal2, puGoal);
@@ -300,7 +301,7 @@ public class Master extends Listener { // SERVER
 				// send goal message
 				connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 1, onlineUsers.get(players.get(0)).getUsername()+" GOAL!"));
 				connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 1, onlineUsers.get(players.get(0)).getUsername()+" GOAL!"));
-
+				
 			}
 			if (g2.goalDetection(2)) {
 				s2.getPlayer().score();
@@ -331,7 +332,7 @@ public class Master extends Listener { // SERVER
 			
 			if (time == rt) {
 				time = 0;
-				rt = rnd.nextInt(PUMT * 2);
+				rt = rnd.nextInt() % (2 * PUMT);
 				
 				PowerUp p = getRandomPowerUp();
 				PacketPU ppu;

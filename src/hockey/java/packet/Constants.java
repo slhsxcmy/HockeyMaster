@@ -5,10 +5,13 @@ public class Constants {
 	public static final int PUPUCKSIZESHOW = 42;
 	public static final int PUGOALSIZESHOW = 43;
 
-	public static final int PUPUCKSIZEACT = 50;
-	public static final int PUMIDLINEACT = 51;
+	public static final int PUPUCKSIZEACT = 51;
+	public static final int PUMIDLINEACT = 53;
 	public static final int PUGOALSIZEACT = 55;
-	
+
+	public static final int PUPUCKSIZEEND = 52;
+	public static final int PUMIDLINEEND =  54;
+	public static final int PUGOALSIZEEND = 56;
 	
 	public static final int SIGNUPATTEMPT = 21;
 	public static final int LOGINATTEMPT = 22;

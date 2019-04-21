@@ -25,4 +25,9 @@ public class PacketPU {
 		y = b;
 		playerID = j;
 	}
+
+
+	public PacketPU(int i) {
+		this(i,-1,-1,-1);
+	}
 }

@@ -104,12 +104,12 @@ public class Striker extends Pane {
 					//TODO
 					//WE HAVE TO TEST THIS WHEN SERVER IS RUNNIGN
 					//if striker 2 hits the midline
-					if (location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)*mult) {
-						location.y = 0+radius+BoardSettings.BOARDER_HEIGHT*mult;
+					if (location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)/*mult*/) {
+						location.y = 0+radius+BoardSettings.BOARDER_HEIGHT/*mult*/;
 						velocity.y = 0; // added by caesar
 					}
 					else if (started == true && location.y > ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult) {
-						location.y = (BoardSettings.SCENE_HEIGHT/2)-radius-2.5;
+						location.y = ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5) * mult;
 						velocity.y = 0; // added by caesar
 					}
 					else if(started == false && location.y > ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult*0.5) {

@@ -126,6 +126,9 @@ public class Network extends Listener{
 				Platform.runLater(() -> {
 					Hockey.getGameController().setScore(goalplayer);
 					Hockey.getGameController().showGoalMessage(goalmessage);
+					GameController.getPuck().resetSize();
+					GameController.getMidline().reset();
+					
 				});
 				//Show goal message on screen and stop for 3 seconds
 				
@@ -205,13 +208,20 @@ public class Network extends Listener{
 				break;
 				
 			case Constants.PUPUCKSIZESHOW:
-				//GameController.getPuPuck().reset();
+				Platform.runLater(() -> {
+					GameController.getPuMidline().show(x, y);
+	            });
+				break;
+
+			case Constants.PUPUCKSIZEACT:
+				Platform.runLater(() -> {
+					GameController.getPuPuck().activate(GameController.getPuck());
+					GameController.getPuMidline().hide();
+	            });
 				break;
 			case Constants.PUGOALSIZESHOW:
 				break;
 			
-			case Constants.PUPUCKSIZEACT:
-				break;
 			case Constants.PUGOALSIZEACT: 
 				break;
 			
