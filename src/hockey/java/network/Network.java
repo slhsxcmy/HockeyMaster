@@ -132,8 +132,10 @@ public class Network extends Listener{
 				break;
 			case Constants.GAMEOVER:
 				String endmessage = ((PacketReturn) o).message;
-				System.out.println("Game Over hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-				//Show endmessage in the screen with a button to return to main page;
+				Platform.runLater(() -> {
+					Hockey.getGameOverController().setMessage(endmessage);
+					Hockey.getPrimaryStage().setScene(Hockey.getGameOverScene());
+				});
 				//TODO
 				break;
 			}
