@@ -46,13 +46,13 @@ public class GameController {
     private static CenterCircle center;
     private static PowerUpMidline puMidline;
     private static PowerUpPuckSize puPuck;
-  	Text p1s = new Text("0");
-   	Text p2s = new Text("0");
+  	Text p1s;
+   	Text p2s;
    	Text goalMessage = new Text("");
 
 	public void init(int playerId) {
 		 System.out.println("init game start");
-	    	
+	    
 	   	 selfStriker = new Striker(new Player(playerId));
 	   	 otherStriker = new Striker(new Player(3-playerId));
 	   	 puck = new Puck();
@@ -68,11 +68,13 @@ public class GameController {
 	   	 puMidline = new PowerUpMidline();
 	     puPuck = new PowerUpPuckSize();
 		 
+	     p1s = new Text("0");
 	   	 p1s.setFont(Font.font ("Verdana", 50));
 	   	 p1s.setFill(Color.RED);
 	   	 p1s.setX(350);
 	   	 p1s.setY(400);
-	
+	   	 
+	   	 p2s = new Text("0");
 	   	 p2s.setFont(Font.font ("Verdana", 50));
 	   	 p2s.setFill(Color.RED);
 	   	 p2s.setX(350);
@@ -130,6 +132,7 @@ public class GameController {
 	      	 public void handle(long now) {
 
 	           	 // send self mouse to server
+	      		 System.out.println("sending mouse to server");
 	           	 Hockey.getNetwork().getClient().sendTCP(new PacketMouse(selfStriker.getPlayer().getPlayerID(),selfStriker.getPlayer().getMouse().x,selfStriker.getPlayer().getMouse().y));
            }
        };
@@ -139,7 +142,9 @@ public class GameController {
 	}
 	
 	public void stopGame() {
+		
 		loop.stop();
+	    System.out.println("stopped game loop");
 	}
 
 	public static Striker getSelfStriker() {

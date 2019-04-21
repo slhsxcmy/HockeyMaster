@@ -43,7 +43,7 @@ public class Master extends Listener { // SERVER
 
 	private static Server server;
 
-	private static final int GOALSTOWIN = 100;
+	private static final int GOALSTOWIN = 2;
 	private static final int PUMT = 1000; // power up mean time
 	public static final String server_ngrok_url = NetworkHelper.server_ngrok_url;
 	public static final int server_tcpPort = NetworkHelper.server_tcpPort;
@@ -215,7 +215,6 @@ public class Master extends Listener { // SERVER
 				if(p.status == Constants.PLAYSUCCESS) {
 					activateGame(); // game board on server				
 				}
-
 				debug();				
 				break;	
 
@@ -223,7 +222,7 @@ public class Master extends Listener { // SERVER
 		} else if (o instanceof PacketMouse){
 
 			PVector mouse = new PVector(((PacketMouse)o).x,((PacketMouse)o).y);
-			int id = ((PacketMouse) o).id;
+			int id = ((PacketMouse) o).id; 
 			PacketStriker ps;
 
 			// id     = 1~2 
@@ -240,9 +239,11 @@ public class Master extends Listener { // SERVER
 	           	ps = new PacketStriker(id,s2.getLocation().x,s2.getLocation().y,s2.getVelocity().x,s2.getVelocity().y);
 			}
 
-			connections.get(players.get(2-id)).sendTCP(ps);
-			connections.get(players.get(id-1)).sendTCP(ps);// added to send to self as well
-
+			if(players.size() == 2) {
+				connections.get(players.get(2-id)).sendTCP(ps);
+				connections.get(players.get(id-1)).sendTCP(ps);// added to send to self as well
+			}
+			
 			if(puck.collision(s1)) {
 				System.out.println("collision with 1");
 				puck.recalculate(s1); // resolve collision
@@ -285,8 +286,12 @@ public class Master extends Listener { // SERVER
 			
 			
 			PacketPuck pp = new PacketPuck(puck.getLocation().x,puck.getLocation().y,puck.getVelocity().x,puck.getVelocity().y);
-			connections.get(players.get(0)).sendTCP(pp);
-			connections.get(players.get(1)).sendTCP(pp);
+			
+			if(players.size() == 2) {
+				connections.get(players.get(0)).sendTCP(pp);
+				connections.get(players.get(1)).sendTCP(pp);
+				
+			}
 			
 			
 			
@@ -318,18 +323,37 @@ public class Master extends Listener { // SERVER
 			}
 			if (s1.getPlayer().getScore() == GOALSTOWIN) { //GAME OVER HERE
 				//Update SQL inside updateStats
+//				System.out.println("player one "+ Master.getPlayerlist().get(0));
+//				System.out.println("player two "+ Master.getPlayerlist().get(1));
+				
 				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "YOU WIN!"));
 				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "YOU LOSE..."));	
+				
+				
+				s1.getPlayer().setScore(0);
+				s2.getPlayer().setScore(0);
+				
+				
 				//update data structures				
 				players.clear();
+				//System.out.println("clear player list hereeeeeeeeeeee");
 				//TODO: Begin next game
 				nextGame();
 			}
-			if (s2.getPlayer().getScore() == GOALSTOWIN) { //GAME OVER HERE
+			else if (s2.getPlayer().getScore() == GOALSTOWIN) { //GAME OVER HERE
+				
+//				System.out.println("player one "+ Master.getPlayerlist().get(0));
+//				System.out.println("player two "+ Master.getPlayerlist().get(1));
+				
 				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "YOU WIN!"));
 				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "YOU LOSE..."));
+
+				s1.getPlayer().setScore(0);
+				s2.getPlayer().setScore(0);
+				
 				//update data structures
 				players.clear();
+				//System.out.println("clear player list hereeeeeeeeeeee");
 				//TODO: Begin next game
 				nextGame();
 			}
@@ -418,12 +442,11 @@ public class Master extends Listener { // SERVER
 	public void nextGame() { //only start next game if there are people in waitlist
 		if(waitList.size()>=1) {			
 			players.add(waitList.peek());
-			connections.get(waitList.peek()).sendTCP(new PacketReturn(Constants.PLAYFAILURE, waitList.peek(), "Not Enough Players. Please Wait."));	
-			waitList.remove();	
+			connections.get(waitList.peek()).sendTCP(new PacketReturn(Constants.PLAYFAILUREFEW, waitList.peek(), "Not Enough Players. Please Wait."));	
+			waitList.remove();
 			
 			if(waitList.peek()!=null) {
 				players.add(waitList.peek());
-				connections.get(waitList.peek()).sendTCP(new PacketReturn(Constants.PLAYSUCCESS, waitList.peek()));
 				waitList.remove();
 				activateGame();
 			}

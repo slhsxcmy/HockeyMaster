@@ -7,6 +7,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 import hockey.java.Hockey;
+import hockey.java.Master;
 import hockey.java.controller.GameController;
 import hockey.java.front.User;
 import hockey.java.packet.Constants;
@@ -97,7 +98,9 @@ public class Network extends Listener{
 					Hockey.getLoggedController().setMessage(message);
                 });
 				break;
-			case Constants.PLAYSUCCESS: 
+			case Constants.PLAYSUCCESS:
+//				System.out.println("player one "+ Master.getPlayerlist().get(0));
+//				System.out.println("player two "+ Master.getPlayerlist().get(1));
 				System.out.println("You are No. "+ ((PacketReturn) o).playerNum + " player in player list");
 				System.out.println("Going to game scene");
 				Platform.runLater(() -> {
@@ -131,14 +134,14 @@ public class Network extends Listener{
 				break;
 			case Constants.GAMEOVER:
 				String endmessage = ((PacketReturn) o).message;
-				
 				System.out.println("GAME OVER HEREEEEEEEEEEEEEEEEEEEEEE");
 				Platform.runLater(() -> {
 					Hockey.getGameController().stopGame();
-					Hockey.getGameOverController().setMessage(endmessage);					
+					Hockey.getGameOverController().setMessage(endmessage, ((PacketReturn) o).isGuest);				
 					Hockey.getPrimaryStage().setScene(Hockey.getGameOverScene());
 				});
 				//TODO
+				//System.out.println("client still connected");
 				break;
 			}
 		} else if (o instanceof PacketStriker){

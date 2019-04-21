@@ -263,32 +263,36 @@ public class SQLModel {
 //			if(rs.next()) {
 				
 			//}
+			
+			
 			if(username.equals("GUEST")) {
 				//does not update db, only show result message
-				return new PacketReturn(Constants.GAMEOVER, result);
+				return new PacketReturn(Constants.GAMEOVER, result, true);
 			}
 			else {
-				ps = connection.prepareStatement("UPDATE Player SET matchesWon=? AND matchesLost=? "
-						+ "AND goalsFor=? AND goalsAgainst=? WHERE playerID=?");
+				ps = connection.prepareStatement("UPDATE Player SET matchesWon=?,  matchesLost=? "
+						+ ", goalsFor=?, goalsAgainst=? WHERE playerID=?");
 				ps.setString(5, Integer.toString(dbid));
 				//rs = ps.executeQuery();
 				//rs.next();
 				if(result.equals("YOU WIN!")){
 					ps.setInt(1, matchW+1);
+					ps.setInt(2, matchL);
 				}
-				else if (result.equals("YOU LOSE...")) {
+				else{
+					ps.setInt(1, matchW);
 					ps.setInt(2, matchL+1);
 				}
 				ps.setInt(3, goalsFor+Master.getGoalsFor(dbid));
 				ps.setInt(4, goalsAgainst+Master.getGoalsAgainst(dbid));
 				ps.executeUpdate();
 				System.out.println("After update stats in db");
-				return new PacketReturn(Constants.GAMEOVER, result);
+				return new PacketReturn(Constants.GAMEOVER, result, false);
 			}
 			
 		}catch (SQLException e) {
 			System.out.println("sqle: " + e.getMessage());
-			return new PacketReturn(Constants.GAMEOVER, "SQL Error");
+			return new PacketReturn(Constants.GAMEOVER, "SQL Error", false);
 		}
 	}
 }
