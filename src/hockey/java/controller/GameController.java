@@ -1,7 +1,5 @@
 package hockey.java.controller;
 
-import java.util.Random;
-
 import hockey.java.Hockey;
 import hockey.java.front.CenterCircle;
 import hockey.java.front.Goal;
@@ -18,6 +16,8 @@ import hockey.java.packet.PacketMouse;
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
+import javafx.animation.ParallelTransition;
+import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
@@ -102,7 +102,7 @@ public class GameController {
 	   	 goalMessage = new Text("");
 	   	 goalMessage.setFont(Font.font (fontString, FontWeight.BOLD, 50));
 	   	 goalMessage.setFill(Color.RED);   	 
-	   	 goalMessage.setX(150);
+	   	 goalMessage.setX(100);
 	   	 goalMessage.setY(350);
 	   	 goalMessage.setTextAlignment(TextAlignment.CENTER);
 	   	 
@@ -154,13 +154,7 @@ public class GameController {
 	}
 	public void gameLoop() {	
    	 	loop = new AnimationTimer() {
-	      	 Random r = new Random();
-	      	 //time++;
-//	      	 if(time == 200) {
-//	      		playfield.getChildren().add(countdown);
-//	      	 }
 
-	      	 int ran = (int) (r.nextDouble() * 1000);
 	      	 @Override
 	      	 public void handle(long now) {
 
@@ -216,35 +210,49 @@ public class GameController {
 	}
 	
 	public void showGoalMessage(){
-		FadeTransition ft = new FadeTransition(Duration.millis(3000), goalMessage);
-	    ft.setFromValue(10);
-        ft.setToValue(0);
-        ft.setCycleCount(1);  
-        ft.play();
-	       
-		goalMessage.setText("GOAL!!!\n"
-				+ "3");	
-		loop.stop();
-		new Timeline(new KeyFrame(
+		
+//		FadeTransition ft = new FadeTransition(Duration.millis(3000), goalMessage);
+//	    ft.setFromValue(10);
+//        ft.setToValue(0);
+//        ft.setCycleCount(1);  
+
+        Timeline tl = new Timeline();
+        tl.getKeyFrames().addAll(
+        	new KeyFrame(
+		        Duration.millis(0),
+		        ae -> {
+		        	goalMessage.setText("GOAL!!!\n"
+		    				/*+ "3"*/);	
+//		    		loop.stop();
+		        }),
+			new KeyFrame(
 		        Duration.millis(1000),
 		        ae -> {
 		        	goalMessage.setText("GOAL!!!\n"
-		    				+ "2");
-		        })).play();
-		new Timeline(new KeyFrame(
+		    				/*+ "2"*/);
+		        }),
+			new KeyFrame(
 		        Duration.millis(2000),
 		        ae -> {
 		        	goalMessage.setText("GOAL!!!\n"
-		    				+ "1");
-		        })).play();
-		new Timeline(new KeyFrame(
+		    				/*+ "1"*/);
+		        }),
+			new KeyFrame(
 		        Duration.millis(3000),
 		        ae -> {
 		        	goalMessage.setText("");
-		        	loop.start();
-		        })).play();
+//		        	loop.start();
+		        }));
+		
+
+        tl.play();
+        
+//		ParallelTransition pt = new ParallelTransition(ft,tl);
+//		pt.play();
 		
 	}
+	
+
 
 	public static PowerUpMidline getPuMidline() {
 		return puMidline;
