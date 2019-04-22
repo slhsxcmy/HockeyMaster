@@ -41,14 +41,15 @@
          <effect>
             <DropShadow color="WHITE" height="39.21" radius="37.32" spread="0.68" width="112.07" />
          </effect></Label>
-       
+      
       <Label fx:id="message" alignment="CENTER" layoutX="13.0" layoutY="263.0" prefHeight="272.0" prefWidth="372.0" textAlignment="CENTER" textFill="#c30c0c">
+
          <font>
             <Font name="OLD SPORT 01 COLLEGE NCV" size="21.0" />
          </font>
          <effect>
             <DropShadow color="WHITE" height="58.95" radius="26.317500000000003" spread="0.35" width="48.32" />
          </effect>
-      </Label>
+       </Label>
    </children>
 </AnchorPane>

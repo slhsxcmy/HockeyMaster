@@ -2,6 +2,7 @@ package hockey.java.front;
 
 public class Player {
 	
+	
 	private String username;
 	private PVector mouse;
 	

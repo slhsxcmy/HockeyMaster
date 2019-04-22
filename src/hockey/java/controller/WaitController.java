@@ -23,7 +23,6 @@ public class WaitController {
 	@FXML
 	private Label message;
 
-	
 	//https://stackoverflow.com/questions/34785417/javafx-fxml-controller-constructor-vs-initialize-method
 	@FXML
     protected void initialize() {
