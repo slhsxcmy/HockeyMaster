@@ -137,11 +137,18 @@ public class SQLModel {
 				}
 				//check = true;
 				//p.status = 3;
-				System.out.println("3333333");
-				User u = new User(rs.getInt(1),username);
-				
-				Master.getConnections().put(rs.getInt(1), c);
-				Master.getUsers().put(rs.getInt(1), u); //create a new user and put it in map
+//<<<<<<< HEAD
+//				System.out.println("3333333");
+//				User u = new User(rs.getInt(1),username);
+//				
+//				Master.getConnections().put(rs.getInt(1), c);
+//				Master.getUsers().put(rs.getInt(1), u); //create a new user and put it in map
+//=======
+				User tmp = new User(rs.getInt(1));
+				tmp.setUsername(username);
+				//Hockey.setUser(tmp);
+				Master.getMap().put(rs.getInt(1), tmp); //create a new user and put it in map
+
 				return new PacketReturn(Constants.LOGINSUCCESS, rs.getInt(1), username);
 			} catch (SQLException e) {
 				System.out.println("sqle: " + e.getMessage());
@@ -168,10 +175,17 @@ public class SQLModel {
 			System.out.println("insertion done");
 			System.out.println("guest id is " + id);
 			
-			User u = new User(rs.getInt(1),"GUEST");
-			
-			Master.getConnections().put(id, c);
-			Master.getUsers().put(id, u); //put it in online users map
+// <<<<<<< HEAD
+// 			User u = new User(rs.getInt(1),"GUEST");
+// 			
+// 			Master.getConnections().put(id, c);
+// 			Master.getUsers().put(id, u); //put it in online users map
+// =======
+			User tmp = new User(id);
+			tmp.setUsername("GUEST");
+			//Hockey.setUser(tmp);
+			Master.getMap().put(id, tmp); //put it in online users map
+//>>>>>>> Yu
 			return checkList(id);			
 			
 		}catch (SQLException e) {
