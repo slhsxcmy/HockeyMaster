@@ -13,13 +13,16 @@ public class Striker extends Pane {
     private PVector location;
     private PVector velocity;
     private boolean started;
+    private boolean midlineMovedClose;
+    private boolean midlineMovedFar;
+
 
     
     //required to keep player on his side
     private Player player;
     
     private Random ran = new Random();
-
+    
     double width = 45;
     double height = width;
     double centerX = width / 2.0;
@@ -30,6 +33,8 @@ public class Striker extends Pane {
     Circle circle;
 	
 	public Striker(Player player) {
+		midlineMovedClose = false;
+		midlineMovedFar = false;
 		this.player = player;
 		started = true;
 		
@@ -88,10 +93,10 @@ public class Striker extends Pane {
 						location.y = (radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult;
 						velocity.y = 0; // added by caesar
 					}
-					else if (started == false && location.y < ((radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult)*1.5) {
-						location.y = ((radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult*1.5);
-						velocity.y = 0; // added by caesar
-					}
+//					else if (started == false && location.y < ((radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult)*1.5) {
+//						location.y = ((radius+(BoardSettings.SCENE_HEIGHT/2)-2+(BoardSettings.BOARDER_HEIGHT/2))*mult*1.5);
+//						velocity.y = 0; // added by caesar
+//					}
 				}
 				else if(player.getPlayerID() == 2) {
 					if (location.x > BoardSettings.SCENE_WIDTH-radius-BoardSettings.BOARDER_HEIGHT) {
@@ -101,21 +106,27 @@ public class Striker extends Pane {
 						location.x = 0+radius+BoardSettings.BOARDER_HEIGHT;
 						velocity.x = 0; // added by caesar
 					}
-					//TODO
-					//WE HAVE TO TEST THIS WHEN SERVER IS RUNNIGN
 					//if striker 2 hits the midline
-					if (location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)*mult) {
-						location.y = 0+radius+BoardSettings.BOARDER_HEIGHT*mult;
+					if (location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)) {
+						location.y = 0+radius+BoardSettings.BOARDER_HEIGHT;
 						velocity.y = 0; // added by caesar
 					}
-					else if (started == true && location.y > ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult) {
-						location.y = (BoardSettings.SCENE_HEIGHT/2)-radius-2.5;
+					else if (midlineMovedFar == false && midlineMovedClose == false && started == true && location.y > ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult) {
+						location.y = ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult;
 						velocity.y = 0; // added by caesar
 					}
-					else if(started == false && location.y > ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult*0.5) {
-						location.y = ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult*0.5;
+					else if (midlineMovedClose == true && started == true && location.y > (((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult)-27) {
+						location.y = (((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult)-27;
 						velocity.y = 0; // added by caesar
 					}
+					else if (midlineMovedFar == true && started == true && location.y > (((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult)+26) {
+						location.y = (((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult)+26;
+						velocity.y = 0; // added by caesar
+					}
+//					else if(started == false && location.y > ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult*0.5) {
+//						location.y = ((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult*0.5;
+//						velocity.y = 0; // added by caesar
+//					}
 				}
 	}
 	
@@ -125,6 +136,8 @@ public class Striker extends Pane {
 	
 	public void updateMidlineMult(double m) {
 		mult = m;
+		if(m == 0.5) midlineMovedClose = true;
+		else if(m == 1.5) midlineMovedFar = true;
 	}
 
     public void display() {
@@ -182,6 +195,8 @@ public class Striker extends Pane {
     	}
     	velocity.x = 0;
     	velocity.y = 0;
+    	midlineMovedClose = false;
+    	midlineMovedFar = false;
     }
     
     public Circle getCircle() { return circle; }

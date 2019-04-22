@@ -43,6 +43,7 @@ public class GameController {
     private static Goal otherGoal;
     private static Goal selfGoal;
     private static Walls walls1, walls2;
+    private static GoalArch arc1, arc2;
     private static Midline mid;
     private static CenterCircle center;
     private static PowerUpMidline puMidline;
@@ -50,6 +51,9 @@ public class GameController {
   	Text p1s = new Text("0");
    	Text p2s = new Text("0");
    	Text goalMessage = new Text("");
+   	private static int time;
+   	private static boolean gameStarted;
+   	
 
 	public void init(int playerId) {
 		 time = 0;
@@ -70,7 +74,7 @@ public class GameController {
 	   	 mid = new Midline();
 	   	 center = new CenterCircle();
 	   	 
-	   	 puMidline = new PowerUpMidline();
+	   	 puMidline = new PowerUpMidline(selfStriker, otherStriker);
 	     puPuck = new PowerUpPuckSize();
 		 
 	   	 p1s.setFont(Font.font ("Verdana", 50));
@@ -106,19 +110,19 @@ public class GameController {
 	     playfield.getChildren().add(selfGoal);
 	     playfield.getChildren().add(p1s);
 	     playfield.getChildren().add(p2s);
-	     playfield.getChildren().add(pu);
-		 playfield.getChildren().add(puckPU);
+	     playfield.getChildren().add(puMidline);
+		 playfield.getChildren().add(puPuck);
 	     //display static shapes
 	     center.display();
 	     otherGoal.display();
 	     selfGoal.display();
 	     walls1.display();
 	     walls2.display();
-	     playfield.getChildren().add(puMidline);
-		 playfield.getChildren().add(puPuck);
+	     //playfield.getChildren().add(puMidline);
+		 //playfield.getChildren().add(puPuck);
 	     mid.display();
-	     pu.display();
-	     puckPU.display();
+	     puMidline.display();
+	     puPuck.display();
        
     	 // capture mouse position
     	 Hockey.getGameScene().addEventFilter(MouseEvent.ANY, e -> {
@@ -133,6 +137,10 @@ public class GameController {
 	   	Text countdown = new Text("GO!");
    	 	AnimationTimer loop = new AnimationTimer() {
 	      	 Random r = new Random();
+	      	 //time++;
+//	      	 if(time == 200) {
+//	      		playfield.getChildren().add(countdown);
+//	      	 }
 
 	      	 int ran = (int) (r.nextDouble() * 1000);
 	      	 @Override

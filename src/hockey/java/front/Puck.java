@@ -188,7 +188,7 @@ public class Puck extends Pane{
 		// 1 = puck; 2 = striker
 
 		float acc = 1;
-		float max = 10;
+		float max = 8;
 		
 		double m1 = mass;
 		double m2 = s.getMass();
