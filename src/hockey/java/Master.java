@@ -114,7 +114,7 @@ public class Master extends Listener { // SERVER
 		wall2 = new Walls(2);
 
 		mid = new Midline();
-		friction = 0.993;
+		friction = 0.993 ;
 
 		puMidline = new PowerUpMidline(s1, s2);
 		puPuck = new PowerUpPuckSize();
