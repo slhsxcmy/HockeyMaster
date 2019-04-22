@@ -104,7 +104,7 @@ public class Master extends Listener { // SERVER
 	public static void initBoard() {
 
 
-		puMidline = new PowerUpMidline();
+		puMidline = new PowerUpMidline(s1,s2);
 		puPuck = new PowerUpPuckSize();
 		puGoal = new PowerUpGoalSize();
 		
@@ -123,7 +123,7 @@ public class Master extends Listener { // SERVER
 		wall2 = new Walls(2);
 
 		mid = new Midline();
-		friction = .988;
+		friction = 0.993;
 
 		time = 0;
 

@@ -16,10 +16,15 @@ public class PowerUpMidline extends Pane implements PowerUp {
 	private double centerX = width / 2.0;
 	private double centerY = height / 2.0;
 	private double radius = width / 2.0;
+	private Striker s1;
+	private Striker s2;
+	
 
 	private Circle circle;
 	
-	public PowerUpMidline() {
+	public PowerUpMidline(Striker s1, Striker s2) {
+		this.s1 = s1;
+		this.s2 = s2;
 		location = new PVector(-100, -100);
 		
 		circle = new Circle(radius);
@@ -38,17 +43,19 @@ public class PowerUpMidline extends Pane implements PowerUp {
 	public void display() {
 		relocate(location.x - centerX, location.y - centerY);
 	}
-	
-	// on hit
-	public void activate(Midline m, Striker s) { 
-		int id = 1;//s.getPlayer().getPlayerID();
+
+	public void activate(Midline m, Striker s) {
+		int id = s.getPlayer().getPlayerID();
+		
 		if (id == 1) {
 			m.move((m.startingY*0.5)-15);
-			s.updateMidlineMult(0.5);
+			s1.updateMidlineMult(0.5);
+			s2.updateMidlineMult(0.5);
 		}
 		else {
 			m.move((m.startingY*1.5)+15);
-			s.updateMidlineMult(1.5);
+			s1.updateMidlineMult(1.5);
+			s2.updateMidlineMult(1.5);
 		}
 		hide();
 	}

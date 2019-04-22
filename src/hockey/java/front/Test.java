@@ -49,7 +49,7 @@ public class Test extends Application{
 //    	 s1 = null;
 //    	 s2 = null;
     	 
-    	 pu = new PowerUpMidline();
+    	 pu = new PowerUpMidline(s1, s2);
     	 puckPU = new PowerUpPuckSize();
     	 goalPU = new PowerUpGoalSize();
 
