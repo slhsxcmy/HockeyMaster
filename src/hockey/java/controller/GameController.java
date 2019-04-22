@@ -120,7 +120,7 @@ public class GameController {
 	     playfield.getChildren().add(otherGoal);
 	     playfield.getChildren().add(selfGoal);
 	     playfield.getChildren().add(p1s);
-	     playfield.getChildren().add(p2s);=
+	     playfield.getChildren().add(p2s);
 	     
 	     playfield.getChildren().add(puMidline);
 	     playfield.getChildren().add(puPuck);
@@ -159,7 +159,7 @@ public class GameController {
 	      	 public void handle(long now) {
 
 	           	 // send self mouse to server
-	      		 System.out.println("sending mouse to server");
+//	      		 System.out.println("sending mouse to server");
 	           	 Hockey.getNetwork().getClient().sendTCP(new PacketMouse(selfStriker.getPlayer().getPlayerID(),selfStriker.getPlayer().getMouse().x,selfStriker.getPlayer().getMouse().y));
            }
        };

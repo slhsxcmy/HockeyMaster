@@ -14,9 +14,9 @@ public class Goal extends Pane {
 	private Player player;
 	
 	private int id;
-	private double width = 110;
+	private double width = BoardSettings.ORIGINALGOALSIZE;
 	private double height = BoardSettings.BOARDER_HEIGHT;
-	private double xstart = 145;
+	private double xstart = BoardSettings.ORIGINALGOALX;
 	private double bottomYstart = BoardSettings.SCENE_HEIGHT - BoardSettings.BOARDER_HEIGHT;
 	
 	Rectangle goal;
@@ -81,15 +81,16 @@ public class Goal extends Pane {
     }
 
 	public void enlarge() {
-		location.x -= 50;
-		width += 100;
+
+		location.x = BoardSettings.LARGEGOALX;
+		width = BoardSettings.LARGEGOALSIZE;
 		goal.setWidth(width);
 		display();
 	}
 	
 	public void reset() {
-		location.x += 50;
-		width -= 100;
+		location.x = BoardSettings.ORIGINALGOALX;
+		width = BoardSettings.ORIGINALGOALSIZE;
 		goal.setWidth(width);
 		display();
 	}

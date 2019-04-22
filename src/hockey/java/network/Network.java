@@ -241,13 +241,14 @@ public class Network extends Listener{
 			
 			case Constants.PUGOALSIZEACT:
 				Platform.runLater(() -> {
-					System.out.println("Received PUGOALSIZE  ACT");
+					System.out.println("Received PUGOALSIZE  ACT id = " + id);
 					Goal g;
-					if(GameController.getSelfStriker().getPlayer().getPlayerID() == id) {
-						g = GameController.getOtherGoal();
-					} else {
+					if(id == 2) {
 						g = GameController.getSelfGoal();
+					} else {
+						g = GameController.getOtherGoal();
 					}
+					
 					GameController.getPuGoal().activate(g);
 					GameController.getPuGoal().hide();
 	            });

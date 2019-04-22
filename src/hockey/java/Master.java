@@ -103,17 +103,17 @@ public class Master extends Listener { // SERVER
 
 	public static void initBoard() {
 
+		s1 = new Striker(new Player(1));
+		s2 = new Striker(new Player(2));
 
 		puMidline = new PowerUpMidline(s1,s2);
 		puPuck = new PowerUpPuckSize();
 		puGoal = new PowerUpGoalSize();
 		
-		powerups.add(puMidline);
-		powerups.add(puPuck);
-//		powerups.add(puGoal);
+//		powerups.add(puMidline);
+//		powerups.add(puPuck);
+		powerups.add(puGoal);
 		
-		s1 = new Striker(new Player(1));
-		s2 = new Striker(new Player(2));
 
 		puck = new Puck();
 
@@ -254,12 +254,12 @@ public class Master extends Listener { // SERVER
 			}
 			
 			if(puck.collision(s1)) {
-				System.out.println("collision with 1");
+//				System.out.println("collision with 1");
 				puck.recalculate(s1); // resolve collision
 			}
 
 			if(puck.collision(s2)) {
-				System.out.println("collision with 2");
+//				System.out.println("collision with 2");
 				puck.recalculate(s2); // resolve collision
 			}
 			
@@ -388,8 +388,7 @@ public class Master extends Listener { // SERVER
 				rt = rnd.nextInt(2 * PUMT);
 				
 				PowerUp p = getRandomPowerUp();
-				System.out.println(p);
-				
+
 				PacketPU ppu;
 				if (p == puMidline) {
 					if (puMidline.hidden() && mid.inMiddle()) {
@@ -409,12 +408,11 @@ public class Master extends Listener { // SERVER
 						System.out.println("Showing Puck Size Power Up");
 					}
 				} else if (p == puGoal) { // goal size
-					 System.out.println("here");
-					 System.out.println(puGoal.hidden());
-					 System.out.println(g1.getW()==110);
-					 System.out.println(g2.getW()==110);
+//					 System.out.println(puGoal.hidden());
+//					 System.out.println(g1.getW()==110);
+//					 System.out.println(g2.getW()==110);
 					 if (puGoal.hidden() && g1.getW() == 110 && g2.getW() == 110) {
-						 System.out.println("there");
+
 						 PVector v = puGoal.reset();
 						 ppu = new PacketPU(Constants.PUGOALSIZESHOW, v.x, v.y);
 							connections.get(players.get(0)).sendTCP(ppu);
@@ -424,7 +422,7 @@ public class Master extends Listener { // SERVER
 				}
 			}
 			time++;
-			System.out.println(time + " < " + rt);
+//			System.out.println(time + " < " + rt);
 		} 
 
 	}
