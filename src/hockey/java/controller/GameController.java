@@ -88,7 +88,7 @@ public class GameController {
 	   	 goalMessage = new Text("");
 	   	 goalMessage.setFont(Font.font ("Verdana", 30));
 	   	 goalMessage.setFill(Color.RED);   	 
-	   	 goalMessage.setX(150);
+	   	 goalMessage.setX(155);
 	   	 goalMessage.setY(350);
 	   	 
 	   	 // create containers // playfield for our strikers 
@@ -192,30 +192,43 @@ public class GameController {
 	}
 	
 	public void showGoalMessage(String message){
+//		
+//		Timer timer = new Timer();
+//		TimerTask task = new TimerTask() {
+//			
+//			@Override
+//			public void run() {
+//				goalMessage.setText("GOAL!");
+//				FadeTransition ft = new FadeTransition(Duration.millis(2000), goalMessage);
+//				ft.setFromValue(10);
+//			    ft.setToValue(0);
+//			    ft.setCycleCount(1);
+//			    ft.setAutoReverse(true);  
+//			    ft.play();
+//				loop.stop();
+//			}
+//		};
+//		timer.schedule(task,0);
+//		TimerTask task2 = new TimerTask() {
+//			
+//			@Override
+//			public void run() {
+//				loop.start();
+//				goalMessage.setText("");
+//				
+//			}
+//		};
+//		TimerTask task3 = new TimerTask() {
+//			
+//			@Override
+//			public void run() {
+//				timer.cancel();
+//				
+//			}
+//		};
+//		timer.schedule(task3,2000l);
+//		timer.schedule(task, 2000l);
 		
-		Timer timer = new Timer();
-		TimerTask task = new TimerTask() {
-			
-			@Override
-			public void run() {
-				goalMessage.setText("GOAL!");	
-				loop.stop();
-			}
-		};
-				
-		timer.schedule(task,0);
-		
-		TimerTask task2 = new TimerTask() {
-			
-			@Override
-			public void run() {
-				loop.start();
-				goalMessage.setText("");
-				
-			}
-		};
-		
-		timer.schedule(task2,2000l);
 		
 //		FadeTransition ft = new FadeTransition(Duration.millis(3000), goalMessage);
 //		ft.setFromValue(10);
