@@ -6,7 +6,7 @@ public class PacketReturn {
 	public int playerNum;
 	public String username;
 	public String message;
-
+	public boolean isGuest;
 	//public int playerID;
 	
 	public PacketReturn(int status, int id) {
@@ -34,6 +34,13 @@ public class PacketReturn {
 		this.status = status;
 		this.message = message;
 	}
+	
+	public PacketReturn(int status, String message, boolean isGuest) {
+		this.status = status;
+		this.message = message;
+		this.isGuest = isGuest;
+	}
+	
 	
 	
 }

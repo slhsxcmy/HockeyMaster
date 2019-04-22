@@ -34,5 +34,10 @@ public class Player {
 	public int getPlayerID() {
 		return playerID;
 	}
+
+	public void setScore(int i) {
+		score = i;
+		
+	}
 	
 }

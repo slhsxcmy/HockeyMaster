@@ -221,8 +221,9 @@ public class Master extends Listener { // SERVER
 				p = model.signAsGuest(c);
 				if(p.status == Constants.PLAYSUCCESS) {
 					activateGame(); // game board on server				
-				}
-
+				}else {
+					c.sendTCP(p);
+				} 
 				debug();				
 				break;	
 
@@ -230,7 +231,7 @@ public class Master extends Listener { // SERVER
 		} else if (o instanceof PacketMouse){
 
 			PVector mouse = new PVector(((PacketMouse)o).x,((PacketMouse)o).y);
-			int id = ((PacketMouse) o).id;
+			int id = ((PacketMouse) o).id; 
 			PacketStriker ps;
 
 			// id     = 1~2 
@@ -247,9 +248,11 @@ public class Master extends Listener { // SERVER
 	           	ps = new PacketStriker(id,s2.getLocation().x,s2.getLocation().y,s2.getVelocity().x,s2.getVelocity().y);
 			}
 
-			connections.get(players.get(2-id)).sendTCP(ps);
-			connections.get(players.get(id-1)).sendTCP(ps);// added to send to self as well
-
+			if(players.size() == 2) {
+				connections.get(players.get(2-id)).sendTCP(ps);
+				connections.get(players.get(id-1)).sendTCP(ps);// added to send to self as well
+			}
+			
 			if(puck.collision(s1)) {
 				System.out.println("collision with 1");
 				puck.recalculate(s1); // resolve collision
@@ -301,8 +304,12 @@ public class Master extends Listener { // SERVER
 			
 			
 			PacketPuck pp = new PacketPuck(puck.getLocation().x,puck.getLocation().y,puck.getVelocity().x,puck.getVelocity().y);
-			connections.get(players.get(0)).sendTCP(pp);
-			connections.get(players.get(1)).sendTCP(pp);
+			
+			if(players.size() == 2) {
+				connections.get(players.get(0)).sendTCP(pp);
+				connections.get(players.get(1)).sendTCP(pp);
+				
+			}
 			
 			
 			
@@ -339,15 +346,39 @@ public class Master extends Listener { // SERVER
 			}
 			if (s1.getPlayer().getScore() == GOALSTOWIN) { //GAME OVER HERE
 				//Update SQL inside updateStats
-				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "You won!"));
-				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "You lost..."));				
+//				System.out.println("player one "+ Master.getPlayerlist().get(0));
+//				System.out.println("player two "+ Master.getPlayerlist().get(1));
 				
+				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "YOU WIN!"));
+				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "YOU LOSE..."));	
+				
+				
+				s1.getPlayer().setScore(0);
+				s2.getPlayer().setScore(0);
+				
+				
+				//update data structures				
+				players.clear();
+				//System.out.println("clear player list hereeeeeeeeeeee");
+				//TODO: Begin next game
+				nextGame();
 			}
-			if (s2.getPlayer().getScore() == GOALSTOWIN) { //GAME OVER HERE
-				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "You won!"));
-				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "You lost..."));
-
+			else if (s2.getPlayer().getScore() == GOALSTOWIN) { //GAME OVER HERE
 				
+//				System.out.println("player one "+ Master.getPlayerlist().get(0));
+//				System.out.println("player two "+ Master.getPlayerlist().get(1));
+				
+				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "YOU WIN!"));
+				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "YOU LOSE..."));
+
+				s1.getPlayer().setScore(0);
+				s2.getPlayer().setScore(0);
+				
+				//update data structures
+				players.clear();
+				//System.out.println("clear player list hereeeeeeeeeeee");
+				//TODO: Begin next game
+				nextGame();
 			}
 			
 			// Power up control
@@ -410,7 +441,54 @@ public class Master extends Listener { // SERVER
 	}
 
 	public void disconnected(Connection c) {
-		System.out.println("Lost connection from client. ");
+		System.out.println("Lost connection from client.");
+		int dbid = -1;
+		boolean isGuest = false;
+		//first get dbid of c
+		for (Map.Entry<Integer,Connection> entry : connections.entrySet()) {
+			if(entry.getValue().getID() == c.getID()) {
+				dbid = entry.getKey();
+			}
+		}
+		if(onlineUsers.get(dbid).getUsername().equals("GUEST")) {
+			isGuest = true;
+		}
+		//update data structures
+		if(dbid == players.get(0)) {
+			connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WIN!", isGuest));
+			players.clear();
+			
+			//TODO: next game here
+			nextGame();
+		}else if(dbid == players.get(1)) {
+			connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WIN!", isGuest));
+			players.clear();
+			
+			//TODO: next game here
+			nextGame();
+		}						
+		onlineUsers.remove(dbid);
+		waitList.remove(dbid);
+		
+	}
+	
+//	public void stopGame() {
+//		connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GAMEOVER));
+//		connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GAMEOVER));
+//	}
+//	
+	public void nextGame() { //only start next game if there are people in waitlist
+		if(waitList.size()>=1) {			
+			players.add(waitList.peek());
+			connections.get(waitList.peek()).sendTCP(new PacketReturn(Constants.PLAYFAILUREFEW, waitList.peek(), "Not Enough Players. Please Wait."));	
+			waitList.remove();
+			
+			if(waitList.peek()!=null) {
+				players.add(waitList.peek());
+				waitList.remove();
+				activateGame();
+			}
+		}
 	}
 
 	public void debug() {

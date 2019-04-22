@@ -36,6 +36,7 @@ public class GameController {
 	
     //private static boolean started = false;
     
+	private AnimationTimer loop;
     private static Striker selfStriker;
     private static Striker otherStriker;
     private static Puck puck;
@@ -47,13 +48,15 @@ public class GameController {
     private static PowerUpMidline puMidline;
     private static PowerUpPuckSize puPuck;
     private static PowerUpGoalSize puGoal;
-  	Text p1s = new Text("0");
-   	Text p2s = new Text("0");
+
+  	Text p1s;
+   	Text p2s;
+
    	Text goalMessage = new Text("");
 
 	public void init(int playerId) {
 		 System.out.println("init game start");
-	    	
+	    
 	   	 selfStriker = new Striker(new Player(playerId));
 	   	 otherStriker = new Striker(new Player(3-playerId));
 	   	 puck = new Puck();
@@ -75,11 +78,13 @@ public class GameController {
 			
 	     puGoal = new PowerUpGoalSize();
 		 
+	     p1s = new Text("0");
 	   	 p1s.setFont(Font.font ("Verdana", 50));
 	   	 p1s.setFill(Color.RED);
 	   	 p1s.setX(350);
 	   	 p1s.setY(400);
-	
+	   	 
+	   	 p2s = new Text("0");
 	   	 p2s.setFont(Font.font ("Verdana", 50));
 	   	 p2s.setFill(Color.RED);
 	   	 p2s.setX(350);
@@ -134,22 +139,27 @@ public class GameController {
 	}
 	
 	public void gameLoop() {
-		
-		
-   	 	AnimationTimer loop = new AnimationTimer() {
+				
+   	 	loop = new AnimationTimer() {
 	      	 Random r = new Random();
 	      	 int ran = (int) (r.nextDouble() * 1000);
 	      	 @Override
 	      	 public void handle(long now) {
 
 	           	 // send self mouse to server
+	      		 System.out.println("sending mouse to server");
 	           	 Hockey.getNetwork().getClient().sendTCP(new PacketMouse(selfStriker.getPlayer().getPlayerID(),selfStriker.getPlayer().getMouse().x,selfStriker.getPlayer().getMouse().y));
            }
        };
        System.out.println("starting game loop");
        loop.start();
-       
-       
+              
+	}
+	
+	public void stopGame() {
+		
+		loop.stop();
+	    System.out.println("stopped game loop");
 	}
 
 	public static Striker getSelfStriker() {

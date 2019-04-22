@@ -16,12 +16,18 @@ public class GameOverController {
 	
 	@FXML
 	private Button back; 
+	
+	private boolean isGuest;
 
 	@FXML
 	public void goBack(ActionEvent event) throws IOException {
 		
 		Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
-		primaryStage.setScene(Hockey.getLoggedScene());
+		if(!isGuest) {
+			primaryStage.setScene(Hockey.getLoggedScene());
+		}else {
+			primaryStage.setScene(Hockey.getMenuScene());
+		}
 		//primaryStage.show();
 	}
 	
@@ -31,7 +37,8 @@ public class GameOverController {
 		
     }
 	
-	public void setMessage(String m) {
+	public void setMessage(String m, boolean isGuest) {
 		message.setText(m);
+		this.isGuest = isGuest;
 	}
 }
