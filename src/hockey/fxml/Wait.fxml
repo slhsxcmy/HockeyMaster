@@ -46,17 +46,15 @@
          <effect>
             <DropShadow color="WHITE" height="39.21" radius="37.32" spread="0.68" width="112.07" />
          </effect></Label>
-       <Button fx:id="back" layoutX="142.0" layoutY="593.0" mnemonicParsing="false" onAction="#goBack" prefHeight="28.0" prefWidth="114.0" scaleX="2.0" scaleY="2.0" text="Back">
-      	<font><Font name="HockeyFont" size="13.0" url="@../../Fonts/HockeyFont.ttf" />
-		</font>
-         <effect>
-            <InnerShadow />
-         </effect>
-	  </Button>
-      <Label fx:id="message" layoutX="13.0" layoutY="263.0" prefHeight="183.0" prefWidth="372.0" textAlignment="CENTER" textFill="#c30c0c">
+       
+      <Label fx:id="message" alignment="CENTER" layoutX="108.0" layoutY="277.0" prefHeight="28.0" prefWidth="178.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" textAlignment="CENTER">
+         
          <font>
-            <Font name="System Bold" size="22.0" />
+            <Font name="OLD SPORT 01 COLLEGE NCV" size="21.0" />
          </font>
-      </Label>
+         <effect>
+            <DropShadow color="WHITE" height="58.95" radius="26.317500000000003" spread="0.35" width="48.32" />
+         </effect>
+       </Label>
    </children>
 </AnchorPane>

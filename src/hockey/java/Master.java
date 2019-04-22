@@ -43,7 +43,7 @@ public class Master extends Listener { // SERVER
 
 	private static Server server;
 
-	private static final int GOALSTOWIN = 100;
+	private static final int GOALSTOWIN = 2;
 	private static final int PUMT = 100; // power up mean time
 
 	public static final String server_ngrok_url = NetworkHelper.server_ngrok_url;
@@ -333,8 +333,8 @@ public class Master extends Listener { // SERVER
 				g2.reset();
 				
 				// send goal message
-				connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 1, onlineUsers.get(players.get(0)).getUsername()+" GOAL!"));
-				connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 1, onlineUsers.get(players.get(0)).getUsername()+" GOAL!"));
+				connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 1, onlineUsers.get(players.get(0)).getUsername()+" GOAL!!!"));
+				connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 1, onlineUsers.get(players.get(0)).getUsername()+" GOAL!!!"));
 				
 			}
 			if (g2.goalDetection(2)) {
@@ -348,8 +348,8 @@ public class Master extends Listener { // SERVER
 				g1.reset();
 				g2.reset();
 				
-				connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 2, onlineUsers.get(players.get(1)).getUsername()+" GOAL!"));
-				connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 2, onlineUsers.get(players.get(1)).getUsername()+" GOAL!"));
+				connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 2, onlineUsers.get(players.get(1)).getUsername()+" GOAL!!!"));
+				connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 2, onlineUsers.get(players.get(1)).getUsername()+" GOAL!!!"));
 
 				
 			}
@@ -358,8 +358,8 @@ public class Master extends Listener { // SERVER
 //				System.out.println("player one "+ Master.getPlayerlist().get(0));
 //				System.out.println("player two "+ Master.getPlayerlist().get(1));
 				
-				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "YOU WIN!"));
-				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "YOU LOSE..."));	
+				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "YOU WON!!!"));
+				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "YOU LOST..."));	
 				
 				
 				s1.getPlayer().setScore(0);
@@ -377,8 +377,8 @@ public class Master extends Listener { // SERVER
 //				System.out.println("player one "+ Master.getPlayerlist().get(0));
 //				System.out.println("player two "+ Master.getPlayerlist().get(1));
 				
-				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "YOU WIN!"));
-				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "YOU LOSE..."));
+				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "YOU WON!!!"));
+				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "YOU LOST..."));
 
 				s1.getPlayer().setScore(0);
 				s2.getPlayer().setScore(0);
@@ -432,7 +432,7 @@ public class Master extends Listener { // SERVER
 			}
 			time++;
 			
-			System.out.println(time + " < " + rt);
+//			System.out.println(time + " < " + rt);
 			if (scored) {
 				if (pauseCounter == 201) {
 					pauseCounter = 0;
@@ -472,14 +472,14 @@ public class Master extends Listener { // SERVER
 			isGuest = true;
 		}
 		//update data structures
-		if(dbid == players.get(0)) {
-			connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WIN!", isGuest));
+		if(players.size()>=1 && dbid == players.get(0)) {
+			connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WON!!!", isGuest));
 			players.clear();
 			
 			//TODO: next game here
 			nextGame();
-		}else if(dbid == players.get(1)) {
-			connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WIN!", isGuest));
+		}else if(players.size()>=2 && dbid == players.get(1)) {
+			connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WON!!!", isGuest));
 			players.clear();
 			
 			//TODO: next game here
@@ -490,11 +490,6 @@ public class Master extends Listener { // SERVER
 		
 	}
 	
-//	public void stopGame() {
-//		connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GAMEOVER));
-//		connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GAMEOVER));
-//	}
-//	
 	public void nextGame() { //only start next game if there are people in waitlist
 		if(waitList.size()>=1) {			
 			players.add(waitList.peek());

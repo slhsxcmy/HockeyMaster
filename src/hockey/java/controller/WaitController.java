@@ -23,9 +23,7 @@ public class WaitController {
 	@FXML
 	private Label message;
 
-	@FXML
-	private Button back;
-
+/*
 	
 	@FXML
 	public void goBack(ActionEvent event) throws IOException {
@@ -34,7 +32,7 @@ public class WaitController {
 		primaryStage.setScene(Hockey.getLoggedScene());
 		//primaryStage.show();
 	}
-
+*/
 	
 	//https://stackoverflow.com/questions/34785417/javafx-fxml-controller-constructor-vs-initialize-method
 	@FXML
