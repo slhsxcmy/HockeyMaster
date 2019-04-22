@@ -510,7 +510,7 @@ public class Master extends Listener { // SERVER
 				dbid = entry.getKey();
 			}
 		}
-		if(onlineUsers.get(dbid).getUsername().equals("GUEST")) {
+		if(onlineUsers.get(dbid) != null && onlineUsers.get(dbid).getUsername().equals("GUEST")) {
 			isGuest = true;
 		}
 		//update data structures
