@@ -1,6 +1,8 @@
 package hockey.java.controller;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import hockey.java.Hockey;
 import hockey.java.front.CenterCircle;
@@ -14,7 +16,9 @@ import hockey.java.front.Striker;
 import hockey.java.front.Walls;
 import hockey.java.packet.PacketMouse;
 import javafx.animation.AnimationTimer;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -22,6 +26,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 public class GameController {
 	@FXML
@@ -48,7 +53,7 @@ public class GameController {
     private static PowerUpPuckSize puPuck;
   	Text p1s;
    	Text p2s;
-   	Text goalMessage = new Text("");
+   	Text goalMessage;
 
 	public void init(int playerId) {
 		 System.out.println("init game start");
@@ -80,16 +85,16 @@ public class GameController {
 	   	 p2s.setX(350);
 	   	 p2s.setY(335);
 	   	 
-	   	 goalMessage.setFont(Font.font ("Verdana", 50));
-	   	 goalMessage.setFill(Color.RED);
-	   	 goalMessage.setX(200);
+	   	 goalMessage = new Text("");
+	   	 goalMessage.setFont(Font.font ("Verdana", 30));
+	   	 goalMessage.setFill(Color.RED);   	 
+	   	 goalMessage.setX(150);
 	   	 goalMessage.setY(350);
 	   	 
 	   	 // create containers // playfield for our strikers 
 	     playfield = new Pane();
 	     borderPane.getChildren().addAll(playfield);
 	     borderPane.setCenter(stackPane);
-	     
 	     playfield.getChildren().add(walls1);
 	     playfield.getChildren().add(walls2);
 	     playfield.getChildren().add(mid);
@@ -101,8 +106,10 @@ public class GameController {
 	     playfield.getChildren().add(selfGoal);
 	     playfield.getChildren().add(p1s);
 	     playfield.getChildren().add(p2s);
+	     playfield.getChildren().add(goalMessage);
 	     playfield.getChildren().add(puMidline);
 		 playfield.getChildren().add(puPuck);
+		 
 	     //display static shapes
 	     center.display();
 	     otherGoal.display();
@@ -112,6 +119,7 @@ public class GameController {
 	     mid.display();
 	     puMidline.display();
 	     puPuck.display();
+	     
        
     	 // capture mouse position
     	 Hockey.getGameScene().addEventFilter(MouseEvent.ANY, e -> {
@@ -143,8 +151,7 @@ public class GameController {
               
 	}
 	
-	public void stopGame() {
-		
+	public void stopGame() {	
 		loop.stop();
 	    System.out.println("stopped game loop");
 	}
@@ -184,8 +191,40 @@ public class GameController {
 		}
 	}
 	
-	public void showGoalMessage(String message) {
-		//TODO
+	public void showGoalMessage(String message){
+		
+		Timer timer = new Timer();
+		TimerTask task = new TimerTask() {
+			
+			@Override
+			public void run() {
+				goalMessage.setText("GOAL!");	
+				loop.stop();
+			}
+		};
+				
+		timer.schedule(task,0);
+		
+		TimerTask task2 = new TimerTask() {
+			
+			@Override
+			public void run() {
+				loop.start();
+				goalMessage.setText("");
+				
+			}
+		};
+		
+		timer.schedule(task2,2000l);
+		
+//		FadeTransition ft = new FadeTransition(Duration.millis(3000), goalMessage);
+//		ft.setFromValue(10);
+//	    ft.setToValue(0.1);
+//	    //ft.setCycleCount(1);  
+//	    //ft.setAutoReverse(true);  
+//	    ft.play();
+	    
+		
 	}
 
 	public static PowerUpMidline getPuMidline() {

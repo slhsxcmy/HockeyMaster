@@ -213,7 +213,7 @@ public class SQLModel {
 		
 		if(Master.getPlayerlist().size() == 0 && Master.getWaitlist().size() == 0) {
 			Master.getPlayerlist().add(id);
-			return new PacketReturn(Constants.PLAYFAILUREFEW, id, "Not Enough Players. Please Wait.");
+			return new PacketReturn(Constants.PLAYFAILUREFEW, id, "Not Enough Players.\n Please Wait.");
 		}
 		else if(Master.getPlayerlist().size() == 1 && Master.getWaitlist().size() == 0) {		
 			Master.getPlayerlist().add(id);
@@ -221,7 +221,7 @@ public class SQLModel {
 		}
 		else{
 			Master.getWaitlist().add(id);
-			return new PacketReturn(Constants.PLAYFAILUREMANY, id, "Game already in progress. Please Wait.");
+			return new PacketReturn(Constants.PLAYFAILUREMANY, id, "Game already in progress.\n Please Wait.");
 		}   
 	}
 	

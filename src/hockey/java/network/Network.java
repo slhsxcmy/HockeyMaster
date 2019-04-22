@@ -111,26 +111,27 @@ public class Network extends Listener{
 				break;
 			case Constants.PLAYFAILUREFEW: 
 				Platform.runLater(() -> {
-					Hockey.getWaitController().setMessage("Please wait for another player.");
+					Hockey.getWaitController().setMessage(username);
 					Hockey.getPrimaryStage().setScene(Hockey.getWaitScene());	
                 });
 				break;
 			case Constants.PLAYFAILUREMANY: 
 				Platform.runLater(() -> {
-					Hockey.getWaitController().setMessage("Game already in progress.");
+					Hockey.getWaitController().setMessage(username);
 					Hockey.getPrimaryStage().setScene(Hockey.getWaitScene());
                 });
 				break;
 			case Constants.GOAL:
-				String goalmessage = ((PacketReturn) o).message;
+				//String goalmessage = ((PacketReturn) o).username;
+				//System.out.println(goalmessage);
 				int goalplayer = ((PacketReturn) o).dbid;
 				Platform.runLater(() -> {
 					Hockey.getGameController().setScore(goalplayer);
-					Hockey.getGameController().showGoalMessage(goalmessage);
+					Hockey.getGameController().showGoalMessage("GOAL!");
+					
 				});
 				//Show goal message on screen and stop for 3 seconds
-				
-				
+							
 				break;
 			case Constants.GAMEOVER:
 				String endmessage = ((PacketReturn) o).message;
@@ -140,8 +141,7 @@ public class Network extends Listener{
 					Hockey.getGameOverController().setMessage(endmessage, ((PacketReturn) o).isGuest);				
 					Hockey.getPrimaryStage().setScene(Hockey.getGameOverScene());
 				});
-				//TODO
-				//System.out.println("client still connected");
+				
 				break;
 			}
 		} else if (o instanceof PacketStriker){
