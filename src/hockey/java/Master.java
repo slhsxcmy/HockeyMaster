@@ -282,16 +282,20 @@ public class Master extends Listener { // SERVER
 				PacketPU ppu = new PacketPU(Constants.PUMIDLINEACT, checkMidline);
 				Striker s = (checkMidline == 1) ? s1 : s2;
 				puMidline.activate(mid, s);
-				connections.get(players.get(0)).sendTCP(ppu);
-				connections.get(players.get(1)).sendTCP(ppu);
+				if(players.size() == 2) {
+					connections.get(players.get(0)).sendTCP(ppu);	
+					connections.get(players.get(1)).sendTCP(ppu);
+				}
 //				System.out.println("s1 hit Midline Power Up");
 			} 
 			
 			if(checkPuckSize > 0) {// powerup minimize puck activate
 				PacketPU ppu = new PacketPU(Constants.PUPUCKSIZEACT);
 				puPuck.activate(puck);
-				connections.get(players.get(0)).sendTCP(ppu);
-				connections.get(players.get(1)).sendTCP(ppu);
+				if(players.size() == 2) {
+					connections.get(players.get(0)).sendTCP(ppu);
+					connections.get(players.get(1)).sendTCP(ppu);
+				}
 //				System.out.println("HIT Puck Size Power Up");
 			}
 			
@@ -299,8 +303,10 @@ public class Master extends Listener { // SERVER
 				PacketPU ppu = new PacketPU(Constants.PUGOALSIZEACT, checkGoalSize);
 				Goal g = (checkGoalSize == 1) ? g2 : g1;
 				puGoal.activate(g);
-				connections.get(players.get(0)).sendTCP(ppu);
-				connections.get(players.get(1)).sendTCP(ppu);
+				if(players.size() == 2) {
+					connections.get(players.get(0)).sendTCP(ppu);				
+					connections.get(players.get(1)).sendTCP(ppu);
+				}
 //				System.out.println("HIT Goal Size Power Up");
 			
 			}
@@ -331,8 +337,11 @@ public class Master extends Listener { // SERVER
 				g2.reset();
 				
 				// send goal message
-				connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 1, "GOAL!!!"));
-				connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 1, "GOAL!!!"));
+				if(players.size() == 2) {
+					connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 1, "GOAL!!!"));
+					connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 1, "GOAL!!!"));
+					
+				}
 				
 			}
 			if (g2.goalDetection(2)) {
@@ -346,24 +355,27 @@ public class Master extends Listener { // SERVER
 				g1.reset();
 				g2.reset();
 				
-				connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 2, "GOAL!!!"));
-				connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 2, "GOAL!!!"));
+				if(players.size() == 2) {
+					connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 2, "GOAL!!!"));
+					connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 2, "GOAL!!!"));
 
+				}
+				
 				
 			}
 			if (s1.getPlayer().getScore() == GOALSTOWIN) { //GAME OVER HERE
 				//Update SQL inside updateStats
 //				System.out.println("player one "+ Master.getPlayerlist().get(0));
 //				System.out.println("player two "+ Master.getPlayerlist().get(1));
-				
-				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "YOU WON!!!"));
-				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "YOU LOST..."));	
-				
-				
-				s1.getPlayer().setScore(0);
-				s2.getPlayer().setScore(0);
-				
-				
+				if(players.size() == 2) {
+					connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "YOU WON!!!"));
+					connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "YOU LOST..."));	
+				}	
+//				
+//				s1.getPlayer().setScore(0);
+//				s2.getPlayer().setScore(0);
+//				
+//				
 				//update data structures				
 				players.clear();
 				//System.out.println("clear player list hereeeeeeeeeeee");
@@ -375,11 +387,13 @@ public class Master extends Listener { // SERVER
 //				System.out.println("player one "+ Master.getPlayerlist().get(0));
 //				System.out.println("player two "+ Master.getPlayerlist().get(1));
 				
-				connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "YOU WON!!!"));
-				connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "YOU LOST..."));
+				if(players.size() == 2) {
+					connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "YOU WON!!!"));
+					connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "YOU LOST..."));
+				}
 
-				s1.getPlayer().setScore(0);
-				s2.getPlayer().setScore(0);
+//				s1.getPlayer().setScore(0);
+//				s2.getPlayer().setScore(0);
 				
 				//update data structures
 				players.clear();
@@ -401,8 +415,10 @@ public class Master extends Listener { // SERVER
 					if (puMidline.hidden() && mid.inMiddle()) {
 						PVector v = puMidline.reset();
 						ppu = new PacketPU(Constants.PUMIDLINESHOW, v.x, v.y);
-						connections.get(players.get(0)).sendTCP(ppu);
-						connections.get(players.get(1)).sendTCP(ppu);
+						if(players.size() == 2) {
+							connections.get(players.get(0)).sendTCP(ppu);	
+							connections.get(players.get(1)).sendTCP(ppu);
+						}
 						System.out.println("Showing Midline Power Up");
 					}
 				}
@@ -410,8 +426,10 @@ public class Master extends Listener { // SERVER
 					if (puPuck.hidden() && puck.width == 30) {
 						PVector v = puPuck.reset();
 						ppu = new PacketPU(Constants.PUPUCKSIZESHOW, v.x, v.y);
-						connections.get(players.get(0)).sendTCP(ppu);
-						connections.get(players.get(1)).sendTCP(ppu);
+						if(players.size() == 2) {
+							connections.get(players.get(0)).sendTCP(ppu);
+							connections.get(players.get(1)).sendTCP(ppu);
+						}	
 						System.out.println("Showing Puck Size Power Up");
 					}
 				} else if (p == puGoal) { // goal size
@@ -422,32 +440,30 @@ public class Master extends Listener { // SERVER
 
 						 PVector v = puGoal.reset();
 						 ppu = new PacketPU(Constants.PUGOALSIZESHOW, v.x, v.y);
-							connections.get(players.get(0)).sendTCP(ppu);
-							connections.get(players.get(1)).sendTCP(ppu);
+						 	if(players.size() == 2) {
+						 		connections.get(players.get(0)).sendTCP(ppu);
+								connections.get(players.get(1)).sendTCP(ppu);
+						 	}
+							
 							System.out.println("Showing Goal Size Power Up");
 					}
 				}
 			}
 			time++;
-
-			if (scored) {
-				if (pauseCounter == 201) {
-					pauseCounter = 0;
-					scored = false;
-				}
-				else {
-					pauseCounter++;
-				}	
-			}
+			
+			
 
 		} 
 
 	}
 
 	public void activateGame() {	
-		connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.PLAYSUCCESS, players.get(0), onlineUsers.get(players.get(0)).getUsername(), 1));
-		connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.PLAYSUCCESS, players.get(1), onlineUsers.get(players.get(1)).getUsername(), 2));
-		initBoard();
+		if(players.size() == 2) {
+			connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.PLAYSUCCESS, players.get(0), onlineUsers.get(players.get(0)).getUsername(), 1));
+			connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.PLAYSUCCESS, players.get(1), onlineUsers.get(players.get(1)).getUsername(), 2));
+			initBoard();
+		}
+		
 	}
 
 	// runs when connection 

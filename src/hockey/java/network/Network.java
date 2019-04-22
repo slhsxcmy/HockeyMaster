@@ -128,7 +128,7 @@ public class Network extends Listener{
 				Platform.runLater(() -> {
 					Hockey.getGameController().setScore(goalplayer);
 
-					Hockey.getGameController().showGoalMessage(((PacketReturn) o).message);
+					Hockey.getGameController().showGoalMessage();
 					GameController.getPuck().resetSize();
 					GameController.getMidline().reset();
 					GameController.getSelfGoal().reset();
