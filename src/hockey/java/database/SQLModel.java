@@ -1,5 +1,8 @@
 package hockey.java.database;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,9 +14,18 @@ import hockey.java.front.User;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStats;
-import sun.net.www.content.audio.wav;
 
 public class SQLModel {
+	
+	// https://stackoverflow.com/questions/17213761/check-login-string-against-password-mysql-jdbc
+	// hash password
+	public static String hashPassword(String password) throws NoSuchAlgorithmException {
+	    MessageDigest mdEnc = MessageDigest.getInstance("MD5"); 
+	    mdEnc.update(password.getBytes(), 0, password.length());
+	    String md5 = new BigInteger(1, mdEnc.digest()).toString(16); // Encrypted 
+	    return md5;
+	}
+	
 	//private boolean singlePlayerDebug = true;
 	
 	Connection connection = null;
@@ -71,7 +83,7 @@ public class SQLModel {
 					//no error, update new player in database
 					ps = connection.prepareStatement("INSERT INTO Player (username, password) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
 					ps.setString(1, username);
-					ps.setString(2, pw);
+					ps.setString(2, hashPassword(pw)); // hash password
 					ps.executeUpdate();
 					
 					//ps = connection.prepareStatement("SELECT * FROM Player WHERE username=?");
@@ -96,6 +108,11 @@ public class SQLModel {
 				System.out.println("sqle: " + sqle.getMessage());
 				//check = false;
 				return new PacketReturn(Constants.SIGNUPFAILURE, "SQL error.");
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return new PacketReturn(Constants.SIGNUPFAILURE, "Hashing error.");
+				
 			} finally {
 				try {
 					if(rs != null) {rs.close();}
@@ -115,7 +132,7 @@ public class SQLModel {
 		}
 		else {
 			try {
-				System.out.println("111111111");
+//				System.out.println("111111111");
 				ps = connection.prepareStatement("SELECT * FROM Player WHERE username=?");
 				ps.setString(1, username);
 				rs = ps.executeQuery();
@@ -127,17 +144,17 @@ public class SQLModel {
 					//p.username = username;
 					//p.id = rs.getInt(1);
 
-					System.out.println("2222222");
+//					System.out.println("2222222");
 					
 					String dbpw = rs.getString(3);						
-					if(!dbpw.equals(pw)) { //once found this name exists, look at pw in database
+					if(!dbpw.equals(hashPassword(pw))) { //once found this name exists, look at pw in database
 			            //check = false; //password does not match with database			
 						return new PacketReturn(Constants.LOGINFAILURE, "password is incorrect");
 					}
 				}
 				//check = true;
 				//p.status = 3;
-				System.out.println("3333333");
+//				System.out.println("3333333");
 				User u = new User(rs.getInt(1),username);
 				
 				Master.getConnections().put(rs.getInt(1), c);
@@ -147,6 +164,10 @@ public class SQLModel {
 				System.out.println("sqle: " + e.getMessage());
 				//check = false;
 				return new PacketReturn(Constants.LOGINFAILURE, "SQL error.");
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return new PacketReturn(Constants.LOGINFAILURE, "Hashing error.");
 			}		
 		}		
 	}
