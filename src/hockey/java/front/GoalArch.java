@@ -17,9 +17,11 @@ public class GoalArch extends Pane{
 	
 	public GoalArch(Goal g) {
 		goal = g;
-		radius = goal.width/2;
-		xstart = goal.xstart-radius+9.8;
-		if(goal.id == 1) {
+		
+		radius = goal.getW()/2;
+		xstart = goal.getXstart()-radius+9.8;
+		if(goal.getID() == 1) {
+
 			ystart = (BoardSettings.BOARDER_HEIGHT/2)-2.7;
 			location = new PVector(xstart, ystart);
 			arc = new Circle(radius);
@@ -28,7 +30,7 @@ public class GoalArch extends Pane{
 			arc.setCenterY(ystart);
 		}
 		else {
-			ystart = 346;
+			ystart = 700;
 			location = new PVector(xstart, ystart);
 			arc = new Circle(radius);
 			

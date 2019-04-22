@@ -3,6 +3,7 @@ package hockey.java.front;
 import java.util.Random;
 
 import javafx.scene.layout.Pane;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -84,5 +85,11 @@ public class PowerUpGoalSize extends Pane implements PowerUp {
 	
 	public boolean hidden() {
 		return hidden;
+		
+	}
+
+	public void show(double x, double y) {
+		move(x, y);
+		hidden = false;
 	}
 }

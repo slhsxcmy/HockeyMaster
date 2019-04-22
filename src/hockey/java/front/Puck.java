@@ -51,11 +51,11 @@ public class Puck extends Pane{
 	
 	public void checkPuckWalls(Goal g1, Goal g2) {
 		if((location.x-radius > g1.getGoalLoc().x) && 
-				(location.x+radius < g1.getGoalLoc().x + g1.width) && 
+				(location.x+radius < g1.getGoalLoc().x + g1.getW()) && 
 				(location.y-radius < 0+BoardSettings.BOARDER_HEIGHT))
 		{}
 		else if((location.x-radius > g2.getGoalLoc().x) && 
-				(location.x+radius < g2.getGoalLoc().x + g2.width) && 
+				(location.x+radius < g2.getGoalLoc().x + g2.getW()) && 
 				(location.y+radius > (BoardSettings.SCENE_HEIGHT-BoardSettings.BOARDER_HEIGHT)))
 		{}
 		else {
@@ -84,55 +84,6 @@ public class Puck extends Pane{
 
 	}
 	
-	// check wall hit
-	/*public boolean checkBoundaries() {
-		onWall = false;
-		//todo
-		//if puck is in the goal, keep it moving
-		//Alot of constants here.. be careful of changing goal size
-		if((location.x-radius > 145-5) && 
-				(location.x+radius < (145+110)+5) && 
-				(location.y-radius < 0+BoardSettings.BOARDER_HEIGHT))
-		{}
-		else if((location.x-radius > 145-5) && 
-				(location.x+radius < (145+110)+5) && 
-				(location.y+radius > (BoardSettings.SCENE_HEIGHT-BoardSettings.BOARDER_HEIGHT)))
-		{}
-		else {
-	        if (location.x > BoardSettings.SCENE_WIDTH - radius - BoardSettings.BOARDER_HEIGHT) {
-	        	location.x = BoardSettings.SCENE_WIDTH - radius - BoardSettings.BOARDER_HEIGHT - 1;
-	        	velocity.x *= -1;
-	        	// Try setting vel to 0 on second wall hit
-	        	//if(onWall) velocity.x = 0;
-	        	onWall = true;
-	        } 
-	        else if (location.x < BoardSettings.BOARDER_HEIGHT + radius) {
-	        	location.x = radius + BoardSettings.BOARDER_HEIGHT + 1;
-	        	velocity.x *= -1;
-	        	// Try setting vel to 0 on second wall hit
-	        	//if(onWall) velocity.x = 0;
-	        	onWall = true;
-	        }
-	
-	        if (location.y > BoardSettings.SCENE_HEIGHT - radius - BoardSettings.BOARDER_HEIGHT) {
-	        	location.y = BoardSettings.SCENE_HEIGHT - radius - BoardSettings.BOARDER_HEIGHT - 1;
-	            velocity.y *= -1;
-	         // Try setting vel to 0 on second wall hit
-	        	//if(onWall) velocity.y = 0;
-	            onWall = true;
-	        } 
-	        else if (location.y < radius + BoardSettings.BOARDER_HEIGHT) {
-	        	location.y = radius + BoardSettings.BOARDER_HEIGHT + 1;
-	        	velocity.y *= -1;
-	        	// Try setting vel to 0 on second wall hit
-	        	//if(onWall) velocity.y = 0;
-	        	onWall = true;
-	        }
-		}
-		return onWall;
-    }
-    */
-	
 	// hit change midline location powerup
 	public int collision(Midline m, PowerUpMidline pu) {
 		double px = location.x;
@@ -141,6 +92,7 @@ public class Puck extends Pane{
 		double puy = pu.getLocation().y;
 		double pur = pu.getRadius();
 		if (Math.sqrt((px - pux) * (px - pux) + (py - puy) * (py - puy)) <= radius + pur) {
+			
 			pu.activate(m, lastHit);
 			return lastHit.getPlayer().getPlayerID();
 		}
@@ -194,7 +146,7 @@ public class Puck extends Pane{
 		//System.out.println((px - sx) * (px - sx) + (py - sy) * (py - sy) - (pr + sr) * (pr + sr));
 		if ((px - sx) * (px - sx) + (py - sy) * (py - sy) - (pr + sr) * (pr + sr) <= 0) {
 			//System.out.println("collision");
-			lastHit = s;
+			lastHit = s; // for power up 
 			return true;
 		} else {
 			return false;
@@ -207,7 +159,7 @@ public class Puck extends Pane{
 		// 1 = puck; 2 = striker
 
 		float acc = 1;
-		float max = 10;
+		float max = 8;
 		
 		double m1 = mass;
 		double m2 = s.getMass();

@@ -2,6 +2,7 @@ package hockey.java.front;
 
 public class Player {
 	
+	
 	private String username;
 	private PVector mouse;
 	
@@ -32,6 +33,11 @@ public class Player {
 	
 	public int getPlayerID() {
 		return playerID;
+	}
+
+	public void setScore(int i) {
+		score = i;
+		
 	}
 	
 }
