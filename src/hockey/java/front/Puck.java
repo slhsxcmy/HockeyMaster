@@ -1,5 +1,6 @@
 package hockey.java.front;
 
+import hockey.java.Master;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -158,8 +159,6 @@ public class Puck extends Pane{
 	public void recalculate(Striker s) {
 		// 1 = puck; 2 = striker
 
-		float acc = 1;
-		float max = 8;
 		
 		double m1 = mass;
 		double m2 = s.getMass();
@@ -179,7 +178,7 @@ public class Puck extends Pane{
 		PVector v1ct = PVector.mult(t, PVector.dot(t, v1c));
 		
 		// cheat 1: accelerate puck towards out of striker
-		PVector v1cnp = PVector.add(PVector.mult(v1cn, -1), PVector.mult(n, -1*acc));
+		PVector v1cnp = PVector.add(PVector.mult(v1cn, -1), PVector.mult(n, -1*Master.PUCKEXTRAACC));
 
 		// cheat 2: set location of puck outside of striker
 		PVector newloc = new PVector(PVector.add(s.getLocation(), PVector.mult(n, -1*(this.radius+s.radius))));
@@ -188,7 +187,7 @@ public class Puck extends Pane{
 		PVector v1p = PVector.add(PVector.add(v2, v1cnp), v1ct);
 		
 		
-		v1p.limit(max);
+		v1p.limit(Master.PUCKMAXSPEED);
 		//v2p.limit(max);
 		
 		this.setVelocity(v1p);

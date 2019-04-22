@@ -211,10 +211,11 @@ public class GameController {
 	
 	public void showGoalMessage(){
 		
-//		FadeTransition ft = new FadeTransition(Duration.millis(3000), goalMessage);
-//	    ft.setFromValue(10);
-//        ft.setToValue(0);
-//        ft.setCycleCount(1);  
+		FadeTransition ft = new FadeTransition(Duration.millis(3000), goalMessage);
+	    ft.setFromValue(10);
+        ft.setToValue(0);
+        ft.setCycleCount(1);  
+        ft.play();
 
         Timeline tl = new Timeline();
         tl.getKeyFrames().addAll(

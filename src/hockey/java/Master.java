@@ -43,9 +43,13 @@ public class Master extends Listener { // SERVER
 
 	private static Server server;
 
-	private static final int GOALSTOWIN = 2;
-	private static final int PUMT = 100; // power up mean time
+	private static final int GOALSTOWIN = 3;
+	private static final int PUMT = 500; // power up mean time
 
+	public static final float PUCKEXTRAACC = 1;
+	public static final float PUCKMAXSPEED = 8;
+	public static final float STRIKERMAXSPEED = 8;
+	
 	public static final String server_ngrok_url = NetworkHelper.server_ngrok_url;
 	public static final int server_tcpPort = NetworkHelper.server_tcpPort;
 
@@ -510,7 +514,7 @@ public class Master extends Listener { // SERVER
 				dbid = entry.getKey();
 			}
 		}
-		if(onlineUsers.get(dbid).getUsername().equals("GUEST")) {
+		if(onlineUsers.get(dbid) != null && onlineUsers.get(dbid).getUsername().equals("GUEST")) {
 			isGuest = true;
 		}
 		//update data structures

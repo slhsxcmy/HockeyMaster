@@ -2,6 +2,7 @@ package hockey.java.front;
 
 import java.util.Random;
 
+import hockey.java.Master;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -73,6 +74,8 @@ public class Striker extends Pane {
 			location.x = mouse.x;
 		} 
 		location.copy(mouse);
+		
+		velocity.limit(Master.STRIKERMAXSPEED);
     }
 	
 	// limit striker to walls and midline
