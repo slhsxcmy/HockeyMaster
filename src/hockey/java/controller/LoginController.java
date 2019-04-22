@@ -1,20 +1,13 @@
 package hockey.java.controller;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import hockey.java.Hockey;
-import hockey.java.database.SQLModel;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketAttempt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;

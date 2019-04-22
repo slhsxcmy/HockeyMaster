@@ -9,6 +9,7 @@ import hockey.java.front.Goal;
 import hockey.java.front.GoalArch;
 import hockey.java.front.Midline;
 import hockey.java.front.Player;
+import hockey.java.front.PowerUpGoalSize;
 import hockey.java.front.PowerUpMidline;
 import hockey.java.front.PowerUpPuckSize;
 import hockey.java.front.Puck;
@@ -37,6 +38,7 @@ public class GameController {
 	
     //private static boolean started = false;
     
+	private AnimationTimer loop;
     private static Striker selfStriker;
     private static Striker otherStriker;
     private static Puck puck;
@@ -48,8 +50,11 @@ public class GameController {
     private static CenterCircle center;
     private static PowerUpMidline puMidline;
     private static PowerUpPuckSize puPuck;
-  	Text p1s = new Text("0");
-   	Text p2s = new Text("0");
+    private static PowerUpGoalSize puGoal;
+
+  	Text p1s;
+   	Text p2s;
+
    	Text goalMessage = new Text("");
    	private static int time;
    	private static boolean gameStarted;
@@ -59,7 +64,7 @@ public class GameController {
 		 time = 0;
 		 gameStarted = false;
 		 System.out.println("init game start");
-	    	
+	    
 	   	 selfStriker = new Striker(new Player(playerId));
 	   	 otherStriker = new Striker(new Player(3-playerId));
 	   	 puck = new Puck();
@@ -75,13 +80,19 @@ public class GameController {
 	   	 center = new CenterCircle();
 	   	 
 	   	 puMidline = new PowerUpMidline(selfStriker, otherStriker);
+	     
 	     puPuck = new PowerUpPuckSize();
+//	     System.out.println("pucksize: " + ((Color)puPuck.getCircle().getFill()).getRed() + "," + ((Color)puPuck.getCircle().getFill()).getGreen() + "," + ((Color)puPuck.getCircle().getFill()).getBlue() + ",");
+			
+	     puGoal = new PowerUpGoalSize();
 		 
+	     p1s = new Text("0");
 	   	 p1s.setFont(Font.font ("Verdana", 50));
 	   	 p1s.setFill(Color.RED);
 	   	 p1s.setX(350);
 	   	 p1s.setY(400);
-	
+	   	 
+	   	 p2s = new Text("0");
 	   	 p2s.setFont(Font.font ("Verdana", 50));
 	   	 p2s.setFill(Color.RED);
 	   	 p2s.setX(350);
@@ -110,16 +121,18 @@ public class GameController {
 	     playfield.getChildren().add(selfGoal);
 	     playfield.getChildren().add(p1s);
 	     playfield.getChildren().add(p2s);
+	     
 	     playfield.getChildren().add(puMidline);
-		 playfield.getChildren().add(puPuck);
+	     playfield.getChildren().add(puPuck);
+	     playfield.getChildren().add(puGoal);
+	     
 	     //display static shapes
 	     center.display();
 	     otherGoal.display();
 	     selfGoal.display();
 	     walls1.display();
 	     walls2.display();
-	     //playfield.getChildren().add(puMidline);
-		 //playfield.getChildren().add(puPuck);
+
 	     mid.display();
 	     puMidline.display();
 	     puPuck.display();
@@ -133,9 +146,8 @@ public class GameController {
     	 System.out.println("init game end");
  
 	}
-	public void gameLoop() {
-	   	Text countdown = new Text("GO!");
-   	 	AnimationTimer loop = new AnimationTimer() {
+	public void gameLoop() {	
+   	 	loop = new AnimationTimer() {
 	      	 Random r = new Random();
 	      	 //time++;
 //	      	 if(time == 200) {
@@ -147,13 +159,20 @@ public class GameController {
 	      	 public void handle(long now) {
 
 	           	 // send self mouse to server
+//	      		 System.out.println("sending mouse to server");
 	           	 Hockey.getNetwork().getClient().sendTCP(new PacketMouse(selfStriker.getPlayer().getPlayerID(),selfStriker.getPlayer().getMouse().x,selfStriker.getPlayer().getMouse().y));
            }
        };
        System.out.println("starting game loop");
        loop.start();
-       
-       
+              
+	}
+	
+	public void stopGame() {
+		
+		loop.stop();
+	    System.out.println("stopped game loop");
+
 	}
 
 	public static Striker getSelfStriker() {
@@ -192,7 +211,12 @@ public class GameController {
 	}
 	
 	public void showGoalMessage(String message) {
-		//TODO
+		Text scored = new Text("GOAL!");
+		scored.setFont(Font.font ("Verdana", 50));
+		scored.setFill(Color.RED);
+		scored.setX(100);
+		scored.setY(400);
+		playfield.getChildren().add(scored);
 	}
 
 	public static PowerUpMidline getPuMidline() {
@@ -210,5 +234,38 @@ public class GameController {
 	public static void setPuPuck(PowerUpPuckSize puPuck) {
 		GameController.puPuck = puPuck;
 	}
+
+	public static Midline getMidline() {
+		return mid;
+	}
+
+	public static void setMidline(Midline mid) {
+		GameController.mid = mid;
+	}
+
+	public static PowerUpGoalSize getPuGoal() {
+		return puGoal;
+	}
+
+	public static void setPuGoal(PowerUpGoalSize puGoal) {
+		GameController.puGoal = puGoal;
+	}
+
+	public static Goal getOtherGoal() {
+		return otherGoal;
+	}
+
+	public static void setOtherGoal(Goal otherGoal) {
+		GameController.otherGoal = otherGoal;
+	}
+
+	public static Goal getSelfGoal() {
+		return selfGoal;
+	}
+
+	public static void setSelfGoal(Goal selfGoal) {
+		GameController.selfGoal = selfGoal;
+	}
+ 
 	
 }

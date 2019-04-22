@@ -7,7 +7,10 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 import hockey.java.Hockey;
+import hockey.java.Master;
 import hockey.java.controller.GameController;
+import hockey.java.front.Goal;
+import hockey.java.front.Striker;
 import hockey.java.front.User;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketPU;
@@ -59,9 +62,9 @@ public class Network extends Listener{
 			int id = ((PacketReturn) o).dbid;
 			String username = ((PacketReturn) o).username;
 			String message = ((PacketReturn) o).message;
-			
+
 			switch(((PacketReturn) o).status) {
-			
+
 			case Constants.SIGNUPSUCCESS:
 			case Constants.LOGINSUCCESS: 
 
@@ -97,7 +100,9 @@ public class Network extends Listener{
 					Hockey.getLoggedController().setMessage(message);
                 });
 				break;
-			case Constants.PLAYSUCCESS: 
+			case Constants.PLAYSUCCESS:
+//				System.out.println("player one "+ Master.getPlayerlist().get(0));
+//				System.out.println("player two "+ Master.getPlayerlist().get(1));
 				System.out.println("You are No. "+ ((PacketReturn) o).playerNum + " player in player list");
 				System.out.println("Going to game scene");
 				Platform.runLater(() -> {
@@ -124,6 +129,12 @@ public class Network extends Listener{
 				Platform.runLater(() -> {
 					Hockey.getGameController().setScore(goalplayer);
 					Hockey.getGameController().showGoalMessage(goalmessage);
+					GameController.getPuck().resetSize();
+					GameController.getMidline().reset();
+					GameController.getSelfGoal().reset();
+					GameController.getOtherGoal().reset();
+					
+					
 				});
 				//Show goal message on screen and stop for 3 seconds
 				
@@ -131,11 +142,14 @@ public class Network extends Listener{
 				break;
 			case Constants.GAMEOVER:
 				String endmessage = ((PacketReturn) o).message;
+				System.out.println("GAME OVER HEREEEEEEEEEEEEEEEEEEEEEE");
 				Platform.runLater(() -> {
-					Hockey.getGameOverController().setMessage(endmessage);
+					Hockey.getGameController().stopGame();
+					Hockey.getGameOverController().setMessage(endmessage, ((PacketReturn) o).isGuest);				
 					Hockey.getPrimaryStage().setScene(Hockey.getGameOverScene());
 				});
 				//TODO
+				//System.out.println("client still connected");
 				break;
 			}
 		} else if (o instanceof PacketStriker){
@@ -175,25 +189,69 @@ public class Network extends Listener{
             });
 		} else if (o instanceof PacketPU){
 			System.out.println("Client recieved PacketPU");
+
+			double x = ((PacketPU) o).x;
+			double y = ((PacketPU) o).y;
+			int id = ((PacketPU) o).playerID;
 			switch(((PacketPU) o).puid) {
+/*** Midline ***/
 			case Constants.PUMIDLINESHOW: 
-				//GameController.getPuMidline().reset();
-				break;
-			case Constants.PUPUCKSIZESHOW:
-				//GameController.getPuPuck().reset();
-				break;
-			case Constants.PUGOALSIZESHOW:
-				break;
-			case Constants.PUMIDLINEACT1: 
+				Platform.runLater(() -> {
+//					System.out.println("midline : " + ((Color)GameController.getPuMidline().getCircle().getFill()).getRed() + "," + ((Color)GameController.getPuMidline().getCircle().getFill()).getGreen() + "," + ((Color)GameController.getPuMidline().getCircle().getFill()).getBlue() + ",");
+					GameController.getPuMidline().show(x, y);
+	            });
+				
 				
 				break;
-			case Constants.PUMIDLINEACT2: 
+			case Constants.PUMIDLINEACT: 
+				
+				Platform.runLater(() -> {
+					Striker s;
+					if(GameController.getSelfStriker().getPlayer().getPlayerID() == id) {
+						s = GameController.getSelfStriker();
+					} else {
+						s = GameController.getOtherStriker();
+					}
+					GameController.getPuMidline().activate(GameController.getMidline(), s);
+					GameController.getPuMidline().hide();
+	            });
 				break;
+/*** Puck Size ***/
+			case Constants.PUPUCKSIZESHOW:
+				Platform.runLater(() -> {
+					
+//					System.out.println("pucksize: " + ((Color)GameController.getPuPuck().getCircle().getFill()).getRed() + "," + ((Color)GameController.getPuPuck().getCircle().getFill()).getGreen() + "," + ((Color)GameController.getPuPuck().getCircle().getFill()).getBlue() + ",");
+					GameController.getPuPuck().show(x, y);
+	            });
+				break;
+
 			case Constants.PUPUCKSIZEACT:
+				Platform.runLater(() -> {
+					GameController.getPuPuck().activate(GameController.getPuck());
+					GameController.getPuPuck().hide();
+	            });
 				break;
-			case Constants.PUGOALSIZEACT1: 
+/*** Goal Size ***/
+			case Constants.PUGOALSIZESHOW:
+				Platform.runLater(() -> {
+					System.out.println("Received PUGOALSIZE  SHOW");
+					GameController.getPuGoal().show(x, y);
+	            });
 				break;
-			case Constants.PUGOALSIZEACT2: 
+			
+			case Constants.PUGOALSIZEACT:
+				Platform.runLater(() -> {
+					System.out.println("Received PUGOALSIZE  ACT id = " + id);
+					Goal g;
+					if(id == 2) {
+						g = GameController.getSelfGoal();
+					} else {
+						g = GameController.getOtherGoal();
+					}
+					
+					GameController.getPuGoal().activate(g);
+					GameController.getPuGoal().hide();
+	            });
 				break;
 			
 			}

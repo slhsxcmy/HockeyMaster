@@ -13,15 +13,18 @@ public class Goal extends Pane {
 	private String name;
 	private Player player;
 	
-	int id;
-	double width = 110;
-	double height = BoardSettings.BOARDER_HEIGHT;
-	double xstart = 145;
-	double bottomYstart = BoardSettings.SCENE_HEIGHT - BoardSettings.BOARDER_HEIGHT;
+	private int id;
+	private double width = BoardSettings.ORIGINALGOALSIZE;
+	private double height = BoardSettings.BOARDER_HEIGHT;
+	private double xstart = BoardSettings.ORIGINALGOALX;
+	private double bottomYstart = BoardSettings.SCENE_HEIGHT - BoardSettings.BOARDER_HEIGHT;
 	
 	Rectangle goal;
 	
 	public Goal(int num, Puck puck, Player p){
+		
+		width = 110;
+		
 		currPuck = puck;
 		this.player = p;
 		id = num;
@@ -41,7 +44,6 @@ public class Goal extends Pane {
 			goal.setHeight(height);
 			goal.setStroke(Color.RED);
 	        goal.setFill(Color.RED);
-			
 		}
 		getChildren().add(goal);
 	}
@@ -78,4 +80,43 @@ public class Goal extends Pane {
         relocate(location.x, location.y);
     }
 
+	public void enlarge() {
+
+		location.x = BoardSettings.LARGEGOALX;
+		width = BoardSettings.LARGEGOALSIZE;
+		goal.setWidth(width);
+		display();
+	}
+	
+	public void reset() {
+		location.x = BoardSettings.ORIGINALGOALX;
+		width = BoardSettings.ORIGINALGOALSIZE;
+		goal.setWidth(width);
+		display();
+	}
+
+	public double getW() {
+		return width;
+	}
+
+	public void setW(double width) {
+		this.width = width;
+	}
+
+	public int getID() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public double getXstart() {
+		return xstart;
+	}
+
+	public void setXstart(double xstart) {
+		this.xstart = xstart;
+	}
+	
 }

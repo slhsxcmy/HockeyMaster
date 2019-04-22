@@ -40,9 +40,15 @@ public class Striker extends Pane {
 		
 		mass = 10;
 		
-		location = new PVector(ran.nextDouble() * width, ran.nextDouble() * height);
-        velocity = new PVector(0, 0);
+	   	if (player.getPlayerID() == 1) {
+	   		location = new PVector(200, 600);
+    	}
+    	else {
+    		location = new PVector(200, 100);
+    	}
+    	velocity = new PVector(0, 0);
 
+        
         circle = new Circle(radius);
         circle.setCenterX(radius);
         circle.setCenterY(radius);
@@ -107,6 +113,7 @@ public class Striker extends Pane {
 						velocity.x = 0; // added by caesar
 					}
 					//if striker 2 hits the midline
+
 					if (location.y < (0 +radius+BoardSettings.BOARDER_HEIGHT)) {
 						location.y = 0+radius+BoardSettings.BOARDER_HEIGHT;
 						velocity.y = 0; // added by caesar
@@ -117,6 +124,7 @@ public class Striker extends Pane {
 					}
 					else if (midlineMovedClose == true && started == true && location.y > (((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult)-27) {
 						location.y = (((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult)-27;
+
 						velocity.y = 0; // added by caesar
 					}
 					else if (midlineMovedFar == true && started == true && location.y > (((BoardSettings.SCENE_HEIGHT/2)-radius-2.5)*mult)+26) {

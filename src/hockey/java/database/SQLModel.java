@@ -11,6 +11,7 @@ import hockey.java.front.User;
 import hockey.java.packet.Constants;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStats;
+import sun.net.www.content.audio.wav;
 
 public class SQLModel {
 	//private boolean singlePlayerDebug = true;
@@ -198,25 +199,25 @@ public class SQLModel {
 	}
 	
 	public PacketReturn checkList(int id) { //process all online users
-		String username = "";
-		try {
-			ps = connection.prepareStatement("SELECT * FROM Player WHERE playerID=?");
-			ps.setString(1, String.valueOf(id));
-			rs = ps.executeQuery();
-			if(rs.next()) {
-				username = rs.getString(2);
-			}
-		}catch (SQLException e) {
-			System.out.println("sqle: " + e.getMessage());
-		}
+//		String username = "";
+//		try {
+//			ps = connection.prepareStatement("SELECT * FROM Player WHERE playerID=?");
+//			ps.setString(1, String.valueOf(id));
+//			rs = ps.executeQuery();
+//			if(rs.next()) {
+//				username = rs.getString(2);
+//			}
+//		}catch (SQLException e) {
+//			System.out.println("sqle: " + e.getMessage());
+//		}
 		
-		if(Master.getPlayerlist().size() == 0) {
+		if(Master.getPlayerlist().size() == 0 && Master.getWaitlist().size() == 0) {
 			Master.getPlayerlist().add(id);
 			return new PacketReturn(Constants.PLAYFAILUREFEW, id, "Not Enough Players. Please Wait.");
 		}
-		else if(Master.getPlayerlist().size() == 1) {
-			Master.getPlayerlist().add(id);   
-			return new PacketReturn(Constants.PLAYSUCCESS, id, username);
+		else if(Master.getPlayerlist().size() == 1 && Master.getWaitlist().size() == 0) {		
+			Master.getPlayerlist().add(id);
+			return new PacketReturn(Constants.PLAYSUCCESS, id);			
 		}
 		else{
 			Master.getWaitlist().add(id);
@@ -262,32 +263,36 @@ public class SQLModel {
 //			if(rs.next()) {
 				
 			//}
-			if(username.equals("GUEST")) {		
+			
+			
+			if(username.equals("GUEST")) {
 				//does not update db, only show result message
-				return new PacketReturn(Constants.GAMEOVER, result);
+				return new PacketReturn(Constants.GAMEOVER, result, true);
 			}
 			else {
-				ps = connection.prepareStatement("UPDATE Player SET matchesWon=? AND matchesLost=? "
-						+ "AND goalsFor=? AND goalsAgainst=? WHERE playerID=?");
+				ps = connection.prepareStatement("UPDATE Player SET matchesWon=?,  matchesLost=? "
+						+ ", goalsFor=?, goalsAgainst=? WHERE playerID=?");
 				ps.setString(5, Integer.toString(dbid));
 				//rs = ps.executeQuery();
 				//rs.next();
-				if(result.equals("WIN")){
+				if(result.equals("YOU WIN!")){
 					ps.setInt(1, matchW+1);
+					ps.setInt(2, matchL);
 				}
-				else if (result.equals("LOSE")) {
+				else{
+					ps.setInt(1, matchW);
 					ps.setInt(2, matchL+1);
 				}
 				ps.setInt(3, goalsFor+Master.getGoalsFor(dbid));
 				ps.setInt(4, goalsAgainst+Master.getGoalsAgainst(dbid));
 				ps.executeUpdate();
 				System.out.println("After update stats in db");
-				return new PacketReturn(Constants.GAMEOVER, result);
+				return new PacketReturn(Constants.GAMEOVER, result, false);
 			}
 			
 		}catch (SQLException e) {
 			System.out.println("sqle: " + e.getMessage());
-			return new PacketReturn(Constants.GAMEOVER, "SQL Error");
+			return new PacketReturn(Constants.GAMEOVER, "SQL Error", false);
 		}
 	}
 }

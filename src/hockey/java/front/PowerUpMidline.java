@@ -1,6 +1,7 @@
 package hockey.java.front;
 import java.util.Random;
 
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -38,12 +39,14 @@ public class PowerUpMidline extends Pane implements PowerUp {
         hide();
 	}
 	
+	
 	public void display() {
 		relocate(location.x - centerX, location.y - centerY);
 	}
-	
+
 	public void activate(Midline m, Striker s) {
 		int id = s.getPlayer().getPlayerID();
+		
 		if (id == 1) {
 			m.move((m.startingY*0.5)-15);
 			s1.updateMidlineMult(0.5);
@@ -57,6 +60,12 @@ public class PowerUpMidline extends Pane implements PowerUp {
 		hide();
 	}
 
+
+	public void show(double x, double y) {
+		move(x, y);
+		hidden = false;
+	}
+	
 	public PVector getLocation() {
 		return location;
 	}
@@ -102,6 +111,12 @@ public class PowerUpMidline extends Pane implements PowerUp {
 	
 	public boolean hidden() {
 		return hidden;
+	}
+
+
+	public Circle getCircle() {
+		// TODO Auto-generated method stub
+		return circle;
 	}
 	
 }

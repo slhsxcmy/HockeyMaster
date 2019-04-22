@@ -32,6 +32,7 @@ public class Test extends Application{
     double friction;
     PowerUpMidline pu;
     PowerUpPuckSize puckPU;
+    PowerUpGoalSize goalPU;
 
     public void displayWinner(Pane playfield, String name) {}
     
@@ -50,6 +51,7 @@ public class Test extends Application{
     	 
     	 pu = new PowerUpMidline(s1, s2);
     	 puckPU = new PowerUpPuckSize();
+    	 goalPU = new PowerUpGoalSize();
 
     	 goal1 = new Goal(1, puck, p1);
     	 goal2 = new Goal(2, puck, p2);
@@ -114,6 +116,8 @@ public class Test extends Application{
          
     	 playfield.getChildren().add(pu);
     	 playfield.getChildren().add(puckPU);
+    	 playfield.getChildren().add(goalPU);
+         
          mid.display();
          // capture mouse position
          scene.addEventFilter(MouseEvent.ANY, e -> {
@@ -124,16 +128,18 @@ public class Test extends Application{
          AnimationTimer loop = new AnimationTimer() {
         	 int time = 0;
         	 Random r = new Random();
-        	 int ran = (int) (r.nextDouble() * 500);
+        	 int ran = (int) (r.nextDouble() * 100);
              @Override
              public void handle(long now) {
             	 
 
             	 DecimalFormat form = new DecimalFormat("#.00");
-            	 if(s1 != null) System.out.println("s1 at (" + form.format(s1.getLocation().x) + "," + form.format(s1.getLocation().y) + ") vel (" + form.format(s1.getVelocity().x) + "," + form.format(s1.getVelocity().y) + ")");
-            	 if(s1 != null) System.out.println("s2 at (" + form.format(s2.getLocation().x) + "," + form.format(s2.getLocation().y) + ") vel (" + form.format(s2.getVelocity().x) + "," + form.format(s2.getVelocity().y) + ")");
+
             	 
-            	 System.out.println("pk at (" + form.format(puck.getLocation().x) + "," + form.format(puck.getLocation().y) + ") vel (" + form.format(puck.getVelocity().x) + "," + form.format(puck.getVelocity().y) + ")");
+//            	 if(s1 != null) System.out.println("s1 at (" + form.format(s1.getLocation().x) + "," + form.format(s1.getLocation().y) + ") vel (" + form.format(s1.getVelocity().x) + "," + form.format(s1.getVelocity().y) + ")");
+//            	 if(s1 != null) System.out.println("s2 at (" + form.format(s2.getLocation().x) + "," + form.format(s2.getLocation().y) + ") vel (" + form.format(s2.getVelocity().x) + "," + form.format(s2.getVelocity().y) + ")");
+//            	 System.out.println("pk at (" + form.format(puck.getLocation().x) + "," + form.format(puck.getLocation().y) + ") vel (" + form.format(puck.getVelocity().x) + "," + form.format(puck.getVelocity().y) + ")");
+
             	 
             	 
                  // move
@@ -147,7 +153,7 @@ public class Test extends Application{
                  if(s1 != null) s1.checkStrikerWallsMidline();
                  if(s2 != null) s2.checkStrikerWallsMidline();
                  
-                 puck.checkPuckWalls();
+                 puck.checkPuckWalls(goal1, goal2);
                  
                  if(s1 != null) {
                 	 if(puck.collision(s1)) {
@@ -209,22 +215,34 @@ public class Test extends Application{
                  } 
                  puck.collision(mid, pu);
                  puck.collision(puckPU);
+                 puck.collision(goalPU, goal1, goal2);
+
                  time++;
+                 
                  if (time == ran) {
+                	 
                 	 time = 0;
-                	 int choose = new Random().nextInt() % 2;
-                	 if (choose == 0) {
+                	 int choose = new Random().nextInt() % 1;
+                	 if (choose == 3) {
                 		 if (pu.hidden() && mid.inMiddle()) {
                     		 pu.reset();
                     	 }
                 	 }
-                	 else {
+                	 else if (choose == 1){
                 		 if (puckPU.hidden() && puck.width == 30) {
                     		 puckPU.reset();
                     	 }
                 	 }
+
+                	 else {
+                		 if (goalPU.hidden() && goal1.getW() == 110 && goal2.getW() == 110) {
+                			 goalPU.reset();
+                		 }
+                	 }
                 	 ran = (int)r.nextDouble() * 2500;
+
                  }
+                 System.out.println(time + " < " + ran);
              }
          };
          loop.start();
