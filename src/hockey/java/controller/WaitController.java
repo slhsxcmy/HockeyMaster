@@ -23,17 +23,6 @@ public class WaitController {
 	@FXML
 	private Label message;
 
-/*
-	
-	@FXML
-	public void goBack(ActionEvent event) throws IOException {
-		
-		Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
-		primaryStage.setScene(Hockey.getLoggedScene());
-		//primaryStage.show();
-	}
-*/
-	
 	//https://stackoverflow.com/questions/34785417/javafx-fxml-controller-constructor-vs-initialize-method
 	@FXML
     protected void initialize() {

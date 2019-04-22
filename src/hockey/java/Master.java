@@ -63,18 +63,18 @@ public class Master extends Listener { // SERVER
 	private static Goal g2;
 	private static Walls wall1, wall2;
 	private static Midline mid;
-	private static double friction;
+	private static double friction = 0.993;
 	private static Set<PowerUp> powerups = Collections.synchronizedSet(new HashSet<>());
 	private static PowerUpMidline puMidline;
 	private static PowerUpPuckSize puPuck;
 	private static PowerUpGoalSize puGoal;
 	private static int time;
 	private static Random rnd = new Random();
+
 	
 	private static int rt = rnd.nextInt(2 * PUMT);
 	
-	private static boolean scored;// = true; // cheat: pause game at start
-   	private static int pauseCounter;
+	private static boolean scored = true; // cheat: pause game at start
 
 	public static PowerUp getRandomPowerUp() {
 		int index = rnd.nextInt(powerups.size());
@@ -125,12 +125,8 @@ public class Master extends Listener { // SERVER
 		wall2 = new Walls(2);
 
 		mid = new Midline();
-		friction = 0.993 ;
 
 		time = 0;
-
-		scored = true; // cheat
-		pauseCounter = 0;
 	}
 
 	public static Map<Integer, User> getUsers(){
@@ -243,16 +239,18 @@ public class Master extends Listener { // SERVER
 			// 2 - id = 1~0
 			// 3 - id = 2~1
 			if (id == 1) {
-				if (!scored || pauseCounter >= 200) {
+
+				//if (!scored || pauseCounter >= 200) {
 					s1.step(mouse, mid);
-		           	s1.checkStrikerWallsMidline(); 
-				}
+		           	s1.checkStrikerWallsMidline();
+				//}
 	           	ps = new PacketStriker(id,s1.getLocation().x,s1.getLocation().y,s1.getVelocity().x,s1.getVelocity().y);
 			} else {
-				if (!scored || pauseCounter >= 200) {
+				//if (!scored || pauseCounter >= 200) {
 					s2.step(mouse, mid);
 					s2.checkStrikerWallsMidline();
-				}
+				//}
+
 	           	ps = new PacketStriker(id,s2.getLocation().x,s2.getLocation().y,s2.getVelocity().x,s2.getVelocity().y);
 			}
 
@@ -333,8 +331,8 @@ public class Master extends Listener { // SERVER
 				g2.reset();
 				
 				// send goal message
-				connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 1, onlineUsers.get(players.get(0)).getUsername()+" GOAL!!!"));
-				connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 1, onlineUsers.get(players.get(0)).getUsername()+" GOAL!!!"));
+				connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 1, "GOAL!!!"));
+				connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 1, "GOAL!!!"));
 				
 			}
 			if (g2.goalDetection(2)) {
@@ -348,8 +346,8 @@ public class Master extends Listener { // SERVER
 				g1.reset();
 				g2.reset();
 				
-				connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 2, onlineUsers.get(players.get(1)).getUsername()+" GOAL!!!"));
-				connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 2, onlineUsers.get(players.get(1)).getUsername()+" GOAL!!!"));
+				connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 2, "GOAL!!!"));
+				connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 2, "GOAL!!!"));
 
 				
 			}
@@ -431,8 +429,7 @@ public class Master extends Listener { // SERVER
 				}
 			}
 			time++;
-			
-//			System.out.println(time + " < " + rt);
+
 			if (scored) {
 				if (pauseCounter == 201) {
 					pauseCounter = 0;
@@ -476,13 +473,13 @@ public class Master extends Listener { // SERVER
 			connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WON!!!", isGuest));
 			players.clear();
 			
-			//TODO: next game here
+			
 			nextGame();
 		}else if(players.size()>=2 && dbid == players.get(1)) {
 			connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WON!!!", isGuest));
 			players.clear();
 			
-			//TODO: next game here
+			
 			nextGame();
 		}						
 		onlineUsers.remove(dbid);

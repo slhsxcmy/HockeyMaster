@@ -27,7 +27,6 @@ public class NetworkHelper {
 	public static final String client_ngrok_url = "tcp://0.tcp.ngrok.io";
 
 	public static final int client_tcpPort = 18449;
-
 	public static void registerClasses(Kryo k) {
 
 		// register packet. ONLY objects registered as packets can be sent
