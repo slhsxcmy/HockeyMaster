@@ -214,7 +214,9 @@ public class Master extends Listener { // SERVER
 				p = model.signAsGuest(c);
 				if(p.status == Constants.PLAYSUCCESS) {
 					activateGame(); // game board on server				
-				}
+				}else {
+					c.sendTCP(p);
+				} 
 				debug();				
 				break;	
 
@@ -407,23 +409,25 @@ public class Master extends Listener { // SERVER
 	public void disconnected(Connection c) {
 		System.out.println("Lost connection from client.");
 		int dbid = -1;
-		
+		boolean isGuest = false;
 		//first get dbid of c
 		for (Map.Entry<Integer,Connection> entry : connections.entrySet()) {
 			if(entry.getValue().getID() == c.getID()) {
 				dbid = entry.getKey();
 			}
 		}
-		
+		if(onlineUsers.get(dbid).getUsername().equals("GUEST")) {
+			isGuest = true;
+		}
 		//update data structures
 		if(dbid == players.get(0)) {
-			connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WIN!"));
+			connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WIN!", isGuest));
 			players.clear();
 			
 			//TODO: next game here
 			nextGame();
 		}else if(dbid == players.get(1)) {
-			connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WIN!"));
+			connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WIN!", isGuest));
 			players.clear();
 			
 			//TODO: next game here

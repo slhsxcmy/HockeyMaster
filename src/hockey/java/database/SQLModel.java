@@ -199,17 +199,17 @@ public class SQLModel {
 	}
 	
 	public PacketReturn checkList(int id) { //process all online users
-		String username = "";
-		try {
-			ps = connection.prepareStatement("SELECT * FROM Player WHERE playerID=?");
-			ps.setString(1, String.valueOf(id));
-			rs = ps.executeQuery();
-			if(rs.next()) {
-				username = rs.getString(2);
-			}
-		}catch (SQLException e) {
-			System.out.println("sqle: " + e.getMessage());
-		}
+//		String username = "";
+//		try {
+//			ps = connection.prepareStatement("SELECT * FROM Player WHERE playerID=?");
+//			ps.setString(1, String.valueOf(id));
+//			rs = ps.executeQuery();
+//			if(rs.next()) {
+//				username = rs.getString(2);
+//			}
+//		}catch (SQLException e) {
+//			System.out.println("sqle: " + e.getMessage());
+//		}
 		
 		if(Master.getPlayerlist().size() == 0 && Master.getWaitlist().size() == 0) {
 			Master.getPlayerlist().add(id);
