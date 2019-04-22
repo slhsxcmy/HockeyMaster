@@ -67,11 +67,11 @@ public class GameController {
 	   	 center = new CenterCircle();
 	   	 
 	   	 puMidline = new PowerUpMidline();
-	   	 System.out.println("midline : " + ((Color)puMidline.getCircle().getFill()).getRed() + "," + ((Color)puMidline.getCircle().getFill()).getGreen() + "," + ((Color)puMidline.getCircle().getFill()).getBlue() + ",");
+//	   	 System.out.println("midline : " + ((Color)puMidline.getCircle().getFill()).getRed() + "," + ((Color)puMidline.getCircle().getFill()).getGreen() + "," + ((Color)puMidline.getCircle().getFill()).getBlue() + ",");
 		
 		
 	     puPuck = new PowerUpPuckSize();
-	     System.out.println("pucksize: " + ((Color)puPuck.getCircle().getFill()).getRed() + "," + ((Color)puPuck.getCircle().getFill()).getGreen() + "," + ((Color)puPuck.getCircle().getFill()).getBlue() + ",");
+//	     System.out.println("pucksize: " + ((Color)puPuck.getCircle().getFill()).getRed() + "," + ((Color)puPuck.getCircle().getFill()).getGreen() + "," + ((Color)puPuck.getCircle().getFill()).getBlue() + ",");
 			
 	     puGoal = new PowerUpGoalSize();
 		 
@@ -213,6 +213,30 @@ public class GameController {
 
 	public static void setMidline(Midline mid) {
 		GameController.mid = mid;
+	}
+
+	public static PowerUpGoalSize getPuGoal() {
+		return puGoal;
+	}
+
+	public static void setPuGoal(PowerUpGoalSize puGoal) {
+		GameController.puGoal = puGoal;
+	}
+
+	public static Goal getOtherGoal() {
+		return otherGoal;
+	}
+
+	public static void setOtherGoal(Goal otherGoal) {
+		GameController.otherGoal = otherGoal;
+	}
+
+	public static Goal getSelfGoal() {
+		return selfGoal;
+	}
+
+	public static void setSelfGoal(Goal selfGoal) {
+		GameController.selfGoal = selfGoal;
 	}
  
 	

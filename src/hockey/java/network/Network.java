@@ -8,6 +8,7 @@ import com.esotericsoftware.kryonet.Listener;
 
 import hockey.java.Hockey;
 import hockey.java.controller.GameController;
+import hockey.java.front.Goal;
 import hockey.java.front.Striker;
 import hockey.java.front.User;
 import hockey.java.packet.Constants;
@@ -17,7 +18,6 @@ import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStats;
 import hockey.java.packet.PacketStriker;
 import javafx.application.Platform;
-import javafx.scene.paint.Color;
 
 public class Network extends Listener{
 
@@ -128,6 +128,9 @@ public class Network extends Listener{
 					Hockey.getGameController().showGoalMessage(goalmessage);
 					GameController.getPuck().resetSize();
 					GameController.getMidline().reset();
+					GameController.getSelfGoal().reset();
+					GameController.getOtherGoal().reset();
+					
 					
 				});
 				//Show goal message on screen and stop for 3 seconds
@@ -185,10 +188,10 @@ public class Network extends Listener{
 			double y = ((PacketPU) o).y;
 			int id = ((PacketPU) o).playerID;
 			switch(((PacketPU) o).puid) {
-			/*** Midline ***/
+/*** Midline ***/
 			case Constants.PUMIDLINESHOW: 
 				Platform.runLater(() -> {
-					System.out.println("midline : " + ((Color)GameController.getPuMidline().getCircle().getFill()).getRed() + "," + ((Color)GameController.getPuMidline().getCircle().getFill()).getGreen() + "," + ((Color)GameController.getPuMidline().getCircle().getFill()).getBlue() + ",");
+//					System.out.println("midline : " + ((Color)GameController.getPuMidline().getCircle().getFill()).getRed() + "," + ((Color)GameController.getPuMidline().getCircle().getFill()).getGreen() + "," + ((Color)GameController.getPuMidline().getCircle().getFill()).getBlue() + ",");
 					GameController.getPuMidline().show(x, y);
 	            });
 				
@@ -207,11 +210,11 @@ public class Network extends Listener{
 					GameController.getPuMidline().hide();
 	            });
 				break;
-				
+/*** Puck Size ***/
 			case Constants.PUPUCKSIZESHOW:
 				Platform.runLater(() -> {
 					
-					System.out.println("pucksize: " + ((Color)GameController.getPuPuck().getCircle().getFill()).getRed() + "," + ((Color)GameController.getPuPuck().getCircle().getFill()).getGreen() + "," + ((Color)GameController.getPuPuck().getCircle().getFill()).getBlue() + ",");
+//					System.out.println("pucksize: " + ((Color)GameController.getPuPuck().getCircle().getFill()).getRed() + "," + ((Color)GameController.getPuPuck().getCircle().getFill()).getGreen() + "," + ((Color)GameController.getPuPuck().getCircle().getFill()).getBlue() + ",");
 					GameController.getPuPuck().show(x, y);
 	            });
 				break;
@@ -222,10 +225,26 @@ public class Network extends Listener{
 					GameController.getPuPuck().hide();
 	            });
 				break;
+/*** Goal Size ***/
 			case Constants.PUGOALSIZESHOW:
+				Platform.runLater(() -> {
+					System.out.println("Received PUGOALSIZE  SHOW");
+					GameController.getPuGoal().show(x, y);
+	            });
 				break;
 			
-			case Constants.PUGOALSIZEACT: 
+			case Constants.PUGOALSIZEACT:
+				Platform.runLater(() -> {
+					System.out.println("Received PUGOALSIZE  ACT");
+					Goal g;
+					if(GameController.getSelfStriker().getPlayer().getPlayerID() == id) {
+						g = GameController.getOtherGoal();
+					} else {
+						g = GameController.getSelfGoal();
+					}
+					GameController.getPuGoal().activate(g);
+					GameController.getPuGoal().hide();
+	            });
 				break;
 			
 			}

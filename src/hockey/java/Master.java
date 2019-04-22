@@ -46,7 +46,7 @@ public class Master extends Listener { // SERVER
 	private static Server server;
 
 	private static final int GOALSTOWIN = 100;
-	private static final int PUMT = 300; // power up mean time
+	private static final int PUMT = 100; // power up mean time
 
 	public static final String server_ngrok_url = NetworkHelper.server_ngrok_url;
 	public static final int server_tcpPort = NetworkHelper.server_tcpPort;
@@ -105,14 +105,11 @@ public class Master extends Listener { // SERVER
 
 
 		puMidline = new PowerUpMidline();
-		powerups.add(puMidline);
-		System.out.println("midline : " + ((Color)puMidline.getCircle().getFill()).getRed() + "," + ((Color)puMidline.getCircle().getFill()).getGreen() + "," + ((Color)puMidline.getCircle().getFill()).getBlue() + ",");
-		
 		puPuck = new PowerUpPuckSize();
-		powerups.add(puPuck);
-		System.out.println("pucksize: " + ((Color)puPuck.getCircle().getFill()).getRed() + "," + ((Color)puPuck.getCircle().getFill()).getGreen() + "," + ((Color)puPuck.getCircle().getFill()).getBlue() + ",");
+		puGoal = new PowerUpGoalSize();
 		
-//		puGoal = new PowerUpGoalSize();
+		powerups.add(puMidline);
+		powerups.add(puPuck);
 //		powerups.add(puGoal);
 		
 		s1 = new Striker(new Player(1));
@@ -269,24 +266,35 @@ public class Master extends Listener { // SERVER
 
 			
 			int checkMidline = puck.collision(mid, puMidline);
-			int checkPuck = puck.collision(puPuck);
+			int checkPuckSize = puck.collision(puPuck);
+			int checkGoalSize = puck.collision(puGoal, g1, g2);
+			
 			if(checkMidline > 0) { // powerup move midline activate
 				PacketPU ppu = new PacketPU(Constants.PUMIDLINEACT, checkMidline);
 				Striker s = (checkMidline == 1) ? s1 : s2;
 				puMidline.activate(mid, s);
 				connections.get(players.get(0)).sendTCP(ppu);
 				connections.get(players.get(1)).sendTCP(ppu);
-				System.out.println("s1 hit Midline Power Up");
+//				System.out.println("s1 hit Midline Power Up");
 			} 
 			
-			if(checkPuck > 0) {// powerup minimize puck activate
+			if(checkPuckSize > 0) {// powerup minimize puck activate
 				PacketPU ppu = new PacketPU(Constants.PUPUCKSIZEACT);
 				puPuck.activate(puck);
 				connections.get(players.get(0)).sendTCP(ppu);
 				connections.get(players.get(1)).sendTCP(ppu);
-				System.out.println("HIT Puck Size Power Up");
+//				System.out.println("HIT Puck Size Power Up");
 			}
 			
+			if(checkGoalSize > 0) {
+				PacketPU ppu = new PacketPU(Constants.PUGOALSIZEACT, checkGoalSize);
+				Goal g = (checkGoalSize == 1) ? g2 : g1;
+				puGoal.activate(g);
+				connections.get(players.get(0)).sendTCP(ppu);
+				connections.get(players.get(1)).sendTCP(ppu);
+//				System.out.println("HIT Goal Size Power Up");
+			
+			}
 				
 			//puck.collision(goal1, puGoal); // powerup change goal size
 			//puck.collision(goal2, puGoal);
@@ -306,6 +314,8 @@ public class Master extends Listener { // SERVER
 				
 				mid.reset();
 				puck.resetSize();
+				g1.reset();
+				g2.reset();
 				
 				// send goal message
 				connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 1, onlineUsers.get(players.get(0)).getUsername()+" GOAL!"));
@@ -318,6 +328,9 @@ public class Master extends Listener { // SERVER
 				s2.reset(2);
 				mid.reset();
 				puck.resetSize();
+
+				g1.reset();
+				g2.reset();
 				
 				connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GOAL, 2, onlineUsers.get(players.get(1)).getUsername()+" GOAL!"));
 				connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GOAL, 2, onlineUsers.get(players.get(1)).getUsername()+" GOAL!"));
@@ -344,6 +357,8 @@ public class Master extends Listener { // SERVER
 				rt = rnd.nextInt(2 * PUMT);
 				
 				PowerUp p = getRandomPowerUp();
+				System.out.println(p);
+				
 				PacketPU ppu;
 				if (p == puMidline) {
 					if (puMidline.hidden() && mid.inMiddle()) {
@@ -362,8 +377,19 @@ public class Master extends Listener { // SERVER
 						connections.get(players.get(1)).sendTCP(ppu);
 						System.out.println("Showing Puck Size Power Up");
 					}
-				} else if (p instanceof PowerUpGoalSize) { // goal size
-					// TODO 
+				} else if (p == puGoal) { // goal size
+					 System.out.println("here");
+					 System.out.println(puGoal.hidden());
+					 System.out.println(g1.getW()==110);
+					 System.out.println(g2.getW()==110);
+					 if (puGoal.hidden() && g1.getW() == 110 && g2.getW() == 110) {
+						 System.out.println("there");
+						 PVector v = puGoal.reset();
+						 ppu = new PacketPU(Constants.PUGOALSIZESHOW, v.x, v.y);
+							connections.get(players.get(0)).sendTCP(ppu);
+							connections.get(players.get(1)).sendTCP(ppu);
+							System.out.println("Showing Goal Size Power Up");
+					}
 				}
 			}
 			time++;

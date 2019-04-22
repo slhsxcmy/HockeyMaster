@@ -87,4 +87,9 @@ public class PowerUpGoalSize extends Pane implements PowerUp {
 		return hidden;
 		
 	}
+
+	public void show(double x, double y) {
+		move(x, y);
+		hidden = false;
+	}
 }

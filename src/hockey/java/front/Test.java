@@ -122,7 +122,7 @@ public class Test extends Application{
          // capture mouse position
          scene.addEventFilter(MouseEvent.ANY, e -> {
              p1.getMouse().set(e.getX(), e.getY());
-             //p2.getMouse().set(e.getX(), e.getY());
+             p2.getMouse().set(e.getX(), e.getY());
          });
          // process all strikers
          AnimationTimer loop = new AnimationTimer() {
@@ -235,7 +235,7 @@ public class Test extends Application{
                 	 }
 
                 	 else {
-                		 if (goalPU.hidden() && goal1.width == 110 && goal2.width == 110) {
+                		 if (goalPU.hidden() && goal1.getW() == 110 && goal2.getW() == 110) {
                 			 goalPU.reset();
                 		 }
                 	 }
