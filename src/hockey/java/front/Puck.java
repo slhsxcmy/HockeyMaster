@@ -51,11 +51,11 @@ public class Puck extends Pane{
 	
 	public void checkPuckWalls(Goal g1, Goal g2) {
 		if((location.x-radius > g1.getGoalLoc().x) && 
-				(location.x+radius < g1.getGoalLoc().x + g1.width) && 
+				(location.x+radius < g1.getGoalLoc().x + g1.getW()) && 
 				(location.y-radius < 0+BoardSettings.BOARDER_HEIGHT))
 		{}
 		else if((location.x-radius > g2.getGoalLoc().x) && 
-				(location.x+radius < g2.getGoalLoc().x + g2.width) && 
+				(location.x+radius < g2.getGoalLoc().x + g2.getW()) && 
 				(location.y+radius > (BoardSettings.SCENE_HEIGHT-BoardSettings.BOARDER_HEIGHT)))
 		{}
 		else {

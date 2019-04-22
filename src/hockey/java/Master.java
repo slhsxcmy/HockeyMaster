@@ -17,7 +17,6 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
-import hockey.java.controller.GameController;
 import hockey.java.database.SQLModel;
 import hockey.java.front.Goal;
 import hockey.java.front.Midline;
@@ -39,7 +38,6 @@ import hockey.java.packet.PacketPU;
 import hockey.java.packet.PacketPuck;
 import hockey.java.packet.PacketReturn;
 import hockey.java.packet.PacketStriker;
-import javafx.scene.paint.Color;
 
 public class Master extends Listener { // SERVER
 
@@ -75,7 +73,7 @@ public class Master extends Listener { // SERVER
 	
 	private static int rt = rnd.nextInt(2 * PUMT);
 	
-	private static boolean scored = true; // cheat: pause game at start
+	private static boolean scored;// = true; // cheat: pause game at start
    	private static int pauseCounter;
 
 	public static PowerUp getRandomPowerUp() {
@@ -114,8 +112,8 @@ public class Master extends Listener { // SERVER
 		puPuck = new PowerUpPuckSize();
 		puGoal = new PowerUpGoalSize();
 		
-//		powerups.add(puMidline);
-//		powerups.add(puPuck);
+		powerups.add(puMidline);
+		powerups.add(puPuck);
 		powerups.add(puGoal);
 		
 
@@ -131,7 +129,7 @@ public class Master extends Listener { // SERVER
 
 		time = 0;
 
-		scored = false;
+		scored = true; // cheat
 		pauseCounter = 0;
 	}
 
