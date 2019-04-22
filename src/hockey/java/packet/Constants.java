@@ -40,4 +40,5 @@ public class Constants {
 
 	public static final int GAMEOVER = 31;
 	public static final int GOAL = 32;
+	public static final int UNPAUSE = 99;
 }

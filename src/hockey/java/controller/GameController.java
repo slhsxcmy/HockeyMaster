@@ -137,8 +137,6 @@ public class GameController {
        };
        System.out.println("starting game loop");
        loop.start();
-       
-       
 	}
 
 	public static Striker getSelfStriker() {
@@ -177,7 +175,12 @@ public class GameController {
 	}
 	
 	public void showGoalMessage(String message) {
-		//TODO
+		Text scored = new Text("GOAL!");
+		scored.setFont(Font.font ("Verdana", 50));
+		scored.setFill(Color.RED);
+		scored.setX(100);
+		scored.setY(400);
+		playfield.getChildren().add(scored);
 	}
 
 	public static PowerUpMidline getPuMidline() {
