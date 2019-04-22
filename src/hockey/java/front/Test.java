@@ -153,7 +153,7 @@ public class Test extends Application{
                  if(s1 != null) s1.checkStrikerWallsMidline();
                  if(s2 != null) s2.checkStrikerWallsMidline();
                  
-                 puck.checkPuckWalls();
+                 puck.checkPuckWalls(goal1, goal2);
                  
                  if(s1 != null) {
                 	 if(puck.collision(s1)) {

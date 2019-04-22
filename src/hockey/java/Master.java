@@ -72,8 +72,12 @@ public class Master extends Listener { // SERVER
 	private static PowerUpGoalSize puGoal;
 	private static int time;
 	private static Random rnd = new Random();
+	
 	private static int rt = rnd.nextInt(2 * PUMT);
 	
+	private static boolean scored = true; // cheat: pause game at start
+   	private static int pauseCounter;
+
 	public static PowerUp getRandomPowerUp() {
 		int index = rnd.nextInt(powerups.size());
 		Iterator<PowerUp> iter = powerups.iterator();
@@ -127,6 +131,8 @@ public class Master extends Listener { // SERVER
 
 		time = 0;
 
+		scored = false;
+		pauseCounter = 0;
 	}
 
 	public static Map<Integer, User> getUsers(){
@@ -239,12 +245,16 @@ public class Master extends Listener { // SERVER
 			// 2 - id = 1~0
 			// 3 - id = 2~1
 			if (id == 1) {
-				s1.step(mouse, mid);
-	           	s1.checkStrikerWallsMidline(); 
+				if (!scored || pauseCounter >= 200) {
+					s1.step(mouse, mid);
+		           	s1.checkStrikerWallsMidline(); 
+				}
 	           	ps = new PacketStriker(id,s1.getLocation().x,s1.getLocation().y,s1.getVelocity().x,s1.getVelocity().y);
 			} else {
-				s2.step(mouse, mid);
-	           	s2.checkStrikerWallsMidline();
+				if (!scored || pauseCounter >= 200) {
+					s2.step(mouse, mid);
+					s2.checkStrikerWallsMidline();
+				}
 	           	ps = new PacketStriker(id,s2.getLocation().x,s2.getLocation().y,s2.getVelocity().x,s2.getVelocity().y);
 			}
 
@@ -265,7 +275,7 @@ public class Master extends Listener { // SERVER
 			
 			puck.step(friction); 
 
-			puck.checkPuckWalls();
+			puck.checkPuckWalls(g1, g2);
 
 			
 			int checkMidline = puck.collision(mid, puMidline);
@@ -314,7 +324,7 @@ public class Master extends Listener { // SERVER
 			
 			
 			if (g1.goalDetection(1)) {
-				
+				scored = true;
 				s1.getPlayer().score();
 				s1.reset(1);
 				s2.reset(2);
@@ -330,6 +340,7 @@ public class Master extends Listener { // SERVER
 				
 			}
 			if (g2.goalDetection(2)) {
+				scored = true;
 				s2.getPlayer().score();
 				s1.reset(1);
 				s2.reset(2);
@@ -422,7 +433,18 @@ public class Master extends Listener { // SERVER
 				}
 			}
 			time++;
-//			System.out.println(time + " < " + rt);
+			
+			System.out.println(time + " < " + rt);
+			if (scored) {
+				if (pauseCounter == 201) {
+					pauseCounter = 0;
+					scored = false;
+				}
+				else {
+					pauseCounter++;
+				}	
+			}
+
 		} 
 
 	}
