@@ -61,5 +61,25 @@ public class LoginController{
 		message.setText(string);
 		
 	}
-	
+
+	public TextField getUsername() {
+		return username;
+	}
+
+
+	public void setUsername(TextField username) {
+		this.username = username;
+	}
+
+
+	public TextField getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(TextField password) {
+		this.password = password;
+	}
+
+
 }

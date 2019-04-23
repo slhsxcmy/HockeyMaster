@@ -515,24 +515,23 @@ public class Master extends Listener { // SERVER
 		}
 		//update data structures
 		synchronized(players){
-			if(players.size()>=1 && dbid == players.get(0)) {
-		
-			connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WON!!!", isGuest));
-			players.clear();
-			
-			
-			nextGame();
-		} else if(players.size()>=2 && dbid == players.get(1)) {
-			connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WON!!!", isGuest));
-			players.clear();
-			
-			
-			nextGame();
-			}	
+			if(players.size() == 1) {
+				players.clear();
+			} else if(players.size() == 2) {
+				if(dbid == players.get(0)) {
+					connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WON!!!", isGuest));
+				} else {
+					connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WON!!!", isGuest));
+				}
+				players.clear();
+				nextGame();
+			} 
 		}
+		
 		onlineUsers.remove(dbid);
 		waitList.remove(dbid);
 		
+		debug();
 	}
 	
 	public void nextGame() { //only start next game if there are people in waitlist

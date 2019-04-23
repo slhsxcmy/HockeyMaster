@@ -73,12 +73,22 @@ public class Network extends Listener{
 				Platform.runLater(() -> {
 					Hockey.setUser(new User(id,username));
 					Hockey.getPrimaryStage().setScene(Hockey.getLoggedScene());
+					Hockey.getSignupController().getUsername().clear();
+					Hockey.getSignupController().getPassword().clear();
+					Hockey.getSignupController().getPasswordc().clear();
+					Hockey.getLoginController().getUsername().clear();
+					Hockey.getLoginController().getPassword().clear();
                 });
 				System.out.println("set scene complete");
 				break;
 			case Constants.SIGNUPFAILURE: 
 				Platform.runLater(() -> {
 					Hockey.getSignupController().setMessage(message);
+					if(message.equals("username is already taken")) {
+						Hockey.getSignupController().getUsername().clear();
+					} else if (message.equals("confirm password is different")) {
+						Hockey.getSignupController().getPasswordc().clear();
+					}
                 });
 
 				break;
@@ -87,7 +97,11 @@ public class Network extends Listener{
 				Platform.runLater(() -> {
 				
 					Hockey.getLoginController().setMessage(message);
-
+					if(message.equals("user does not exist")) {
+						Hockey.getLoginController().getUsername().clear();
+					} else if (message.equals("password is incorrect")) {
+						Hockey.getLoginController().getPassword().clear();
+					}
                 });
 				break;
 			case Constants.SIGNOUTSUCCESS: 

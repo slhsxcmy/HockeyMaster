@@ -85,5 +85,36 @@ public class SignupController{
 	}
 
 
+	public TextField getUsername() {
+		return username;
+	}
+
+
+	public void setUsername(TextField username) {
+		this.username = username;
+	}
+
+
+	public TextField getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(TextField password) {
+		this.password = password;
+	}
+
+
+	public TextField getPasswordc() {
+		return passwordc;
+	}
+
+
+	public void setPasswordc(TextField passwordc) {
+		this.passwordc = passwordc;
+	}
+
+	
+
 
 }
