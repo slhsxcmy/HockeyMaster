@@ -268,12 +268,15 @@ public class SQLModel {
 		try {
 			
 			ps = connection.prepareStatement("SELECT * FROM Player WHERE playerID=?");
-			ps.setString(1, Integer.toString(dbid));
+			ps.setInt(1, dbid);
+//			ps.setString(1, Integer.toString(dbid));
 			rs = ps.executeQuery();
 			rs.next();
 			String username = rs.getString(2);
-			int matchW = rs.getInt(4);
-			int matchL = rs.getInt(5);
+//			int matchW = rs.getInt(4);
+//			int matchL = rs.getInt(5);
+			int matchW = rs.getInt(5);
+			int matchL = rs.getInt(4);
 			int goalsFor = rs.getInt(6);
 			int goalsAgainst = rs.getInt(7);
 			
@@ -288,6 +291,7 @@ public class SQLModel {
 			
 			if(username.equals("GUEST")) {
 				//does not update db, only show result message
+				System.out.println("GUEST!!!!!!");
 				return new PacketReturn(Constants.GAMEOVER, result, true);
 			}
 			else {
@@ -296,7 +300,7 @@ public class SQLModel {
 				ps.setString(5, Integer.toString(dbid));
 				//rs = ps.executeQuery();
 				//rs.next();
-				if(result.equals("YOU WIN!")){
+				if(result.equals("YOU WON!!!")){
 					ps.setInt(1, matchW+1);
 					ps.setInt(2, matchL);
 				}
@@ -308,6 +312,9 @@ public class SQLModel {
 				ps.setInt(4, goalsAgainst+Master.getGoalsAgainst(dbid));
 				ps.executeUpdate();
 				System.out.println("After update stats in db");
+				
+
+				System.out.println("LOGGGGGGED!!!!!!");
 				return new PacketReturn(Constants.GAMEOVER, result, false);
 			}
 			

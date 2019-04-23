@@ -503,25 +503,26 @@ public class Master extends Listener { // SERVER
 	public void disconnected(Connection c) {
 		System.out.println("Lost connection from client.");
 		int dbid = -1;
-		boolean isGuest = false;
+//		boolean isGuest = false;
 		//first get dbid of c
 		for (Map.Entry<Integer,Connection> entry : connections.entrySet()) {
 			if(entry.getValue().getID() == c.getID()) {
 				dbid = entry.getKey();
 			}
 		}
-		if(onlineUsers.get(dbid) != null && onlineUsers.get(dbid).getUsername().equals("GUEST")) {
-			isGuest = true;
-		}
+		
+//		if(onlineUsers.get(dbid) != null && onlineUsers.get(dbid).getUsername().equals("GUEST")) {
+//			isGuest = true;
+//		}
 		//update data structures
 		synchronized(players){
 			if(players.size() == 1) {
 				players.clear();
 			} else if(players.size() == 2) {
 				if(dbid == players.get(0)) {
-					connections.get(players.get(1)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WON!!!", isGuest));
+					connections.get(players.get(1)).sendTCP(model.updateStats(players.get(1), "YOU WON!!!"));
 				} else {
-					connections.get(players.get(0)).sendTCP(new PacketReturn(Constants.GAMEOVER, "YOU WON!!!", isGuest));
+					connections.get(players.get(0)).sendTCP(model.updateStats(players.get(0), "YOU WON!!!"));
 				}
 				players.clear();
 				nextGame();
@@ -535,16 +536,17 @@ public class Master extends Listener { // SERVER
 	}
 	
 	public void nextGame() { //only start next game if there are people in waitlist
-		if(waitList.size()>=1) {			
+		if(waitList.size() == 1) {
 			players.add(waitList.peek());
-			connections.get(waitList.peek()).sendTCP(new PacketReturn(Constants.PLAYFAILUREFEW, waitList.peek(), "Not Enough Players. Please Wait."));	
+			connections.get(waitList.peek()).sendTCP(new PacketReturn(Constants.PLAYFAILUREFEW, waitList.peek(), "Not Enough Players. \nPlease Wait."));	
 			waitList.remove();
 			
-			if(waitList.peek()!=null) {
-				players.add(waitList.peek());
-				waitList.remove();
-				activateGame();
-			}
+		} else if(waitList.size() == 2) {			
+			
+			players.add(waitList.remove());
+			players.add(waitList.remove());
+			activateGame();
+			
 		}
 	}
 

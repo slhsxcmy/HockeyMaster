@@ -38,6 +38,7 @@ public class GameOverController {
     }
 	
 	public void setMessage(String m, boolean isGuest) {
+		System.out.println("isGuest: " + isGuest);
 		message.setText(m);
 		this.isGuest = isGuest;
 	}

@@ -23,7 +23,6 @@ public class Hockey extends Application {
 	private static Network network = new Network();
 	private static User user = null;// = new User(); 
 	
-
 	public static final int NUMSCENES = 8;
 	private static Scene[] scenes = new Scene[NUMSCENES];
 	private static Parent gameRoot;
