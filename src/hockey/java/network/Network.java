@@ -86,6 +86,9 @@ public class Network extends Listener{
 					Hockey.getSignupController().setMessage(message);
 					if(message.equals("username is already taken")) {
 						Hockey.getSignupController().getUsername().clear();
+						Hockey.getSignupController().getPassword().clear();
+						Hockey.getSignupController().getPasswordc().clear();
+						
 					} else if (message.equals("confirm password is different")) {
 						Hockey.getSignupController().getPasswordc().clear();
 					}
