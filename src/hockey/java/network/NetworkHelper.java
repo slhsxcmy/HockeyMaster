@@ -29,7 +29,7 @@ public class NetworkHelper {
 //	public static final int client_tcpPort = 23333;
 	
 	public static final String client_ngrok_url = "tcp://0.tcp.ngrok.io";
-	public static final int client_tcpPort = 17500;
+	public static final int client_tcpPort = 16084;
 	
 	
 	public static void registerClasses(Kryo k) {
