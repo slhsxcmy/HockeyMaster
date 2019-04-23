@@ -20,10 +20,14 @@ public class SQLModel {
 	// https://stackoverflow.com/questions/17213761/check-login-string-against-password-mysql-jdbc
 	// hash password
 	public static String hashPassword(String password) throws NoSuchAlgorithmException {
-	    MessageDigest mdEnc = MessageDigest.getInstance("MD5"); 
-	    mdEnc.update(password.getBytes(), 0, password.length());
-	    String md5 = new BigInteger(1, mdEnc.digest()).toString(16); // Encrypted 
-	    return md5;
+//	    MessageDigest mdEnc = MessageDigest.getInstance("MD5"); 
+//	    mdEnc.update(password.getBytes(), 0, password.length());
+//	    String md5 = new BigInteger(1, mdEnc.digest()).toString(16); // Encrypted 
+//	    return md5;
+		MessageDigest encoder = MessageDigest.getInstance("SHA-256"); 
+	    encoder.update(password.getBytes(), 0, password.length());
+	    String sha = new BigInteger(1, encoder.digest()).toString(16); // Encrypted 
+	    return sha;
 	}
 	
 	//private boolean singlePlayerDebug = true;
