@@ -20,7 +20,7 @@ public class NetworkHelper {
 
 	public static final String username = "root";
 
-	public static final String password = "cs201sql";
+	public static final String password = "1QAZ2WSX";
 	
 	public static final String server_ngrok_url = "localhost";
 	public static final int server_tcpPort = 23333;
@@ -29,7 +29,7 @@ public class NetworkHelper {
 //	public static final int client_tcpPort = 23333;
 	
 	public static final String client_ngrok_url = "tcp://0.tcp.ngrok.io";
-	public static final int client_tcpPort = 17500;
+	public static final int client_tcpPort = 15218;
 	
 	
 	public static void registerClasses(Kryo k) {
