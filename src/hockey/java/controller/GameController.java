@@ -102,7 +102,7 @@ public class GameController {
 	   	 goalMessage = new Text("");
 	   	 goalMessage.setFont(Font.font (fontString, FontWeight.BOLD, 50));
 	   	 goalMessage.setFill(Color.RED);   	 
-	   	 goalMessage.setX(155);
+	   	 goalMessage.setX(100);
 	   	 goalMessage.setY(350);
 	   	 goalMessage.setTextAlignment(TextAlignment.CENTER);
 	   	 
@@ -216,35 +216,80 @@ public class GameController {
 	}
 	
 	public void showGoalMessage(){
-		FadeTransition ft = new FadeTransition(Duration.millis(3000), goalMessage);
-	    ft.setFromValue(10);
-        ft.setToValue(0);
-        ft.setCycleCount(1);  
-        ft.play();
-	       
-		goalMessage.setText("GOAL!!!\n"
-				+ "3");	
-		loop.stop();
-		new Timeline(new KeyFrame(
-		        Duration.millis(1000),
-		        ae -> {
-		        	goalMessage.setText("GOAL!!!\n"
-		    				+ "2");
-		        })).play();
-		new Timeline(new KeyFrame(
-		        Duration.millis(2000),
-		        ae -> {
-		        	goalMessage.setText("GOAL!!!\n"
-		    				+ "1");
-		        })).play();
-		new Timeline(new KeyFrame(
-		        Duration.millis(3000),
-		        ae -> {
-		        	goalMessage.setText("");
-		        	loop.start();
-		        })).play();
 		
-	}
+			  
+		//  FadeTransition ft = new FadeTransition(Duration.millis(3000), goalMessage);
+//		     ft.setFromValue(10);
+//		        ft.setToValue(0);
+//		        ft.setCycleCount(1);  
+
+		        Timeline tl = new Timeline();
+		        tl.getKeyFrames().addAll(
+		         new KeyFrame(
+		          Duration.millis(0),
+		          ae -> {
+		           goalMessage.setText("GOAL!!!\n"
+		          + "3"); 
+//		        loop.stop();
+		          }),
+		   new KeyFrame(
+		          Duration.millis(1000),
+		          ae -> {
+		           goalMessage.setText("GOAL!!!\n"
+		          + "2");
+		          }),
+		   new KeyFrame(
+		          Duration.millis(2000),
+		          ae -> {
+		           goalMessage.setText("GOAL!!!\n"
+		          + "1");
+		          }),
+		   new KeyFrame(
+		          Duration.millis(3000),
+		          ae -> {
+		           goalMessage.setText("");
+//		           loop.start();
+		          }));
+		  
+
+		        tl.play();
+		        
+		//  ParallelTransition pt = new ParallelTransition(ft,tl);
+		//  pt.play();
+		  
+		 }
+//		synchronized (loop) {
+//			
+//		
+//			FadeTransition ft = new FadeTransition(Duration.millis(3000), goalMessage);
+//		    ft.setFromValue(10);
+//	        ft.setToValue(0);
+//	        ft.setCycleCount(1);  
+//	        ft.play();
+//		       
+//			goalMessage.setText("GOAL!!!\n"
+//					+ "3");	
+//			//loop.stop();
+//			new Timeline(new KeyFrame(
+//			        Duration.millis(1000),
+//			        ae -> {
+//			        	goalMessage.setText("GOAL!!!\n"
+//			    				+ "2");
+//			        })).play();
+//			new Timeline(new KeyFrame(
+//			        Duration.millis(2000),
+//			        ae -> {
+//			        	goalMessage.setText("GOAL!!!\n"
+//			    				+ "1");
+//			        })).play();
+//			new Timeline(new KeyFrame(
+//			        Duration.millis(3000),
+//			        ae -> {
+//			        	goalMessage.setText("");
+//			        	loop.start();
+//			        })).play();
+//		}
+	
 
 	public static PowerUpMidline getPuMidline() {
 		return puMidline;
