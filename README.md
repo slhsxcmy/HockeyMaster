@@ -31,7 +31,8 @@ You have 7 H1 headings. You may want to use the "H1 -> H2" option to demote all 
 <p style="color: red; font-weight: bold">>>>>>  gd2md-html alert:  ERRORs: 0; WARNINGs: 1; ALERTS: 13.</p>
 <ul style="color: red; font-weight: bold"><li>See top comment block for details on ERRORs and WARNINGs. <li>In the converted Markdown or HTML, search for inline alerts that start with >>>>>  gd2md-html alert:  for specific instances that need correction.</ul>
 
-<p style="color: red; font-weight: bold">Links to alert messages:</p><a href="#gdcalert1">alert1</a>
+<p style="color: red; font-weight: bold">Links to alert messages:</p>
+<a href="#gdcalert1">alert1</a>
 <a href="#gdcalert2">alert2</a>
 <a href="#gdcalert3">alert3</a>
 <a href="#gdcalert4">alert4</a>
@@ -51,7 +52,7 @@ You have 7 H1 headings. You may want to use the "H1 -> H2" option to demote all 
 <h1>Hockey Master</h1>
 
 
-<h1>Team Members</h1>
+<h2>Team Members</h2>
 
 
 <p>
@@ -69,19 +70,19 @@ Mark Kinol, kinol@usc.edu
 <p>
 
 </p>
-<h1>Proposal: Hockey Master</h1>
+<h2>Proposal: Hockey Master</h2>
 
 
 <p>
 Description: JavaFX game of air hockey with powerups (Move midline, increase goal size, decrease puck size). Single player and multiplayer or 2v2. A server will be used to play multiplayer across different devices. End game when a certain score or time limit is reached. Special levels include larger goals, faster strikers, or multiple pucks. Multi-threaded code will be used to control multiple strikers and the puck at the same time.
 </p>
-<h1>High Level Requirements</h1>
+<h2>High Level Requirements</h2>
 
 
 <p>
 We need to create a Java Swing game of Air Hockey where players can play against other players online. There will be dropped items to gain perks (make opponent’s screen dark, reduce speed of opponent’s striker, increase size of own striker etc.). End game when a player scores 7 goals or time limit is reached. Special stages include larger goals, faster strikers, or multiple pucks. Multi-threaded code will be used to communicate game states between players.
 </p>
-<h1>Technical Specifications</h1>
+<h2>Technical Specifications</h2>
 
 
 <h2>MySQL Database (6 hours)</h2>
@@ -182,7 +183,7 @@ We need to create a Java Swing game of Air Hockey where players can play against
 <li>The strikers will be slightly larger than the puck and be the shape of a ring and they will be different colors than the puck. This will allow the puck and strikers to be differentiated.
 </li>
 </ul>
-<h1>Detailed Design</h1>
+<h2>Detailed Design</h2>
 
 
 <h2>PageMap</h2>
@@ -532,7 +533,7 @@ updateStats(): updates stats of a certain player after a game
 <li>Apache Tomcat Server 
 </li>
 </ul>
-<h1>Testing Document</h1>
+<h2>Testing Document</h2>
 
 
 
@@ -670,7 +671,7 @@ updateStats(): updates stats of a certain player after a game
 </table>
 
 
-<h1>Deployment Document</h1>
+<h2>Deployment Document</h2>
 
 
 <ol>
