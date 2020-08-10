@@ -102,7 +102,7 @@
 <h2>Detailed Design</h2>
 <h2>PageMap</h2>
 <p>
-    <img src="images/image1.png" width="" alt="alt_text" title="image_tooltip">
+    <img src="images/image1.png" width="" height="300px" alt="alt_text" title="image_tooltip">
 </p>
 <h2>GUI Mockup</h2>
 <p>
@@ -110,39 +110,39 @@
 </p>
 <h3>Main Menu</h3>
 <h3>
-    <img src="images/image2.png" width="" alt="alt_text" title="image_tooltip">
+    <img src="images/image2.png" width="" height="300px" alt="alt_text" title="image_tooltip">
 </h3>
 <h3>Register Page</h3>
 <h3>
-    <img src="images/image3.png" width="" alt="alt_text" title="image_tooltip">
+    <img src="images/image3.png" width="" height="300px" alt="alt_text" title="image_tooltip">
 </h3>
 <h3>Login Page</h3>
 <h3>
-    <img src="images/image4.png" width="" alt="alt_text" title="image_tooltip">
+    <img src="images/image4.png" width="" height="300px" alt="alt_text" title="image_tooltip">
 </h3>
 <h3>LoggedInMenu Page</h3>
 <p>
-    <img src="images/image5.png" width="" alt="alt_text" title="image_tooltip">
+    <img src="images/image5.png" width="" height="300px" alt="alt_text" title="image_tooltip">
 </p>
 <h3>Statistics Page</h3>
 <p>
-    <img src="images/image6.png" width="" alt="alt_text" title="image_tooltip">
+    <img src="images/image6.png" width="" height="300px" alt="alt_text" title="image_tooltip">
 </p>
 <h3>Waiting Page</h3>
 <p>
-    <img src="images/image7.png" width="" alt="alt_text" title="image_tooltip">
+    <img src="images/image7.png" width="" height="300px" alt="alt_text" title="image_tooltip">
 </p>
 <h3>Game Screen</h3>
 <h3>
-    <img src="images/image8.png" width="" alt="alt_text" title="image_tooltip">
+    <img src="images/image8.png" width="" height="300px" alt="alt_text" title="image_tooltip">
 </h3>
 <h3>Game Screen when all 3 types of Power Ups are activated</h3>
 <h3>
-    <img src="images/image9.png" width="" alt="alt_text" title="image_tooltip">
+    <img src="images/image9.png" width="" height="300px" alt="alt_text" title="image_tooltip">
 </h3>
 <h3>Game Over Page</h3>
 <p>
-    <img src="images/image10.png" width="" alt="alt_text" title="image_tooltip">
+    <img src="images/image10.png" width="" height="300px" alt="alt_text" title="image_tooltip">
 </p>
 <h2>Classes and Objects</h2>
 <table>
@@ -249,11 +249,11 @@
 </p>
 <h2>Database Schema</h2>
 <p>
-    <img src="images/image11.png" width="" alt="alt_text" title="image_tooltip">
+    <img src="images/image11.png" width="" height="300px" alt="alt_text" title="image_tooltip">
 </p>
 <p>
-    <img src="images/image12.png" width="" alt="alt_text" title="image_tooltip">
-    <img src="images/image13.png" width="" alt="alt_text" title="image_tooltip">
+    <img src="images/image12.png" width="" height="300px" alt="alt_text" title="image_tooltip">
+    <img src="images/image13.png" width="" height="300px" alt="alt_text" title="image_tooltip">
 </p>
 <p>
     *The score field in Game table refers to the loser’s score since the winner always has 7 goals.
