@@ -102,7 +102,7 @@
 <h2>Detailed Design</h2>
 <h2>PageMap</h2>
 <p>
-    <img src="images/image1.png" height:"500" alt="alt_text" title="image_tooltip">
+    <img src="images/image1.png" height="500" alt="alt_text" title="image_tooltip">
 </p>
 <h2>GUI Mockup</h2>
 <p>
